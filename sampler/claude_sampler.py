@@ -3,8 +3,8 @@ import os
 
 import anthropic
 
-from ..types import MessageList, SamplerBase, SamplerResponse
-from .. import common
+from eval_types import MessageList, SamplerBase, SamplerResponse
+import common
 
 CLAUDE_SYSTEM_MESSAGE_LMSYS = (
     "The assistant is Claude, created by Anthropic. The current date is "
