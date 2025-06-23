@@ -1,0 +1,83 @@
+[
+  {
+    "id": "AP_US_HISTORY_2017_001",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "preamble": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
+      "prompt": "Whitefield's impact suggests that religious culture among British North American colonists in the 1700s was most directly shaped by",
+      "options": {
+        "A": "Roman Catholic influences",
+        "B": "interest in commerce and business",
+        "C": "trans-Atlantic exchanges",
+        "D": "reliance on agriculture"
+      }
+    },
+    "answer": {
+      "correct": "C",
+      "explanation": "The excerpt describes how Whitefield's preaching, which originated in Ireland and spread to the American colonies, demonstrates the trans-Atlantic nature of religious movements during this period. His ability to draw large crowds from various denominations shows how religious ideas and practices were being exchanged across the Atlantic."
+    },
+    "metadata": {
+      "domain": "Colonial Religion",
+      "difficulty": 0.85,
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_002",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "preamble": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
+      "prompt": "Whitefield's open-air preaching contributed most directly to which of the following trends?",
+      "options": {
+        "A": "The growth of the ideology of republican motherhood",
+        "B": "Greater independence and diversity of thought",
+        "C": "Movement of settlers to the backcountry",
+        "D": "The pursuit of social reform"
+      }
+    },
+    "answer": {
+      "correct": "B",
+      "explanation": "Whitefield's open-air preaching, which bypassed traditional church structures and drew people from various denominations, contributed to greater religious independence and diversity of thought among colonists. This challenged established religious hierarchies and encouraged individual interpretation of religious matters."
+    },
+    "metadata": {
+      "domain": "Colonial Religion",
+      "difficulty": 0.8,
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_003",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "preamble": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
+      "prompt": "The preaching described in the excerpt is an example of which of the following developments in the 1700s?",
+      "options": {
+        "A": "The emergence of an idea of republican self-government",
+        "B": "The beginning of calls for the abolition of slavery",
+        "C": "The increased influence of the Enlightenment",
+        "D": "The expansion of Protestant evangelism"
+      }
+    },
+    "answer": {
+      "correct": "D",
+      "explanation": "Whitefield's preaching represents the expansion of Protestant evangelism during the First Great Awakening. His itinerant preaching style and ability to draw large crowds from various denominations exemplify the evangelical movement that swept through the American colonies in the 1730s and 1740s."
+    },
+    "metadata": {
+      "domain": "Colonial Religion",
+      "difficulty": 0.75,
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  }
+]
