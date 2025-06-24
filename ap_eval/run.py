@@ -162,8 +162,9 @@ def main():
     average_score = total_score / num_questions if num_questions > 0 else 0.0
     
     print(f"\nResults for {args.model_name} on {args.exam_identifier}:")
-    print(f"Score: {int(total_score)}/{num_questions} correct")
-    print(f"Average: {average_score:.1%}")
+    print(f"\nResults for \033[1m{args.model_name}\033[0m on \033[1m{args.exam_identifier}\033[0m:")
+    print(f"Score:\t\t{int(total_score)}/{num_questions} correct")
+    print(f"Average:\t{average_score:.1%}")
 
 if __name__ == "__main__":
     main() 
