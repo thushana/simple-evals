@@ -160,26 +160,5 @@
         "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
       }
     }
-  },
-  {
-    "id": "AP_US_HISTORY_2017_007",
-    "question": {
-      "type": "SHORT_ANSWER",
-      "question_image": "AP_US_HISTORY_2017_004.png",
-      "prompt": "Describe what you see in this image. What type of data is being presented and what are the main trends or patterns visible?"
-    },
-    "answer": {
-      "correct": "DESCRIPTION_REQUIRED",
-      "explanation": "This question tests the model's ability to analyze and describe visual content, specifically a graph or chart showing historical data. The response should include details about the type of visualization, the data being presented, and observable trends or patterns."
-    },
-    "metadata": {
-      "domain": "Visual Analysis",
-      "difficulty": 0.6,
-      "source": {
-        "ap_test": "AP U.S. History",
-        "year": 2017,
-        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
-      }
-    }
   }
 ]

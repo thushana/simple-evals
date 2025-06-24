@@ -128,13 +128,24 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
             if image_format == 'jpg':
                 image_format = 'jpeg'
             
-            content.append({
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/{image_format};base64,{base64_image}",
-                    "detail": "high"
-                }
-            })
+            # Use different format for Claude vs OpenAI
+            if model_name.startswith("claude"):
+                content.append({
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": f"image/{image_format}",
+                        "data": base64_image,
+                    }
+                })
+            else:
+                content.append({
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/{image_format};base64,{base64_image}",
+                        "detail": "high"
+                    }
+                })
     
     message_list = [
         {"role": "user", "content": content}
