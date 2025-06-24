@@ -28,6 +28,9 @@ cp .env.example .env
 # Basic evaluation
 python -m ap_eval.run gpt-4 AP_US_HISTORY_2017
 
+# Claude evaluation
+python -m ap_eval.run claude-3-opus-20240229 AP_US_HISTORY_2017
+
 # Show all details
 python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-all
 ```
@@ -44,24 +47,6 @@ python -m ap_eval.run <model_name> <exam_identifier>
 - `gpt-3.5-turbo` - OpenAI GPT-3.5
 - `claude-3.5-sonnet` - Anthropic Claude
 - `o1-mini` - OpenAI O1-mini
-
-**Supported exam types:**
-- `us_history` - AP US History
-- `world_history` - AP World History
-- `biology` - AP Biology
-- `calculus_ab` - AP Calculus AB
-- `english_lit` - AP English Literature
-- `english_lang` - AP English Language
-- `us_gov` - AP US Government
-- `psychology` - AP Psychology
-- `human_geo` - AP Human Geography
-- `statistics` - AP Statistics
-
-**Exam identifiers:**
-Use the full exam identifier that matches the directory name:
-- `AP_US_HISTORY_2017` - AP US History 2017
-- `AP_BIOLOGY_2023` - AP Biology 2023
-- `AP_CALCULUS_AB_2022` - AP Calculus AB 2022
 
 ### Display Options
 
@@ -131,3 +116,30 @@ Results for gpt-4 on AP_US_HISTORY_2017:
 Score: 1.0/3 correct
 Average: 0.33
 ```
+
+## Contributing
+
+### Commit Message Style
+
+Use concise, descriptive commit messages with the following format:
+
+```
+CATEGORY - Brief description
+```
+
+**Examples:**
+- `AP EXAM - Runners and evaluators`
+- `TYPES - Fixes types references`
+- `PACKAGE - Made a setup package`
+- `ENV - Added an example env file`
+- `README - Describes tool`
+
+**Categories:**
+- `AP EXAM` - AP exam related changes
+- `TYPES` - Type definitions and fixes
+- `PACKAGE` - Package setup and configuration
+- `ENV` - Environment and configuration
+- `README` - Documentation updates
+- `RUNNER` - Evaluation runner changes
+- `LOADER` - Exam loading logic
+- `EVALUATOR` - Evaluation logic changes
