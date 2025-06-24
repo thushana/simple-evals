@@ -4,7 +4,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_context": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
-      "prompt": "Whitefield's impact suggests that religious culture among British North American colonists in the 1700s was most directly shaped by",
+      "question_text": "Whitefield's impact suggests that religious culture among British North American colonists in the 1700s was most directly shaped by",
       "options": {
         "A": "Roman Catholic influences",
         "B": "interest in commerce and business",
@@ -34,7 +34,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_context": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
-      "prompt": "Whitefield's open-air preaching contributed most directly to which of the following trends?",
+      "question_text": "Whitefield's open-air preaching contributed most directly to which of the following trends?",
       "options": {
         "A": "The growth of the ideology of republican motherhood",
         "B": "Greater independence and diversity of thought",
@@ -64,7 +64,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_context": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
-      "prompt": "The preaching described in the excerpt is an example of which of the following developments in the 1700s?",
+      "question_text": "The preaching described in the excerpt is an example of which of the following developments in the 1700s?",
       "options": {
         "A": "The emergence of an idea of republican self-government",
         "B": "The beginning of calls for the abolition of slavery",
@@ -94,7 +94,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_image": "AP_US_HISTORY_2017_004.png",
-      "prompt": "Which of the following was a significant cause of the trend from 1843 to 1854 shown in the graph?",
+      "question_text": "Which of the following was a significant cause of the trend from 1843 to 1854 shown in the graph?",
       "options": {
         "A": "Active encouragement of migration by the United States government",
         "B": "Economic and political difficulties in Germany and Ireland",
@@ -124,7 +124,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_image": "AP_US_HISTORY_2017_004.png",
-      "prompt": "Which of the following was a direct effect of the trend in immigration after 1845 shown on the graph?",
+      "question_text": "Which of the following was a direct effect of the trend in immigration after 1845 shown on the graph?",
       "options": {
         "A": "An increase in sectional tensions",
         "B": "A major economic downturn",
@@ -154,7 +154,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_image": "AP_US_HISTORY_2017_004.png",
-      "prompt": "The main trend shown in the graph was most directly associated with which of the following processes occurring in the United States at the time?",
+      "question_text": "The main trend shown in the graph was most directly associated with which of the following processes occurring in the United States at the time?",
       "options": {
         "A": "The convergence of European and American cultures",
         "B": "The emergence of an industrialized economy",
@@ -184,7 +184,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
-      "prompt": "The ideas expressed in the excerpt most directly challenged the prevailing ideal in the early nineteenth century that",
+      "question_text": "The ideas expressed in the excerpt most directly challenged the prevailing ideal in the early nineteenth century that",
       "options": {
         "A": "women should enjoy full and equal rights with men",
         "B": "women should focus on the home and the domestic sphere",
@@ -214,7 +214,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
-      "prompt": "Which of the following developments in the second half of the nineteenth century best represented the continuation of the ideas expressed in the declaration?",
+      "question_text": "Which of the following developments in the second half of the nineteenth century best represented the continuation of the ideas expressed in the declaration?",
       "options": {
         "A": "The formation of voluntary organizations and reform efforts",
         "B": "Women's support for the Social Gospel",
@@ -244,7 +244,7 @@
     "question": {
       "type": "MULTIPLE_CHOICE",
       "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
-      "prompt": "Many supporters of the declaration in 1848 broke ranks with which of the following groups by the 1870s?",
+      "question_text": "Many supporters of the declaration in 1848 broke ranks with which of the following groups by the 1870s?",
       "options": {
         "A": "Social Darwinists",
         "B": "Supporters of Southern secession and states' rights",
