@@ -25,7 +25,7 @@ def build_prompt(question):
 {question.preamble}\n\n{question.question_text}\n\nOptions:\n"""
     for k, v in question.options.items():
         prompt += f"{k}: {v}\n"
-    prompt += "\nPlease answer with the correct option letter (A, B, C, or D) and provide a brief explanation."
+    prompt += "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\nExample: A: (Explain why this option is correct because...)"
     return prompt
 
 def get_model_response(sampler, question, model_name, show_question=False, show_model_query=False, show_model_response=False):
@@ -63,10 +63,30 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
     
     # Extract answer letter
     answer = ""
-    for letter in question.options.keys():
-        if letter in sampler_response.response_text:
-            answer = letter
+    response_text = sampler_response.response_text.strip()
+    
+    # Look for answer patterns like "A:", "B:", "C:", "D:" at the beginning
+    lines = response_text.split('\n')
+    for line in lines:
+        line = line.strip()
+        if line.startswith(('A:', 'B:', 'C:', 'D:')):
+            answer = line[0]
             break
+    
+    # If not found at beginning of lines, look for patterns like "Answer: A" or "The answer is B"
+    if not answer:
+        import re
+        patterns = [
+            r'answer[:\s]+([ABCD])',
+            r'option[:\s]+([ABCD])',
+            r'choice[:\s]+([ABCD])',
+        ]
+        for pattern in patterns:
+            match = re.search(pattern, response_text, re.IGNORECASE)
+            if match:
+                answer = match.group(1)
+                break
+    
     if not answer:
         answer = "?"  # fallback if not found
     
