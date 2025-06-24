@@ -320,6 +320,16 @@ def main():
                 "explanation": response.explanation,
                 "generation_time": response.time_taken
             }
+            
+            # Add metadata fields if they exist
+            if "metadata" in question:
+                metadata = question["metadata"]
+                if "main_practice_skill" in metadata:
+                    question["Response"]["main_practice_skill"] = metadata["main_practice_skill"]
+                if "learning_objective" in metadata:
+                    question["Response"]["learning_objective"] = metadata["learning_objective"]
+                if "key_concepts" in metadata:
+                    question["Response"]["key_concepts"] = metadata["key_concepts"]
     
     results_data["questions"] = exam_data
     

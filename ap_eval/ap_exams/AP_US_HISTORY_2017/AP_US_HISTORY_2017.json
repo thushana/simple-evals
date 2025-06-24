@@ -19,6 +19,9 @@
     "metadata": {
       "domain": "Colonial Religion",
       "difficulty": 0.85,
+      "main_practice_skill": "Causation",
+      "learning_objective": "CUL-1.0",
+      "key_concepts": "2.2.I.B",
       "source": {
         "ap_test": "AP U.S. History",
         "year": 2017,
@@ -46,6 +49,9 @@
     "metadata": {
       "domain": "Colonial Religion",
       "difficulty": 0.8,
+      "main_practice_skill": "Causation",
+      "learning_objective": "CUL-1.0",
+      "key_concepts": "2.2.I.A",
       "source": {
         "ap_test": "AP U.S. History",
         "year": 2017,
@@ -73,6 +79,9 @@
     "metadata": {
       "domain": "Colonial Religion",
       "difficulty": 0.75,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "CUL-1.0",
+      "key_concepts": "2.2.I.B",
       "source": {
         "ap_test": "AP U.S. History",
         "year": 2017,
@@ -100,6 +109,9 @@
     "metadata": {
       "domain": "Immigration and Migration",
       "difficulty": 0.8,
+      "main_practice_skill": "Causation",
+      "learning_objective": "MIG-1.0",
+      "key_concepts": "5.1.II.A",
       "source": {
         "ap_test": "AP U.S. History",
         "year": 2017,
@@ -127,6 +139,9 @@
     "metadata": {
       "domain": "Immigration and Migration",
       "difficulty": 0.75,
+      "main_practice_skill": "Causation",
+      "learning_objective": "CUL-4.0",
+      "key_concepts": "5.1.II.A",
       "source": {
         "ap_test": "AP U.S. History",
         "year": 2017,
@@ -154,6 +169,99 @@
     "metadata": {
       "domain": "Immigration and Migration",
       "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "MIG-1.0",
+      "key_concepts": "4.2.III.A",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_007",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
+      "prompt": "The ideas expressed in the excerpt most directly challenged the prevailing ideal in the early nineteenth century that",
+      "options": {
+        "A": "women should enjoy full and equal rights with men",
+        "B": "women should focus on the home and the domestic sphere",
+        "C": "the ability of women to earn wages was a positive development",
+        "D": "women should educate their children about the rights and responsibilities of citizenship"
+      }
+    },
+    "answer": {
+      "correct": "B",
+      "explanation": "The Declaration of Sentiments directly challenged the prevailing ideal of the 'cult of domesticity' or 'separate spheres' ideology, which held that women should focus on the home and domestic sphere rather than seeking political and economic equality with men."
+    },
+    "metadata": {
+      "domain": "Women's Rights and Reform",
+      "difficulty": 0.8,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "CUL-3.0",
+      "key_concepts": "4.2.II.C",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_008",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
+      "prompt": "Which of the following developments in the second half of the nineteenth century best represented the continuation of the ideas expressed in the declaration?",
+      "options": {
+        "A": "The formation of voluntary organizations and reform efforts",
+        "B": "Women's support for the Social Gospel",
+        "C": "Support for outlawing the production and sale of alcohol",
+        "D": "A movement focused on religious revivals and personal conversion"
+      }
+    },
+    "answer": {
+      "correct": "A",
+      "explanation": "The formation of voluntary organizations and reform efforts, particularly women's suffrage organizations and other reform movements, best represented the continuation of the ideas expressed in the Declaration of Sentiments, as they worked to achieve the political and social equality that the declaration called for."
+    },
+    "metadata": {
+      "domain": "Women's Rights and Reform",
+      "difficulty": 0.75,
+      "main_practice_skill": "Continuity and Change over Time",
+      "learning_objective": "POL-2.0",
+      "key_concepts": "6.3.II.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_009",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
+      "prompt": "Many supporters of the declaration in 1848 broke ranks with which of the following groups by the 1870s?",
+      "options": {
+        "A": "Social Darwinists",
+        "B": "Supporters of Southern secession and states' rights",
+        "C": "Supporters of the Fifteenth Amendment",
+        "D": "Isolationists"
+      }
+    },
+    "answer": {
+      "correct": "C",
+      "explanation": "Many women's rights supporters who had been abolitionists broke ranks with supporters of the Fifteenth Amendment because it granted voting rights to African American men but not to women, leading to a split in the reform movement and the formation of separate women's suffrage organizations."
+    },
+    "metadata": {
+      "domain": "Women's Rights and Reform",
+      "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "CUL-3.0",
+      "key_concepts": "5.3.II.B",
       "source": {
         "ap_test": "AP U.S. History",
         "year": 2017,
