@@ -56,6 +56,7 @@ class Response:
     tokens_used: int = 0
     model_name: str = "unknown"
     timestamp: datetime = field(default_factory=datetime.now)
+    model_answer_no_options: Optional[str] = None  # Answer without seeing options
 
 @dataclass
 class EvaluationResult:

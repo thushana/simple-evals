@@ -208,6 +208,101 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
         timestamp=datetime.datetime.now()
     )
 
+def get_model_response_no_options(sampler, question, model_name, show_question=False, show_model_query=False, show_model_response=False):
+    """Get model response without showing options - requires short answer"""
+    if show_question:
+        print(f"\n{'='*50}")
+        print(f"QUESTION (NO OPTIONS): {question.id}")
+        print(f"{'='*50}")
+        
+        # Show image reference if present
+        if hasattr(question, 'question_image') and question.question_image:
+            print(f"IMAGE: {question.question_image}")
+        
+        if hasattr(question, 'question_context') and question.question_context:
+            print(f"CONTEXT:\n{question.question_context}")
+        
+        print(f"\nQUESTION:\n{question.question_text}")
+        print(f"\nCORRECT ANSWER: {question.correct_answer}")
+        print(f"{'='*50}")
+    
+    # Build the prompt text without options
+    prompt_text = ""
+    
+    # Add text context if present
+    if hasattr(question, 'question_context') and question.question_context:
+        prompt_text += f"{question.question_context}\n\n"
+    
+    prompt_text += f"{question.question_text}\n\n"
+    
+    # Add instruction for short answer without options
+    prompt_text += "Provide a brief answer (less than 10 words) without seeing the options. Just give your best response based on the information provided."
+    
+    if show_model_query:
+        print(f"\nPROMPT SENT TO MODEL (NO OPTIONS):")
+        print(f"{'='*50}")
+        print(prompt_text)
+        if hasattr(question, 'question_image') and question.question_image:
+            print(f"\n[Image will be included: {question.question_image}]")
+        print(f"{'='*50}")
+    
+    # Prepare message content
+    content = [{"type": "text", "text": prompt_text}]
+    
+    # Add image if present
+    if hasattr(question, 'question_image') and question.question_image:
+        # Construct image path relative to the exam directory
+        exam_dir = os.path.join(os.path.dirname(__file__), "ap_exams", "AP_US_HISTORY_2017")
+        image_path = os.path.join(exam_dir, question.question_image)
+        
+        # Encode the image
+        base64_image = encode_image(image_path)
+        if base64_image:
+            # Determine image format from file extension
+            image_format = question.question_image.split('.')[-1].lower()
+            if image_format == 'jpg':
+                image_format = 'jpeg'
+            
+            # Use different format for Claude vs OpenAI
+            if model_name.startswith("claude"):
+                content.append({
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": f"image/{image_format}",
+                        "data": base64_image,
+                    }
+                })
+            else:
+                content.append({
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/{image_format};base64,{base64_image}",
+                        "detail": "high"
+                    }
+                })
+    
+    message_list = [
+        {"role": "user", "content": content}
+    ]
+    
+    start_time = time.time()
+    sampler_response = sampler(message_list)
+    end_time = time.time()
+    
+    if show_model_response:
+        print(f"\nMODEL RESPONSE (NO OPTIONS):")
+        print(f"{'='*50}")
+        print(sampler_response.response_text)
+        print(f"{'='*50}")
+    
+    # Use the full response as the answer (since no options to match against)
+    answer_no_options = sampler_response.response_text.strip()
+    
+    generation_time = end_time - start_time
+    
+    return answer_no_options, generation_time
+
 def encode_image(image_path):
     """Encode image to base64 for API transmission"""
     try:
@@ -263,7 +358,15 @@ def main():
         # Show evaluation in progress
         print(f"{question.id} → 🔄 Evaluating...", end='', flush=True)
         
+        # Get regular response with options
         response = get_model_response(sampler, question, args.model_name, args.show_question, args.show_model_query, args.show_model_response)
+        
+        # Get response without options
+        answer_no_options, time_no_options = get_model_response_no_options(sampler, question, args.model_name, False, False, False)
+        
+        # Add the no-options answer to the response
+        response.model_answer_no_options = answer_no_options
+        
         responses.append(response)
         
         # Evaluate the response immediately
@@ -317,6 +420,7 @@ def main():
             response = response_map[question_id]
             question["Response"] = {
                 "model_answer": response.answer,
+                "model_answer_no_options": response.model_answer_no_options,
                 "explanation": response.explanation,
                 "generation_time": response.time_taken
             }
