@@ -4,6 +4,7 @@ import datetime
 import argparse
 import json
 import time
+import base64
 from ap_eval.evaluator import APEvaluator
 from ap_eval.ap_types import Response
 from ap_eval.exam_loader import get_questions_for_exam
@@ -12,10 +13,22 @@ def get_sampler(model_name):
     """Get the appropriate sampler based on model name"""
     if model_name.startswith("gpt"):
         from sampler.chat_completion_sampler import ChatCompletionSampler
-        return ChatCompletionSampler(model=model_name), "openai"
+        # Use vision-capable model if the original model supports it
+        if model_name == "gpt-4":
+            vision_model = "gpt-4o"  # Use GPT-4o for vision capabilities
+        elif model_name == "gpt-4o":
+            vision_model = "gpt-4o"  # Already vision-capable
+        else:
+            vision_model = model_name
+        return ChatCompletionSampler(model=vision_model), "openai"
     elif model_name.startswith("claude"):
         from sampler.claude_sampler import ClaudeCompletionSampler
-        return ClaudeCompletionSampler(model=model_name), "anthropic"
+        # Use vision-capable model if the original model supports it
+        if "sonnet" in model_name and "vision" not in model_name:
+            vision_model = "claude-3-5-sonnet-20241022"  # Use vision-capable Claude
+        else:
+            vision_model = model_name
+        return ClaudeCompletionSampler(model=vision_model), "anthropic"
     elif model_name.startswith("o"):
         from sampler.o_chat_completion_sampler import OChatCompletionSampler
         return OChatCompletionSampler(model=model_name), "openai"
@@ -23,11 +36,28 @@ def get_sampler(model_name):
         raise ValueError(f"Unknown model: {model_name}")
 
 def build_prompt(question):
-    prompt = f"""
-{question.preamble}\n\n{question.question_text}\n\nOptions:\n"""
-    for k, v in question.options.items():
-        prompt += f"{k}: {v}\n"
-    prompt += "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\nExample: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
+    prompt = ""
+    
+    # Add image reference if present
+    if hasattr(question, 'question_image') and question.question_image:
+        prompt += f"[Refer to the image: {question.question_image}]\n\n"
+    
+    # Add text context if present
+    if hasattr(question, 'question_context') and question.question_context:
+        prompt += f"{question.question_context}\n\n"
+    
+    prompt += f"{question.question_text}\n\n"
+    
+    # Add options for multiple choice questions
+    if hasattr(question, 'options'):
+        prompt += "Options:\n"
+        for k, v in question.options.items():
+            prompt += f"{k}: {v}\n"
+        prompt += "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\nExample: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
+    else:
+        # For short answer questions
+        prompt += "Provide a detailed description of what you observe in the image."
+    
     return prompt
 
 def get_model_response(sampler, question, model_name, show_question=False, show_model_query=False, show_model_response=False):
@@ -35,26 +65,81 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
         print(f"\n{'='*50}")
         print(f"QUESTION: {question.id}")
         print(f"{'='*50}")
-        if question.preamble:
-            print(f"PREAMBLE:\n{question.preamble}")
+        
+        # Show image reference if present
+        if hasattr(question, 'question_image') and question.question_image:
+            print(f"IMAGE: {question.question_image}")
+        
+        if hasattr(question, 'question_context') and question.question_context:
+            print(f"CONTEXT:\n{question.question_context}")
+        
         print(f"\nQUESTION:\n{question.question_text}")
-        print(f"\nOPTIONS:")
-        for k, v in question.options.items():
-            print(f"  {k}: {v}")
+        
+        # Show options for multiple choice questions
+        if hasattr(question, 'options'):
+            print(f"\nOPTIONS:")
+            for k, v in question.options.items():
+                print(f"  {k}: {v}")
+        
         print(f"\nCORRECT ANSWER: {question.correct_answer}")
         print(f"{'='*50}")
     
-    prompt = build_prompt(question)
+    # Build the prompt text
+    prompt_text = ""
+    
+    # Add text context if present
+    if hasattr(question, 'question_context') and question.question_context:
+        prompt_text += f"{question.question_context}\n\n"
+    
+    prompt_text += f"{question.question_text}\n\n"
+    
+    # Add options for multiple choice questions
+    if hasattr(question, 'options'):
+        prompt_text += "Options:\n"
+        for k, v in question.options.items():
+            prompt_text += f"{k}: {v}\n"
+        prompt_text += "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\nExample: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
+    else:
+        # For short answer questions
+        prompt_text += "Provide a detailed description of what you observe in the image."
     
     if show_model_query:
         print(f"\nPROMPT SENT TO MODEL:")
         print(f"{'='*50}")
-        print(prompt)
+        print(prompt_text)
+        if hasattr(question, 'question_image') and question.question_image:
+            print(f"\n[Image will be included: {question.question_image}]")
         print(f"{'='*50}")
     
+    # Prepare message content
+    content = [{"type": "text", "text": prompt_text}]
+    
+    # Add image if present
+    if hasattr(question, 'question_image') and question.question_image:
+        # Construct image path relative to the exam directory
+        exam_dir = os.path.join(os.path.dirname(__file__), "ap_exams", "AP_US_HISTORY_2017")
+        image_path = os.path.join(exam_dir, question.question_image)
+        
+        # Encode the image
+        base64_image = encode_image(image_path)
+        if base64_image:
+            # Determine image format from file extension
+            image_format = question.question_image.split('.')[-1].lower()
+            if image_format == 'jpg':
+                image_format = 'jpeg'
+            
+            content.append({
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/{image_format};base64,{base64_image}",
+                    "detail": "high"
+                }
+            })
+    
     message_list = [
-        {"role": "user", "content": prompt}
+        {"role": "user", "content": content}
     ]
+    
     start_time = time.time()
     sampler_response = sampler(message_list)
     end_time = time.time()
@@ -65,34 +150,39 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
         print(sampler_response.response_text)
         print(f"{'='*50}")
     
-    # Extract answer letter
+    # Extract answer based on question type
     answer = ""
     response_text = sampler_response.response_text.strip()
     
-    # Look for answer patterns like "A:", "B:", "C:", "D:" at the beginning
-    lines = response_text.split('\n')
-    for line in lines:
-        line = line.strip()
-        if line.startswith(('A:', 'B:', 'C:', 'D:')):
-            answer = line[0]
-            break
-    
-    # If not found at beginning of lines, look for patterns like "Answer: A" or "The answer is B"
-    if not answer:
-        import re
-        patterns = [
-            r'answer[:\s]+([ABCD])',
-            r'option[:\s]+([ABCD])',
-            r'choice[:\s]+([ABCD])',
-        ]
-        for pattern in patterns:
-            match = re.search(pattern, response_text, re.IGNORECASE)
-            if match:
-                answer = match.group(1)
+    if hasattr(question, 'options'):
+        # Multiple choice question - extract letter answer
+        # Look for answer patterns like "A:", "B:", "C:", "D:" at the beginning
+        lines = response_text.split('\n')
+        for line in lines:
+            line = line.strip()
+            if line.startswith(('A:', 'B:', 'C:', 'D:')):
+                answer = line[0]
                 break
-    
-    if not answer:
-        answer = "?"  # fallback if not found
+        
+        # If not found at beginning of lines, look for patterns like "Answer: A" or "The answer is B"
+        if not answer:
+            import re
+            patterns = [
+                r'answer[:\s]+([ABCD])',
+                r'option[:\s]+([ABCD])',
+                r'choice[:\s]+([ABCD])',
+            ]
+            for pattern in patterns:
+                match = re.search(pattern, response_text, re.IGNORECASE)
+                if match:
+                    answer = match.group(1)
+                    break
+        
+        if not answer:
+            answer = "?"  # fallback if not found
+    else:
+        # Short answer question - use the full response as the answer
+        answer = response_text
     
     generation_time = end_time - start_time
     
@@ -106,6 +196,18 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
         model_name=model_name,
         timestamp=datetime.datetime.now()
     )
+
+def encode_image(image_path):
+    """Encode image to base64 for API transmission"""
+    try:
+        with open(image_path, "rb") as image_file:
+            return base64.b64encode(image_file.read()).decode("utf-8")
+    except FileNotFoundError:
+        print(f"Warning: Image file not found: {image_path}")
+        return None
+    except Exception as e:
+        print(f"Warning: Error encoding image {image_path}: {e}")
+        return None
 
 def main():
     parser = argparse.ArgumentParser(description='Run AP evaluation for a specific model and exam')
