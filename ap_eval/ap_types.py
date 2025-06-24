@@ -36,7 +36,14 @@ class Question:
 @dataclass
 class MultipleChoiceQuestion(Question):
     options: Dict[str, str]  # Dictionary mapping letters (A, B, C, D) to their text
-    preamble: Optional[str] = None  # Contextual paragraph or passage before the question
+    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
+    question_image: Optional[str] = None  # Image file reference for the question
+    source: Optional['Source'] = None  # Metadata about the question's source
+
+@dataclass
+class ShortAnswerQuestion(Question):
+    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
+    question_image: Optional[str] = None  # Image file reference for the question
     source: Optional['Source'] = None  # Metadata about the question's source
 
 @dataclass

@@ -3,7 +3,7 @@ import os
 from typing import List
 from .ap_types import (
     APTest, QuestionType,
-    MultipleChoiceQuestion, Source, QuestionGroup
+    MultipleChoiceQuestion, ShortAnswerQuestion, Source, QuestionGroup
 )
 
 def get_ap_test_enum(exam_type: str) -> APTest:
@@ -27,7 +27,7 @@ def get_ap_test_enum(exam_type: str) -> APTest:
     return exam_mapping[exam_type]
 
 def load_questions_from_json(json_file_path: str, exam_type: str) -> List[MultipleChoiceQuestion]:
-    """Load questions from JSON file and convert to MultipleChoiceQuestion objects"""
+    """Load questions from JSON file and convert to Question objects"""
     if not os.path.exists(json_file_path):
         raise FileNotFoundError(f"Question file not found: {json_file_path}")
     
@@ -46,21 +46,44 @@ def load_questions_from_json(json_file_path: str, exam_type: str) -> List[Multip
             description=f"AP {item['metadata']['source']['ap_test']} {item['metadata']['source']['year']} Practice Exam"
         )
         
-        # Create MultipleChoiceQuestion
-        question = MultipleChoiceQuestion(
-            id=item["id"],
-            test=ap_test,
-            question_type=QuestionType.MULTIPLE_CHOICE,
-            question_text=item["question"]["prompt"],
-            options=item["question"]["options"],
-            correct_answer=item["answer"]["correct"],
-            explanation=item["answer"]["explanation"],
-            difficulty=item["metadata"]["difficulty"],
-            skill_domain=item["metadata"]["domain"],
-            year=item["metadata"]["source"]["year"],
-            source=source,
-            preamble=item["question"]["preamble"]
-        )
+        question_type = item["question"]["type"]
+        
+        if question_type == "MULTIPLE_CHOICE":
+            # Create MultipleChoiceQuestion
+            question = MultipleChoiceQuestion(
+                id=item["id"],
+                test=ap_test,
+                question_type=QuestionType.MULTIPLE_CHOICE,
+                question_text=item["question"]["prompt"],
+                options=item["question"]["options"],
+                correct_answer=item["answer"]["correct"],
+                explanation=item["answer"]["explanation"],
+                difficulty=item["metadata"]["difficulty"],
+                skill_domain=item["metadata"]["domain"],
+                year=item["metadata"]["source"]["year"],
+                source=source,
+                question_context=item["question"].get("question_context", ""),
+                question_image=item["question"].get("question_image", "")
+            )
+        elif question_type == "SHORT_ANSWER":
+            # Create ShortAnswerQuestion
+            question = ShortAnswerQuestion(
+                id=item["id"],
+                test=ap_test,
+                question_type=QuestionType.SHORT_ANSWER,
+                question_text=item["question"]["prompt"],
+                correct_answer=item["answer"]["correct"],
+                explanation=item["answer"]["explanation"],
+                difficulty=item["metadata"]["difficulty"],
+                skill_domain=item["metadata"]["domain"],
+                year=item["metadata"]["source"]["year"],
+                source=source,
+                question_context=item["question"].get("question_context", ""),
+                question_image=item["question"].get("question_image", "")
+            )
+        else:
+            raise ValueError(f"Unsupported question type: {question_type}")
+        
         questions.append(question)
     
     return questions
@@ -73,13 +96,13 @@ def load_question_groups_from_json(json_file_path: str, exam_type: str) -> List[
     groups = {}
     for question in questions:
         # Create a key based on preamble and source
-        key = (question.preamble, question.source.name, question.source.date)
+        key = (question.question_context, question.source.name, question.source.date)
         
         if key not in groups:
             # Create new group
             group = QuestionGroup(
                 id=f"GROUP_{len(groups) + 1}",
-                preamble=question.preamble,
+                preamble=question.question_context,
                 source=question.source
             )
             groups[key] = group
