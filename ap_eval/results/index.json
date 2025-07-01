@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_on": "2025-07-01T15:06:25.618734",
+    "generated_on": "2025-07-01T15:16:22.105423",
     "author_name": "Thushan Amarasiriwardena",
     "author_email": "thushan@thushan.net"
   },
@@ -62,7 +62,7 @@
       "questions": 14,
       "time": 18.245222091674805,
       "date": "2025-06-30T12:30:10.142242",
-      "is_best": true,
+      "is_best": false,
       "results": "AP_BIOLOGY_2008_openai_gpt-4o-mini_20250630_123010.json"
     },
     {
@@ -76,6 +76,18 @@
       "date": "2025-06-30T11:19:40.485937",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_111940.json"
+    },
+    {
+      "exam": "AP_BIOLOGY_2008",
+      "model": "gpt-4o",
+      "provider": "openai",
+      "accuracy": 100.0,
+      "score": 14,
+      "questions": 14,
+      "time": 24.194751024246216,
+      "date": "2025-07-01T15:15:34.006665",
+      "is_best": true,
+      "results": "AP_BIOLOGY_2008_openai_gpt-4o_20250701_151534.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",

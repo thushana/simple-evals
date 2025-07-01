@@ -1,0 +1,560 @@
+{
+  "exam_metadata": {
+    "exam_identifier": "AP_BIOLOGY_2008",
+    "model_name": "gpt-4o",
+    "model_provider": "openai",
+    "score": 14,
+    "score_average": 1.0,
+    "time_timestamp": "2025-07-01T15:15:34.006665",
+    "time_total_generation": 24.194751024246216,
+    "questions_count": 14
+  },
+  "questions": [
+    {
+      "id": "AP_BIOLOGY_001",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "Which of the following is true of both mitochondria and chloroplasts?",
+        "options": {
+          "A": "They are found in the cells of eukaryotic autotrophs and heterotrophs.",
+          "B": "They include stacks of membranes that absorb light.",
+          "C": "They include compartments where hydrogen ions are concentrated.",
+          "D": "They produce sugars using energy harvested in the cytoplasm.",
+          "E": "They break down sugar to produce ATP."
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Both mitochondria and chloroplasts have compartments where hydrogen ions are concentrated. In mitochondria, this occurs in the intermembrane space during oxidative phosphorylation. In chloroplasts, this occurs in the thylakoid lumen during photosynthesis."
+      },
+      "metadata": {
+        "domain": "Cell Biology",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.II.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Both have their own DNA and double membranes.",
+        "explanation": "C: They include compartments where hydrogen ions are concentrated. \n\nMitochondria and chloroplasts both have specialized compartments\u2014such as the intermembrane space in mitochondria and the thylakoid space in chloroplasts\u2014where hydrogen ions (protons) are concentrated to create a proton gradient that is used to produce ATP.",
+        "generation_time": 2.582078218460083,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.II.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_002",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "The tertiary structure and function of a polypeptide is principally determined by the",
+        "options": {
+          "A": "length of the polypeptide",
+          "B": "number of nucleotides present in the polypeptide",
+          "C": "repeated units of glycerol making up the polypeptide",
+          "D": "interactions between amino acids present in the polypeptide",
+          "E": "number of introns within the polypeptide"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The tertiary structure of a polypeptide is determined by interactions between amino acid side chains, including hydrogen bonds, ionic bonds, hydrophobic interactions, and disulfide bridges."
+      },
+      "metadata": {
+        "domain": "Biochemistry",
+        "difficulty": 0.8,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "4.1.I.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "sequence of its amino acids.",
+        "explanation": "D: The tertiary structure and function of a polypeptide is principally determined by the interactions between amino acids present in the polypeptide. These interactions, including hydrogen bonds, ionic bonds, hydrophobic interactions, and disulfide bridges, dictate the three-dimensional folding and stability of the protein, which in turn affects its function.",
+        "generation_time": 2.2210309505462646,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "4.1.I.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_003",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "In a species that has five different alleles for a gene at a particular locus, how many different alleles may be present in the somatic cells of one diploid individual?",
+        "options": {
+          "A": "One",
+          "B": "Two",
+          "C": "Three",
+          "D": "Four",
+          "E": "Five"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "In a diploid individual, each somatic cell contains two copies of each chromosome, one from each parent. Therefore, at most two different alleles can be present at a single locus in a diploid individual."
+      },
+      "metadata": {
+        "domain": "Genetics",
+        "difficulty": 0.6,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "IST-1.0",
+        "key_concepts": "3.1.II.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Two alleles may be present.",
+        "explanation": "B: In a diploid individual, each locus can have at most two alleles because they inherit one allele from each parent. Therefore, even if there are five different alleles in the population, a diploid individual can only have two different alleles at that locus.",
+        "generation_time": 0.9552218914031982,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "IST-1.0",
+        "key_concepts": "3.1.II.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_004",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "If red blood cells cultured in an isotonic medium are placed in distilled water, they will most likely",
+        "options": {
+          "A": "remain unchanged",
+          "B": "shrivel",
+          "C": "swell and lyse",
+          "D": "divide",
+          "E": "become dormant"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "When red blood cells are placed in distilled water (hypotonic solution), water will move into the cells by osmosis, causing them to swell and eventually burst (lyse) due to the lack of a cell wall."
+      },
+      "metadata": {
+        "domain": "Cell Biology",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-2.0",
+        "key_concepts": "2.2.II.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "swell and potentially burst due to osmosis.",
+        "explanation": "C: When red blood cells are placed in distilled water, which is a hypotonic solution compared to their internal environment, water will enter the cells by osmosis, causing them to swell and potentially lyse (burst) due to the lack of structural support to handle the increased internal pressure.",
+        "generation_time": 2.8807342052459717,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-2.0",
+        "key_concepts": "2.2.II.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_005",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "The best evidence that the giant panda is more closely related to bears than is the raccoonlike lesser panda involves",
+        "options": {
+          "A": "comparative anatomy",
+          "B": "comparative embryology",
+          "C": "DNA sequence comparisons",
+          "D": "behavioral similarities",
+          "E": "fossil records"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "DNA sequence comparisons provide the most reliable evidence for evolutionary relationships because they directly measure genetic similarity, which reflects shared ancestry more accurately than morphological or behavioral traits."
+      },
+      "metadata": {
+        "domain": "Evolution",
+        "difficulty": 0.8,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "EVO-1.0",
+        "key_concepts": "1.2.II.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "DNA and genetic analysis.",
+        "explanation": "C: DNA sequence comparisons. DNA sequence comparisons provide the most precise and reliable evidence of evolutionary relationships by revealing genetic similarities and differences, which can clarify the degree of relatedness between species like the giant panda and bears.",
+        "generation_time": 3.118319034576416,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "EVO-1.0",
+        "key_concepts": "1.2.II.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_006",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "Which of the following structures contains highly oxygenated blood?",
+        "options": {
+          "A": "Vena cava",
+          "B": "Right ventricle",
+          "C": "Pulmonary artery",
+          "D": "Pulmonary vein",
+          "E": "Jugular vein"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The pulmonary vein carries oxygenated blood from the lungs back to the left atrium of the heart. All other options carry deoxygenated blood."
+      },
+      "metadata": {
+        "domain": "Physiology",
+        "difficulty": 0.6,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "SYI-1.0",
+        "key_concepts": "4.2.II.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Pulmonary veins contain highly oxygenated blood.",
+        "explanation": "D: The pulmonary vein contains highly oxygenated blood because it carries oxygen-rich blood from the lungs to the left atrium of the heart.",
+        "generation_time": 0.6290948390960693,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "SYI-1.0",
+        "key_concepts": "4.2.II.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_007",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "Metabolism of which of the following molecules results in the greatest net usable energy per gram?",
+        "options": {
+          "A": "A triglyceride",
+          "B": "A tripeptide",
+          "C": "An alpha-linked disaccharide",
+          "D": "A beta-linked disaccharide",
+          "E": "An anabolic steroid"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "Triglycerides provide the most energy per gram (9 kcal/g) compared to proteins and carbohydrates (4 kcal/g each). This is because fats contain more carbon-hydrogen bonds, which release more energy when oxidized."
+      },
+      "metadata": {
+        "domain": "Metabolism",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.II.B",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Lipids (fats) provide the greatest net energy per gram.",
+        "explanation": "A: A triglyceride. Triglycerides, which are fats, yield the greatest amount of energy per gram when metabolized because they have a higher proportion of carbon-hydrogen bonds compared to carbohydrates and proteins, leading to more ATP production through beta-oxidation and subsequent processes in cellular respiration.",
+        "generation_time": 1.849372148513794,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.II.B"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_008",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "Cells that make up salivary glands would be expected to contain a relatively large amount of",
+        "options": {
+          "A": "smooth endoplasmic reticulum",
+          "B": "rough endoplasmic reticulum",
+          "C": "genetic material",
+          "D": "lipids",
+          "E": "peroxisomes"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "Salivary gland cells produce and secrete proteins (enzymes like amylase). The rough endoplasmic reticulum is responsible for protein synthesis and processing, so these cells would contain large amounts of it."
+      },
+      "metadata": {
+        "domain": "Cell Biology",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.II.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "endoplasmic reticulum and Golgi apparatus.",
+        "explanation": "B: Salivary gland cells are involved in the production and secretion of proteins, such as enzymes found in saliva, which requires a relatively large amount of rough endoplasmic reticulum to facilitate protein synthesis and processing.",
+        "generation_time": 1.112537145614624,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.II.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_009",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "Which of the following characteristics distinguishes prokaryotic organisms from eukaryotic organisms?",
+        "options": {
+          "A": "Prokaryotes are unicellular, while all eukaryotes are multicellular.",
+          "B": "Prokaryotes are aquatic, while eukaryotes are terrestrial.",
+          "C": "Prokaryotes are structurally less complex than eukaryotes are.",
+          "D": "Prokaryotes require a host to replicate, while eukaryotes do not.",
+          "E": "Prokaryotes lack a cell membrane, while eukaryotes do not."
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Prokaryotes are structurally less complex than eukaryotes. They lack membrane-bound organelles, a nucleus, and have simpler cellular organization compared to eukaryotes."
+      },
+      "metadata": {
+        "domain": "Cell Biology",
+        "difficulty": 0.6,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.I.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Lack of a membrane-bound nucleus.",
+        "explanation": "C: Prokaryotes are structurally less complex than eukaryotes are. Prokaryotic organisms lack a nucleus and membrane-bound organelles, which are characteristics of the more complex eukaryotic cells.",
+        "generation_time": 1.153296709060669,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.I.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_010",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "An important role of soil microbes in biological systems is the",
+        "options": {
+          "A": "recycling of matter",
+          "B": "creation of biomass",
+          "C": "causing of disease",
+          "D": "production of energy",
+          "E": "degradation of energy"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "Soil microbes play a crucial role in decomposing organic matter and recycling nutrients back into the ecosystem, making them available for other organisms."
+      },
+      "metadata": {
+        "domain": "Ecology",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.III.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "decomposition of organic matter and nutrient cycling.",
+        "explanation": "A: Soil microbes play a crucial role in the recycling of matter by breaking down organic materials, which releases nutrients back into the soil, making them available for plants and other organisms.",
+        "generation_time": 0.8704957962036133,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "ENE-1.0",
+        "key_concepts": "2.1.III.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_011",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "Which of the following diseases is caused by the lack of a functional gene responsible for a specific enzyme?",
+        "options": {
+          "A": "Down Syndrome",
+          "B": "Tay-Sachs disease",
+          "C": "Ricketts",
+          "D": "Malaria",
+          "E": "Influenza"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "Tay-Sachs disease is caused by a genetic mutation that results in the lack of functional hexosaminidase A enzyme, leading to the accumulation of harmful substances in nerve cells."
+      },
+      "metadata": {
+        "domain": "Genetics",
+        "difficulty": 0.8,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "IST-1.0",
+        "key_concepts": "3.1.II.B",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Phenylketonuria (PKU) is caused by such a genetic deficiency.",
+        "explanation": "B: Tay-Sachs disease is caused by the lack of a functional gene responsible for the enzyme hexosaminidase A, leading to the accumulation of harmful substances in nerve cells.",
+        "generation_time": 1.0343642234802246,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "IST-1.0",
+        "key_concepts": "3.1.II.B"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_012",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "How many different genotypes are possible from the cross AaBb \u00d7 AaBb?",
+        "options": {
+          "A": "2",
+          "B": "4",
+          "C": "7",
+          "D": "9",
+          "E": "16"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "In a dihybrid cross (AaBb \u00d7 AaBb), there are 9 different genotypes possible: AABB, AABb, AAbb, AaBB, AaBb, Aabb, aaBB, aaBb, and aabb."
+      },
+      "metadata": {
+        "domain": "Genetics",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "IST-1.0",
+        "key_concepts": "3.1.II.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Nine different genotypes are possible.",
+        "explanation": "D: In the cross AaBb \u00d7 AaBb, each parent can produce four types of gametes: AB, Ab, aB, and ab. When these gametes combine, they can produce 16 possible genotype combinations. However, some combinations are identical, resulting in 9 unique genotypes: AABB, AABb, AaBB, AaBb, AAbb, Aabb, aaBB, aaBb, aabb.",
+        "generation_time": 1.4364910125732422,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "IST-1.0",
+        "key_concepts": "3.1.II.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_013",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "All of the following statements concerning the theory of evolution by natural selection are true EXCEPT:",
+        "options": {
+          "A": "Organisms produce far more offspring than are required for replacement.",
+          "B": "The individuals in a population show variation in survivability and in their ability to cope with environmental stress.",
+          "C": "The number of offspring that survive to reproduce varies among individuals.",
+          "D": "The bodies of organisms in a population change by use and disuse, and the changes are inherited by the next generation.",
+          "E": "Some of the variation in adaptation is the result of genetic differences that may be passed on to the next generation."
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The inheritance of acquired characteristics (use and disuse) is Lamarck's theory, not Darwin's theory of natural selection. Natural selection acts on heritable genetic variation, not acquired traits."
+      },
+      "metadata": {
+        "domain": "Evolution",
+        "difficulty": 0.8,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "EVO-1.0",
+        "key_concepts": "1.1.II.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Natural selection guarantees survival of all individuals.",
+        "explanation": "D: The bodies of organisms in a population change by use and disuse, and the changes are inherited by the next generation. This statement reflects Lamarck's theory of inheritance of acquired characteristics, not Darwin's theory of evolution by natural selection. In Darwin's theory, genetic variations that can be inherited are the basis for natural selection, not changes acquired during an organism's lifetime.",
+        "generation_time": 2.7130260467529297,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "EVO-1.0",
+        "key_concepts": "1.1.II.A"
+      }
+    },
+    {
+      "id": "AP_BIOLOGY_014",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "Which of the following sequences best represents the life cycle of a typical angiosperm?",
+        "options": {
+          "A": "Gametophyte \u2192 meiosis \u2192 gametes \u2192 fertilization \u2192 sporophyte \u2192 spores \u2192 zygote \u2192 gametophyte",
+          "B": "Gametophyte \u2192 gametes \u2192 meiosis \u2192 fertilization \u2192 sporophyte \u2192 spores \u2192 zygote \u2192 gametophyte",
+          "C": "Sporophyte \u2192 meiosis \u2192 gametophyte \u2192 spores \u2192 fertilization \u2192 zygote \u2192 sporophyte",
+          "D": "Sporophyte \u2192 meiosis \u2192 gametophyte \u2192 gametes \u2192 fertilization \u2192 zygote \u2192 sporophyte",
+          "E": "Sporophyte \u2192 spores \u2192 gametophyte \u2192 meiosis \u2192 gametes \u2192 fertilization \u2192 zygote \u2192 sporophyte"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "In angiosperms, the sporophyte (diploid) undergoes meiosis to produce gametophytes (haploid), which produce gametes. Fertilization of gametes produces a zygote that develops into a sporophyte."
+      },
+      "metadata": {
+        "domain": "Plant Biology",
+        "difficulty": 0.8,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "EVO-1.0",
+        "key_concepts": "1.1.III.A",
+        "source": {
+          "ap_test": "AP Biology",
+          "year": 2008,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-biology-2008-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Seed, germination, growth, flowering, pollination, fertilization, seed development.",
+        "explanation": "D: Sporophyte \u2192 meiosis \u2192 gametophyte \u2192 gametes \u2192 fertilization \u2192 zygote \u2192 sporophyte\n\nThis sequence accurately represents the life cycle of a typical angiosperm. The sporophyte undergoes meiosis to produce spores, which develop into the gametophyte. The gametophyte produces gametes, and through fertilization, a zygote is formed, which then grows into a new sporophyte.",
+        "generation_time": 1.6386888027191162,
+        "main_practice_skill": "Analyzing",
+        "learning_objective": "EVO-1.0",
+        "key_concepts": "1.1.III.A"
+      }
+    }
+  ]
+}
