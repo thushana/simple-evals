@@ -1,0 +1,92 @@
+[
+  {
+    "test": "AP_US_HISTORY_2017",
+    "model": "claude-3-haiku-20240307",
+    "provider": "anthropic",
+    "accuracy": 85.2,
+    "score": 23,
+    "questions": 27,
+    "time": 52.830177545547485,
+    "date": "2025-06-30T11:19:40.063765"
+  },
+  {
+    "test": "AP_US_HISTORY_2017",
+    "model": "gpt-4o-mini",
+    "provider": "openai",
+    "accuracy": 96.3,
+    "score": 26,
+    "questions": 27,
+    "time": 43.75552558898926,
+    "date": "2025-06-30T11:07:53.982005"
+  },
+  {
+    "test": "AP_US_HISTORY_2017",
+    "model": "gpt-4o-mini",
+    "provider": "openai",
+    "accuracy": 96.3,
+    "score": 26,
+    "questions": 27,
+    "time": 48.3533411026001,
+    "date": "2025-06-30T11:03:04.218228"
+  },
+  {
+    "test": "AP_US_HISTORY_2017",
+    "model": "gpt-4.1",
+    "provider": "openai",
+    "accuracy": 96.3,
+    "score": 26,
+    "questions": 27,
+    "time": 46.88363718986511,
+    "date": "2025-06-30T11:27:56.892944"
+  },
+  {
+    "test": "AP_BIOLOGY_2008",
+    "model": "gpt-4o-mini",
+    "provider": "openai",
+    "accuracy": 92.9,
+    "score": 13,
+    "questions": 14,
+    "time": 18.245222091674805,
+    "date": "2025-06-30T12:30:10.142242"
+  },
+  {
+    "test": "AP_US_HISTORY_2017",
+    "model": "gpt-4o-mini",
+    "provider": "openai",
+    "accuracy": 92.6,
+    "score": 25,
+    "questions": 27,
+    "time": 51.35010623931885,
+    "date": "2025-06-30T11:19:40.485937"
+  },
+  {
+    "test": "AP_US_HISTORY_2017",
+    "model": "claude-3-haiku-20240307",
+    "provider": "anthropic",
+    "accuracy": 85.2,
+    "score": 23,
+    "questions": 27,
+    "time": 51.16669058799744,
+    "date": "2025-06-30T11:12:11.659005"
+  },
+  {
+    "test": "AP_US_HISTORY_2017",
+    "model": "gpt-4o-mini",
+    "provider": "openai",
+    "accuracy": 96.3,
+    "score": 26,
+    "questions": 27,
+    "time": 48.97658658027649,
+    "date": "2025-06-30T09:19:09.044077"
+  },
+  {
+    "test": "AP_US_HISTORY_2017",
+    "model": "claude-sonnet-4-20250514",
+    "provider": "anthropic",
+    "accuracy": 88.9,
+    "score": 24,
+    "questions": 27,
+    "time": 104.91927766799927,
+    "date": "2025-06-30T11:20:53.498537"
+  }
+]
