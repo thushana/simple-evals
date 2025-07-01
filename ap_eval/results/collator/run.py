@@ -103,7 +103,7 @@ class ResultsCollator:
         for result in self.results_data:
             is_best = best_runs.get(result["exam_identifier"]) and result["filename"] == best_runs[result["exam_identifier"]]["filename"]
             distilled_rows.append({
-                "test": result["exam_identifier"],
+                "exam": result["exam_identifier"],
                 "model": result["model_name"],
                 "provider": result["model_provider"],
                 "accuracy": result["accuracy_percentage"],

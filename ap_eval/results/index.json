@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "generated_on": "2025-07-01T14:47:29.040107",
+    "generated_on": "2025-07-01T15:06:25.618734",
     "author_name": "Thushan Amarasiriwardena",
     "author_email": "thushan@thushan.net"
   },
   "results": [
     {
-      "test": "AP_US_HISTORY_2017",
+      "exam": "AP_US_HISTORY_2017",
       "model": "claude-3-haiku-20240307",
       "provider": "anthropic",
       "accuracy": 85.2,
@@ -18,7 +18,7 @@
       "results": "AP_US_HISTORY_2017_anthropic_claude-3-haiku-20240307_20250630_111940.json"
     },
     {
-      "test": "AP_US_HISTORY_2017",
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o-mini",
       "provider": "openai",
       "accuracy": 96.3,
@@ -30,7 +30,7 @@
       "results": "AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_110753.json"
     },
     {
-      "test": "AP_US_HISTORY_2017",
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o-mini",
       "provider": "openai",
       "accuracy": 96.3,
@@ -42,7 +42,7 @@
       "results": "AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_110304.json"
     },
     {
-      "test": "AP_US_HISTORY_2017",
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4.1",
       "provider": "openai",
       "accuracy": 96.3,
@@ -54,7 +54,7 @@
       "results": "AP_US_HISTORY_2017_openai_gpt-4.1_20250630_112756.json"
     },
     {
-      "test": "AP_BIOLOGY_2008",
+      "exam": "AP_BIOLOGY_2008",
       "model": "gpt-4o-mini",
       "provider": "openai",
       "accuracy": 92.9,
@@ -66,7 +66,7 @@
       "results": "AP_BIOLOGY_2008_openai_gpt-4o-mini_20250630_123010.json"
     },
     {
-      "test": "AP_US_HISTORY_2017",
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o-mini",
       "provider": "openai",
       "accuracy": 92.6,
@@ -78,7 +78,7 @@
       "results": "AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_111940.json"
     },
     {
-      "test": "AP_US_HISTORY_2017",
+      "exam": "AP_US_HISTORY_2017",
       "model": "claude-3-haiku-20240307",
       "provider": "anthropic",
       "accuracy": 85.2,
@@ -90,7 +90,7 @@
       "results": "AP_US_HISTORY_2017_anthropic_claude-3-haiku-20240307_20250630_111211.json"
     },
     {
-      "test": "AP_US_HISTORY_2017",
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o-mini",
       "provider": "openai",
       "accuracy": 96.3,
@@ -102,7 +102,7 @@
       "results": "AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_091909.json"
     },
     {
-      "test": "AP_US_HISTORY_2017",
+      "exam": "AP_US_HISTORY_2017",
       "model": "claude-sonnet-4-20250514",
       "provider": "anthropic",
       "accuracy": 88.9,
