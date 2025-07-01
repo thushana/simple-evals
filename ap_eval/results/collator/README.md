@@ -15,12 +15,30 @@ The Results Collator automatically reads all AP evaluation result JSON files and
 
 ### Basic Usage
 ```bash
-python ap_eval/results/collator/results_collator.py
+python ap_eval/results/collator/run.py
 ```
 
 ### With Custom Options
 ```bash
-python ap_eval/results/collator/results_collator.py --results-dir /path/to/results --output /path/to/dashboard.html
+# Custom results directory
+python ap_eval/results/collator/run.py --results-dir /path/to/results
+
+# Custom output location
+python ap_eval/results/collator/run.py --output /path/to/dashboard.html
+
+# Both custom directory and output
+python ap_eval/results/collator/run.py --results-dir /path/to/results --output /path/to/dashboard.html
+```
+
+### Viewing the Dashboard
+```bash
+# Start a local server (recommended)
+cd ap_eval/results
+python3 -m http.server 8000
+# Then visit: http://localhost:8000
+
+# Or open directly in browser (may have CORS issues)
+open ap_eval/results/index.html
 ```
 
 ## Dashboard Features
@@ -66,8 +84,13 @@ The collator generates:
 
 ```
 ap_eval/results/collator/
-├── results_collator.py    # Main collator script
-├── run_collator.py        # Simple runner
-├── README.md             # This file
-└── dashboard.html        # Generated dashboard
-``` 
+├── run.py                # Main collator script
+└── README.md             # This file
+```
+
+## Output
+
+The collator generates:
+- `ap_eval/results/index.html`: Interactive HTML dashboard
+- `ap_eval/results/index.json`: Dashboard data (used by the HTML)
+- Console summary with key statistics 
