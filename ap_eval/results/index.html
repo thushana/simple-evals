@@ -152,7 +152,7 @@
                         <table class="table table-hover mb-0" id="resultsTable">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="sortable" data-sort="test">Test <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="sortable" data-sort="exam">Exam <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="model">Model <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="provider">Provider <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="accuracy">Accuracy <i class="fas fa-sort sort-icon"></i></th>
@@ -175,7 +175,7 @@
     <div id="jsonDrawerBg"></div>
     <div id="jsonDrawer">
         <button class="close-btn" onclick="closeDrawer()">&times;</button>
-        <h2>Exam JSON</h2>
+        <h2>Evaluation Results JSON</h2>
         <div class="json-path" id="jsonDrawerPath"></div>
         <pre id="jsonDrawerContent">Loading...</pre>
     </div>
@@ -235,7 +235,7 @@
             const row = document.createElement('tr');
             if (rowClass) row.classList.add(rowClass);
             row.innerHTML = `
-                <td><a href="#" class="exam-link" data-json="${jsonFilename}"><strong>${result.test}</strong></a></td>
+                <td><a href="#" class="exam-link" data-json="${jsonFilename}"><strong>${result.exam}</strong></a></td>
                 <td><strong><span class="model-name">${star}${result.model}</span></strong></td>
                 <td>${result.provider}</td>
                 <td class="${accuracyClass} number-cell">${result.accuracy.toFixed(1)}%</td>
