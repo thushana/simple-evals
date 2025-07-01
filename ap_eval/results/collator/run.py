@@ -19,6 +19,8 @@ class ResultsCollator:
     def load_all_results(self) -> List[Dict[str, Any]]:
         """Load all JSON result files from the results directory"""
         json_files = glob.glob(os.path.join(self.results_dir, "*.json"))
+        # Filter out index.json and Results.json
+        json_files = [f for f in json_files if os.path.basename(f) not in ("index.json")]
         
         for json_file in json_files:
             try:
@@ -200,6 +202,23 @@ class ResultsCollator:
             display: inline-block;
             min-width: 120px;
         }}
+        /* Drawer styles */
+        #jsonDrawer {{
+            position: fixed;
+            top: 0; right: 0; height: 100vh; width: 80vw; max-width: 900px;
+            background: #fff; box-shadow: -2px 0 16px rgba(0,0,0,0.2);
+            z-index: 2000; transform: translateX(100%); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+            overflow-y: auto; padding: 32px 24px 24px 24px;
+        }}
+        #jsonDrawer.open {{ transform: translateX(0); }}
+        #jsonDrawer .close-btn {{ position: absolute; top: 16px; right: 24px; font-size: 2rem; color: #0677C9; background: none; border: none; cursor: pointer; }}
+        #jsonDrawer pre {{ font-family: 'Roboto Mono', monospace; font-size: 1rem; background: #f8f8f8; border-radius: 8px; padding: 16px; overflow-x: auto; }}
+        #jsonDrawer h2 {{ font-size: 1.3rem; margin-bottom: 1rem; color: #0677C9; }}
+        #jsonDrawer .json-path {{ font-size: 0.95rem; color: #888; margin-bottom: 1rem; }}
+        #jsonDrawer .json-error {{ color: #dc3545; font-weight: bold; }}
+        @media (max-width: 900px) {{ #jsonDrawer {{ width: 100vw; }} }}
+        #jsonDrawerBg {{ position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(30,30,30,0.2); z-index: 1999; display: none; }}
+        #jsonDrawerBg.open {{ display: block; }}
     </style>
 </head>
 <body class="bg-light">
@@ -243,19 +262,22 @@ class ResultsCollator:
             except:
                 date_str = result["time_timestamp"][:16] if result["time_timestamp"] else "Unknown"
             
+            # Link to the JSON file for this result
+            json_file = f"{result['exam_identifier']}_{result['model_provider']}_{result['model_name']}.json"
+            
             if is_best:
                 td_bg = ' style="background-color:rgba(255,215,0,0.1) !important;"'
             else:
                 td_bg = ''
             html_content += f"""
                                 <tr>
-                                    <td{td_bg}><strong>{result['exam_identifier']}</strong></td>
-                                    <td{td_bg}><strong><span class=\"model-name\">{star_html}{result['model_name']}</span></strong></td>
+                                    <td{td_bg}><a href="#" class="exam-link" data-json="{json_file}"><strong>{result['exam_identifier']}</strong></a></td>
+                                    <td{td_bg}><strong><span class="model-name">{star_html}{result['model_name']}</span></strong></td>
                                     <td{td_bg}>{result['model_provider']}</td>
-                                    <td{td_bg} class=\"{accuracy_class} number-cell\">{result['accuracy_percentage']:.1f}%</td>
-                                    <td{td_bg} class=\"score-cell\">{result['score']}/{result['questions_count']}</td>
-                                    <td{td_bg} class=\"number-cell\">{result['time_total_generation']:.1f}</td>
-                                    <td{td_bg} class=\"date-cell\">{date_str}</td>
+                                    <td{td_bg} class="{accuracy_class} number-cell">{result['accuracy_percentage']:.1f}%</td>
+                                    <td{td_bg} class="score-cell">{result['score']}/{result['questions_count']}</td>
+                                    <td{td_bg} class="number-cell">{result['time_total_generation']:.1f}</td>
+                                    <td{td_bg} class="date-cell">{date_str}</td>
                                 </tr>
             """
         
@@ -268,6 +290,15 @@ class ResultsCollator:
         </div>
     </div>
     
+    <!-- Drawer and overlay -->
+    <div id="jsonDrawerBg"></div>
+    <div id="jsonDrawer">
+        <button class="close-btn" onclick="closeDrawer()">&times;</button>
+        <h2>Exam JSON</h2>
+        <div class="json-path" id="jsonDrawerPath"></div>
+        <pre id="jsonDrawerContent">Loading...</pre>
+    </div>
+    
     <!-- Footer with generation timestamp -->
     <div class="text-center mt-4 mb-3 text-muted">
         <small>Generated on: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</small>
@@ -278,54 +309,32 @@ class ResultsCollator:
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     
     <script>
-        // Sorting functionality
-        document.addEventListener('DOMContentLoaded', function() {{
-            const table = document.getElementById('resultsTable');
-            const headers = table.querySelectorAll('th.sortable');
-            
-            headers.forEach(header => {{
-                header.addEventListener('click', function() {{
-                    const column = this.dataset.sort;
-                    const tbody = table.querySelector('tbody');
-                    const rows = Array.from(tbody.querySelectorAll('tr'));
-                    
-                    // Remove active class from all sort icons
-                    headers.forEach(h => h.querySelector('.sort-icon').classList.remove('active'));
-                    
-                    // Add active class to clicked header
-                    this.querySelector('.sort-icon').classList.add('active');
-                    
-                    // Sort rows
-                    rows.sort((a, b) => {{
-                        const aVal = getCellValue(a, column);
-                        const bVal = getCellValue(b, column);
-                        
-                        if (column === 'accuracy' || column === 'score' || column === 'questions' || column === 'time' || column === 'qpm') {{
-                            return parseFloat(bVal) - parseFloat(aVal); // Descending for metrics
-                        }} else {{
-                            return aVal.localeCompare(bVal); // Ascending for text
-                        }}
-                    }});
-                    
-                    // Reorder rows
-                    rows.forEach(row => tbody.appendChild(row));
-                }});
+    // Drawer logic
+    function openDrawer(jsonPath) {{
+        document.getElementById('jsonDrawerBg').classList.add('open');
+        document.getElementById('jsonDrawer').classList.add('open');
+        document.getElementById('jsonDrawerPath').textContent = jsonPath;
+        document.getElementById('jsonDrawerContent').textContent = 'Loading...';
+        fetch(jsonPath)
+            .then(r => r.json())
+            .then(data => {{
+                document.getElementById('jsonDrawerContent').textContent = JSON.stringify(data, null, 2);
+            }})
+            .catch(e => {{
+                document.getElementById('jsonDrawerContent').innerHTML = '<span class="json-error">Failed to load JSON: ' + e + '</span>';
             }});
-            
-            function getCellValue(row, column) {{
-                const cellIndex = getColumnIndex(column);
-                const cell = row.cells[cellIndex];
-                return cell.textContent.trim();
-            }}
-            
-            function getColumnIndex(column) {{
-                const headers = Array.from(table.querySelectorAll('th'));
-                return headers.findIndex(h => h.dataset.sort === column);
-            }}
-            
-            // Set initial sort by accuracy (descending)
-            document.querySelector('[data-sort="accuracy"]').click();
-        }});
+    }}
+    function closeDrawer() {{
+        document.getElementById('jsonDrawerBg').classList.remove('open');
+        document.getElementById('jsonDrawer').classList.remove('open');
+    }}
+    document.getElementById('jsonDrawerBg').onclick = closeDrawer;
+    document.querySelectorAll('.exam-link').forEach(link => {{
+        link.onclick = function(e) {{
+            e.preventDefault();
+            openDrawer(this.getAttribute('data-json'));
+        }};
+    }});
     </script>
 </body>
 </html>
@@ -336,7 +345,7 @@ class ResultsCollator:
         with open(output_file, 'w') as f:
             f.write(html_content)
             
-        print(f"Dashboard generated: {output_file}")
+        print(f"Dashboard saved to: {output_file}")
         
         # Write distilled JSON with just the table rows
         distilled_rows = []
