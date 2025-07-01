@@ -134,7 +134,10 @@ def get_questions_for_exam(exam_identifier: str) -> tuple[List[MultipleChoiceQue
     print(f"Using exam: {exam_identifier}/{exam_identifier}.json")
     
     # Extract exam type from the identifier for the enum mapping
-    exam_type = exam_identifier.lower().replace('ap_', '').replace('_2017', '').replace('_2023', '').replace('_2019', '')
+    # Remove 'ap_' prefix and any year suffix (e.g., _2017, _2023, _2019, _2008, etc.)
+    import re
+    exam_type = exam_identifier.lower().replace('ap_', '')
+    exam_type = re.sub(r'_\d{4}$', '', exam_type)  # Remove year suffix like _2017, _2023, etc.
     
     try:
         questions = load_questions_from_json(json_file_path, exam_type)
