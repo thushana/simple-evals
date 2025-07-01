@@ -111,7 +111,8 @@ class ResultsCollator:
                 "questions": result["questions_count"],
                 "time": result["time_total_generation"],
                 "date": result["time_timestamp"],
-                "is_best": is_best
+                "is_best": is_best,
+                "results": result["filename"]
             })
         name, email = self.get_git_user()
         output = {
