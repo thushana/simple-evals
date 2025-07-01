@@ -351,7 +351,7 @@ class ResultsCollator:
                 "time": result["time_total_generation"],
                 "date": result["time_timestamp"]
             })
-        distilled_path = os.path.join(os.path.dirname(output_file), "Results.json")
+        distilled_path = os.path.join(os.path.dirname(output_file), "index.json")
         with open(distilled_path, 'w') as f:
             import json
             json.dump(distilled_rows, f, indent=2)
@@ -362,7 +362,7 @@ class ResultsCollator:
 def main():
     parser = argparse.ArgumentParser(description='Generate AP evaluation results dashboard')
     parser.add_argument('--results-dir', default='ap_eval/results', help='Directory containing result JSON files')
-    parser.add_argument('--output', default='ap_eval/results/collator/dashboard.html', help='Output HTML file path')
+    parser.add_argument('--output', default='ap_eval/results/index.html', help='Output HTML file path')
     
     args = parser.parse_args()
     
