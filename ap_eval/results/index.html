@@ -33,6 +33,7 @@
         
         body.bg-light {
             background: #fff !important;
+            padding-top: 15px;
         }
         
         .accuracy-high { color: #28a745; font-weight: bold; }
@@ -150,8 +151,8 @@
                                     <th class="sortable" data-sort="provider">Provider <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="accuracy">Accuracy <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="score">Score <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="time">Time (s) <i class="fas fa-sort sort-icon"></i></th>
-                                    <th>Date</th>
+                                    <th class="sortable" data-sort="time">Time<i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="sortable" data-sort="date">Date <i class="fas fa-sort sort-icon"></i></th>
                                 </tr>
                             </thead>
                             <tbody id="resultsTableBody">
@@ -192,9 +193,9 @@
             const response = await fetch('index.json');
             const data = await response.json();
             resultsData = data.results;
-            // Default sort by date descending
-            resultsData.sort((a, b) => new Date(b.date) - new Date(a.date));
-            currentSort = { column: 'date', direction: 'desc' };
+            // Default sort by accuracy descending
+            resultsData.sort((a, b) => b.accuracy - a.accuracy);
+            currentSort = { column: 'accuracy', direction: 'desc' };
             renderTable(resultsData);
             updateSortIcons();
             renderGeneratedOn(data.metadata && data.metadata.generated_on);
