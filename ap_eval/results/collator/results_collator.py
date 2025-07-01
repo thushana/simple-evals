@@ -337,6 +337,26 @@ class ResultsCollator:
             f.write(html_content)
             
         print(f"Dashboard generated: {output_file}")
+        
+        # Write distilled JSON with just the table rows
+        distilled_rows = []
+        for result in self.results_data:
+            distilled_rows.append({
+                "test": result["exam_identifier"],
+                "model": result["model_name"],
+                "provider": result["model_provider"],
+                "accuracy": result["accuracy_percentage"],
+                "score": result["score"],
+                "questions": result["questions_count"],
+                "time": result["time_total_generation"],
+                "date": result["time_timestamp"]
+            })
+        distilled_path = os.path.join(os.path.dirname(output_file), "Results.json")
+        with open(distilled_path, 'w') as f:
+            import json
+            json.dump(distilled_rows, f, indent=2)
+        print(f"Distilled results saved to: {distilled_path}")
+        
         return output_file
 
 def main():
