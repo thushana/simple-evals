@@ -67,6 +67,25 @@ class ResultsCollator:
             "average_questions_per_minute": round(total_questions / (total_time / 60), 2) if total_time > 0 else 0
         }
     
+    def get_best_performers(self) -> Dict[str, str]:
+        """Get the best performing model for each test"""
+        best_performers = {}
+        
+        # Group by exam identifier
+        exam_groups = {}
+        for result in self.results_data:
+            exam_id = result["exam_identifier"]
+            if exam_id not in exam_groups:
+                exam_groups[exam_id] = []
+            exam_groups[exam_id].append(result)
+        
+        # Find best performer for each exam
+        for exam_id, results in exam_groups.items():
+            best_result = max(results, key=lambda x: x["accuracy_percentage"])
+            best_performers[exam_id] = best_result["model_name"]
+            
+        return best_performers
+    
     def generate_html(self, output_file: str = "ap_eval/results/collator/dashboard.html"):
         """Generate HTML dashboard with results"""
         
@@ -75,6 +94,7 @@ class ResultsCollator:
             self.load_all_results()
             
         combined_stats = self.calculate_combined_stats()
+        best_performers = self.get_best_performers()
         
         html_content = f"""
 <!DOCTYPE html>
@@ -84,41 +104,101 @@ class ResultsCollator:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AP Evaluation Results Dashboard</title>
     
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS from CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        .metric-card {{
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
+        body {{
+            font-family: 'Roboto', sans-serif;
         }}
+        
         .table-container {{
             background: white;
             border-radius: 15px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }}
+        
         .accuracy-high {{ color: #28a745; font-weight: bold; }}
         .accuracy-medium {{ color: #ffc107; font-weight: bold; }}
         .accuracy-low {{ color: #dc3545; font-weight: bold; }}
+        
         .sortable {{
             cursor: pointer;
             user-select: none;
         }}
+        
         .sortable:hover {{
             background-color: #f8f9fa;
         }}
+        
         .sort-icon {{
             margin-left: 5px;
             opacity: 0.5;
         }}
+        
         .sort-icon.active {{
             opacity: 1;
+        }}
+        
+        .number-cell {{
+            font-family: 'Roboto Mono', monospace;
+            text-align: right;
+            font-weight: 500;
+        }}
+        
+        .score-cell {{
+            font-family: 'Roboto Mono', monospace;
+            text-align: center;
+            font-weight: 500;
+        }}
+        
+        .date-cell {{
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            color: #6c757d;
+        }}
+        
+        h1 {{
+            font-weight: 500;
+            color: #1E1E1E;
+        }}
+        
+        .table th {{
+            font-weight: 500;
+            background-color: #0677C9 !important;
+            border-color: #0677C9 !important;
+            color: white !important;
+        }}
+        
+        .table-dark {{
+            background-color: #0677C9 !important;
+        }}
+        
+        .table-dark th {{
+            background-color: #0677C9 !important;
+            border-color: #0677C9 !important;
+            color: white !important;
+        }}
+        
+        .best-performer {{
+            background-color: rgba(255, 215, 0, 0.3) !important;
+        }}
+        
+        .star-emoji {{
+            margin-right: 5px;
+        }}
+        
+        .model-name {{
+            display: inline-block;
+            min-width: 120px;
         }}
     </style>
 </head>
@@ -130,60 +210,18 @@ class ResultsCollator:
                     <i class="fas fa-chart-line"></i> AP Evaluation Results Dashboard
                 </h1>
                 
-                <!-- Combined Stats Cards -->
-                <div class="row mb-4">
-                    <div class="col-md-2">
-                        <div class="metric-card text-center">
-                            <h3>{combined_stats.get('total_exams', 0)}</h3>
-                            <p class="mb-0">Total Exams</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="metric-card text-center">
-                            <h3>{combined_stats.get('total_questions', 0)}</h3>
-                            <p class="mb-0">Total Questions</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="metric-card text-center">
-                            <h3>{combined_stats.get('total_correct', 0)}</h3>
-                            <p class="mb-0">Total Correct</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="metric-card text-center">
-                            <h3>{combined_stats.get('overall_accuracy', 0)}%</h3>
-                            <p class="mb-0">Overall Accuracy</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="metric-card text-center">
-                            <h3>{combined_stats.get('total_time_minutes', 0)}m</h3>
-                            <p class="mb-0">Total Time</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="metric-card text-center">
-                            <h3>{combined_stats.get('average_questions_per_minute', 0)}</h3>
-                            <p class="mb-0">Q/min Avg</p>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- Results Table -->
                 <div class="table-container">
                     <div class="table-responsive">
                         <table class="table table-hover mb-0" id="resultsTable">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="sortable" data-sort="exam">Exam <i class="fas fa-sort sort-icon"></i></th>
+                                    <th class="sortable" data-sort="exam">Test <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="model">Model <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="provider">Provider <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="accuracy">Accuracy <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="score">Score <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="questions">Questions <i class="fas fa-sort sort-icon"></i></th>
                                     <th class="sortable" data-sort="time">Time (s) <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="qpm">Q/min <i class="fas fa-sort sort-icon"></i></th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
@@ -194,6 +232,10 @@ class ResultsCollator:
         for result in self.results_data:
             accuracy_class = "accuracy-high" if result["accuracy_percentage"] >= 80 else "accuracy-medium" if result["accuracy_percentage"] >= 60 else "accuracy-low"
             
+            # Check if this is the best performer for this test
+            is_best = best_performers.get(result["exam_identifier"]) == result["model_name"]
+            star_html = f'<span class="star-emoji">⭐</span>' if is_best else '<span class="star-emoji" style="visibility:hidden">⭐</span>'
+            
             # Format timestamp
             try:
                 timestamp = datetime.fromisoformat(result["time_timestamp"].replace('Z', '+00:00'))
@@ -201,17 +243,19 @@ class ResultsCollator:
             except:
                 date_str = result["time_timestamp"][:16] if result["time_timestamp"] else "Unknown"
             
+            if is_best:
+                td_bg = ' style="background-color:rgba(255,215,0,0.1) !important;"'
+            else:
+                td_bg = ''
             html_content += f"""
                                 <tr>
-                                    <td><strong>{result['exam_identifier']}</strong></td>
-                                    <td>{result['model_name']}</td>
-                                    <td>{result['model_provider']}</td>
-                                    <td class="{accuracy_class}">{result['accuracy_percentage']}%</td>
-                                    <td>{result['score']}/{result['questions_count']}</td>
-                                    <td>{result['questions_count']}</td>
-                                    <td>{result['time_total_generation']:.1f}</td>
-                                    <td>{result['questions_per_minute']}</td>
-                                    <td>{date_str}</td>
+                                    <td{td_bg}><strong>{result['exam_identifier']}</strong></td>
+                                    <td{td_bg}><strong><span class=\"model-name\">{star_html}{result['model_name']}</span></strong></td>
+                                    <td{td_bg}>{result['model_provider']}</td>
+                                    <td{td_bg} class=\"{accuracy_class} number-cell\">{result['accuracy_percentage']:.1f}%</td>
+                                    <td{td_bg} class=\"score-cell\">{result['score']}/{result['questions_count']}</td>
+                                    <td{td_bg} class=\"number-cell\">{result['time_total_generation']:.1f}</td>
+                                    <td{td_bg} class=\"date-cell\">{date_str}</td>
                                 </tr>
             """
         
@@ -220,12 +264,13 @@ class ResultsCollator:
                         </table>
                     </div>
                 </div>
-                
-                <div class="mt-3 text-muted">
-                    <small>Generated on: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</small>
-                </div>
             </div>
         </div>
+    </div>
+    
+    <!-- Footer with generation timestamp -->
+    <div class="text-center mt-4 mb-3 text-muted">
+        <small>Generated on: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</small>
     </div>
     
     <!-- Bootstrap JS and Popper.js from CDN -->
