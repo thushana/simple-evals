@@ -328,7 +328,9 @@
     function openDrawer(jsonPath) {
         document.getElementById('jsonDrawerBg').classList.add('open');
         document.getElementById('jsonDrawer').classList.add('open');
-        document.getElementById('jsonDrawerPath').textContent = jsonPath;
+        // Render as a clickable download link
+        const pathDiv = document.getElementById('jsonDrawerPath');
+        pathDiv.innerHTML = `<a href="${jsonPath}" id="jsonDownloadLink" download style="color:#1e3a8a;text-decoration:underline;cursor:pointer;">${jsonPath}</a>`;
         document.getElementById('jsonDrawerContent').textContent = 'Loading...';
         fetch(jsonPath)
             .then(r => r.json())
@@ -338,6 +340,27 @@
             .catch(e => {
                 document.getElementById('jsonDrawerContent').innerHTML = '<span class="json-error">Failed to load JSON: ' + e + '</span>';
             });
+        // Add click handler to force download
+        setTimeout(() => {
+            const link = document.getElementById('jsonDownloadLink');
+            if (link) {
+                link.onclick = function(e) {
+                    e.preventDefault();
+                    const url = this.getAttribute('href');
+                    const filename = url.split('/').pop();
+                    fetch(url)
+                      .then(resp => resp.blob())
+                      .then(blob => {
+                        const a = document.createElement('a');
+                        a.href = window.URL.createObjectURL(blob);
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                      });
+                };
+            }
+        }, 0);
     }
     function closeDrawer() {
         document.getElementById('jsonDrawerBg').classList.remove('open');
