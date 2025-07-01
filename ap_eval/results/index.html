@@ -177,6 +177,8 @@
     <!-- Footer with generation timestamp -->
     <div class="text-center mt-4 mb-3 text-muted">
         <small id="generatedOnFooter"></small>
+        <br>
+        <small id="authorFooter"></small>
     </div>
     
     <!-- Bootstrap JS and Popper.js from CDN -->
@@ -198,11 +200,11 @@
             currentSort = { column: 'accuracy', direction: 'desc' };
             renderTable(resultsData);
             updateSortIcons();
-            renderGeneratedOn(data.metadata && data.metadata.generated_on);
+            renderGeneratedOn(data.metadata && data.metadata.generated_on, data.metadata && data.metadata.author_name, data.metadata && data.metadata.author_email);
         } catch (error) {
             document.getElementById('resultsTableBody').innerHTML =
                 '<tr><td colspan="7" class="text-center text-danger">Failed to load results data</td></tr>';
-            renderGeneratedOn(null);
+            renderGeneratedOn(null, null, null);
         }
     }
 
@@ -246,22 +248,28 @@
         updateSortIcons();
     }
 
-    function renderGeneratedOn(isoString) {
+    function renderGeneratedOn(isoString, authorName, authorEmail) {
         const footer = document.getElementById('generatedOnFooter');
         if (!isoString) {
             footer.textContent = '';
-            return;
+        } else {
+            const date = new Date(isoString);
+            const formatted = date.toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            footer.textContent = `Generated on: ${formatted}`;
         }
-        const date = new Date(isoString);
-        const formatted = date.toLocaleString('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-        footer.textContent = `Generated on: ${formatted}`;
+        const authorFooter = document.getElementById('authorFooter');
+        if (authorName) {
+            authorFooter.textContent = `Collated by: ${authorName}${authorEmail ? ' <' + authorEmail + '>' : ''}`;
+        } else {
+            authorFooter.textContent = '';
+        }
     }
 
     // Sorting logic
