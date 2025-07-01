@@ -225,7 +225,7 @@
                 hour: '2-digit',
                 minute: '2-digit'
             }).replace(',', '');
-            const jsonFilename = `${result.test}_${result.provider}_${result.model}.json`;
+            const jsonFilename = result.results;
             const row = document.createElement('tr');
             if (rowClass) row.classList.add(rowClass);
             row.innerHTML = `
