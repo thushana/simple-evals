@@ -35,6 +35,18 @@ python -m ap_eval.run claude-3-opus-20240229 AP_US_HISTORY_2017
 python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-all
 ```
 
+### 4. Generate and View Results Dashboard
+```bash
+# Generate the dashboard from all result files
+python ap_eval/results/collator/run.py
+
+# Start a local server to view the dashboard
+cd ap_eval/results
+python3 -m http.server 8000
+
+# Open your browser to: http://localhost:8000
+```
+
 ## Usage
 
 ### Basic Evaluation
@@ -79,6 +91,19 @@ python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-all
 ```
 Equivalent to using all three flags: `--show-question --show-model-query --show-model-response`
 
+## Results Dashboard
+
+The system includes a results collator that generates an interactive HTML dashboard showing all evaluation results.
+
+### Features
+- **Interactive Table**: Sort by any column (test, model, provider, accuracy, score, time)
+- **Best Performer Highlighting**: Gold stars and highlighting for the best performing model on each test
+- **Detailed JSON View**: Click on any test to view the complete evaluation results
+- **Dynamic Loading**: Dashboard loads data from `index.json` for easy updates
+- **Responsive Design**: Works on desktop and mobile devices
+
+For detailed collator documentation, see [ap_eval/results/collator/README.md](results/collator/README.md).
+
 ## File Structure
 
 ```
@@ -91,9 +116,16 @@ ap_eval/
 ├── run.py                       # Main evaluation script
 ├── example.py                   # Example usage
 ├── ap_us_history_questions.py   # Legacy question loading (deprecated)
-└── ap_exams/                    # Exam data
-    └── AP_US_HISTORY_2017/      # Individual exam directory
-        └── AP_US_HISTORY_2017.json # Questions for this exam
+├── ap_exams/                    # Exam data
+│   └── AP_US_HISTORY_2017/      # Individual exam directory
+│       └── AP_US_HISTORY_2017.json # Questions for this exam
+└── results/                     # Evaluation results
+    ├── index.html               # Interactive dashboard
+    ├── index.json               # Dashboard data
+    ├── collator/                # Results collator
+    │   ├── run.py               # Collator script
+    │   └── README.md            # Collator documentation
+    └── *.json                   # Individual result files
 ```
 
 ## Adding New Exams
