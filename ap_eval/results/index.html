@@ -36,9 +36,9 @@
             padding-top: 15px;
         }
         
-        .accuracy-high { color: #28a745; font-weight: bold; }
-        .accuracy-medium { color: #ffc107; font-weight: bold; }
-        .accuracy-low { color: #dc3545; font-weight: bold; }
+        .accuracy-high { color: #0677C9; font-weight: bold; }
+        .accuracy-medium { color: #5a9bd4; font-weight: bold; }
+        .accuracy-low { color: #8bb3d9; font-weight: bold; }
         
         .sortable {
             cursor: pointer;
@@ -46,7 +46,7 @@
         }
         
         .sortable:hover {
-            background-color: #f8f9fa;
+            background-color: #e3f2fd;
         }
         
         .sort-icon {
@@ -73,7 +73,7 @@
         .date-cell {
             font-family: 'Roboto Mono', monospace;
             font-size: 0.9em;
-            color: #6c757d;
+            color: #5a9bd4;
         }
         
         h1 {
@@ -116,20 +116,26 @@
         /* Drawer styles */
         #jsonDrawer {
             position: fixed;
-            top: 0; right: 0; height: 100vh; width: 80vw; max-width: 900px;
+            top: 0; right: 0; height: 100vh; width: 66vw; max-width: 1200px;
             background: #fff; box-shadow: -2px 0 16px rgba(0,0,0,0.2);
             z-index: 2000; transform: translateX(100%); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
             overflow-y: auto; padding: 32px 24px 24px 24px;
         }
         #jsonDrawer.open { transform: translateX(0); }
         #jsonDrawer .close-btn { position: absolute; top: 16px; right: 24px; font-size: 2rem; color: #0677C9; background: none; border: none; cursor: pointer; }
-        #jsonDrawer pre { font-family: 'Roboto Mono', monospace; font-size: 1rem; background: #f8f8f8; border-radius: 8px; padding: 16px; overflow-x: auto; }
+        #jsonDrawer pre { font-family: 'Roboto Mono', monospace; font-size: 1rem; background: #f8f8f8; border-radius: 8px; padding: 16px; overflow-x: auto; white-space: pre-wrap; word-break: break-word; }
         #jsonDrawer h2 { font-size: 1.3rem; margin-bottom: 1rem; color: #0677C9; }
         #jsonDrawer .json-path { font-size: 0.95rem; color: #888; margin-bottom: 1rem; }
-        #jsonDrawer .json-error { color: #dc3545; font-weight: bold; }
+        #jsonDrawer .json-error { color: #8bb3d9; font-weight: bold; }
         @media (max-width: 900px) { #jsonDrawer { width: 100vw; } }
         #jsonDrawerBg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(30,30,30,0.2); z-index: 1999; display: none; }
         #jsonDrawerBg.open { display: block; }
+        /* Blue-themed JSON syntax highlighting */
+        .json-key { color: #1e3a8a; font-weight: bold; }
+        .json-string { color: #6b7280; }
+        .json-number { color: #6b7280; }
+        .json-boolean { color: #6b7280; }
+        .json-null { color: #6b7280; font-style: italic; }
     </style>
 </head>
 <body class="bg-light">
@@ -327,7 +333,7 @@
         fetch(jsonPath)
             .then(r => r.json())
             .then(data => {
-                document.getElementById('jsonDrawerContent').textContent = JSON.stringify(data, null, 2);
+                document.getElementById('jsonDrawerContent').innerHTML = syntaxHighlight(data);
             })
             .catch(e => {
                 document.getElementById('jsonDrawerContent').innerHTML = '<span class="json-error">Failed to load JSON: ' + e + '</span>';
@@ -349,6 +355,32 @@
             });
         });
     });
+
+    // In the JS, add this function:
+    function syntaxHighlight(json) {
+        if (typeof json != 'string') {
+            json = JSON.stringify(json, null, 2);
+        }
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*")(:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, function (match, p1, p2, p3) {
+            if (p1) {
+                if (p3) {
+                    // Key
+                    return '<span class="json-key">' + p1 + '</span>' + p3;
+                } else {
+                    // String value
+                    return '<span class="json-string">' + p1 + '</span>';
+                }
+            } else if (/true|false/.test(match)) {
+                return '<span class="json-boolean">' + match + '</span>';
+            } else if (/null/.test(match)) {
+                return '<span class="json-null">' + match + '</span>';
+            } else {
+                // Number
+                return '<span class="json-number">' + match + '</span>';
+            }
+        });
+    }
     </script>
 </body>
 </html>
