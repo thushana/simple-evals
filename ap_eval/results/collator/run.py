@@ -69,287 +69,29 @@ class ResultsCollator:
             "average_questions_per_minute": round(total_questions / (total_time / 60), 2) if total_time > 0 else 0
         }
     
-    def get_best_performers(self) -> Dict[str, str]:
-        """Get the best performing model for each test"""
-        best_performers = {}
-        
-        # Group by exam identifier
-        exam_groups = {}
+    def get_best_runs(self):
+        """Get the best single run (highest accuracy, then fastest time) for each test."""
+        best_runs = {}
         for result in self.results_data:
             exam_id = result["exam_identifier"]
-            if exam_id not in exam_groups:
-                exam_groups[exam_id] = []
-            exam_groups[exam_id].append(result)
-        
-        # Find best performer for each exam
-        for exam_id, results in exam_groups.items():
-            best_result = max(results, key=lambda x: x["accuracy_percentage"])
-            best_performers[exam_id] = best_result["model_name"]
-            
-        return best_performers
-    
-    def generate_html(self, output_file: str = "ap_eval/results/collator/dashboard.html"):
-        """Generate HTML dashboard with results"""
-        
-        # Load results if not already loaded
-        if not self.results_data:
-            self.load_all_results()
-            
-        combined_stats = self.calculate_combined_stats()
-        best_performers = self.get_best_performers()
-        
-        html_content = f"""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AP Evaluation Results Dashboard</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <!-- Bootstrap CSS from CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <style>
-        body {{
-            font-family: 'Roboto', sans-serif;
-        }}
-        
-        .table-container {{
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }}
-        
-        .accuracy-high {{ color: #28a745; font-weight: bold; }}
-        .accuracy-medium {{ color: #ffc107; font-weight: bold; }}
-        .accuracy-low {{ color: #dc3545; font-weight: bold; }}
-        
-        .sortable {{
-            cursor: pointer;
-            user-select: none;
-        }}
-        
-        .sortable:hover {{
-            background-color: #f8f9fa;
-        }}
-        
-        .sort-icon {{
-            margin-left: 5px;
-            opacity: 0.5;
-        }}
-        
-        .sort-icon.active {{
-            opacity: 1;
-        }}
-        
-        .number-cell {{
-            font-family: 'Roboto Mono', monospace;
-            text-align: right;
-            font-weight: 500;
-        }}
-        
-        .score-cell {{
-            font-family: 'Roboto Mono', monospace;
-            text-align: center;
-            font-weight: 500;
-        }}
-        
-        .date-cell {{
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.9em;
-            color: #6c757d;
-        }}
-        
-        h1 {{
-            font-weight: 500;
-            color: #1E1E1E;
-        }}
-        
-        .table th {{
-            font-weight: 500;
-            background-color: #0677C9 !important;
-            border-color: #0677C9 !important;
-            color: white !important;
-        }}
-        
-        .table-dark {{
-            background-color: #0677C9 !important;
-        }}
-        
-        .table-dark th {{
-            background-color: #0677C9 !important;
-            border-color: #0677C9 !important;
-            color: white !important;
-        }}
-        
-        .best-performer {{
-            background-color: rgba(255, 215, 0, 0.3) !important;
-        }}
-        
-        .star-emoji {{
-            margin-right: 5px;
-        }}
-        
-        .model-name {{
-            display: inline-block;
-            min-width: 120px;
-        }}
-        /* Drawer styles */
-        #jsonDrawer {{
-            position: fixed;
-            top: 0; right: 0; height: 100vh; width: 80vw; max-width: 900px;
-            background: #fff; box-shadow: -2px 0 16px rgba(0,0,0,0.2);
-            z-index: 2000; transform: translateX(100%); transition: transform 0.3s cubic-bezier(.4,0,.2,1);
-            overflow-y: auto; padding: 32px 24px 24px 24px;
-        }}
-        #jsonDrawer.open {{ transform: translateX(0); }}
-        #jsonDrawer .close-btn {{ position: absolute; top: 16px; right: 24px; font-size: 2rem; color: #0677C9; background: none; border: none; cursor: pointer; }}
-        #jsonDrawer pre {{ font-family: 'Roboto Mono', monospace; font-size: 1rem; background: #f8f8f8; border-radius: 8px; padding: 16px; overflow-x: auto; }}
-        #jsonDrawer h2 {{ font-size: 1.3rem; margin-bottom: 1rem; color: #0677C9; }}
-        #jsonDrawer .json-path {{ font-size: 0.95rem; color: #888; margin-bottom: 1rem; }}
-        #jsonDrawer .json-error {{ color: #dc3545; font-weight: bold; }}
-        @media (max-width: 900px) {{ #jsonDrawer {{ width: 100vw; }} }}
-        #jsonDrawerBg {{ position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(30,30,30,0.2); z-index: 1999; display: none; }}
-        #jsonDrawerBg.open {{ display: block; }}
-    </style>
-</head>
-<body class="bg-light">
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="text-center mb-4">
-                    <i class="fas fa-chart-line"></i> AP Evaluation Results Dashboard
-                </h1>
-                
-                <!-- Results Table -->
-                <div class="table-container">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0" id="resultsTable">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th class="sortable" data-sort="exam">Test <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="model">Model <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="provider">Provider <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="accuracy">Accuracy <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="score">Score <i class="fas fa-sort sort-icon"></i></th>
-                                    <th class="sortable" data-sort="time">Time (s) <i class="fas fa-sort sort-icon"></i></th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-        """
-        
-        # Add table rows
-        for result in self.results_data:
-            accuracy_class = "accuracy-high" if result["accuracy_percentage"] >= 80 else "accuracy-medium" if result["accuracy_percentage"] >= 60 else "accuracy-low"
-            
-            # Check if this is the best performer for this test
-            is_best = best_performers.get(result["exam_identifier"]) == result["model_name"]
-            star_html = f'<span class="star-emoji">⭐</span>' if is_best else '<span class="star-emoji" style="visibility:hidden">⭐</span>'
-            
-            # Format timestamp
-            try:
-                timestamp = datetime.fromisoformat(result["time_timestamp"].replace('Z', '+00:00'))
-                date_str = timestamp.strftime("%Y-%m-%d %H:%M")
-            except:
-                date_str = result["time_timestamp"][:16] if result["time_timestamp"] else "Unknown"
-            
-            # Link to the JSON file for this result
-            json_file = f"{result['exam_identifier']}_{result['model_provider']}_{result['model_name']}.json"
-            
-            if is_best:
-                td_bg = ' style="background-color:rgba(255,215,0,0.1) !important;"'
+            if exam_id not in best_runs:
+                best_runs[exam_id] = result
             else:
-                td_bg = ''
-            html_content += f"""
-                                <tr>
-                                    <td{td_bg}><a href="#" class="exam-link" data-json="{json_file}"><strong>{result['exam_identifier']}</strong></a></td>
-                                    <td{td_bg}><strong><span class="model-name">{star_html}{result['model_name']}</span></strong></td>
-                                    <td{td_bg}>{result['model_provider']}</td>
-                                    <td{td_bg} class="{accuracy_class} number-cell">{result['accuracy_percentage']:.1f}%</td>
-                                    <td{td_bg} class="score-cell">{result['score']}/{result['questions_count']}</td>
-                                    <td{td_bg} class="number-cell">{result['time_total_generation']:.1f}</td>
-                                    <td{td_bg} class="date-cell">{date_str}</td>
-                                </tr>
-            """
-        
-        html_content += """
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                current = best_runs[exam_id]
+                # Compare by accuracy, then by time
+                if result["accuracy_percentage"] > current["accuracy_percentage"]:
+                    best_runs[exam_id] = result
+                elif result["accuracy_percentage"] == current["accuracy_percentage"] and result["time_total_generation"] < current["time_total_generation"]:
+                    best_runs[exam_id] = result
+        return best_runs
     
-    <!-- Drawer and overlay -->
-    <div id="jsonDrawerBg"></div>
-    <div id="jsonDrawer">
-        <button class="close-btn" onclick="closeDrawer()">&times;</button>
-        <h2>Exam JSON</h2>
-        <div class="json-path" id="jsonDrawerPath"></div>
-        <pre id="jsonDrawerContent">Loading...</pre>
-    </div>
-    
-    <!-- Footer with generation timestamp -->
-    <div class="text-center mt-4 mb-3 text-muted">
-        <small>Generated on: """ + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + """</small>
-    </div>
-    
-    <!-- Bootstrap JS and Popper.js from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    
-    <script>
-    // Drawer logic
-    function openDrawer(jsonPath) {{
-        document.getElementById('jsonDrawerBg').classList.add('open');
-        document.getElementById('jsonDrawer').classList.add('open');
-        document.getElementById('jsonDrawerPath').textContent = jsonPath;
-        document.getElementById('jsonDrawerContent').textContent = 'Loading...';
-        fetch(jsonPath)
-            .then(r => r.json())
-            .then(data => {{
-                document.getElementById('jsonDrawerContent').textContent = JSON.stringify(data, null, 2);
-            }})
-            .catch(e => {{
-                document.getElementById('jsonDrawerContent').innerHTML = '<span class="json-error">Failed to load JSON: ' + e + '</span>';
-            }});
-    }}
-    function closeDrawer() {{
-        document.getElementById('jsonDrawerBg').classList.remove('open');
-        document.getElementById('jsonDrawer').classList.remove('open');
-    }}
-    document.getElementById('jsonDrawerBg').onclick = closeDrawer;
-    document.querySelectorAll('.exam-link').forEach(link => {{
-        link.onclick = function(e) {{
-            e.preventDefault();
-            openDrawer(this.getAttribute('data-json'));
-        }};
-    }});
-    </script>
-</body>
-</html>
-        """
-        
-        # Write HTML file
-        os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        with open(output_file, 'w') as f:
-            f.write(html_content)
-            
-        print(f"Dashboard saved to: {output_file}")
-        
-        # Write distilled JSON with just the table rows
+    def write_index_json(self, output_file: str = "ap_eval/results/index.json"):
+        """Write distilled results to index.json for the dashboard JS to load, with metadata."""
+        import datetime
+        best_runs = self.get_best_runs()  # key: exam_identifier, value: result dict
         distilled_rows = []
         for result in self.results_data:
+            is_best = best_runs.get(result["exam_identifier"]) and result["filename"] == best_runs[result["exam_identifier"]]["filename"]
             distilled_rows.append({
                 "test": result["exam_identifier"],
                 "model": result["model_name"],
@@ -358,35 +100,33 @@ class ResultsCollator:
                 "score": result["score"],
                 "questions": result["questions_count"],
                 "time": result["time_total_generation"],
-                "date": result["time_timestamp"]
+                "date": result["time_timestamp"],
+                "is_best": is_best
             })
-        distilled_path = os.path.join(os.path.dirname(output_file), "index.json")
-        with open(distilled_path, 'w') as f:
+        output = {
+            "metadata": {
+                "generated_on": datetime.datetime.now().isoformat()
+            },
+            "results": distilled_rows
+        }
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        with open(output_file, 'w') as f:
             import json
-            json.dump(distilled_rows, f, indent=2)
-        print(f"Distilled results saved to: {distilled_path}")
-        
-        return output_file
+            json.dump(output, f, indent=2)
+        print(f"Distilled results saved to: {output_file}")
 
 def main():
-    parser = argparse.ArgumentParser(description='Generate AP evaluation results dashboard')
+    parser = argparse.ArgumentParser(description='Generate AP evaluation results index.json for dashboard')
     parser.add_argument('--results-dir', default='ap_eval/results', help='Directory containing result JSON files')
-    parser.add_argument('--output', default='ap_eval/results/index.html', help='Output HTML file path')
-    
+    parser.add_argument('--output', default='ap_eval/results/index.json', help='Output JSON file path')
     args = parser.parse_args()
-    
     collator = ResultsCollator(args.results_dir)
     collator.load_all_results()
-    
     if not collator.results_data:
         print("No result files found!")
         return
-        
     print(f"Loaded {len(collator.results_data)} result files")
-    
-    output_file = collator.generate_html(args.output)
-    print(f"Dashboard saved to: {output_file}")
-    
+    collator.write_index_json(args.output)
     # Print summary
     combined_stats = collator.calculate_combined_stats()
     print(f"\nSummary:")

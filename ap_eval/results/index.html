@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,13 +18,21 @@
         }
         
         .table-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-width: 1200px;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            max-width: 1500px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0;
+        }
+        
+        .container-fluid.py-4 {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        
+        body.bg-light {
+            background: #fff !important;
         }
         
         .accuracy-high { color: #28a745; font-weight: bold; }
@@ -91,7 +98,10 @@
         }
         
         .best-performer {
-            background-color: rgba(255, 215, 0, 0.3) !important;
+            background-color: rgba(255, 215, 0, 0.1) !important;
+        }
+        tr.best-performer > td {
+            background-color: rgba(255, 215, 0, 0.1) !important;
         }
         
         .star-emoji {
@@ -165,7 +175,7 @@
     
     <!-- Footer with generation timestamp -->
     <div class="text-center mt-4 mb-3 text-muted">
-        <small>Generated on: 2025-06-30 18:40:44</small>
+        <small id="generatedOnFooter"></small>
     </div>
     
     <!-- Bootstrap JS and Popper.js from CDN -->
@@ -173,38 +183,37 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     
     <script>
-    // Global variables for sorting
-    let currentSort = { column: null, direction: 'asc' };
     let resultsData = [];
+    let currentSort = { column: 'date', direction: 'desc' };
 
-    // Load data from index.json
-    async function loadResultsData() {
+    // Load and render results table
+    async function loadResults() {
         try {
             const response = await fetch('index.json');
-            resultsData = await response.json();
-            renderTable();
-            highlightBestPerformers();
+            const data = await response.json();
+            resultsData = data.results;
+            // Default sort by date descending
+            resultsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+            currentSort = { column: 'date', direction: 'desc' };
+            renderTable(resultsData);
+            updateSortIcons();
+            renderGeneratedOn(data.metadata && data.metadata.generated_on);
         } catch (error) {
-            console.error('Failed to load results data:', error);
-            document.getElementById('resultsTableBody').innerHTML = 
+            document.getElementById('resultsTableBody').innerHTML =
                 '<tr><td colspan="7" class="text-center text-danger">Failed to load results data</td></tr>';
+            renderGeneratedOn(null);
         }
     }
 
-    // Render the table with current data
-    function renderTable() {
+    function renderTable(results) {
         const tbody = document.getElementById('resultsTableBody');
         tbody.innerHTML = '';
-
-        resultsData.forEach(result => {
-            const row = document.createElement('tr');
-            
-            // Determine accuracy class
+        results.forEach(result => {
+            const star = result.is_best ? '<span class="star-emoji">⭐</span>' : '<span class="star-emoji" style="visibility:hidden">⭐</span>';
+            const rowClass = result.is_best ? 'best-performer' : '';
             let accuracyClass = 'accuracy-low';
             if (result.accuracy >= 90) accuracyClass = 'accuracy-high';
             else if (result.accuracy >= 70) accuracyClass = 'accuracy-medium';
-
-            // Format date
             const date = new Date(result.date);
             const formattedDate = date.toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -213,91 +222,76 @@
                 hour: '2-digit',
                 minute: '2-digit'
             }).replace(',', '');
-
-            // Create JSON filename for drawer
             const jsonFilename = `${result.test}_${result.provider}_${result.model}.json`;
-
+            const row = document.createElement('tr');
+            if (rowClass) row.classList.add(rowClass);
             row.innerHTML = `
                 <td><a href="#" class="exam-link" data-json="${jsonFilename}"><strong>${result.test}</strong></a></td>
-                <td><strong><span class="model-name"><span class="star-emoji" style="visibility:hidden">⭐</span>${result.model}</span></strong></td>
+                <td><strong><span class="model-name">${star}${result.model}</span></strong></td>
                 <td>${result.provider}</td>
                 <td class="${accuracyClass} number-cell">${result.accuracy.toFixed(1)}%</td>
                 <td class="score-cell">${result.score}/${result.questions}</td>
                 <td class="number-cell">${result.time.toFixed(1)}</td>
                 <td class="date-cell">${formattedDate}</td>
             `;
-
             tbody.appendChild(row);
         });
-
-        // Re-attach event listeners for exam links
         document.querySelectorAll('.exam-link').forEach(link => {
             link.onclick = function(e) {
                 e.preventDefault();
                 openDrawer(this.getAttribute('data-json'));
             };
         });
+        updateSortIcons();
     }
 
-    // Highlight best performers for each test
-    function highlightBestPerformers() {
-        const testGroups = {};
-        
-        // Group by test
-        resultsData.forEach(result => {
-            if (!testGroups[result.test]) {
-                testGroups[result.test] = [];
-            }
-            testGroups[result.test].push(result);
+    function renderGeneratedOn(isoString) {
+        const footer = document.getElementById('generatedOnFooter');
+        if (!isoString) {
+            footer.textContent = '';
+            return;
+        }
+        const date = new Date(isoString);
+        const formatted = date.toLocaleString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
         });
-
-        // Find best performer for each test (highest accuracy, then fastest time)
-        Object.values(testGroups).forEach(group => {
-            const best = group.reduce((best, current) => {
-                if (current.accuracy > best.accuracy) return current;
-                if (current.accuracy === best.accuracy && current.time < best.time) return current;
-                return best;
-            });
-
-            // Highlight the best performer in the table
-            const rows = document.querySelectorAll('#resultsTableBody tr');
-            rows.forEach(row => {
-                const testCell = row.querySelector('td:first-child strong');
-                const modelCell = row.querySelector('td:nth-child(2) strong');
-                
-                if (testCell && testCell.textContent === best.test && 
-                    modelCell && modelCell.textContent.includes(best.model)) {
-                    row.classList.add('best-performer');
-                    const star = row.querySelector('.star-emoji');
-                    if (star) star.style.visibility = 'visible';
-                }
-            });
-        });
+        footer.textContent = `Generated on: ${formatted}`;
     }
 
-    // Sorting functionality
+    // Sorting logic
     function sortTable(column) {
-        const direction = currentSort.column === column && currentSort.direction === 'asc' ? 'desc' : 'asc';
+        let direction = 'asc';
+        if (currentSort.column === column && currentSort.direction === 'asc') {
+            direction = 'desc';
+        }
         currentSort = { column, direction };
-
         resultsData.sort((a, b) => {
             let aVal = a[column];
             let bVal = b[column];
-
-            // Handle special cases
-            if (column === 'score') {
-                aVal = a.score / a.questions; // Convert to ratio for sorting
+            // Special handling for columns
+            if (column === 'accuracy' || column === 'time') {
+                aVal = Number(aVal);
+                bVal = Number(bVal);
+            } else if (column === 'score') {
+                aVal = a.score / a.questions;
                 bVal = b.score / b.questions;
+            } else if (column === 'date') {
+                aVal = new Date(a.date);
+                bVal = new Date(b.date);
+            } else {
+                aVal = (aVal || '').toString().toLowerCase();
+                bVal = (bVal || '').toString().toLowerCase();
             }
-
             if (aVal < bVal) return direction === 'asc' ? -1 : 1;
             if (aVal > bVal) return direction === 'asc' ? 1 : -1;
             return 0;
         });
-
-        renderTable();
-        highlightBestPerformers();
-        updateSortIcons();
+        renderTable(resultsData);
     }
 
     function updateSortIcons() {
@@ -305,7 +299,6 @@
             icon.classList.remove('active');
             icon.className = 'fas fa-sort sort-icon';
         });
-
         if (currentSort.column) {
             const header = document.querySelector(`[data-sort="${currentSort.column}"]`);
             if (header) {
@@ -331,21 +324,15 @@
                 document.getElementById('jsonDrawerContent').innerHTML = '<span class="json-error">Failed to load JSON: ' + e + '</span>';
             });
     }
-
     function closeDrawer() {
         document.getElementById('jsonDrawerBg').classList.remove('open');
         document.getElementById('jsonDrawer').classList.remove('open');
     }
+    document.getElementById('jsonDrawerBg').onclick = closeDrawer;
 
-    // Event listeners
+    // Set up sorting event listeners
     document.addEventListener('DOMContentLoaded', function() {
-        // Load data when page loads
-        loadResultsData();
-
-        // Set up drawer background click
-        document.getElementById('jsonDrawerBg').onclick = closeDrawer;
-
-        // Set up sorting
+        loadResults();
         document.querySelectorAll('.sortable').forEach(header => {
             header.addEventListener('click', function() {
                 const column = this.getAttribute('data-sort');
