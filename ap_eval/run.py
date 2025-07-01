@@ -375,7 +375,15 @@ def main():
         
         # Update the line with the result
         status = "✅" if result.is_correct else "❌"
-        print(f"\r{question.id} → Answered {result.given_answer} | Expected {result.expected_answer} | {status}")
+        
+        # Determine question type for display with emojis
+        question_type = "Multiple Choice ☑️"
+        if hasattr(question, 'question_image') and question.question_image:
+            question_type = "Multiple Choice 🖼️"
+        elif hasattr(question, 'question_context') and question.question_context:
+            question_type = "Multiple Choice 📃"
+        
+        print(f"\r{question.id} – {question_type} → Answered {result.given_answer} | Expected {result.expected_answer} | {status}")
     
     
     # Calculate final statistics
