@@ -326,6 +326,9 @@
 
     // Drawer logic
     function openDrawer(jsonPath) {
+        // Update the URL hash for deep linking (use #result=FILENAME without .json)
+        const baseName = jsonPath.replace(/\.json$/, '');
+        window.location.hash = '#result=' + encodeURIComponent(baseName);
         document.getElementById('jsonDrawerBg').classList.add('open');
         document.getElementById('jsonDrawer').classList.add('open');
         // Render as a clickable download link
@@ -362,13 +365,18 @@
             }
         }, 0);
     }
-    function closeDrawer() {
-        document.getElementById('jsonDrawerBg').classList.remove('open');
-        document.getElementById('jsonDrawer').classList.remove('open');
+    // Listen for hash changes and open drawer if hash matches
+    function handleHash() {
+        const hash = window.location.hash;
+        if (hash.startsWith('#result=')) {
+            let baseName = decodeURIComponent(hash.slice(8));
+            if (baseName) {
+                // Always add .json extension
+                openDrawer(baseName + '.json');
+            }
+        }
     }
-    document.getElementById('jsonDrawerBg').onclick = closeDrawer;
-
-    // Set up sorting event listeners
+    window.addEventListener('hashchange', handleHash);
     document.addEventListener('DOMContentLoaded', function() {
         loadResults();
         document.querySelectorAll('.sortable').forEach(header => {
@@ -377,7 +385,18 @@
                 sortTable(column);
             });
         });
+        // On load, check hash for deep link
+        handleHash();
     });
+    // When closing the drawer, clear the hash
+    function closeDrawer() {
+        document.getElementById('jsonDrawerBg').classList.remove('open');
+        document.getElementById('jsonDrawer').classList.remove('open');
+        if (window.location.hash.startsWith('#result=')) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+    }
+    document.getElementById('jsonDrawerBg').onclick = closeDrawer;
 
     // In the JS, add this function:
     function syntaxHighlight(json) {
