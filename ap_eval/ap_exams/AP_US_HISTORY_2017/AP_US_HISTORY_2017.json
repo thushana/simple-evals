@@ -18,7 +18,7 @@
     },
     "metadata": {
       "domain": "Colonial Religion",
-      "difficulty": 0.85,
+      "difficulty": 0.8,
       "main_practice_skill": "Causation",
       "learning_objective": "CUL-1.0",
       "key_concepts": "2.2.I.B",
@@ -262,6 +262,545 @@
       "main_practice_skill": "Contextualization",
       "learning_objective": "CUL-3.0",
       "key_concepts": "5.3.II.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_010",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"Governments are instituted among Men, deriving their just powers from the consent of the governed. That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness.\"\nThomas Jefferson, Declaration of Independence, 1776",
+      "question_text": "The excerpt was written in response to the",
+      "options": {
+        "A": "British government's attempt to assert greater control over the North American colonies",
+        "B": "British government's failure to protect colonists from attacks by American Indians",
+        "C": "colonial governments' failures to implement mercantilist policies",
+        "D": "colonial governments' attempts to extend political rights to new groups"
+      }
+    },
+    "answer": {
+      "correct": "A",
+      "explanation": "The Declaration of Independence was written in response to the British government's increasing attempts to assert control over the colonies, including new taxes and laws, which the colonists saw as violations of their rights."
+    },
+    "metadata": {
+      "domain": "Revolution and Nation Building",
+      "difficulty": 0.7,
+      "main_practice_skill": "Analyzing Historical Evidence",
+      "learning_objective": "WOR-1.0",
+      "key_concepts": "3.1.I.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_011",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"Governments are instituted among Men, deriving their just powers from the consent of the governed. That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness.\"\nThomas Jefferson, Declaration of Independence, 1776",
+      "question_text": "The ideas about government expressed in the excerpt are most consistent with which of the following?",
+      "options": {
+        "A": "The concept of hereditary rights and privileges",
+        "B": "The belief in Manifest Destiny",
+        "C": "The principle of religious freedom",
+        "D": "The ideas of the Enlightenment"
+      }
+    },
+    "answer": {
+      "correct": "D",
+      "explanation": "The excerpt reflects Enlightenment ideas, especially those of John Locke, about government deriving power from the consent of the governed and the right of the people to alter or abolish unjust governments."
+    },
+    "metadata": {
+      "domain": "Revolution and Nation Building",
+      "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "NAT-1.0",
+      "key_concepts": "3.2.I.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_012",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"We conclude that in the field of public education the doctrine of 'separate but equal' has no place. Separate educational facilities are inherently unequal.\"\nChief Justice Earl Warren, writing the unanimous opinion of the United States Supreme Court in Brown v. Board of Education of Topeka, 1954",
+      "question_text": "Which of the following was the most immediate result of the decision excerpted?",
+      "options": {
+        "A": "Radicals critiqued government actions as doing too little to transform the racial status quo.",
+        "B": "Education advocates raised awareness of the effect of poverty on students' opportunities.",
+        "C": "Civil rights activists became increasingly divided over tactical and philosophical issues.",
+        "D": "Segregationists in southern states temporarily closed many public schools in an effort to resist the decision."
+      }
+    },
+    "answer": {
+      "correct": "D",
+      "explanation": "Many southern states resisted the Brown decision by closing public schools or taking other measures to avoid desegregation."
+    },
+    "metadata": {
+      "domain": "Civil Rights Movement",
+      "difficulty": 0.8,
+      "main_practice_skill": "Causation",
+      "learning_objective": "NAT-4.0",
+      "key_concepts": "8.2.I.C",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_013",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"We conclude that in the field of public education the doctrine of 'separate but equal' has no place. Separate educational facilities are inherently unequal.\"\nChief Justice Earl Warren, writing the unanimous opinion of the United States Supreme Court in Brown v. Board of Education of Topeka, 1954",
+      "question_text": "The decision excerpted most directly reflected a growing belief after the Second World War that the power of the federal government should be used to",
+      "options": {
+        "A": "promote greater racial justice",
+        "B": "revitalize cities",
+        "C": "foster economic opportunity",
+        "D": "defend traditional visions of morality"
+      }
+    },
+    "answer": {
+      "correct": "A",
+      "explanation": "The Brown decision reflected a growing belief that the federal government should intervene to promote racial justice, especially in the context of the civil rights movement."
+    },
+    "metadata": {
+      "domain": "Civil Rights Movement",
+      "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "POL-2.0",
+      "key_concepts": "8.2.I.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_014",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"We conclude that in the field of public education the doctrine of 'separate but equal' has no place. Separate educational facilities are inherently unequal.\"\nChief Justice Earl Warren, writing the unanimous opinion of the United States Supreme Court in Brown v. Board of Education of Topeka, 1954",
+      "question_text": "The Brown decision reversed which of the following earlier decisions?",
+      "options": {
+        "A": "Marbury v. Madison, which established the principle of judicial review",
+        "B": "Worcester v. Georgia, which established that the federal government rather than individual states had authority in American Indian affairs",
+        "C": "Dred Scott v. Sandford, which proclaimed that slaves could not be citizens",
+        "D": "Plessy v. Ferguson, which endorsed racial segregation laws"
+      }
+    },
+    "answer": {
+      "correct": "D",
+      "explanation": "Brown v. Board of Education reversed Plessy v. Ferguson, which had established the doctrine of 'separate but equal' and allowed racial segregation."
+    },
+    "metadata": {
+      "domain": "Civil Rights Movement",
+      "difficulty": 0.7,
+      "main_practice_skill": "Continuity and Change over Time",
+      "learning_objective": "NAT-2.0",
+      "key_concepts": "6.3.II.C",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_015",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"The system of quotas . . . was the first major pillar of the Immigration Act of 1924. The second provided for the exclusion of persons ineligible to citizenship. . . . Ineligibility to citizenship and exclusion applied to the peoples of all the nations of East and South Asia. Nearly all Asians had already been excluded from immigration. . . . The exclusion of persons ineligible to citizenship in 1924 . . . completed Asiatic exclusion. . . . Moreover, it codified the principle of racial exclusion into the main body of American immigration and naturalization law.\"\nMae M. Ngai, historian, Impossible Subjects: Illegal Aliens and the Making of Modern America, 2004",
+      "question_text": "The Immigration Act of 1924 most directly reflected",
+      "options": {
+        "A": "cultural tensions between scientific modernism and religious fundamentalism in the 1920s",
+        "B": "conflicts arising from the migration of African Americans to urban centers in the North",
+        "C": "the emergence of an increasingly national culture in the 1920s shaped by art, cinema, and mass media",
+        "D": "social tensions emerging from the First World War"
+      }
+    },
+    "answer": {
+      "correct": "D",
+      "explanation": "The Immigration Act of 1924 was a response to social tensions and nativist sentiment that emerged after World War I, leading to restrictive immigration policies."
+    },
+    "metadata": {
+      "domain": "Immigration and Migration",
+      "difficulty": 0.8,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "MIG-1.0",
+      "key_concepts": "7.2.II.A",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_016",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"The system of quotas . . . was the first major pillar of the Immigration Act of 1924. The second provided for the exclusion of persons ineligible to citizenship. . . . Ineligibility to citizenship and exclusion applied to the peoples of all the nations of East and South Asia. Nearly all Asians had already been excluded from immigration. . . . The exclusion of persons ineligible to citizenship in 1924 . . . completed Asiatic exclusion. . . . Moreover, it codified the principle of racial exclusion into the main body of American immigration and naturalization law.\"\nMae M. Ngai, historian, Impossible Subjects: Illegal Aliens and the Making of Modern America, 2004",
+      "question_text": "Which of the following evidence would best support Ngai's argument in the excerpt?",
+      "options": {
+        "A": "Census data showing the changing percentages of the foreign-born population from 1920 to 1930",
+        "B": "Narratives describing the challenges of immigrant family life in the 1920s",
+        "C": "Diplomatic correspondence reflecting the increasing isolationism of United States foreign policy in the 1920s and 1930s",
+        "D": "Census data revealing the Great Migration of African Americans to cities in the North and West in the 1920s"
+      }
+    },
+    "answer": {
+      "correct": "A",
+      "explanation": "Census data showing the changing percentages of the foreign-born population would provide direct evidence of the impact of the Immigration Act of 1924 and support Ngai's argument about exclusion."
+    },
+    "metadata": {
+      "domain": "Immigration and Migration",
+      "difficulty": 0.7,
+      "main_practice_skill": "Analyzing Historical Evidence",
+      "learning_objective": "MIG-1.0",
+      "key_concepts": "7.2.II.A",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_017",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"I believe that it must be the policy of the United States to support free peoples who are resisting attempted subjugation by armed minorities or by outside pressures. I believe we must assist free peoples to work out their own destinies in their own way. I believe that our help should be primarily through economic and financial aid which is essential to economic stability and orderly political processes.\"\nPresident Harry Truman, address before a joint session of Congress articulating what would become known as the Truman Doctrine, 1947",
+      "question_text": "In his statement Truman had the goal of",
+      "options": {
+        "A": "restraining communist military power and ideological influence",
+        "B": "creating alliances with recently decolonized nations",
+        "C": "reestablishing the principle of isolationism",
+        "D": "avoiding a military confrontation with the Soviet Union"
+      }
+    },
+    "answer": {
+      "correct": "A",
+      "explanation": "The Truman Doctrine was aimed at containing communism and restraining the military and ideological influence of the Soviet Union."
+    },
+    "metadata": {
+      "domain": "Cold War",
+      "difficulty": 0.7,
+      "main_practice_skill": "Analyzing Historical Evidence",
+      "learning_objective": "WOR-2.0",
+      "key_concepts": "8.1.I.B, 9.3.I.A",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_018",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"I believe that it must be the policy of the United States to support free peoples who are resisting attempted subjugation by armed minorities or by outside pressures. I believe we must assist free peoples to work out their own destinies in their own way. I believe that our help should be primarily through economic and financial aid which is essential to economic stability and orderly political processes.\"\nPresident Harry Truman, address before a joint session of Congress articulating what would become known as the Truman Doctrine, 1947",
+      "question_text": "Truman issued the doctrine primarily in order to",
+      "options": {
+        "A": "support decolonization in Asia and Africa",
+        "B": "support United States allies in Latin America",
+        "C": "protect United States interests in the Middle East",
+        "D": "bolster noncommunist nations, particularly in Europe"
+      }
+    },
+    "answer": {
+      "correct": "D",
+      "explanation": "The Truman Doctrine was issued primarily to bolster noncommunist nations, especially in Europe, in the face of Soviet expansion."
+    },
+    "metadata": {
+      "domain": "Cold War",
+      "difficulty": 0.7,
+      "main_practice_skill": "Analyzing Historical Evidence",
+      "learning_objective": "WOR-2.0",
+      "key_concepts": "8.1.I.A",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_019",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_image": "AP_US_HISTORY_2017_019.png",
+      "question_text": "Conditions like those shown in the image contributed most directly to which of the following?",
+      "options": {
+        "A": "The passage of laws restricting immigration to the United States",
+        "B": "An increase in Progressive reform activity",
+        "C": "A decline in efforts to Americanize immigrants",
+        "D": "The weakening of labor unions such as the American Federation of Labor"
+      }
+    },
+    "answer": {
+      "correct": "B",
+      "explanation": "Jacob Riis's photographs of urban poverty and poor living conditions in late-nineteenth-century cities helped expose social problems and contributed to the rise of Progressive reform movements that sought to address these issues."
+    },
+    "metadata": {
+      "domain": "Progressive Era",
+      "difficulty": 0.7,
+      "main_practice_skill": "Causation",
+      "learning_objective": "POL-2.0",
+      "key_concepts": "7.1.II.A",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_020",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_image": "AP_US_HISTORY_2017_019.png",
+      "question_text": "The conditions shown in the image depict which of the following trends in the late nineteenth century?",
+      "options": {
+        "A": "The growing gap between wealthy people and people living in poverty",
+        "B": "The rise of the settlement house and Populist movements",
+        "C": "The increased corruption in urban politics",
+        "D": "The migration of African Americans to the North"
+      }
+    },
+    "answer": {
+      "correct": "A",
+      "explanation": "Jacob Riis's photographs documented the growing economic inequality and the stark contrast between the wealthy and the poor in late-nineteenth-century urban America, highlighting the social problems of the Gilded Age."
+    },
+    "metadata": {
+      "domain": "Progressive Era",
+      "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "WXT-2.0",
+      "key_concepts": "6.1.I.C",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_021",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_text": "Advocates for individuals such as those shown in the image would have most likely agreed with which of the following perspectives?",
+      "options": {
+        "A": "The Supreme Court's decision in Plessy v. Ferguson was justified.",
+        "B": "Capitalism, free of government regulation, would improve social conditions.",
+        "C": "Both wealth and poverty are the products of natural selection.",
+        "D": "Government should act to eliminate the worst abuses of industrial society."
+      }
+    },
+    "answer": {
+      "correct": "D",
+      "explanation": "Advocates for the poor and working class shown in the image would have supported Progressive reform movements that called for government intervention to address the social problems created by industrialization, including poor working conditions, housing, and poverty."
+    },
+    "metadata": {
+      "domain": "Progressive Era",
+      "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "POL-3.0",
+      "key_concepts": "7.1.II.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_022",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"Excepting only Yosemite, Hetch Hetchy is the most attractive and wonderful valley within the bounds of the great Yosemite National Park and the best of all the camp grounds. People are now flocking to it in ever-increasing numbers for health and recreation of body and mind. Though the walls are less sublime in height than those of Yosemite, its groves, gardens, and broad, spacious meadows are more beautiful and picturesque. . . . Last year in October I visited the valley with Mr. William Keith, the artist. He wandered about from view to view, enchanted, made thirty-eight sketches, and enthusiastically declared that in varied picturesque beauty Hetch Hetchy greatly surpassed Yosemite. It is one of God's best gifts, and ought to be faithfully guarded.\"\nJohn Muir, Century Magazine, 1909",
+      "question_text": "Which of the following aspects of Muir's description expresses a major change in Americans' views of the natural environment?",
+      "options": {
+        "A": "The idea that wilderness areas are worthy subjects for artistic works",
+        "B": "The idea that wilderness areas serve as evidence of divine creation",
+        "C": "The idea that government should preserve wilderness areas in a natural state",
+        "D": "The idea that mountainous scenery is more picturesque and beautiful than flat terrain"
+      }
+    },
+    "answer": {
+      "correct": "C",
+      "explanation": "Muir's call for Hetch Hetchy to be 'faithfully guarded' reflects the emerging conservation movement and the idea that government should actively preserve wilderness areas, representing a major shift from viewing nature as a resource to be exploited to something worthy of protection."
+    },
+    "metadata": {
+      "domain": "Progressive Era",
+      "difficulty": 0.7,
+      "main_practice_skill": "Continuity and Change over Time",
+      "learning_objective": "GEO-1.0",
+      "key_concepts": "7.1.II.C",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_023",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"Excepting only Yosemite, Hetch Hetchy is the most attractive and wonderful valley within the bounds of the great Yosemite National Park and the best of all the camp grounds. People are now flocking to it in ever-increasing numbers for health and recreation of body and mind. Though the walls are less sublime in height than those of Yosemite, its groves, gardens, and broad, spacious meadows are more beautiful and picturesque. . . . Last year in October I visited the valley with Mr. William Keith, the artist. He wandered about from view to view, enchanted, made thirty-eight sketches, and enthusiastically declared that in varied picturesque beauty Hetch Hetchy greatly surpassed Yosemite. It is one of God's best gifts, and ought to be faithfully guarded.\"\nJohn Muir, Century Magazine, 1909",
+      "question_text": "Muir's ideas are most directly a reaction to the",
+      "options": {
+        "A": "increasing usage and exploitation of western landscapes",
+        "B": "increase in urban populations, including immigrant workers attracted by a growing industrial economy",
+        "C": "westward migration of groups seeking religious refuge",
+        "D": "opening of a new frontier in recently annexed territory"
+      }
+    },
+    "answer": {
+      "correct": "A",
+      "explanation": "Muir's conservation advocacy was a direct response to the increasing exploitation and development of western landscapes during the late nineteenth century, as industrialization and settlement threatened natural areas."
+    },
+    "metadata": {
+      "domain": "Progressive Era",
+      "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "GEO-1.0",
+      "key_concepts": "6.2.II.A",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_024",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"[H]istory and experience prove that foreign influence is one of the most baneful foes of republican government. . . . Excessive partiality for one foreign nation and excessive dislike of another cause those whom they actuate to see danger only on one side and serve to veil and even second the arts of influence on the other. . . . The great rule of conduct for us, in regard to foreign nations, is in extending our commercial relations to have with them as little political connection as possible. So far as we have already formed engagements, let them be fulfilled with perfect good faith. Here let us stop. Europe has a set of primary interests which to us have none, or a very remote relation. Hence she must be engaged in frequent controversies, the causes of which are essentially foreign to our concerns.\"\nGeorge Washington, Farewell Address, 1796",
+      "question_text": "The concerns expressed by Washington were a response to the",
+      "options": {
+        "A": "debate over the proper treatment of American Indian tribes in the trans-Appalachian West",
+        "B": "dispute over the possibility of annexing Canada from Great Britain",
+        "C": "controversy regarding support for the revolutionary government of France",
+        "D": "conflict with Great Britain over the treatment of American Loyalists"
+      }
+    },
+    "answer": {
+      "correct": "C",
+      "explanation": "Washington's Farewell Address was primarily a response to the controversy over whether the United States should support the French Revolution and its government, which had divided Americans and threatened to draw the nation into European conflicts."
+    },
+    "metadata": {
+      "domain": "Revolution and Nation Building",
+      "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "WOR-1.0",
+      "key_concepts": "3.3.II.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_025",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"[H]istory and experience prove that foreign influence is one of the most baneful foes of republican government. . . . Excessive partiality for one foreign nation and excessive dislike of another cause those whom they actuate to see danger only on one side and serve to veil and even second the arts of influence on the other. . . . The great rule of conduct for us, in regard to foreign nations, is in extending our commercial relations to have with them as little political connection as possible. So far as we have already formed engagements, let them be fulfilled with perfect good faith. Here let us stop. Europe has a set of primary interests which to us have none, or a very remote relation. Hence she must be engaged in frequent controversies, the causes of which are essentially foreign to our concerns.\"\nGeorge Washington, Farewell Address, 1796",
+      "question_text": "The ideas expressed in Washington's address most strongly influenced which United States foreign policy decision in the twentieth century?",
+      "options": {
+        "A": "The establishment of the United Nations in 1945",
+        "B": "The formation of the NATO alliance between the United States and Western Europe in 1949",
+        "C": "The refusal to join the League of Nations in 1919",
+        "D": "The oil embargo against Japan in 1941"
+      }
+    },
+    "answer": {
+      "correct": "C",
+      "explanation": "Washington's call for avoiding political entanglements with foreign nations most strongly influenced the Senate's refusal to ratify the Treaty of Versailles and join the League of Nations in 1919, reflecting isolationist sentiment."
+    },
+    "metadata": {
+      "domain": "Revolution and Nation Building",
+      "difficulty": 0.7,
+      "main_practice_skill": "Continuity and Change over Time",
+      "learning_objective": "WOR-2.0",
+      "key_concepts": "7.3.II.C",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_026",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"[H]istory and experience prove that foreign influence is one of the most baneful foes of republican government. . . . Excessive partiality for one foreign nation and excessive dislike of another cause those whom they actuate to see danger only on one side and serve to veil and even second the arts of influence on the other. . . . The great rule of conduct for us, in regard to foreign nations, is in extending our commercial relations to have with them as little political connection as possible. So far as we have already formed engagements, let them be fulfilled with perfect good faith. Here let us stop. Europe has a set of primary interests which to us have none, or a very remote relation. Hence she must be engaged in frequent controversies, the causes of which are essentially foreign to our concerns.\"\nGeorge Washington, Farewell Address, 1796",
+      "question_text": "Which of the following groups most strongly opposed Washington's point of view in the address?",
+      "options": {
+        "A": "Democratic-Republicans",
+        "B": "New England merchants",
+        "C": "Southern plantation owners",
+        "D": "Federalists"
+      }
+    },
+    "answer": {
+      "correct": "A",
+      "explanation": "Democratic-Republicans, led by Thomas Jefferson, strongly opposed Washington's neutral stance and favored supporting France in its revolutionary struggle against Britain, believing in the ideals of the French Revolution."
+    },
+    "metadata": {
+      "domain": "Revolution and Nation Building",
+      "difficulty": 0.7,
+      "main_practice_skill": "Contextualization",
+      "learning_objective": "POL-1.0",
+      "key_concepts": "3.2.II.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_027",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "\"[H]istory and experience prove that foreign influence is one of the most baneful foes of republican government. . . . Excessive partiality for one foreign nation and excessive dislike of another cause those whom they actuate to see danger only on one side and serve to veil and even second the arts of influence on the other. . . . The great rule of conduct for us, in regard to foreign nations, is in extending our commercial relations to have with them as little political connection as possible. So far as we have already formed engagements, let them be fulfilled with perfect good faith. Here let us stop. Europe has a set of primary interests which to us have none, or a very remote relation. Hence she must be engaged in frequent controversies, the causes of which are essentially foreign to our concerns.\"\nGeorge Washington, Farewell Address, 1796",
+      "question_text": "Most historians would argue that the recommendations of Washington's address ceased to have a significant influence on United States foreign policy as a result of",
+      "options": {
+        "A": "westward expansion in the nineteenth century",
+        "B": "support for Cuban revolutionaries in the Spanish-American War",
+        "C": "Woodrow Wilson's support for international democratic principles during the First World War",
+        "D": "involvement in the Second World War"
+      }
+    },
+    "answer": {
+      "correct": "D",
+      "explanation": "The United States' involvement in the Second World War marked the definitive end of isolationism and Washington's policy of avoiding foreign entanglements, as the nation became a global superpower with worldwide commitments."
+    },
+    "metadata": {
+      "domain": "Revolution and Nation Building",
+      "difficulty": 0.7,
+      "main_practice_skill": "Continuity and Change over Time",
+      "learning_objective": "WOR-2.0",
+      "key_concepts": "7.3.III",
       "source": {
         "ap_test": "AP U.S. History",
         "year": 2017,
