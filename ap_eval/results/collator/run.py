@@ -10,6 +10,7 @@ import glob
 from datetime import datetime
 from typing import Dict, List, Any
 import argparse
+import subprocess
 
 class ResultsCollator:
     def __init__(self, results_dir: str = "ap_eval/results"):
@@ -85,6 +86,15 @@ class ResultsCollator:
                     best_runs[exam_id] = result
         return best_runs
     
+    @staticmethod
+    def get_git_user():
+        try:
+            name = subprocess.check_output(['git', 'config', 'user.name']).decode().strip()
+            email = subprocess.check_output(['git', 'config', 'user.email']).decode().strip()
+            return name, email
+        except Exception:
+            return None, None
+
     def write_index_json(self, output_file: str = "ap_eval/results/index.json"):
         """Write distilled results to index.json for the dashboard JS to load, with metadata."""
         import datetime
@@ -103,9 +113,12 @@ class ResultsCollator:
                 "date": result["time_timestamp"],
                 "is_best": is_best
             })
+        name, email = self.get_git_user()
         output = {
             "metadata": {
-                "generated_on": datetime.datetime.now().isoformat()
+                "generated_on": datetime.datetime.now().isoformat(),
+                "author_name": name,
+                "author_email": email
             },
             "results": distilled_rows
         }
