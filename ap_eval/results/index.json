@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_on": "2025-07-01T15:16:22.105423",
+    "generated_on": "2025-07-02T13:21:03.518673",
     "author_name": "Thushan Amarasiriwardena",
     "author_email": "thushan@thushan.net"
   },
@@ -26,7 +26,7 @@
       "questions": 27,
       "time": 43.75552558898926,
       "date": "2025-06-30T11:07:53.982005",
-      "is_best": true,
+      "is_best": false,
       "results": "AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_110753.json"
     },
     {
@@ -103,6 +103,18 @@
     },
     {
       "exam": "AP_US_HISTORY_2017",
+      "model": "gpt-4o",
+      "provider": "openai",
+      "accuracy": 100.0,
+      "score": 27,
+      "questions": 27,
+      "time": 53.54038763046265,
+      "date": "2025-07-02T13:21:03.320026",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_openai_gpt-4o_20250702_132103.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o-mini",
       "provider": "openai",
       "accuracy": 96.3,
@@ -115,6 +127,18 @@
     },
     {
       "exam": "AP_US_HISTORY_2017",
+      "model": "gpt-4",
+      "provider": "openai",
+      "accuracy": 100.0,
+      "score": 27,
+      "questions": 27,
+      "time": 53.42152214050293,
+      "date": "2025-07-02T13:07:57.396129",
+      "is_best": true,
+      "results": "AP_US_HISTORY_2017_openai_gpt-4_20250702_130757.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
       "model": "claude-sonnet-4-20250514",
       "provider": "anthropic",
       "accuracy": 88.9,
@@ -124,6 +148,18 @@
       "date": "2025-06-30T11:20:53.498537",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_anthropic_claude-sonnet-4-20250514_20250630_112053.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "gpt-4",
+      "provider": "openai",
+      "accuracy": 100.0,
+      "score": 27,
+      "questions": 27,
+      "time": 62.992968797683716,
+      "date": "2025-07-02T13:07:41.467143",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_openai_gpt-4_20250702_130741.json"
     }
   ]
 }
