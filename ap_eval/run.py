@@ -13,22 +13,13 @@ def get_sampler(model_name):
     """Get the appropriate sampler based on model name"""
     if model_name.startswith("gpt"):
         from sampler.chat_completion_sampler import ChatCompletionSampler
-        # Use vision-capable model if the original model supports it
-        if model_name == "gpt-4":
-            vision_model = "gpt-4o"  # Use GPT-4o for vision capabilities
-        elif model_name == "gpt-4o":
-            vision_model = "gpt-4o"  # Already vision-capable
-        else:
-            vision_model = model_name
-        return ChatCompletionSampler(model=vision_model), "openai"
+        return ChatCompletionSampler(model=model_name), "openai"
     elif model_name.startswith("claude"):
         from sampler.claude_sampler import ClaudeCompletionSampler
-        # Use vision-capable model if the original model supports it
-        if "sonnet" in model_name and "vision" not in model_name:
-            vision_model = "claude-3-5-sonnet-20241022"  # Use vision-capable Claude
-        else:
-            vision_model = model_name
-        return ClaudeCompletionSampler(model=vision_model), "anthropic"
+        return ClaudeCompletionSampler(model=model_name), "anthropic"
+    elif model_name.startswith("gemini"):
+        from sampler.gemini_sampler import GeminiCompletionSampler
+        return GeminiCompletionSampler(model=model_name), "google"
     elif model_name.startswith("o"):
         from sampler.o_chat_completion_sampler import OChatCompletionSampler
         return OChatCompletionSampler(model=model_name), "openai"
@@ -128,8 +119,17 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
             if image_format == 'jpg':
                 image_format = 'jpeg'
             
-            # Use different format for Claude vs OpenAI
+            # Use different format for different models
             if model_name.startswith("claude"):
+                content.append({
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": f"image/{image_format}",
+                        "data": base64_image,
+                    }
+                })
+            elif model_name.startswith("gemini"):
                 content.append({
                     "type": "image",
                     "source": {
@@ -263,8 +263,17 @@ def get_model_response_no_options(sampler, question, model_name, show_question=F
             if image_format == 'jpg':
                 image_format = 'jpeg'
             
-            # Use different format for Claude vs OpenAI
+            # Use different format for different models
             if model_name.startswith("claude"):
+                content.append({
+                    "type": "image",
+                    "source": {
+                        "type": "base64",
+                        "media_type": f"image/{image_format}",
+                        "data": base64_image,
+                    }
+                })
+            elif model_name.startswith("gemini"):
                 content.append({
                     "type": "image",
                     "source": {
