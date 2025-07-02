@@ -1,10 +1,22 @@
 {
   "metadata": {
-    "generated_on": "2025-07-02T13:21:03.518673",
+    "generated_on": "2025-07-02T14:27:13.220461",
     "author_name": "Thushan Amarasiriwardena",
     "author_email": "thushan@thushan.net"
   },
   "results": [
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "gemini-2.5-flash",
+      "provider": "google",
+      "accuracy": 96.3,
+      "score": 26,
+      "questions": 27,
+      "time": 115.22136282920837,
+      "date": "2025-07-02T14:09:35.239951",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_google_gemini-2.5-flash_20250702_140935.json"
+    },
     {
       "exam": "AP_US_HISTORY_2017",
       "model": "claude-3-haiku-20240307",
@@ -16,6 +28,18 @@
       "date": "2025-06-30T11:19:40.063765",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_anthropic_claude-3-haiku-20240307_20250630_111940.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "gemini-2.0-flash-lite",
+      "provider": "google",
+      "accuracy": 96.3,
+      "score": 26,
+      "questions": 27,
+      "time": 26.21768069267273,
+      "date": "2025-07-02T14:04:38.637867",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_google_gemini-2.0-flash-lite_20250702_140438.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",
@@ -67,6 +91,18 @@
     },
     {
       "exam": "AP_US_HISTORY_2017",
+      "model": "gemini-2.0-flash",
+      "provider": "google",
+      "accuracy": 96.3,
+      "score": 26,
+      "questions": 27,
+      "time": 29.371545553207397,
+      "date": "2025-07-02T14:05:46.351121",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_google_gemini-2.0-flash_20250702_140546.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o-mini",
       "provider": "openai",
       "accuracy": 92.6,
@@ -103,6 +139,30 @@
     },
     {
       "exam": "AP_US_HISTORY_2017",
+      "model": "gemini-1.5-flash",
+      "provider": "google",
+      "accuracy": 92.6,
+      "score": 25,
+      "questions": 27,
+      "time": 25.05622410774231,
+      "date": "2025-07-02T13:47:19.991668",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_google_gemini-1.5-flash_20250702_134719.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "gemini-1.5-pro",
+      "provider": "google",
+      "accuracy": 96.3,
+      "score": 26,
+      "questions": 27,
+      "time": 50.22724986076355,
+      "date": "2025-07-02T14:25:01.513342",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_google_gemini-1.5-pro_20250702_142501.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o",
       "provider": "openai",
       "accuracy": 100.0,
@@ -112,6 +172,30 @@
       "date": "2025-07-02T13:21:03.320026",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_openai_gpt-4o_20250702_132103.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "gemini-1.5-flash-8b",
+      "provider": "google",
+      "accuracy": 81.5,
+      "score": 22,
+      "questions": 27,
+      "time": 22.805315256118774,
+      "date": "2025-07-02T14:22:22.688043",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_google_gemini-1.5-flash-8b_20250702_142222.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "gpt-3.5-turbo",
+      "provider": "openai",
+      "accuracy": 88.9,
+      "score": 24,
+      "questions": 27,
+      "time": 28.021846294403076,
+      "date": "2025-07-02T13:59:43.936249",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_openai_gpt-3.5-turbo_20250702_135943.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",
