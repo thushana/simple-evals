@@ -1,14 +1,15 @@
 # AP Evaluation System
 
-A system for evaluating language models on Advanced Placement exam questions
+A system for evaluating language models on Advanced Placement exam questions. A fork of OpenAI's Simple-Eval project.
 
 ## Overview
 
 This system allows you to:
 - Load AP exam questions from JSON files
-- Send questions to various language models (GPT-4, Claude, O1-mini, etc.)
+- Send questions to various language models (GPT-4, Claude, etc.)
 - Evaluate model responses and calculate scores
 - View detailed information about questions, prompts, and responses
+- See a stack ranking of results in an easy to read UI
 
 ## Quick Start
 
@@ -26,32 +27,51 @@ cp .env.example .env
 ### 3. Run evaluation
 ```bash
 # Basic evaluation
-python -m ap_eval.run gpt-4 AP_US_HISTORY_2017
+make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017
 
 # Claude evaluation
-python -m ap_eval.run claude-3-opus-20240229 AP_US_HISTORY_2017
+make run MODEL=claude-3-opus-20240229 EXAM=AP_US_HISTORY_2017
 
 # Show all details
-python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-all
+make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017 -- --show-all
 ```
 
 ### 4. Generate and View Results Dashboard
 ```bash
 # Generate the dashboard from all result files
-python ap_eval/results/collator/run.py
+make collate
 
 # Start a local server to view the dashboard
-cd ap_eval/results
-python3 -m http.server 8000
+make results
 
 # Open your browser to: http://localhost:8000
+```
+
+**Alternative: Use the convenience command to do everything at once:**
+```bash
+make evaluate MODEL=gpt-4 EXAM=AP_US_HISTORY_2017
+```
+
+## Makefile Commands
+
+For convenience, this project includes a Makefile with common commands:
+
+```bash
+make help                    # Show all available commands
+make install                 # Install the package in development mode
+make setup                   # Set up API keys (copy .env.example to .env)
+make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run AP evaluation
+make collate                 # Generate dashboard from all result files
+make results                 # Start local server to view dashboard
+make clean                   # Remove generated result files
+make evaluate MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation + collate + start server
 ```
 
 ## Usage
 
 ### Basic Evaluation
 ```bash
-python -m ap_eval.run <model_name> <exam_identifier>
+make run MODEL=<model_name> EXAM=<exam_identifier>
 ```
 
 **Supported models:**
@@ -60,11 +80,16 @@ python -m ap_eval.run <model_name> <exam_identifier>
 - `claude-3.5-sonnet` - Anthropic Claude
 - `o1-mini` - OpenAI O1-mini
 
+**Direct python command (alternative):**
+```bash
+python -m ap_eval.run <model_name> <exam_identifier>
+```
+
 ### Display Options
 
 #### Show Question Details
 ```bash
-python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-question
+make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017 -- --show-question
 ```
 Displays:
 - Question ID
@@ -75,21 +100,29 @@ Displays:
 
 #### Show Model Prompt
 ```bash
-python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-model-query
+make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017 -- --show-model-query
 ```
 Shows the exact prompt sent to the model.
 
 #### Show Model Response
 ```bash
-python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-model-response
+make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017 -- --show-model-response
 ```
 Shows the model's full response text including reasoning.
 
 #### Show Everything
 ```bash
-python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-all
+make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017 -- --show-all
 ```
 Equivalent to using all three flags: `--show-question --show-model-query --show-model-response`
+
+**Direct python commands (alternatives):**
+```bash
+python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-question
+python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-model-query
+python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-model-response
+python -m ap_eval.run gpt-4 AP_US_HISTORY_2017 --show-all
+```
 
 ## Results Dashboard
 
@@ -133,7 +166,7 @@ ap_eval/
 1. Create a directory in `ap_exams/` with the exam identifier (e.g., `AP_BIOLOGY_2023/`)
 2. Add the questions JSON file inside that directory (e.g., `AP_BIOLOGY_2023/AP_BIOLOGY_2023.json`)
 3. Follow the same JSON format as existing exams
-4. Run evaluation with: `python -m ap_eval.run gpt-4 AP_BIOLOGY_2023`
+4. Run evaluation with: `make run MODEL=gpt-4 EXAM=AP_BIOLOGY_2023`
 
 ## Example Output
 
@@ -175,3 +208,88 @@ CATEGORY - Brief description
 - `RUNNER` - Evaluation runner changes
 - `LOADER` - Exam loading logic
 - `EVALUATOR` - Evaluation logic changes
+
+
+# Collator
+
+The Collator is a script that gathers the results of AP exam evaluations and packages it up in an easy to view UI.
+
+## Overview
+
+## Results Structure
+
+Each exam run result file contains:
+- Model responses to exam questions
+- Accuracy scores and timing information
+- Detailed evaluation metrics
+- Question-by-question breakdown
+
+## File Naming Convention
+
+Results are named using the pattern:
+```
+{EXAM}_{PROVIDER}_{MODEL}_{TIMESTAMP}.json
+```
+
+For example:
+- `AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_091909.json`
+- `AP_BIOLOGY_2008_openai_gpt-4o_20250701_151534.json`
+
+## Performance Metrics
+
+The evaluation tracks several key metrics:
+
+| Metric | Description |
+|--------|-------------|
+| Accuracy | Percentage of correct answers |
+| Score | Raw score (correct/total questions) |
+| Time | Total evaluation time in seconds |
+| Provider | Model provider (OpenAI, Anthropic, etc.) |
+
+## Best Performers
+
+⭐ **Best performing models** are highlighted in the dashboard with gold backgrounds and star indicators.
+
+## Usage
+
+1. **Start a local server** to avoid CORS issues:
+   ```bash
+   cd ap_eval/results
+   python3 -m http.server 8000
+   ```
+2. **Open your browser** and visit `http://localhost:8000`
+3. Click on any exam name to view detailed results
+4. Sort by different columns to analyze performance
+5. Download individual result files for further analysis
+6. Click the **"About"** link at the bottom to view this documentation
+
+**Note**: A local server is required because the dashboard loads JSON files via fetch requests, which are blocked by CORS policies when opening HTML files directly in the browser.
+
+## Viewer Features
+
+### 📊 **Interactive Dashboard**
+- Sortable table with all evaluation results
+- Best performer highlighting with gold backgrounds
+- Responsive design for desktop and mobile
+
+### 📄 **File Viewer**
+- **JSON Results**: Syntax-highlighted JSON with VSCode-style formatting
+- **Markdown Files**: Fully rendered Markdown with beautiful styling
+- **Download Links**: Click file paths to download files directly
+- **Deep Linking**: Share direct links to specific files using URL hashes
+
+### 🔗 **Deep Linking**
+Use URL hashes to directly open specific files:
+- `#result=README` - Opens this documentation
+- `#result=AP_US_HISTORY_2017` - Opens the best US History result
+- `#result=AP_BIOLOGY_2008` - Opens the best Biology result
+
+## Technical Details
+
+- **Results Storage**: JSON format for easy parsing and analysis
+- **Client-side Processing**: Dashboard runs entirely in the browser (requires local server for CORS)
+- **CDN Libraries**: Uses Bootstrap, Font Awesome, and Marked.js from CDN
+- **File Types Supported**: JSON (evaluation results) and Markdown (documentation)
+- **Sorting**: Client-side sorting with visual indicators
+- **Download**: Direct file downloads with proper MIME types
+- **Server Requirement**: Local HTTP server needed to avoid CORS restrictions
