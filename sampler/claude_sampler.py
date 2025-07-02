@@ -64,11 +64,43 @@ class ClaudeCompletionSampler(SamplerBase):
         return {"role": str(role), "content": content}
 
     def __call__(self, message_list: MessageList) -> SamplerResponse:
+        if not common.has_only_user_assistant_messages(message_list):
+            raise ValueError(f"Claude sampler only supports user and assistant messages, got {message_list}")
+        
+        # Try to detect if model supports vision by checking for image content
+        has_images = any(
+            isinstance(msg.get("content"), list) and 
+            any(item.get("type") in ["image", "image_url"] for item in msg.get("content", []))
+            for msg in message_list
+        )
+        
+        # Non-vision Claude models (older models)
+        non_vision_models = {"claude-3-haiku", "claude-3-sonnet", "claude-3-opus"}
+        
+        # If model doesn't support vision and we have images, filter them out
+        if has_images and self.model in non_vision_models:
+            print(f"Warning: {self.model} doesn't support images. Filtering out image content.")
+            filtered_messages = []
+            for msg in message_list:
+                if isinstance(msg.get("content"), list):
+                    # Keep only text content
+                    text_content = [
+                        item for item in msg.get("content", [])
+                        if item.get("type") == "text"
+                    ]
+                    if text_content:
+                        filtered_messages.append({
+                            "role": msg["role"],
+                            "content": text_content[0]["text"]  # Convert back to simple text
+                        })
+                else:
+                    # Keep non-list content as-is
+                    filtered_messages.append(msg)
+            message_list = filtered_messages
+        
         trial = 0
         while True:
             try:
-                if not common.has_only_user_assistant_messages(message_list):
-                    raise ValueError(f"Claude sampler only supports user and assistant messages, got {message_list}")
                 if self.system_message:
                     response_message = self.client.messages.create(
                         model=self.model,
@@ -100,4 +132,5 @@ class ClaudeCompletionSampler(SamplerBase):
                 )
                 time.sleep(exception_backoff)
                 trial += 1
-            # unknown error shall throw exception
+                if trial > 5:  # Limit retries
+                    raise e
