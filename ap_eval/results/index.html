@@ -113,6 +113,34 @@
             display: inline-block;
             min-width: 120px;
         }
+        
+        .table {
+            border-collapse: collapse !important;
+        }
+        .table th, .table td {
+            border-bottom: 1px solid #e3e6ea !important;
+            background: transparent !important;
+        }
+        .table tr:last-child td {
+            border-bottom: none !important;
+        }
+        .provider-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .provider-favicon {
+            width: 19px;
+            height: 19px;
+            max-height: 16px;
+            border-radius: 2px;
+            object-fit: contain;
+            flex-shrink: 0;
+            vertical-align: middle;
+        }
+        .provider-name {
+            font-weight: 500;
+        }
         /* Drawer styles */
         #jsonDrawer {
             position: fixed;
@@ -195,6 +223,20 @@
     let resultsData = [];
     let currentSort = { column: 'date', direction: 'desc' };
 
+    // Provider domain mapping for favicons
+    const providerDomains = {
+        'openai': 'openai.com',
+        'anthropic': 'anthropic.com',
+        'google': 'google.com'
+    };
+
+    // Function to get favicon URL for a provider
+    function getFaviconUrl(provider) {
+        const domain = providerDomains[provider];
+        if (!domain) return null;
+        return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+    }
+
     // Load and render results table
     async function loadResults() {
         try {
@@ -234,10 +276,20 @@
             const jsonFilename = result.results;
             const row = document.createElement('tr');
             if (rowClass) row.classList.add(rowClass);
+            
+            // Create favicon HTML
+            const faviconUrl = getFaviconUrl(result.provider);
+            const faviconHtml = faviconUrl ? 
+                `<img src="${faviconUrl}" alt="${result.provider}" class="provider-favicon" onerror="this.style.display='none'">` : 
+                '';
+            
             row.innerHTML = `
                 <td><a href="#" class="exam-link" data-json="${jsonFilename}"><strong>${result.exam}</strong></a></td>
                 <td><strong><span class="model-name">${star}${result.model}</span></strong></td>
-                <td>${result.provider}</td>
+                <td class="provider-cell">
+                    ${faviconHtml}
+                    <span class="provider-name">${result.provider}</span>
+                </td>
                 <td class="${accuracyClass} number-cell">${result.accuracy.toFixed(1)}%</td>
                 <td class="score-cell">${result.score}/${result.questions}</td>
                 <td class="number-cell">${result.time.toFixed(1)}</td>
