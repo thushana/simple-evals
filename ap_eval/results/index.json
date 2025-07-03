@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_on": "2025-07-02T14:27:13.220461",
+    "generated_on": "2025-07-03T08:51:48.205265",
     "author_name": "Thushan Amarasiriwardena",
     "author_email": "thushan@thushan.net"
   },
@@ -55,6 +55,18 @@
     },
     {
       "exam": "AP_US_HISTORY_2017",
+      "model": "gpt-4o",
+      "provider": "openai",
+      "accuracy": 98.2,
+      "score": 54,
+      "questions": 55,
+      "time": 115.27737998962402,
+      "date": "2025-07-03T08:44:43.557747",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_openai_gpt-4o_20250703_084443.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o-mini",
       "provider": "openai",
       "accuracy": 96.3,
@@ -64,6 +76,18 @@
       "date": "2025-06-30T11:03:04.218228",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_110304.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "claude-3-7-sonnet-latest",
+      "provider": "anthropic",
+      "accuracy": 87.3,
+      "score": 48,
+      "questions": 55,
+      "time": 174.85174536705017,
+      "date": "2025-07-03T08:50:20.835576",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_anthropic_claude-3-7-sonnet-latest_20250703_085020.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",
@@ -211,6 +235,18 @@
     },
     {
       "exam": "AP_US_HISTORY_2017",
+      "model": "claude-3-7-sonnet-latest",
+      "provider": "anthropic",
+      "accuracy": 77.8,
+      "score": 21,
+      "questions": 27,
+      "time": 88.23732018470764,
+      "date": "2025-07-02T14:38:35.899960",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_anthropic_claude-3-7-sonnet-latest_20250702_143835.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4",
       "provider": "openai",
       "accuracy": 100.0,
@@ -244,6 +280,18 @@
       "date": "2025-07-02T13:07:41.467143",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_openai_gpt-4_20250702_130741.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "claude-3-5-sonnet-20240620",
+      "provider": "anthropic",
+      "accuracy": 92.6,
+      "score": 25,
+      "questions": 27,
+      "time": 70.83423829078674,
+      "date": "2025-07-02T14:43:06.136595",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_anthropic_claude-3-5-sonnet-20240620_20250702_144306.json"
     }
   ]
 }

@@ -1,0 +1,2158 @@
+{
+  "exam_metadata": {
+    "exam_identifier": "AP_US_HISTORY_2017",
+    "model_name": "gpt-4o",
+    "model_provider": "openai",
+    "score": 54,
+    "score_average": 0.9818181818181818,
+    "time_timestamp": "2025-07-03T08:44:43.557747",
+    "time_total_generation": 115.27737998962402,
+    "questions_count": 55
+  },
+  "questions": [
+    {
+      "id": "AP_US_HISTORY_2017_001",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
+        "question_text": "Whitefield's impact suggests that religious culture among British North American colonists in the 1700s was most directly shaped by",
+        "options": {
+          "A": "Roman Catholic influences",
+          "B": "interest in commerce and business",
+          "C": "trans-Atlantic exchanges",
+          "D": "reliance on agriculture"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "The excerpt describes how Whitefield's preaching, which originated in Ireland and spread to the American colonies, demonstrates the trans-Atlantic nature of religious movements during this period. His ability to draw large crowds from various denominations shows how religious ideas and practices were being exchanged across the Atlantic."
+      },
+      "metadata": {
+        "domain": "Colonial Religion",
+        "difficulty": 0.8,
+        "main_practice_skill": "Causation",
+        "learning_objective": "CUL-1.0",
+        "key_concepts": "2.2.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "revivalist preaching and the Great Awakening movement.",
+        "explanation": "C: Whitefield's impact suggests that religious culture among British North American colonists in the 1700s was most directly shaped by trans-Atlantic exchanges. This is evidenced by Whitefield's arrival from Ireland and his ability to draw large, diverse crowds, indicating the influence of religious movements and ideas that crossed the Atlantic and affected the colonies.",
+        "generation_time": 2.447934150695801,
+        "main_practice_skill": "Causation",
+        "learning_objective": "CUL-1.0",
+        "key_concepts": "2.2.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_002",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
+        "question_text": "Whitefield's open-air preaching contributed most directly to which of the following trends?",
+        "options": {
+          "A": "The growth of the ideology of republican motherhood",
+          "B": "Greater independence and diversity of thought",
+          "C": "Movement of settlers to the backcountry",
+          "D": "The pursuit of social reform"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "Whitefield's open-air preaching, which bypassed traditional church structures and drew people from various denominations, contributed to greater religious independence and diversity of thought among colonists. This challenged established religious hierarchies and encouraged individual interpretation of religious matters."
+      },
+      "metadata": {
+        "domain": "Colonial Religion",
+        "difficulty": 0.8,
+        "main_practice_skill": "Causation",
+        "learning_objective": "CUL-1.0",
+        "key_concepts": "2.2.I.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "The Great Awakening religious revival movement.",
+        "explanation": "B: Greater independence and diversity of thought. Whitefield's open-air preaching and the resulting religious revival encouraged individuals to think more independently about their faith and beliefs, contributing to a broader trend of questioning traditional authority and fostering a culture of diverse religious and philosophical ideas.",
+        "generation_time": 1.6528241634368896,
+        "main_practice_skill": "Causation",
+        "learning_objective": "CUL-1.0",
+        "key_concepts": "2.2.I.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_003",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "In 1739 arrived among us from Ireland the Reverend Mr. [George] Whitefield, who had made himself remarkable there as an itinerant preacher. He was at first permitted to preach in some of our churches; but the clergy, taking a dislike to him, soon refused him their pulpits, and he was obliged to preach in the fields. The multitudes of all sects and denominations that attended his sermons were enormous. . . . It was wonderful to see the change soon made in the manners of our inhabitants. From being thoughtless or indifferent about religion, it seemed as if all the world were growing religious, so that one could not walk thro' the town in an evening without hearing psalms sung in different families of every street.\" Benjamin Franklin, The Autobiography of Benjamin Franklin",
+        "question_text": "The preaching described in the excerpt is an example of which of the following developments in the 1700s?",
+        "options": {
+          "A": "The emergence of an idea of republican self-government",
+          "B": "The beginning of calls for the abolition of slavery",
+          "C": "The increased influence of the Enlightenment",
+          "D": "The expansion of Protestant evangelism"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "Whitefield's preaching represents the expansion of Protestant evangelism during the First Great Awakening. His itinerant preaching style and ability to draw large crowds from various denominations exemplify the evangelical movement that swept through the American colonies in the 1730s and 1740s."
+      },
+      "metadata": {
+        "domain": "Colonial Religion",
+        "difficulty": 0.75,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "CUL-1.0",
+        "key_concepts": "2.2.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "The First Great Awakening religious revival movement.",
+        "explanation": "D: The expansion of Protestant evangelism. The excerpt describes the arrival and impact of George Whitefield, a key figure in the Great Awakening, a movement characterized by widespread Protestant evangelism and revivalist preaching in the 1700s, leading to increased religious fervor and participation among the population.",
+        "generation_time": 2.2324769496917725,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "CUL-1.0",
+        "key_concepts": "2.2.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_004",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_004.png",
+        "question_text": "Which of the following was a significant cause of the trend from 1843 to 1854 shown in the graph?",
+        "options": {
+          "A": "Active encouragement of migration by the United States government",
+          "B": "Economic and political difficulties in Germany and Ireland",
+          "C": "Incentives offered by United States companies looking to hire skilled migrants",
+          "D": "Adoption of free trade policies by European governments"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "The significant increase in immigration from 1843 to 1854 was primarily caused by economic and political difficulties in Germany and Ireland. The Irish Potato Famine (1845-1852) and political unrest in Germany during the Revolutions of 1848 drove millions to seek better opportunities in the United States."
+      },
+      "metadata": {
+        "domain": "Immigration and Migration",
+        "difficulty": 0.8,
+        "main_practice_skill": "Causation",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "5.1.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Irish Potato Famine.",
+        "explanation": "B: Economic and political difficulties in Germany and Ireland. The significant increase in migration during this period was largely due to the Irish Potato Famine and political unrest in Germany, prompting many to seek better opportunities in the United States.",
+        "generation_time": 2.1961090564727783,
+        "main_practice_skill": "Causation",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "5.1.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_005",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_004.png",
+        "question_text": "Which of the following was a direct effect of the trend in immigration after 1845 shown on the graph?",
+        "options": {
+          "A": "An increase in sectional tensions",
+          "B": "A major economic downturn",
+          "C": "An upsurge in nativist sentiment",
+          "D": "The collapse of the second party system"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "The surge in immigration after 1845, particularly from Ireland and Germany, led to an upsurge in nativist sentiment. Many native-born Americans feared that Catholic immigrants would undermine Protestant values and compete for jobs, leading to the rise of nativist political movements like the Know-Nothing Party."
+      },
+      "metadata": {
+        "domain": "Immigration and Migration",
+        "difficulty": 0.75,
+        "main_practice_skill": "Causation",
+        "learning_objective": "CUL-4.0",
+        "key_concepts": "5.1.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Urban population growth and labor force expansion.",
+        "explanation": "C: An upsurge in nativist sentiment because the significant increase in immigration after 1845 led to a rise in nativist movements, as some Americans reacted negatively to the influx of immigrants, fearing economic and cultural impacts.",
+        "generation_time": 3.7966628074645996,
+        "main_practice_skill": "Causation",
+        "learning_objective": "CUL-4.0",
+        "key_concepts": "5.1.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_006",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_004.png",
+        "question_text": "The main trend shown in the graph was most directly associated with which of the following processes occurring in the United States at the time?",
+        "options": {
+          "A": "The convergence of European and American cultures",
+          "B": "The emergence of an industrialized economy",
+          "C": "The displacement of American Indians from the Southeast",
+          "D": "The resurgence of evangelical Protestantism"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "The dramatic increase in immigration shown in the graph was most directly associated with the emergence of an industrialized economy in the United States. The growing industrial sector created demand for labor, attracting immigrants seeking economic opportunities, while the expansion of railroads and urban development provided the infrastructure to support this population growth."
+      },
+      "metadata": {
+        "domain": "Immigration and Migration",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "4.2.III.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Industrialization and economic opportunity.",
+        "explanation": "B: The emergence of an industrialized economy. The graph shows a significant increase in migration to the United States from 1820 to 1860, which correlates with the country's industrialization, attracting immigrants seeking economic opportunities.",
+        "generation_time": 2.000576972961426,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "4.2.III.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_007",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
+        "question_text": "The ideas expressed in the excerpt most directly challenged the prevailing ideal in the early nineteenth century that",
+        "options": {
+          "A": "women should enjoy full and equal rights with men",
+          "B": "women should focus on the home and the domestic sphere",
+          "C": "the ability of women to earn wages was a positive development",
+          "D": "women should educate their children about the rights and responsibilities of citizenship"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "The Declaration of Sentiments directly challenged the prevailing ideal of the 'cult of domesticity' or 'separate spheres' ideology, which held that women should focus on the home and domestic sphere rather than seeking political and economic equality with men."
+      },
+      "metadata": {
+        "domain": "Women's Rights and Reform",
+        "difficulty": 0.8,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "CUL-3.0",
+        "key_concepts": "4.2.II.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "women's roles were confined to domestic spheres.",
+        "explanation": "B: The ideas expressed in the excerpt most directly challenged the prevailing ideal in the early nineteenth century that women should focus on the home and the domestic sphere. The Declaration of Sentiments highlighted the lack of political and economic rights for women, opposing the notion that their primary role should be confined to domestic responsibilities.",
+        "generation_time": 1.9007251262664795,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "CUL-3.0",
+        "key_concepts": "4.2.II.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_008",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
+        "question_text": "Which of the following developments in the second half of the nineteenth century best represented the continuation of the ideas expressed in the declaration?",
+        "options": {
+          "A": "The formation of voluntary organizations and reform efforts",
+          "B": "Women's support for the Social Gospel",
+          "C": "Support for outlawing the production and sale of alcohol",
+          "D": "A movement focused on religious revivals and personal conversion"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The formation of voluntary organizations and reform efforts, particularly women's suffrage organizations and other reform movements, best represented the continuation of the ideas expressed in the Declaration of Sentiments, as they worked to achieve the political and social equality that the declaration called for."
+      },
+      "metadata": {
+        "domain": "Women's Rights and Reform",
+        "difficulty": 0.75,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "POL-2.0",
+        "key_concepts": "6.3.II.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Women's suffrage movements and property rights reforms.",
+        "explanation": "A: The formation of voluntary organizations and reform efforts. This option is correct because the Declaration of Sentiments from the Seneca Falls Convention emphasized women's rights and equality, and the formation of voluntary organizations and reform efforts in the latter half of the nineteenth century, such as the women's suffrage movement, directly continued the push for these ideals by advocating for women's rights and political representation.",
+        "generation_time": 1.6550447940826416,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "POL-2.0",
+        "key_concepts": "6.3.II.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_009",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The history of mankind is a history of repeated injuries and usurpations on the part of man toward woman, having in direct object the establishment of an absolute tyranny over her. To prove this, let facts be submitted to a candid world.\n\"He has never permitted her to exercise her inalienable right to the elective franchise.\n\"He has compelled her to submit to laws, in the formation of which she had no voice. . . .\n\"Having deprived her of this first right of a citizen, the elective franchise, thereby leaving her without representation in the halls of legislation, he has oppressed her on all sides. . . .\n\"He has taken from her all right in property, even to the wages she earns.\"\nSeneca Falls Convention, Declaration of Sentiments and Resolutions, 1848",
+        "question_text": "Many supporters of the declaration in 1848 broke ranks with which of the following groups by the 1870s?",
+        "options": {
+          "A": "Social Darwinists",
+          "B": "Supporters of Southern secession and states' rights",
+          "C": "Supporters of the Fifteenth Amendment",
+          "D": "Isolationists"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Many women's rights supporters who had been abolitionists broke ranks with supporters of the Fifteenth Amendment because it granted voting rights to African American men but not to women, leading to a split in the reform movement and the formation of separate women's suffrage organizations."
+      },
+      "metadata": {
+        "domain": "Women's Rights and Reform",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "CUL-3.0",
+        "key_concepts": "5.3.II.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Abolitionists.",
+        "explanation": "C: Many supporters of the declaration in 1848 broke ranks with supporters of the Fifteenth Amendment by the 1870s because the amendment granted African American men the right to vote but did not extend this right to women, leading to a split in the suffrage movement over prioritizing universal suffrage versus focusing on women's suffrage.",
+        "generation_time": 1.729193925857544,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "CUL-3.0",
+        "key_concepts": "5.3.II.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_010",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"Governments are instituted among Men, deriving their just powers from the consent of the governed. That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness.\"\nThomas Jefferson, Declaration of Independence, 1776",
+        "question_text": "The excerpt was written in response to the",
+        "options": {
+          "A": "British government's attempt to assert greater control over the North American colonies",
+          "B": "British government's failure to protect colonists from attacks by American Indians",
+          "C": "colonial governments' failures to implement mercantilist policies",
+          "D": "colonial governments' attempts to extend political rights to new groups"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The Declaration of Independence was written in response to the British government's increasing attempts to assert control over the colonies, including new taxes and laws, which the colonists saw as violations of their rights."
+      },
+      "metadata": {
+        "domain": "Revolution and Nation Building",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WOR-1.0",
+        "key_concepts": "3.1.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "colonial grievances against British rule.",
+        "explanation": "A: The excerpt was written in response to the British government's attempt to assert greater control over the North American colonies. The Declaration of Independence was drafted as a reaction to the perceived overreach and injustices imposed by the British Crown, which included various taxes and laws that the colonists found oppressive and without proper representation.",
+        "generation_time": 1.435694694519043,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WOR-1.0",
+        "key_concepts": "3.1.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_011",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"Governments are instituted among Men, deriving their just powers from the consent of the governed. That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness.\"\nThomas Jefferson, Declaration of Independence, 1776",
+        "question_text": "The ideas about government expressed in the excerpt are most consistent with which of the following?",
+        "options": {
+          "A": "The concept of hereditary rights and privileges",
+          "B": "The belief in Manifest Destiny",
+          "C": "The principle of religious freedom",
+          "D": "The ideas of the Enlightenment"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The excerpt reflects Enlightenment ideas, especially those of John Locke, about government deriving power from the consent of the governed and the right of the people to alter or abolish unjust governments."
+      },
+      "metadata": {
+        "domain": "Revolution and Nation Building",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "NAT-1.0",
+        "key_concepts": "3.2.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Social contract theory and popular sovereignty.",
+        "explanation": "D: The ideas of the Enlightenment. The excerpt emphasizes the Enlightenment principles of popular sovereignty and the social contract, asserting that governments derive their authority from the consent of the governed and that people have the right to alter or abolish a government that fails to ensure their safety and happiness.",
+        "generation_time": 1.2984201908111572,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "NAT-1.0",
+        "key_concepts": "3.2.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_012",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"We conclude that in the field of public education the doctrine of 'separate but equal' has no place. Separate educational facilities are inherently unequal.\"\nChief Justice Earl Warren, writing the unanimous opinion of the United States Supreme Court in Brown v. Board of Education of Topeka, 1954",
+        "question_text": "Which of the following was the most immediate result of the decision excerpted?",
+        "options": {
+          "A": "Radicals critiqued government actions as doing too little to transform the racial status quo.",
+          "B": "Education advocates raised awareness of the effect of poverty on students' opportunities.",
+          "C": "Civil rights activists became increasingly divided over tactical and philosophical issues.",
+          "D": "Segregationists in southern states temporarily closed many public schools in an effort to resist the decision."
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "Many southern states resisted the Brown decision by closing public schools or taking other measures to avoid desegregation."
+      },
+      "metadata": {
+        "domain": "Civil Rights Movement",
+        "difficulty": 0.8,
+        "main_practice_skill": "Causation",
+        "learning_objective": "NAT-4.0",
+        "key_concepts": "8.2.I.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Desegregation of public schools in the United States.",
+        "explanation": "D: Segregationists in southern states temporarily closed many public schools in an effort to resist the decision. The Brown v. Board of Education decision directly challenged the legality of segregation in public schools, leading to resistance from segregationists, particularly in the South, where some states implemented strategies like closing public schools to avoid integration.",
+        "generation_time": 1.6046640872955322,
+        "main_practice_skill": "Causation",
+        "learning_objective": "NAT-4.0",
+        "key_concepts": "8.2.I.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_013",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"We conclude that in the field of public education the doctrine of 'separate but equal' has no place. Separate educational facilities are inherently unequal.\"\nChief Justice Earl Warren, writing the unanimous opinion of the United States Supreme Court in Brown v. Board of Education of Topeka, 1954",
+        "question_text": "The decision excerpted most directly reflected a growing belief after the Second World War that the power of the federal government should be used to",
+        "options": {
+          "A": "promote greater racial justice",
+          "B": "revitalize cities",
+          "C": "foster economic opportunity",
+          "D": "defend traditional visions of morality"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The Brown decision reflected a growing belief that the federal government should intervene to promote racial justice, especially in the context of the civil rights movement."
+      },
+      "metadata": {
+        "domain": "Civil Rights Movement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-2.0",
+        "key_concepts": "8.2.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "end racial segregation and ensure equality.",
+        "explanation": "A: The decision in Brown v. Board of Education most directly reflected a growing belief that the power of the federal government should be used to promote greater racial justice, as it overturned the \"separate but equal\" doctrine and aimed to dismantle racial segregation in public education.",
+        "generation_time": 1.922290325164795,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-2.0",
+        "key_concepts": "8.2.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_014",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"We conclude that in the field of public education the doctrine of 'separate but equal' has no place. Separate educational facilities are inherently unequal.\"\nChief Justice Earl Warren, writing the unanimous opinion of the United States Supreme Court in Brown v. Board of Education of Topeka, 1954",
+        "question_text": "The Brown decision reversed which of the following earlier decisions?",
+        "options": {
+          "A": "Marbury v. Madison, which established the principle of judicial review",
+          "B": "Worcester v. Georgia, which established that the federal government rather than individual states had authority in American Indian affairs",
+          "C": "Dred Scott v. Sandford, which proclaimed that slaves could not be citizens",
+          "D": "Plessy v. Ferguson, which endorsed racial segregation laws"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "Brown v. Board of Education reversed Plessy v. Ferguson, which had established the doctrine of 'separate but equal' and allowed racial segregation."
+      },
+      "metadata": {
+        "domain": "Civil Rights Movement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "NAT-2.0",
+        "key_concepts": "6.3.II.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Plessy v. Ferguson, 1896.",
+        "explanation": "D: The Brown v. Board of Education decision reversed Plessy v. Ferguson, which endorsed racial segregation laws under the doctrine of \"separate but equal.\" The Brown decision determined that separate educational facilities are inherently unequal, thus overturning the precedent set by Plessy v. Ferguson.",
+        "generation_time": 2.2235701084136963,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "NAT-2.0",
+        "key_concepts": "6.3.II.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_015",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The system of quotas . . . was the first major pillar of the Immigration Act of 1924. The second provided for the exclusion of persons ineligible to citizenship. . . . Ineligibility to citizenship and exclusion applied to the peoples of all the nations of East and South Asia. Nearly all Asians had already been excluded from immigration. . . . The exclusion of persons ineligible to citizenship in 1924 . . . completed Asiatic exclusion. . . . Moreover, it codified the principle of racial exclusion into the main body of American immigration and naturalization law.\"\nMae M. Ngai, historian, Impossible Subjects: Illegal Aliens and the Making of Modern America, 2004",
+        "question_text": "The Immigration Act of 1924 most directly reflected",
+        "options": {
+          "A": "cultural tensions between scientific modernism and religious fundamentalism in the 1920s",
+          "B": "conflicts arising from the migration of African Americans to urban centers in the North",
+          "C": "the emergence of an increasingly national culture in the 1920s shaped by art, cinema, and mass media",
+          "D": "social tensions emerging from the First World War"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The Immigration Act of 1924 was a response to social tensions and nativist sentiment that emerged after World War I, leading to restrictive immigration policies."
+      },
+      "metadata": {
+        "domain": "Immigration and Migration",
+        "difficulty": 0.8,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "7.2.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Racial exclusion and restrictive immigration policies.",
+        "explanation": "D: The Immigration Act of 1924 most directly reflected social tensions emerging from the First World War. The act was influenced by the post-war rise in nativism and xenophobia, as well as the desire to preserve American homogeneity by restricting immigration from regions perceived as culturally and racially different, particularly from East and South Asia.",
+        "generation_time": 1.5692548751831055,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "7.2.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_016",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The system of quotas . . . was the first major pillar of the Immigration Act of 1924. The second provided for the exclusion of persons ineligible to citizenship. . . . Ineligibility to citizenship and exclusion applied to the peoples of all the nations of East and South Asia. Nearly all Asians had already been excluded from immigration. . . . The exclusion of persons ineligible to citizenship in 1924 . . . completed Asiatic exclusion. . . . Moreover, it codified the principle of racial exclusion into the main body of American immigration and naturalization law.\"\nMae M. Ngai, historian, Impossible Subjects: Illegal Aliens and the Making of Modern America, 2004",
+        "question_text": "Which of the following evidence would best support Ngai's argument in the excerpt?",
+        "options": {
+          "A": "Census data showing the changing percentages of the foreign-born population from 1920 to 1930",
+          "B": "Narratives describing the challenges of immigrant family life in the 1920s",
+          "C": "Diplomatic correspondence reflecting the increasing isolationism of United States foreign policy in the 1920s and 1930s",
+          "D": "Census data revealing the Great Migration of African Americans to cities in the North and West in the 1920s"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "Census data showing the changing percentages of the foreign-born population would provide direct evidence of the impact of the Immigration Act of 1924 and support Ngai's argument about exclusion."
+      },
+      "metadata": {
+        "domain": "Immigration and Migration",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "7.2.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Asian exclusion laws prior to 1924 Act.",
+        "explanation": "A: Census data showing the changing percentages of the foreign-born population from 1920 to 1930 would best support Ngai's argument because it could provide quantitative evidence of the impact of the 1924 Immigration Act's exclusionary policies, particularly the decline in Asian immigration due to the codified racial exclusion.",
+        "generation_time": 1.1982929706573486,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "7.2.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_017",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"I believe that it must be the policy of the United States to support free peoples who are resisting attempted subjugation by armed minorities or by outside pressures. I believe we must assist free peoples to work out their own destinies in their own way. I believe that our help should be primarily through economic and financial aid which is essential to economic stability and orderly political processes.\"\nPresident Harry Truman, address before a joint session of Congress articulating what would become known as the Truman Doctrine, 1947",
+        "question_text": "In his statement Truman had the goal of",
+        "options": {
+          "A": "restraining communist military power and ideological influence",
+          "B": "creating alliances with recently decolonized nations",
+          "C": "reestablishing the principle of isolationism",
+          "D": "avoiding a military confrontation with the Soviet Union"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The Truman Doctrine was aimed at containing communism and restraining the military and ideological influence of the Soviet Union."
+      },
+      "metadata": {
+        "domain": "Cold War",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "8.1.I.B, 9.3.I.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "containing communism through economic and financial support.",
+        "explanation": "A: restraining communist military power and ideological influence. Truman's statement reflects the goal of supporting free peoples against subjugation, which aligns with the broader strategy of containing the spread of communism during the early stages of the Cold War. The emphasis on economic and financial aid was part of a broader effort to counteract Soviet influence without direct military confrontation.",
+        "generation_time": 1.4365148544311523,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "8.1.I.B, 9.3.I.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_018",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"I believe that it must be the policy of the United States to support free peoples who are resisting attempted subjugation by armed minorities or by outside pressures. I believe we must assist free peoples to work out their own destinies in their own way. I believe that our help should be primarily through economic and financial aid which is essential to economic stability and orderly political processes.\"\nPresident Harry Truman, address before a joint session of Congress articulating what would become known as the Truman Doctrine, 1947",
+        "question_text": "Truman issued the doctrine primarily in order to",
+        "options": {
+          "A": "support decolonization in Asia and Africa",
+          "B": "support United States allies in Latin America",
+          "C": "protect United States interests in the Middle East",
+          "D": "bolster noncommunist nations, particularly in Europe"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The Truman Doctrine was issued primarily to bolster noncommunist nations, especially in Europe, in the face of Soviet expansion."
+      },
+      "metadata": {
+        "domain": "Cold War",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "8.1.I.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "counter Soviet influence and prevent communism spread.",
+        "explanation": "D: bolster noncommunist nations, particularly in Europe. Truman issued the doctrine primarily to provide economic and financial aid to Greece and Turkey to prevent them from falling under Soviet influence, reflecting a broader strategy to contain communism in Europe during the early stages of the Cold War.",
+        "generation_time": 1.2605550289154053,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "8.1.I.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_019",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_019.png",
+        "question_text": "Conditions like those shown in the image contributed most directly to which of the following?",
+        "options": {
+          "A": "The passage of laws restricting immigration to the United States",
+          "B": "An increase in Progressive reform activity",
+          "C": "A decline in efforts to Americanize immigrants",
+          "D": "The weakening of labor unions such as the American Federation of Labor"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "Jacob Riis's photographs of urban poverty and poor living conditions in late-nineteenth-century cities helped expose social problems and contributed to the rise of Progressive reform movements that sought to address these issues."
+      },
+      "metadata": {
+        "domain": "Progressive Era",
+        "difficulty": 0.7,
+        "main_practice_skill": "Causation",
+        "learning_objective": "POL-2.0",
+        "key_concepts": "7.1.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Urban reform and housing regulations.",
+        "explanation": "B: An increase in Progressive reform activity. The image shows overcrowded and poor living conditions, which were often highlighted by Progressive reformers to advocate for better housing, labor laws, and urban reforms during the late 19th and early 20th centuries.",
+        "generation_time": 3.188250780105591,
+        "main_practice_skill": "Causation",
+        "learning_objective": "POL-2.0",
+        "key_concepts": "7.1.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_020",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_019.png",
+        "question_text": "The conditions shown in the image depict which of the following trends in the late nineteenth century?",
+        "options": {
+          "A": "The growing gap between wealthy people and people living in poverty",
+          "B": "The rise of the settlement house and Populist movements",
+          "C": "The increased corruption in urban politics",
+          "D": "The migration of African Americans to the North"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "Jacob Riis's photographs documented the growing economic inequality and the stark contrast between the wealthy and the poor in late-nineteenth-century urban America, highlighting the social problems of the Gilded Age."
+      },
+      "metadata": {
+        "domain": "Progressive Era",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "6.1.I.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Urban overcrowding and poor living conditions.",
+        "explanation": "A: The image shows cramped and poor living conditions, which illustrate the growing gap between wealthy people and people living in poverty during the late nineteenth century. This trend was a result of rapid industrialization and urbanization, leading to overcrowded tenements and stark economic disparities.",
+        "generation_time": 4.878126859664917,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "6.1.I.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_021",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_text": "Advocates for individuals such as those shown in the image would have most likely agreed with which of the following perspectives?",
+        "options": {
+          "A": "The Supreme Court's decision in Plessy v. Ferguson was justified.",
+          "B": "Capitalism, free of government regulation, would improve social conditions.",
+          "C": "Both wealth and poverty are the products of natural selection.",
+          "D": "Government should act to eliminate the worst abuses of industrial society."
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "Advocates for the poor and working class shown in the image would have supported Progressive reform movements that called for government intervention to address the social problems created by industrialization, including poor working conditions, housing, and poverty."
+      },
+      "metadata": {
+        "domain": "Progressive Era",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "7.1.II.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Equal rights and opportunities for all individuals.",
+        "explanation": "D: Government should act to eliminate the worst abuses of industrial society. Advocates for individuals who were often negatively impacted by industrialization, such as workers and marginalized groups, would likely support government intervention to address and mitigate the harsh conditions and inequalities created by the industrial society.",
+        "generation_time": 1.5728929042816162,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "7.1.II.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_022",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"Excepting only Yosemite, Hetch Hetchy is the most attractive and wonderful valley within the bounds of the great Yosemite National Park and the best of all the camp grounds. People are now flocking to it in ever-increasing numbers for health and recreation of body and mind. Though the walls are less sublime in height than those of Yosemite, its groves, gardens, and broad, spacious meadows are more beautiful and picturesque. . . . Last year in October I visited the valley with Mr. William Keith, the artist. He wandered about from view to view, enchanted, made thirty-eight sketches, and enthusiastically declared that in varied picturesque beauty Hetch Hetchy greatly surpassed Yosemite. It is one of God's best gifts, and ought to be faithfully guarded.\"\nJohn Muir, Century Magazine, 1909",
+        "question_text": "Which of the following aspects of Muir's description expresses a major change in Americans' views of the natural environment?",
+        "options": {
+          "A": "The idea that wilderness areas are worthy subjects for artistic works",
+          "B": "The idea that wilderness areas serve as evidence of divine creation",
+          "C": "The idea that government should preserve wilderness areas in a natural state",
+          "D": "The idea that mountainous scenery is more picturesque and beautiful than flat terrain"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Muir's call for Hetch Hetchy to be 'faithfully guarded' reflects the emerging conservation movement and the idea that government should actively preserve wilderness areas, representing a major shift from viewing nature as a resource to be exploited to something worthy of protection."
+      },
+      "metadata": {
+        "domain": "Progressive Era",
+        "difficulty": 0.7,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "GEO-1.0",
+        "key_concepts": "7.1.II.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Valuing nature for recreation and preservation.",
+        "explanation": "C: The idea that government should preserve wilderness areas in a natural state. Muir's emphasis on Hetch Hetchy as a gift that ought to be \"faithfully guarded\" reflects a shift towards the belief that natural landscapes should be preserved and protected by the government, which was a growing movement during his time, culminating in the establishment of national parks.",
+        "generation_time": 2.2672922611236572,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "GEO-1.0",
+        "key_concepts": "7.1.II.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_023",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"Excepting only Yosemite, Hetch Hetchy is the most attractive and wonderful valley within the bounds of the great Yosemite National Park and the best of all the camp grounds. People are now flocking to it in ever-increasing numbers for health and recreation of body and mind. Though the walls are less sublime in height than those of Yosemite, its groves, gardens, and broad, spacious meadows are more beautiful and picturesque. . . . Last year in October I visited the valley with Mr. William Keith, the artist. He wandered about from view to view, enchanted, made thirty-eight sketches, and enthusiastically declared that in varied picturesque beauty Hetch Hetchy greatly surpassed Yosemite. It is one of God's best gifts, and ought to be faithfully guarded.\"\nJohn Muir, Century Magazine, 1909",
+        "question_text": "Muir's ideas are most directly a reaction to the",
+        "options": {
+          "A": "increasing usage and exploitation of western landscapes",
+          "B": "increase in urban populations, including immigrant workers attracted by a growing industrial economy",
+          "C": "westward migration of groups seeking religious refuge",
+          "D": "opening of a new frontier in recently annexed territory"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "Muir's conservation advocacy was a direct response to the increasing exploitation and development of western landscapes during the late nineteenth century, as industrialization and settlement threatened natural areas."
+      },
+      "metadata": {
+        "domain": "Progressive Era",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "GEO-1.0",
+        "key_concepts": "6.2.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Hetch Hetchy Valley damming proposal.",
+        "explanation": "A: Muir's ideas are most directly a reaction to the increasing usage and exploitation of western landscapes. His advocacy for the preservation of Hetch Hetchy Valley reflects concerns about the impact of human activities on natural environments, particularly in the context of proposals to dam the valley for water supply, which threatened its natural beauty and ecological integrity.",
+        "generation_time": 2.068006992340088,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "GEO-1.0",
+        "key_concepts": "6.2.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_024",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"[H]istory and experience prove that foreign influence is one of the most baneful foes of republican government. . . . Excessive partiality for one foreign nation and excessive dislike of another cause those whom they actuate to see danger only on one side and serve to veil and even second the arts of influence on the other. . . . The great rule of conduct for us, in regard to foreign nations, is in extending our commercial relations to have with them as little political connection as possible. So far as we have already formed engagements, let them be fulfilled with perfect good faith. Here let us stop. Europe has a set of primary interests which to us have none, or a very remote relation. Hence she must be engaged in frequent controversies, the causes of which are essentially foreign to our concerns.\"\nGeorge Washington, Farewell Address, 1796",
+        "question_text": "The concerns expressed by Washington were a response to the",
+        "options": {
+          "A": "debate over the proper treatment of American Indian tribes in the trans-Appalachian West",
+          "B": "dispute over the possibility of annexing Canada from Great Britain",
+          "C": "controversy regarding support for the revolutionary government of France",
+          "D": "conflict with Great Britain over the treatment of American Loyalists"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Washington's Farewell Address was primarily a response to the controversy over whether the United States should support the French Revolution and its government, which had divided Americans and threatened to draw the nation into European conflicts."
+      },
+      "metadata": {
+        "domain": "Revolution and Nation Building",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "WOR-1.0",
+        "key_concepts": "3.3.II.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "emerging political divisions over foreign alliances.",
+        "explanation": "C: The concerns expressed by Washington were a response to the controversy regarding support for the revolutionary government of France. Washington's Farewell Address warned against entangling political alliances with foreign nations, reflecting the polarized debate in the United States over whether to support France, which had undergone a revolution, or to maintain neutrality, especially in light of the ongoing conflict between France and Great Britain.",
+        "generation_time": 1.8939142227172852,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "WOR-1.0",
+        "key_concepts": "3.3.II.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_025",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"[H]istory and experience prove that foreign influence is one of the most baneful foes of republican government. . . . Excessive partiality for one foreign nation and excessive dislike of another cause those whom they actuate to see danger only on one side and serve to veil and even second the arts of influence on the other. . . . The great rule of conduct for us, in regard to foreign nations, is in extending our commercial relations to have with them as little political connection as possible. So far as we have already formed engagements, let them be fulfilled with perfect good faith. Here let us stop. Europe has a set of primary interests which to us have none, or a very remote relation. Hence she must be engaged in frequent controversies, the causes of which are essentially foreign to our concerns.\"\nGeorge Washington, Farewell Address, 1796",
+        "question_text": "The ideas expressed in Washington's address most strongly influenced which United States foreign policy decision in the twentieth century?",
+        "options": {
+          "A": "The establishment of the United Nations in 1945",
+          "B": "The formation of the NATO alliance between the United States and Western Europe in 1949",
+          "C": "The refusal to join the League of Nations in 1919",
+          "D": "The oil embargo against Japan in 1941"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Washington's call for avoiding political entanglements with foreign nations most strongly influenced the Senate's refusal to ratify the Treaty of Versailles and join the League of Nations in 1919, reflecting isolationist sentiment."
+      },
+      "metadata": {
+        "domain": "Revolution and Nation Building",
+        "difficulty": 0.7,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "7.3.II.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "The United States' policy of isolationism pre-World War II.",
+        "explanation": "C: The refusal to join the League of Nations in 1919. Washington's warning against entangling political alliances and foreign influence strongly influenced the United States' decision to reject joining the League of Nations, as it was perceived as a commitment that could entangle the U.S. in European conflicts and politics.",
+        "generation_time": 2.047369956970215,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "7.3.II.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_026",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"[H]istory and experience prove that foreign influence is one of the most baneful foes of republican government. . . . Excessive partiality for one foreign nation and excessive dislike of another cause those whom they actuate to see danger only on one side and serve to veil and even second the arts of influence on the other. . . . The great rule of conduct for us, in regard to foreign nations, is in extending our commercial relations to have with them as little political connection as possible. So far as we have already formed engagements, let them be fulfilled with perfect good faith. Here let us stop. Europe has a set of primary interests which to us have none, or a very remote relation. Hence she must be engaged in frequent controversies, the causes of which are essentially foreign to our concerns.\"\nGeorge Washington, Farewell Address, 1796",
+        "question_text": "Which of the following groups most strongly opposed Washington's point of view in the address?",
+        "options": {
+          "A": "Democratic-Republicans",
+          "B": "New England merchants",
+          "C": "Southern plantation owners",
+          "D": "Federalists"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "Democratic-Republicans, led by Thomas Jefferson, strongly opposed Washington's neutral stance and favored supporting France in its revolutionary struggle against Britain, believing in the ideals of the French Revolution."
+      },
+      "metadata": {
+        "domain": "Revolution and Nation Building",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-1.0",
+        "key_concepts": "3.2.II.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Proponents of strong alliances with European nations.",
+        "explanation": "A: Democratic-Republicans: The Democratic-Republicans, led by figures like Thomas Jefferson, were more inclined to support the French during the time of Washington's presidency, reflecting a tendency to favor political connections with foreign nations, particularly France, contrary to Washington's advice for minimal political entanglements.",
+        "generation_time": 1.222226858139038,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-1.0",
+        "key_concepts": "3.2.II.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_027",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"[H]istory and experience prove that foreign influence is one of the most baneful foes of republican government. . . . Excessive partiality for one foreign nation and excessive dislike of another cause those whom they actuate to see danger only on one side and serve to veil and even second the arts of influence on the other. . . . The great rule of conduct for us, in regard to foreign nations, is in extending our commercial relations to have with them as little political connection as possible. So far as we have already formed engagements, let them be fulfilled with perfect good faith. Here let us stop. Europe has a set of primary interests which to us have none, or a very remote relation. Hence she must be engaged in frequent controversies, the causes of which are essentially foreign to our concerns.\"\nGeorge Washington, Farewell Address, 1796",
+        "question_text": "Most historians would argue that the recommendations of Washington's address ceased to have a significant influence on United States foreign policy as a result of",
+        "options": {
+          "A": "westward expansion in the nineteenth century",
+          "B": "support for Cuban revolutionaries in the Spanish-American War",
+          "C": "Woodrow Wilson's support for international democratic principles during the First World War",
+          "D": "involvement in the Second World War"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The United States' involvement in the Second World War marked the definitive end of isolationism and Washington's policy of avoiding foreign entanglements, as the nation became a global superpower with worldwide commitments."
+      },
+      "metadata": {
+        "domain": "Revolution and Nation Building",
+        "difficulty": 0.7,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "7.3.III",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "World War I and subsequent global engagements.",
+        "explanation": "D: Involvement in the Second World War. Washington's advice to avoid political connections with foreign nations became less influential as the United States took on a leadership role in global affairs, particularly during and after World War II, when it became actively involved in international alliances and organizations like the United Nations.",
+        "generation_time": 1.1829190254211426,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "7.3.III"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_028",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The colonizers brought along plants and animals new to the Americas, some by design and others by accident. Determined to farm in a European manner, the colonists introduced their domesticated livestock\u2014honeybees, pigs, horses, mules, sheep, and cattle\u2014and their domesticated plants, including wheat, barley, rye, oats, grasses, and grapevines. But the colonists also inadvertently carried pathogens, weeds, and rats. . . . In sum, the remaking of the Americas was a team effort by a set of interdependent species led and partially managed (but never fully controlled) by European people.\"\nAlan Taylor, historian, American Colonies, 2001",
+        "question_text": "The export of New World crops to the Old World transformed European society mostly by",
+        "options": {
+          "A": "improving diets and thereby stimulating population growth",
+          "B": "encouraging enclosure of open lands and pushing workers off of farms",
+          "C": "promoting greater exploration of the interior of the American continents",
+          "D": "fostering conflicts among major powers over access to new food supplies"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The introduction of New World crops like potatoes, corn, and tomatoes to Europe significantly improved European diets and nutrition, leading to population growth as people had access to more diverse and nutritious food sources."
+      },
+      "metadata": {
+        "domain": "Colonial Exchange",
+        "difficulty": 0.7,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WOR-1.0",
+        "key_concepts": "1.2.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "increasing food variety and improving nutrition.",
+        "explanation": "A: improving diets and thereby stimulating population growth. The introduction of New World crops such as potatoes, maize, and tomatoes to Europe led to more nutritious and diverse diets, which in turn contributed to better health and increased population growth in European societies.",
+        "generation_time": 2.935994863510132,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WOR-1.0",
+        "key_concepts": "1.2.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_029",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The colonizers brought along plants and animals new to the Americas, some by design and others by accident. Determined to farm in a European manner, the colonists introduced their domesticated livestock\u2014honeybees, pigs, horses, mules, sheep, and cattle\u2014and their domesticated plants, including wheat, barley, rye, oats, grasses, and grapevines. But the colonists also inadvertently carried pathogens, weeds, and rats. . . . In sum, the remaking of the Americas was a team effort by a set of interdependent species led and partially managed (but never fully controlled) by European people.\"\nAlan Taylor, historian, American Colonies, 2001",
+        "question_text": "The patterns described in the excerpt most directly foreshadowed which of the following developments?",
+        "options": {
+          "A": "The spread of maize cultivation northward from present-day Mexico into the American Southwest",
+          "B": "The population decline in Native American societies",
+          "C": "The gradual shift of European economies from feudalism to capitalism",
+          "D": "The emergence of racially mixed populations in the Americas"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "The introduction of European pathogens, particularly diseases like smallpox, measles, and influenza, to which Native Americans had no immunity, led to catastrophic population declines in Native American societies throughout the Americas."
+      },
+      "metadata": {
+        "domain": "Colonial Exchange",
+        "difficulty": 0.7,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "GEO-1.0",
+        "key_concepts": "1.2.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Ecological and cultural changes in the Americas.",
+        "explanation": "B: The population decline in Native American societies. The excerpt discusses the introduction of new plants, animals, and especially pathogens by European colonists, which directly led to significant population declines among Native American societies due to diseases to which they had no immunity.",
+        "generation_time": 2.0407798290252686,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "GEO-1.0",
+        "key_concepts": "1.2.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_030",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The colonizers brought along plants and animals new to the Americas, some by design and others by accident. Determined to farm in a European manner, the colonists introduced their domesticated livestock\u2014honeybees, pigs, horses, mules, sheep, and cattle\u2014and their domesticated plants, including wheat, barley, rye, oats, grasses, and grapevines. But the colonists also inadvertently carried pathogens, weeds, and rats. . . . In sum, the remaking of the Americas was a team effort by a set of interdependent species led and partially managed (but never fully controlled) by European people.\"\nAlan Taylor, historian, American Colonies, 2001",
+        "question_text": "The trends described by Taylor most directly illustrate which of the following major historical developments in the Atlantic world?",
+        "options": {
+          "A": "The growth of mercantile empires that stretched across the Atlantic",
+          "B": "The increasing Anglicization of the English colonies",
+          "C": "The phenomenon known as the Columbian Exchange",
+          "D": "The rise of the trans-Atlantic slave trade"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Taylor's description of the exchange of plants, animals, and pathogens between the Old World and New World directly illustrates the Columbian Exchange, the widespread transfer of biological materials between the Americas and Afro-Eurasia following Christopher Columbus's voyages."
+      },
+      "metadata": {
+        "domain": "Colonial Exchange",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "GEO-1.0",
+        "key_concepts": "1.2.II",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "The Columbian Exchange and its ecological impacts.",
+        "explanation": "C: The phenomenon known as the Columbian Exchange. The trends described by Taylor highlight the exchange of plants, animals, and pathogens between the Old World and the New World, which is a key aspect of the Columbian Exchange, marking a significant ecological and cultural transformation in the Atlantic world.",
+        "generation_time": 1.3314390182495117,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "GEO-1.0",
+        "key_concepts": "1.2.II"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_031",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_031.png",
+        "question_text": "The map most directly depicts the",
+        "options": {
+          "A": "inland expansion of the colonial population",
+          "B": "effects of industrialization",
+          "C": "pattern of American Indian resistance",
+          "D": "decline of tobacco production"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The map shows the westward expansion of British settlement from the coastal areas in 1700 to increasingly inland areas by 1750 and 1775, demonstrating the inland expansion of the colonial population over time."
+      },
+      "metadata": {
+        "domain": "Colonial Settlement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "MIG-2.0",
+        "key_concepts": "3.3.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Expansion of British settlements in America.",
+        "explanation": "A: The map shows the inland expansion of the colonial population, as it illustrates the limits of settlements expanding westward from 1700 to 1775.",
+        "generation_time": 2.2605140209198,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "MIG-2.0",
+        "key_concepts": "3.3.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_032",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_031.png",
+        "question_text": "The pattern of colonial settlement up to 1700 resulted most directly from which of the following factors?",
+        "options": {
+          "A": "The large size of British colonial populations relative to American Indian populations",
+          "B": "British recognition of Native American sovereignty",
+          "C": "The orientation of the British colonies toward producing commodities for export to Europe",
+          "D": "British government attempts to impose greater control over the colonies in the late 1600s"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "The coastal settlement pattern up to 1700 was primarily driven by the colonies' focus on producing agricultural commodities like tobacco, rice, and indigo for export to Europe, which required access to ports and navigable waterways."
+      },
+      "metadata": {
+        "domain": "Colonial Settlement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "2.2.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Access to the Atlantic Ocean.",
+        "explanation": "C: The orientation of the British colonies toward producing commodities for export to Europe most directly influenced the pattern of colonial settlement up to 1700, as settlements were primarily established along the coast for easy access to shipping routes for exporting goods.",
+        "generation_time": 2.1644697189331055,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "2.2.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_033",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_031.png",
+        "question_text": "The change in settlement patterns from 1700 to 1775 had which of the following effects?",
+        "options": {
+          "A": "A decrease in the coastal population",
+          "B": "An increase in conflicts between British settlers and American Indians",
+          "C": "A decrease in the economic importance of slavery and other forms of coerced labor",
+          "D": "An increase in trade with French Canada"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "The westward expansion of British settlement from 1700 to 1775 brought settlers into increasing contact and conflict with Native American tribes, leading to more frequent and violent confrontations over land and resources."
+      },
+      "metadata": {
+        "domain": "Colonial Settlement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WOR-1.0",
+        "key_concepts": "2.1.III.E",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Westward expansion beyond the Appalachian Mountains.",
+        "explanation": "B: An increase in conflicts between British settlers and American Indians. (The map shows westward expansion into territories inhabited by American Indians, likely leading to increased conflicts as settlers encroached on their lands.)",
+        "generation_time": 2.400876045227051,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WOR-1.0",
+        "key_concepts": "2.1.III.E"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_034",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_031.png",
+        "question_text": "The change in settlement patterns from 1700 to 1775 best explains the",
+        "options": {
+          "A": "development of economic differences between the northern and southern colonies",
+          "B": "colonists' difficulties in effectively resisting the British military during the American Revolution",
+          "C": "significant proportion of colonists who remained loyal to Great Britain during the American Revolution",
+          "D": "growth of social tensions between backcountry settlers and coastal elites"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The westward expansion created a growing divide between wealthy coastal elites who controlled colonial governments and backcountry settlers who often felt underrepresented and overtaxed, leading to social tensions that would contribute to revolutionary sentiment."
+      },
+      "metadata": {
+        "domain": "Colonial Settlement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Causation",
+        "learning_objective": "MIG-2.0",
+        "key_concepts": "3.3.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Westward expansion and frontier development.",
+        "explanation": "D: The growth of settlement into the backcountry regions by 1775 likely led to increased social tensions between backcountry settlers and coastal elites, as differing economic interests and cultural values often resulted in conflicts.",
+        "generation_time": 1.8627409934997559,
+        "main_practice_skill": "Causation",
+        "learning_objective": "MIG-2.0",
+        "key_concepts": "3.3.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_035",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"[T]he condition of the African race throughout all the States where the ancient relation between the two [races] has been retained enjoys a degree of health and comfort which may well compare with that of the laboring population of any country in Christendom; and, it may be added that in no other condition, or in any other age or country, has the Negro race ever attained so high an elevation in morals, intelligence, or civilization.\"\nJohn C. Calhoun, political leader, 1844",
+        "question_text": "Which of the following groups would have been most likely to support Calhoun's views expressed in the excerpt?",
+        "options": {
+          "A": "Members of nativist political parties",
+          "B": "Members of the Whig Party",
+          "C": "Southern landowners",
+          "D": "Northern industrialists"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Southern landowners, particularly plantation owners who relied on slave labor, would have been most likely to support Calhoun's pro-slavery views, as they had a direct economic interest in maintaining the institution of slavery."
+      },
+      "metadata": {
+        "domain": "Antebellum Period",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "4.2.III.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Pro-slavery advocates in the Southern United States.",
+        "explanation": "C: Southern landowners. Southern landowners would have been most likely to support Calhoun's views, as they benefited from and supported the institution of slavery, which Calhoun is defending by claiming it provided a superior condition for African Americans compared to other laboring populations.",
+        "generation_time": 3.3238070011138916,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "4.2.III.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_036",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"[T]he condition of the African race throughout all the States where the ancient relation between the two [races] has been retained enjoys a degree of health and comfort which may well compare with that of the laboring population of any country in Christendom; and, it may be added that in no other condition, or in any other age or country, has the Negro race ever attained so high an elevation in morals, intelligence, or civilization.\"\nJohn C. Calhoun, political leader, 1844",
+        "question_text": "Which of the following most directly undermines Calhoun's assertions?",
+        "options": {
+          "A": "Many slaves adopted elements of Christianity.",
+          "B": "Many slaves engaged in forms of resistance to slavery.",
+          "C": "Abolitionist societies encountered difficulty organizing in Southern states.",
+          "D": "A majority of White Southerners were not slaveholders."
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "The fact that many slaves engaged in various forms of resistance to slavery\u2014including running away, work slowdowns, and rebellions\u2014directly undermines Calhoun's claim that slaves were content and benefited from their condition."
+      },
+      "metadata": {
+        "domain": "Antebellum Period",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WXT-1.0",
+        "key_concepts": "5.2.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "The brutality and inhumanity of slavery.",
+        "explanation": "B: Many slaves engaged in forms of resistance to slavery. Calhoun's assertions about the supposed well-being and elevated status of the African race under slavery are directly undermined by the fact that many slaves actively resisted their condition, indicating dissatisfaction and a lack of the purported health, comfort, and moral elevation he claims.",
+        "generation_time": 1.5396769046783447,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WXT-1.0",
+        "key_concepts": "5.2.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_037",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"[T]he condition of the African race throughout all the States where the ancient relation between the two [races] has been retained enjoys a degree of health and comfort which may well compare with that of the laboring population of any country in Christendom; and, it may be added that in no other condition, or in any other age or country, has the Negro race ever attained so high an elevation in morals, intelligence, or civilization.\"\nJohn C. Calhoun, political leader, 1844",
+        "question_text": "In the 1840s and 1850s, the views expressed by Calhoun most directly contributed to",
+        "options": {
+          "A": "the United States acquisition of new territory in the West",
+          "B": "increased sectional divisions between the North and the South",
+          "C": "the development of sharecropping and tenant farming in the South",
+          "D": "the rise of voluntary organizations to promote religious reform"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "Calhoun's defense of slavery as a positive good and his arguments about the superiority of the Southern way of life contributed to the growing sectional divisions between the North and South, as Northern abolitionists and free soil advocates increasingly opposed these views."
+      },
+      "metadata": {
+        "domain": "Antebellum Period",
+        "difficulty": 0.7,
+        "main_practice_skill": "Causation",
+        "learning_objective": "NAT-1.0",
+        "key_concepts": "5.2.I",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "support for the institution of slavery in the South.",
+        "explanation": "B: The views expressed by Calhoun most directly contributed to increased sectional divisions between the North and the South. Calhoun's defense of slavery as a positive good and his assertion of the supposed benefits of the institution heightened tensions between pro-slavery and anti-slavery factions, exacerbating the regional divide that ultimately led to the Civil War.",
+        "generation_time": 2.4724607467651367,
+        "main_practice_skill": "Causation",
+        "learning_objective": "NAT-1.0",
+        "key_concepts": "5.2.I"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_038",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"My purpose is not to persuade children from their parents; men from their wives; nor servants from their masters: only, such as with free consent may be spared: But that each [English] parish, or village, in city or country, that will but apparel their fatherless children, of thirteen or fourteen years of age, or young married people, that have small wealth to live on; here by their labor may live exceeding well: provided always that first there be sufficient power to command them, . . . and sufficient masters (as carpenters, masons, fishers, fowlers, gardeners, husbandmen, sawyers, smiths, spinsters, tailors, weavers, and such like) to take ten, twelve, or twenty, or as is their occasion, for apprentices. The masters by this may quickly grow rich; these [apprentices] may learn their trades themselves, to do the like; to a general and an incredible benefit for king, and country, master, and servant.\"\nJohn Smith, English adventurer, A Description of New England, 1616",
+        "question_text": "The excerpt suggests that promoters such as Smith most typically presented migration as a means for",
+        "options": {
+          "A": "workers to achieve social mobility and economic opportunity",
+          "B": "people to earn wages to send home to their families",
+          "C": "countries to acquire new sources of mineral wealth",
+          "D": "joint-stock companies to generate profits"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "Smith's description emphasizes how young people and apprentices could 'live exceeding well' and learn trades that would allow them to become masters themselves, presenting migration as a path to social mobility and economic advancement."
+      },
+      "metadata": {
+        "domain": "Colonial Settlement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "2.1.I.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "economic opportunity and skill development.",
+        "explanation": "A: workers to achieve social mobility and economic opportunity. The excerpt discusses how young people or those with limited means can live well through their labor by learning trades and becoming apprentices, which suggests that migration is presented as a way for individuals to improve their social and economic status.",
+        "generation_time": 1.9164719581604004,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "2.1.I.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_039",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"My purpose is not to persuade children from their parents; men from their wives; nor servants from their masters: only, such as with free consent may be spared: But that each [English] parish, or village, in city or country, that will but apparel their fatherless children, of thirteen or fourteen years of age, or young married people, that have small wealth to live on; here by their labor may live exceeding well: provided always that first there be sufficient power to command them, . . . and sufficient masters (as carpenters, masons, fishers, fowlers, gardeners, husbandmen, sawyers, smiths, spinsters, tailors, weavers, and such like) to take ten, twelve, or twenty, or as is their occasion, for apprentices. The masters by this may quickly grow rich; these [apprentices] may learn their trades themselves, to do the like; to a general and an incredible benefit for king, and country, master, and servant.\"\nJohn Smith, English adventurer, A Description of New England, 1616",
+        "question_text": "The excerpt would be most useful to historians as a source of information about which of the following?",
+        "options": {
+          "A": "The interaction of English colonial settlers with native populations in the early seventeenth century",
+          "B": "The harsh realities of life in the early seventeenth-century American colonies, including illness, high mortality rates, and starvation",
+          "C": "The role that appeals and advertising played in encouraging men and women to participate in colonization efforts",
+          "D": "The nature of master and apprentice relationships in England in the early seventeenth century"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "The excerpt is a promotional piece designed to encourage English people to migrate to the New World, making it most useful for understanding how colonization promoters used appeals and advertising to recruit settlers."
+      },
+      "metadata": {
+        "domain": "Colonial Settlement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "2.1.I.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Early colonial labor and apprenticeship practices.",
+        "explanation": "C: The role that appeals and advertising played in encouraging men and women to participate in colonization efforts. The excerpt from John Smith's \"A Description of New England\" is essentially a promotional piece aimed at encouraging people to consider relocating to the colonies, highlighting the opportunities and benefits available, which is indicative of the advertising strategies used to attract settlers during that period.",
+        "generation_time": 1.6601388454437256,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "2.1.I.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_040",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"My purpose is not to persuade children from their parents; men from their wives; nor servants from their masters: only, such as with free consent may be spared: But that each [English] parish, or village, in city or country, that will but apparel their fatherless children, of thirteen or fourteen years of age, or young married people, that have small wealth to live on; here by their labor may live exceeding well: provided always that first there be sufficient power to command them, . . . and sufficient masters (as carpenters, masons, fishers, fowlers, gardeners, husbandmen, sawyers, smiths, spinsters, tailors, weavers, and such like) to take ten, twelve, or twenty, or as is their occasion, for apprentices. The masters by this may quickly grow rich; these [apprentices] may learn their trades themselves, to do the like; to a general and an incredible benefit for king, and country, master, and servant.\"\nJohn Smith, English adventurer, A Description of New England, 1616",
+        "question_text": "Which of the following was a major contrast between the New England colonies and the colonies of France?",
+        "options": {
+          "A": "The New England colonies were based on more diverse agriculture and commerce.",
+          "B": "The French settled more often in cities and towns.",
+          "C": "The French had more conflicts with American Indians.",
+          "D": "New England developed a less rigid racial hierarchy."
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The New England colonies developed a more diverse economy based on agriculture, fishing, trade, and commerce, while French colonies were more focused on the fur trade and had less diverse economic development."
+      },
+      "metadata": {
+        "domain": "Colonial Settlement",
+        "difficulty": 0.7,
+        "main_practice_skill": "Comparison",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "2.1.I.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "New England had more family settlement; France had fewer settlers.",
+        "explanation": "A: The New England colonies were based on more diverse agriculture and commerce. The New England colonies, as suggested by John Smith's emphasis on various trades and apprenticeships, developed a mixed economy with agriculture, fishing, and trade, whereas the French colonies were more focused on the fur trade and relied heavily on alliances with Native Americans for economic purposes.",
+        "generation_time": 1.5684118270874023,
+        "main_practice_skill": "Comparison",
+        "learning_objective": "MIG-1.0",
+        "key_concepts": "2.1.I.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_041",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"There is, at present, no danger of another insurrection against the authority of the United States on a large scale, and the people are willing to reconstruct their State governments, and to send their senators and representatives to Congress. But as to the moral value of these results, we must not indulge in any delusions. . . . [T]here is, as yet, among the southern people an utter absence of national feeling. . . .\n\"Aside from the assumption that the Negro will not work without physical compulsion, there appears to be another popular notion . . . that the Negro exists for the special object of raising cotton, rice and sugar for the whites, and that it is illegitimate for him to indulge, like other people, in the pursuit of his own happiness in his own way.\"\nCarl Schurz, Report on the Condition of the South, 1865",
+        "question_text": "Schurz's analysis most directly illustrated the debates about which of the following issues in the South?",
+        "options": {
+          "A": "The industrialization of the South",
+          "B": "The issuing of the Emancipation Proclamation",
+          "C": "The process of readmitting Confederate states",
+          "D": "The extent of federal legislative power"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Schurz's report directly addressed the debates about Reconstruction and the process of readmitting Confederate states to the Union, as he was assessing the conditions and attitudes in the South following the Civil War."
+      },
+      "metadata": {
+        "domain": "Reconstruction",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "5.3.II.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Reconstruction and racial attitudes post-Civil War.",
+        "explanation": "C: Schurz's analysis most directly illustrated the debates about the process of readmitting Confederate states. His observations about the lack of national feeling and the attitudes towards African Americans highlight the challenges and considerations in reintegrating Southern states into the Union and ensuring they align with the new social and political realities post-Civil War.",
+        "generation_time": 1.644592046737671,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "5.3.II.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_042",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"There is, at present, no danger of another insurrection against the authority of the United States on a large scale, and the people are willing to reconstruct their State governments, and to send their senators and representatives to Congress. But as to the moral value of these results, we must not indulge in any delusions. . . . [T]here is, as yet, among the southern people an utter absence of national feeling. . . .\n\"Aside from the assumption that the Negro will not work without physical compulsion, there appears to be another popular notion . . . that the Negro exists for the special object of raising cotton, rice and sugar for the whites, and that it is illegitimate for him to indulge, like other people, in the pursuit of his own happiness in his own way.\"\nCarl Schurz, Report on the Condition of the South, 1865",
+        "question_text": "The attitudes of White Southerners described by Schurz contributed to which of the following developments in the last quarter of the nineteenth century?",
+        "options": {
+          "A": "The sale of most plantations to African Americans to keep them in the South",
+          "B": "The establishment of sharecropping throughout the South",
+          "C": "The Nullification Crisis caused by Southern resistance to federal policy",
+          "D": "The rise of the Whig Party in the South"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "The attitudes described by Schurz\u2014particularly the belief that African Americans would not work without compulsion and existed to serve white economic interests\u2014contributed to the establishment of sharecropping, which maintained African Americans in a dependent economic position."
+      },
+      "metadata": {
+        "domain": "Reconstruction",
+        "difficulty": 0.7,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WXT-1.0",
+        "key_concepts": "5.3.II.D",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "The rise of Jim Crow laws and racial segregation.",
+        "explanation": "B: The establishment of sharecropping throughout the South. Schurz's observations about the Southern attitudes towards African Americans and labor reflect the conditions that led to the establishment of sharecropping as a system. This system emerged as a way for Southern landowners to maintain a labor force and control over agricultural production, especially cotton, without the formal institution of slavery.",
+        "generation_time": 1.8462772369384766,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WXT-1.0",
+        "key_concepts": "5.3.II.D"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_043",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"There is, at present, no danger of another insurrection against the authority of the United States on a large scale, and the people are willing to reconstruct their State governments, and to send their senators and representatives to Congress. But as to the moral value of these results, we must not indulge in any delusions. . . . [T]here is, as yet, among the southern people an utter absence of national feeling. . . .\n\"Aside from the assumption that the Negro will not work without physical compulsion, there appears to be another popular notion . . . that the Negro exists for the special object of raising cotton, rice and sugar for the whites, and that it is illegitimate for him to indulge, like other people, in the pursuit of his own happiness in his own way.\"\nCarl Schurz, Report on the Condition of the South, 1865",
+        "question_text": "Efforts by Republicans such as Schurz to establish a base for their party in the South after the Civil War ultimately failed because",
+        "options": {
+          "A": "Republicans feared the South would secede again if the party became too successful",
+          "B": "Republican opposition to African American rights alienated many White Southerners",
+          "C": "Republicans grew weary of pressing their Reconstruction agenda in a hostile environment",
+          "D": "Republicans believed it better to withdraw from the South than to become corrupted by Southern politics"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "Republicans ultimately abandoned their Reconstruction efforts in the South due to growing weariness with the hostile environment and resistance they encountered, as well as shifting political priorities in the North."
+      },
+      "metadata": {
+        "domain": "Reconstruction",
+        "difficulty": 0.7,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "5.3.II.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "Southern resistance and lack of national unity.",
+        "explanation": "C: Republicans grew weary of pressing their Reconstruction agenda in a hostile environment. The efforts to establish a Republican base in the South faced significant resistance from White Southerners who were largely opposed to the party's Reconstruction policies, including the promotion of African American rights. Over time, the persistent hostility and challenges led to a decline in Northern commitment to Reconstruction, contributing to its eventual abandonment.",
+        "generation_time": 1.7440309524536133,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "5.3.II.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_044",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The peace-loving nations must make a concerted effort in opposition to those violations of treaties and those ignorings of humane instincts which today are creating a state of international anarchy and instability from which there is no escape through mere isolation or neutrality.\n\"Those who cherish their freedom and recognize and respect the equal right of their neighbors to be free and live in peace, must work together for the triumph of law and moral principles in order that peace, justice and confidence may prevail in the world. There must be a return to a belief in the pledged word, in the value of a signed treaty. There must be recognition of the fact that national morality is as vital as private morality.\"\nPresident Franklin Roosevelt, Quarantine Speech, 1937",
+        "question_text": "The ideas expressed in the excerpt differed from the prevailing United States approach to foreign policy issues primarily in that Roosevelt was",
+        "options": {
+          "A": "arguing to expand the role of the United States in the world",
+          "B": "encouraging the United States to avoid political entanglements in Europe",
+          "C": "seeking to promote United States influence throughout Latin America",
+          "D": "encouraging new laws that would give the United States international police power"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "Roosevelt's speech called for international cooperation and collective action against aggressor nations, which represented a departure from the isolationist foreign policy that had prevailed in the United States during the 1920s and early 1930s."
+      },
+      "metadata": {
+        "domain": "Interwar Period",
+        "difficulty": 0.7,
+        "main_practice_skill": "Comparison",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "7.3.II.E",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "advocating for active international engagement over isolationism.",
+        "explanation": "A: Roosevelt was arguing to expand the role of the United States in the world. His speech emphasized the need for collective action among peace-loving nations against violations of treaties and international instability, marking a shift from the prevalent isolationist stance of the United States at the time.",
+        "generation_time": 1.3532960414886475,
+        "main_practice_skill": "Comparison",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "7.3.II.E"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_045",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The peace-loving nations must make a concerted effort in opposition to those violations of treaties and those ignorings of humane instincts which today are creating a state of international anarchy and instability from which there is no escape through mere isolation or neutrality.\n\"Those who cherish their freedom and recognize and respect the equal right of their neighbors to be free and live in peace, must work together for the triumph of law and moral principles in order that peace, justice and confidence may prevail in the world. There must be a return to a belief in the pledged word, in the value of a signed treaty. There must be recognition of the fact that national morality is as vital as private morality.\"\nPresident Franklin Roosevelt, Quarantine Speech, 1937",
+        "question_text": "The excerpt best reflects an effort by Roosevelt to",
+        "options": {
+          "A": "encourage the ratification of the Treaty of Versailles",
+          "B": "promote the acquisition of new territories abroad",
+          "C": "contain the spread of Soviet-dominated communism",
+          "D": "overcome opposition to participation in the impending Second World War"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "Roosevelt's Quarantine Speech was an attempt to prepare the American public for potential involvement in the growing international conflicts that would lead to World War II, seeking to overcome isolationist opposition to international engagement."
+      },
+      "metadata": {
+        "domain": "Interwar Period",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "7.3.II.E",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "advocate for collective action against international aggression.",
+        "explanation": "D: The excerpt best reflects an effort by Roosevelt to overcome opposition to participation in the impending Second World War. Roosevelt's speech emphasizes the need for collective action and moral responsibility among nations to address international instability and violations of treaties, which aligns with his broader efforts to shift public opinion away from isolationism and towards a more active role in global affairs.",
+        "generation_time": 1.5139799118041992,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "7.3.II.E"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_046",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The peace-loving nations must make a concerted effort in opposition to those violations of treaties and those ignorings of humane instincts which today are creating a state of international anarchy and instability from which there is no escape through mere isolation or neutrality.\n\"Those who cherish their freedom and recognize and respect the equal right of their neighbors to be free and live in peace, must work together for the triumph of law and moral principles in order that peace, justice and confidence may prevail in the world. There must be a return to a belief in the pledged word, in the value of a signed treaty. There must be recognition of the fact that national morality is as vital as private morality.\"\nPresident Franklin Roosevelt, Quarantine Speech, 1937",
+        "question_text": "Which of the following best represents continuity in the years after 1945 with the ideas that Roosevelt expressed in the excerpt?",
+        "options": {
+          "A": "The conviction and execution of suspected Soviet spies in the United States",
+          "B": "United States membership in an international collective security organization",
+          "C": "United States military commitment to countries battling communist insurgencies",
+          "D": "The rise of peace organizations opposed to the buildup and use of nuclear weapons"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "Roosevelt's call for international cooperation and collective security found continuity in the United States' membership in the United Nations and other international organizations after 1945, which embodied his vision of nations working together for peace."
+      },
+      "metadata": {
+        "domain": "Interwar Period",
+        "difficulty": 0.7,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "8.1.I.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Formation of the United Nations in 1945.",
+        "explanation": "B: United States membership in an international collective security organization. Roosevelt's speech emphasizes the importance of collective efforts and international cooperation to maintain peace and stability, which aligns with the United States joining the United Nations after 1945\u2014a global organization aimed at promoting peace, security, and cooperation among nations.",
+        "generation_time": 2.6891489028930664,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "WOR-2.0",
+        "key_concepts": "8.1.I.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_047",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_047.png",
+        "question_text": "The poster most directly reflects the",
+        "options": {
+          "A": "wartime mobilization of United States society",
+          "B": "emergence of the United States as a leading world power",
+          "C": "expanded access to consumer goods during wartime",
+          "D": "wartime repression of civil liberties"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The poster reflects the wartime mobilization of American society, particularly the recruitment of women into the workforce to replace men who had gone to war, which was essential for maintaining wartime production."
+      },
+      "metadata": {
+        "domain": "World War II",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "NAT-3.0",
+        "key_concepts": "7.3.III.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Role of women in wartime industry.",
+        "explanation": "A: The poster reflects wartime mobilization of United States society by emphasizing the role of women working in ordnance production to support the war effort, highlighting the collective contribution to the military.",
+        "generation_time": 2.4511868953704834,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "NAT-3.0",
+        "key_concepts": "7.3.III.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_048",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_047.png",
+        "question_text": "The poster was intended to",
+        "options": {
+          "A": "persuade women to enlist in the military",
+          "B": "promote the ideals of republican motherhood",
+          "C": "advocate for the elimination of sex discrimination in employment",
+          "D": "convince women that they had an essential role in the war effort"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "The poster was designed to convince women that their participation in the workforce was essential to the war effort, encouraging them to take on traditionally male jobs in defense industries."
+      },
+      "metadata": {
+        "domain": "World War II",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "CUL-3.0",
+        "key_concepts": "7.3.III.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Encourage women to support the war effort.",
+        "explanation": "D: The poster is intended to convince women that they had an essential role in the war effort. It emphasizes the contribution of women working in ordnance, supporting soldiers by producing necessary equipment, thereby highlighting their crucial role in the war.",
+        "generation_time": 4.350161790847778,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "CUL-3.0",
+        "key_concepts": "7.3.III.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_049",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_US_HISTORY_2017_047.png",
+        "question_text": "Which of the following represents a later example of the change highlighted in the poster?",
+        "options": {
+          "A": "Feminist calls for equal economic opportunities in the 1970s",
+          "B": "The growing feminist protests against United States military engagements abroad in the 1970s",
+          "C": "The increasing inability of the manufacturing sector to create jobs for women in the 1970s and 1980s",
+          "D": "The growing popular consensus about appropriate women's roles in the 1980s and 1990s"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The poster's emphasis on women's essential role in the workforce during World War II helped pave the way for later feminist movements that called for equal economic opportunities and workplace equality in the 1970s."
+      },
+      "metadata": {
+        "domain": "World War II",
+        "difficulty": 0.7,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "CUL-3.0",
+        "key_concepts": "8.2.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Women entering the workforce in various industries.",
+        "explanation": "A: The poster highlights women's involvement in the workforce during wartime, symbolizing a shift towards greater economic opportunities for women. Feminist calls for equal economic opportunities in the 1970s represent a later example of this change.",
+        "generation_time": 3.6560299396514893,
+        "main_practice_skill": "Continuity and Change over Time",
+        "learning_objective": "CUL-3.0",
+        "key_concepts": "8.2.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_050",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The era of big government is over but we can't go back to a time when our citizens were just left to fend for themselves. We will meet them by going forward as one America, by working together in our communities, our schools, our churches and synagogues, our workplaces across the entire spectrum of our civic life.\"\nPresident Bill Clinton, radio address to the nation, 1996",
+        "question_text": "Which of the following actions by the Clinton administration best reflects the ideas about the scope of government expressed in the excerpt?",
+        "options": {
+          "A": "The decision to pursue military peacekeeping interventions in the Balkans and Somalia",
+          "B": "The enactment of welfare reform to restrict benefits and encourage self-reliance",
+          "C": "The negotiation of new free trade agreements among North American countries",
+          "D": "The effort to enact universal health care legislation"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "Clinton's statement about the end of 'big government' while still providing support through community and civic institutions best reflects his administration's welfare reform policies, which reduced direct government assistance while encouraging personal responsibility and community-based solutions."
+      },
+      "metadata": {
+        "domain": "Modern Era",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "9.1.I.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "Welfare reform and community-based initiatives.",
+        "explanation": "B: The enactment of welfare reform to restrict benefits and encourage self-reliance. This action reflects the ideas expressed in the excerpt by emphasizing a reduction in government dependency while promoting community and individual responsibility, aligning with the notion of moving forward as a unified nation without leaving citizens to fend entirely for themselves.",
+        "generation_time": 2.49910306930542,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "9.1.I.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_051",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"The era of big government is over but we can't go back to a time when our citizens were just left to fend for themselves. We will meet them by going forward as one America, by working together in our communities, our schools, our churches and synagogues, our workplaces across the entire spectrum of our civic life.\"\nPresident Bill Clinton, radio address to the nation, 1996",
+        "question_text": "The ideas expressed by Clinton in the excerpt were most similar to those of which twentieth-century president?",
+        "options": {
+          "A": "Lyndon Johnson",
+          "B": "Ronald Reagan",
+          "C": "Franklin Roosevelt",
+          "D": "Woodrow Wilson"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": "Clinton's emphasis on reducing the size of government while maintaining community-based solutions was most similar to Ronald Reagan's philosophy of limited government and his belief in the importance of community and voluntary organizations."
+      },
+      "metadata": {
+        "domain": "Modern Era",
+        "difficulty": 0.7,
+        "main_practice_skill": "Comparison",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "9.1.I.B",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "President Lyndon B. Johnson.",
+        "explanation": "C: Clinton's emphasis on community collaboration and civic engagement is most similar to Franklin Roosevelt's approach. Roosevelt's New Deal policies aimed to provide government assistance while also fostering a sense of collective responsibility and community action to address the challenges of the Great Depression.",
+        "generation_time": 2.030547857284546,
+        "main_practice_skill": "Comparison",
+        "learning_objective": "POL-3.0",
+        "key_concepts": "9.1.I.B"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_052",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"Shortly after this, my mother's widowed sister, . . . who kept a factory boarding house in Lowell [Massachusetts], advised her to come to that city. . . .\n\"My mother, feeling obliged to have help in her work besides what I could give, and also needing the money which I could earn, allowed me . . . to go to work in the mill. . . .\n\"The working hours of all the girls extended from five o'clock in the morning until seven in the evening, with one half hour for breakfast and dinner. . . .\n\"I cannot tell you how it happened that some of us knew about the English factory children, who as it was said, were treated so badly. . . .\n\"In contrast to this sad picture, we thought of ourselves as well off . . . enjoying ourselves in our own good way, with our good mothers and our warm suppers awaiting us.\"\nHarriet Hanson Robinson, Loom and Spindle, or Life Among Early Mill Girls, describing events in the 1830s, published in 1898",
+        "question_text": "Which of the following most directly contributed to the developments described in the excerpt?",
+        "options": {
+          "A": "The concept of republican motherhood after the American Revolution",
+          "B": "Large-scale immigration from southern and eastern Europe",
+          "C": "The expansion and increased organization of industrial production",
+          "D": "The wartime need for women to fill jobs previously held by men"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "The development of factory work for women in Lowell was most directly contributed to by the expansion and increased organization of industrial production, particularly the growth of textile manufacturing in New England."
+      },
+      "metadata": {
+        "domain": "Industrial Revolution",
+        "difficulty": 0.7,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "4.2.I.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "The Industrial Revolution and growth of textile mills.",
+        "explanation": "C: The expansion and increased organization of industrial production. The excerpt describes the experience of working in a mill in Lowell, Massachusetts, during the early 19th century, which was a result of the Industrial Revolution. This period saw a significant expansion of industrial production and the establishment of organized factory systems, leading to increased employment opportunities for women in textile mills.",
+        "generation_time": 2.179023265838623,
+        "main_practice_skill": "Causation",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "4.2.I.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_053",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"Shortly after this, my mother's widowed sister, . . . who kept a factory boarding house in Lowell [Massachusetts], advised her to come to that city. . . .\n\"My mother, feeling obliged to have help in her work besides what I could give, and also needing the money which I could earn, allowed me . . . to go to work in the mill. . . .\n\"The working hours of all the girls extended from five o'clock in the morning until seven in the evening, with one half hour for breakfast and dinner. . . .\n\"I cannot tell you how it happened that some of us knew about the English factory children, who as it was said, were treated so badly. . . .\n\"In contrast to this sad picture, we thought of ourselves as well off . . . enjoying ourselves in our own good way, with our good mothers and our warm suppers awaiting us.\"\nHarriet Hanson Robinson, Loom and Spindle, or Life Among Early Mill Girls, describing events in the 1830s, published in 1898",
+        "question_text": "The developments described in the excerpt most directly reflect which of the following changes in the first half of the 1800s?",
+        "options": {
+          "A": "The sharp increase in the number of workers making goods for distant markets",
+          "B": "Women's acquisition of new legal rights independent of their fathers and husbands",
+          "C": "The emergence of a larger and more distinct middle class",
+          "D": "Many women's embrace of the idea of separate spheres"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": "The factory work described in the excerpt reflects the sharp increase in the number of workers producing goods for distant markets, as industrialization created a national and international market for manufactured goods."
+      },
+      "metadata": {
+        "domain": "Industrial Revolution",
+        "difficulty": 0.7,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "WXT-1.0",
+        "key_concepts": "4.2.II.A",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Growth of industrialization and factory work opportunities.",
+        "explanation": "A: The excerpt most directly reflects the sharp increase in the number of workers making goods for distant markets. The passage describes the experience of a young girl working in a mill, which is indicative of the broader industrialization trend during the early 19th century, where many individuals, including women, began working in factories to produce goods that were often sold in distant markets.",
+        "generation_time": 1.991966962814331,
+        "main_practice_skill": "Contextualization",
+        "learning_objective": "WXT-1.0",
+        "key_concepts": "4.2.II.A"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_054",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"Shortly after this, my mother's widowed sister, . . . who kept a factory boarding house in Lowell [Massachusetts], advised her to come to that city. . . .\n\"My mother, feeling obliged to have help in her work besides what I could give, and also needing the money which I could earn, allowed me . . . to go to work in the mill. . . .\n\"The working hours of all the girls extended from five o'clock in the morning until seven in the evening, with one half hour for breakfast and dinner. . . .\n\"I cannot tell you how it happened that some of us knew about the English factory children, who as it was said, were treated so badly. . . .\n\"In contrast to this sad picture, we thought of ourselves as well off . . . enjoying ourselves in our own good way, with our good mothers and our warm suppers awaiting us.\"\nHarriet Hanson Robinson, Loom and Spindle, or Life Among Early Mill Girls, describing events in the 1830s, published in 1898",
+        "question_text": "Which of the following was a major difference in economic development between the Northeast and the South in the first half of the 1800s?",
+        "options": {
+          "A": "Southern exports had a far lower value than exports from the Northeast.",
+          "B": "Banking and shipping grew more rapidly in the South than in other regions.",
+          "C": "The South relied much less on wage labor than the Northeast.",
+          "D": "The South had few commercial connections with other regions of the United States."
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": "The South relied much less on wage labor than the Northeast, as the Southern economy was primarily based on slave labor for agricultural production, while the Northeast developed industrial wage labor systems like those described in the excerpt."
+      },
+      "metadata": {
+        "domain": "Industrial Revolution",
+        "difficulty": 0.7,
+        "main_practice_skill": "Comparison",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "4.2.III.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "The Northeast industrialized; the South remained agricultural.",
+        "explanation": "C: The South relied much less on wage labor than the Northeast. The Northeast, particularly in places like Lowell, Massachusetts, developed a factory-based economy that relied heavily on wage labor, including that of women and children, while the South's economy was predominantly agrarian and relied heavily on enslaved labor rather than wage labor.",
+        "generation_time": 2.250767230987549,
+        "main_practice_skill": "Comparison",
+        "learning_objective": "WXT-2.0",
+        "key_concepts": "4.2.III.C"
+      }
+    },
+    {
+      "id": "AP_US_HISTORY_2017_055",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "\"Shortly after this, my mother's widowed sister, . . . who kept a factory boarding house in Lowell [Massachusetts], advised her to come to that city. . . .\n\"My mother, feeling obliged to have help in her work besides what I could give, and also needing the money which I could earn, allowed me . . . to go to work in the mill. . . .\n\"The working hours of all the girls extended from five o'clock in the morning until seven in the evening, with one half hour for breakfast and dinner. . . .\n\"I cannot tell you how it happened that some of us knew about the English factory children, who as it was said, were treated so badly. . . .\n\"In contrast to this sad picture, we thought of ourselves as well off . . . enjoying ourselves in our own good way, with our good mothers and our warm suppers awaiting us.\"\nHarriet Hanson Robinson, Loom and Spindle, or Life Among Early Mill Girls, describing events in the 1830s, published in 1898",
+        "question_text": "Robinson's assertion that she and the other workers were 'well off' would be challenged during the second half of the nineteenth century by which of the following?",
+        "options": {
+          "A": "The growing corporate need for clerical workers that brought many women into office jobs",
+          "B": "Declining household incomes of working families as a result of businesses' unwillingness to employ children",
+          "C": "The expanded access to company-sponsored pensions and healthcare for most employees",
+          "D": "Confrontations between unions and factory management over wages and working conditions"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": "Robinson's positive view of factory work would be challenged by the labor conflicts and confrontations between unions and factory management over wages and working conditions that became more common in the late nineteenth century."
+      },
+      "metadata": {
+        "domain": "Industrial Revolution",
+        "difficulty": 0.7,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WXT-1.0",
+        "key_concepts": "6.1.II.C",
+        "source": {
+          "ap_test": "AP U.S. History",
+          "year": 2017,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "Labor reform movements and workers' rights advocates.",
+        "explanation": "D: Confrontations between unions and factory management over wages and working conditions. During the second half of the nineteenth century, labor unions became more prominent and often challenged the notion that factory workers were 'well off' by highlighting poor wages, long hours, and unsafe working conditions, leading to strikes and demands for better treatment.",
+        "generation_time": 1.7176811695098877,
+        "main_practice_skill": "Analyzing Historical Evidence",
+        "learning_objective": "WXT-1.0",
+        "key_concepts": "6.1.II.C"
+      }
+    }
+  ]
+}
