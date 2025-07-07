@@ -291,7 +291,7 @@
                     <span class="provider-name">${result.provider}</span>
                 </td>
                 <td class="${accuracyClass} number-cell">${result.accuracy.toFixed(1)}%</td>
-                <td class="score-cell">${result.score}/${result.questions}</td>
+                <td class="score-cell">${result.score}/${result.total_possible}</td>
                 <td class="number-cell">${result.time.toFixed(1)}</td>
                 <td class="date-cell">${formattedDate}</td>
             `;
@@ -345,8 +345,8 @@
                 aVal = Number(aVal);
                 bVal = Number(bVal);
             } else if (column === 'score') {
-                aVal = a.score / a.questions;
-                bVal = b.score / b.questions;
+                aVal = a.score / a.total_possible;
+                bVal = b.score / b.total_possible;
             } else if (column === 'date') {
                 aVal = new Date(a.date);
                 bVal = new Date(b.date);

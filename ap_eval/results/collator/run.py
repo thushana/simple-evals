@@ -39,9 +39,10 @@ class ResultsCollator:
                     "score": exam_meta.get("score", 0),
                     "score_average": exam_meta.get("score_average", 0.0),
                     "questions_count": exam_meta.get("questions_count", 0),
+                    "total_possible": exam_meta.get("total_possible", exam_meta.get("questions_count", 0)),
                     "time_total_generation": exam_meta.get("time_total_generation", 0.0),
                     "time_timestamp": exam_meta.get("time_timestamp", ""),
-                    "accuracy_percentage": round(exam_meta.get("score_average", 0.0) * 100, 1),
+                    "accuracy_percentage": round((exam_meta.get("score", 0) / exam_meta.get("total_possible", exam_meta.get("questions_count", 0))) * 100, 1) if exam_meta.get("total_possible", exam_meta.get("questions_count", 0)) > 0 else 0.0,
                     "questions_per_minute": round(exam_meta.get("questions_count", 1) / (exam_meta.get("time_total_generation", 1) / 60), 2)
                 }
                 
@@ -108,6 +109,7 @@ class ResultsCollator:
                 "provider": result["model_provider"],
                 "accuracy": result["accuracy_percentage"],
                 "score": result["score"],
+                "total_possible": result["total_possible"],
                 "questions": result["questions_count"],
                 "time": result["time_total_generation"],
                 "date": result["time_timestamp"],
