@@ -403,7 +403,14 @@ def main():
     
     # Calculate final statistics
     total_score = sum(r.score for r in results)
-    total_possible = sum(questions[i].max_points for i in range(len(questions)))
+    # Calculate total possible points - multiple choice questions are worth 1 point each
+    total_possible = 0
+    for question in questions:
+        if hasattr(question, 'max_points'):
+            total_possible += question.max_points
+        else:
+            # Multiple choice questions are worth 1 point each
+            total_possible += 1
     num_questions = len(results)
     score_average = total_score / total_possible if total_possible > 0 else 0.0
     time_total_generation = sum(r.time_taken for r in responses)
