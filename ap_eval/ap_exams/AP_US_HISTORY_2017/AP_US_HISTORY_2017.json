@@ -1647,5 +1647,57 @@
         "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
       }
     }
+  },
+  {
+    "id": "AP_US_HISTORY_2017_B_001",
+    "question": {
+      "type": "SHORT_ANSWER",
+      "question_context": "[W]e have in [United States history] a recurrence of the process of evolution in each western area reached in the process of expansion. Thus American development has exhibited not merely advance along a single line, but a return to primitive conditions on a continually advancing frontier line, and a new development for that area. American social development has been continually beginning over again on the frontier. This perennial rebirth, this fluidity of American life, this expansion westward with its new opportunities, its continuous touch with the simplicity of primitive society, furnish the forces dominating American character. The true point of view in the history of this nation is not the Atlantic coast, it is the Great West. . . . In this advance, the frontier is the outer edge of the wave—the meeting point between savagery and civilization.\nFrederick Jackson Turner, historian, \"The Significance of the Frontier in American History,\" 1893\n\n[T]he history of the West is a study of a place undergoing conquest and never fully escaping its consequences. . . . Deemphasize the frontier and its supposed end, conceive of the West as a place and not a process, and Western American history has a new look. First, the American West was an important meeting ground, the point where Indian America, Latin America, Anglo-America, Afro-America, and Asia intersected. . . . Second, the workings of conquest tied these diverse groups into the same story. Happily or not, minorities and majorities occupied a common ground. Conquest basically involved the drawing of lines on a map, the definition and allocation of ownership (personal, tribal, corporate, state, federal, and international), and the evolution of land from matter to property.\nPatricia Nelson Limerick, historian, The Legacy of Conquest: The Unbroken Past of the American West, 1987",
+      "question_text": "Using the excerpts above, answer (a), (b), and (c).\n(A) Briefly describe ONE major difference between Turner's and Limerick's historical interpretations of the West.\n(B) Briefly explain how ONE specific historical event or development during the period 1865 to 1898 that is not explicitly mentioned in the excerpts could be used to support Turner's interpretation.\n(C) Briefly explain how ONE specific historical event or development during the period 1865 to 1898 that is not explicitly mentioned in the excerpts could be used to support Limerick's interpretation.",
+      "max_points": 3,
+      "short_answer_question_rubric_question": "For a short-answer question, a good response should:\n- accomplish all three tasks set by the question. It should answer each task with complete sentences and must show some specific knowledge of history to receive credit.\n\nDepending on the question, a good response should:\n- explain a historical interpretation, compare two interpretations, and/or explain how evidence relates to an interpretation.\n- go beyond simply quoting or paraphrasing primary or secondary sources in explaining their meaning or significance.\n- address causes and effects, similarities and differences, or continuities and changes over time for different historical issues, and provide specific evidence in relation to the prompt.",
+      "rubric": {
+        "A": {
+          "criteria": "Briefly describe ONE major difference between Turner's and Limerick's historical interpretations of the West.",
+          "examples": [
+            "Turner views the West as a process of continual rebirth and expansion, while Limerick sees it as a place shaped by conquest and interaction among diverse groups."
+          ],
+          "points": 1
+        },
+        "B": {
+          "criteria": "Briefly explain how ONE specific historical event or development during the period 1865 to 1898 that is not explicitly mentioned in the excerpts could be used to support Turner's interpretation.",
+          "examples": [
+            "The Homestead Act of 1862 encouraged westward migration and settlement, supporting Turner's idea of the frontier as a process of expansion."
+          ],
+          "points": 1
+        },
+        "C": {
+          "criteria": "Briefly explain how ONE specific historical event or development during the period 1865 to 1898 that is not explicitly mentioned in the excerpts could be used to support Limerick's interpretation.",
+          "examples": [
+            "The Dawes Act of 1887, which divided tribal lands and aimed to assimilate Native Americans, supports Limerick's argument about conquest and the allocation of land."
+          ],
+          "points": 1
+        }
+      }
+    },
+    "answer": {
+      "exemplar": {
+        "A": "Turner sees the West as a process of continual rebirth and expansion, while Limerick sees it as a place shaped by conquest and the interaction of diverse groups.",
+        "B": "The Homestead Act of 1862 encouraged westward migration and settlement, supporting Turner's interpretation of the frontier as a process of expansion.",
+        "C": "The Dawes Act of 1887, which divided tribal lands and aimed to assimilate Native Americans, supports Limerick's interpretation of the West as a place shaped by conquest."
+      }
+    },
+    "metadata": {
+      "domain": "The American West",
+      "difficulty": 0.8,
+      "main_practice_skill": "Analyzing Historical Evidence",
+      "learning_objective": "MIG-2.0",
+      "key_concepts": "6.2.II.B",
+      "source": {
+        "ap_test": "AP U.S. History",
+        "year": 2017,
+        "url": "https://apcentral.collegeboard.org/media/pdf/ap-united-states-history-ced-practice-exam.pdf"
+      }
+    }
   }
 ]
