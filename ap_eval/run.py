@@ -51,7 +51,7 @@ def build_prompt(question):
     
     return prompt
 
-def get_model_response(sampler, question, model_name, show_question=False, show_model_query=False, show_model_response=False):
+def get_model_response(sampler, question, model_name, exam_identifier, show_question=False, show_model_query=False, show_model_response=False):
     if show_question:
         print(f"\n{'='*50}")
         print(f"QUESTION: {question.id}")
@@ -108,7 +108,7 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
     # Add image if present
     if hasattr(question, 'question_image') and question.question_image:
         # Construct image path relative to the exam directory
-        exam_dir = os.path.join(os.path.dirname(__file__), "ap_exams", "AP_US_HISTORY_2017")
+        exam_dir = os.path.join(os.path.dirname(__file__), "ap_exams", exam_identifier)
         image_path = os.path.join(exam_dir, question.question_image)
         
         # Encode the image
@@ -167,28 +167,26 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
     
     if hasattr(question, 'options'):
         # Multiple choice question - extract letter answer
-        # Look for answer patterns like "A:", "B:", "C:", "D:" at the beginning
+        # Look for answer patterns like "A:", "B:", ..., "Z:" at the beginning
+        import re
         lines = response_text.split('\n')
         for line in lines:
             line = line.strip()
-            if line.startswith(('A:', 'B:', 'C:', 'D:')):
+            if re.match(r'^[A-Z]:', line):
                 answer = line[0]
                 break
-        
-        # If not found at beginning of lines, look for patterns like "Answer: A" or "The answer is B"
+        # If not found at beginning of lines, look for patterns like "Answer: A" or "The answer is B" (A-Z)
         if not answer:
-            import re
             patterns = [
-                r'answer[:\s]+([ABCD])',
-                r'option[:\s]+([ABCD])',
-                r'choice[:\s]+([ABCD])',
+                r'answer[:\s]+([A-Z])',
+                r'option[:\s]+([A-Z])',
+                r'choice[:\s]+([A-Z])',
             ]
             for pattern in patterns:
                 match = re.search(pattern, response_text, re.IGNORECASE)
                 if match:
-                    answer = match.group(1)
+                    answer = match.group(1).upper()
                     break
-        
         if not answer:
             answer = "?"  # fallback if not found
     else:
@@ -208,7 +206,7 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
         timestamp=datetime.datetime.now()
     )
 
-def get_model_response_no_options(sampler, question, model_name, show_question=False, show_model_query=False, show_model_response=False):
+def get_model_response_no_options(sampler, question, model_name, exam_identifier, show_question=False, show_model_query=False, show_model_response=False):
     """Get model response without showing options - requires Short Answer Question"""
     if show_question:
         print(f"\n{'='*50}")
@@ -252,7 +250,7 @@ def get_model_response_no_options(sampler, question, model_name, show_question=F
     # Add image if present
     if hasattr(question, 'question_image') and question.question_image:
         # Construct image path relative to the exam directory
-        exam_dir = os.path.join(os.path.dirname(__file__), "ap_exams", "AP_US_HISTORY_2017")
+        exam_dir = os.path.join(os.path.dirname(__file__), "ap_exams", exam_identifier)
         image_path = os.path.join(exam_dir, question.question_image)
         
         # Encode the image
@@ -368,10 +366,10 @@ def main():
         print(f"{question.id} → 🔄 Evaluating...", end='', flush=True)
         
         # Get regular response with options
-        response = get_model_response(sampler, question, args.model_name, args.show_question, args.show_model_query, args.show_model_response)
+        response = get_model_response(sampler, question, args.model_name, args.exam_identifier, args.show_question, args.show_model_query, args.show_model_response)
         
         # Get response without options
-        answer_no_options, time_no_options = get_model_response_no_options(sampler, question, args.model_name, False, False, False)
+        answer_no_options, time_no_options = get_model_response_no_options(sampler, question, args.model_name, args.exam_identifier, False, False, False)
         
         # Add the no-options answer to the response
         response.model_answer_no_options = answer_no_options
