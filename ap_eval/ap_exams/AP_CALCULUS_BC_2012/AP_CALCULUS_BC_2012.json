@@ -1,0 +1,85 @@
+[
+  {
+    "id": "AP_TEST_YYYY_SECTION_PART_001",
+    "question": {
+      "type": "MULTIPLE_CHOICE",
+      "question_context": "",
+      "question_image": "",
+      "question_text": "",
+      "options": {
+        "A": "",
+        "B": "",
+        "C": "",
+        "D": ""
+      }
+    },
+    "answer": {
+      "correct": "",
+      "explanation": ""
+    },
+    "metadata": {
+      "domain": "",
+      "difficulty": 0.0,
+      "main_practice_skill": "",
+      "learning_objective": "",
+      "key_concepts": "",
+      "source": {
+        "ap_test": "",
+        "year": 2000,
+        "url": ""
+      }
+    }
+  },
+  {
+    "id": "AP_TEST_YYYY_SECTION_PART_002",
+    "question": {
+      "type": "SHORT_ANSWER",
+      "question_image": "",
+      "question_text": "",
+      "max_points": 3,
+      "short_answer_question_rubric_question": "For a short-answer question, a good response should accomplish all tasks set by the question.",
+      "rubric": {
+        "A": {
+          "criteria": "",
+          "examples": [
+            ""
+          ],
+          "points": 1
+        },
+        "B": {
+          "criteria": "",
+          "examples": [
+            ""
+          ],
+          "points": 1
+        },
+        "C": {
+          "criteria": "",
+          "examples": [
+            ""
+          ],
+          "points": 1
+        }
+      }
+    },
+    "answer": {
+      "exemplar": {
+        "A": "",
+        "B": "",
+        "C": ""
+      }
+    },
+    "metadata": {
+      "domain": "",
+      "difficulty": 0.0,
+      "main_practice_skill": "",
+      "learning_objective": "",
+      "key_concepts": "",
+      "source": {
+        "ap_test": "",
+        "year": 2000,
+        "url": ""
+      }
+    }
+  }
+] 
