@@ -13,7 +13,7 @@ import argparse
 import subprocess
 
 class ResultsCollator:
-    def __init__(self, results_dir: str = "ap_eval/results"):
+    def __init__(self, results_dir: str = "college_board_eval/results"):
         self.results_dir = results_dir
         self.results_data = []
         
@@ -96,7 +96,7 @@ class ResultsCollator:
         except Exception:
             return None, None
 
-    def write_index_json(self, output_file: str = "ap_eval/results/index.json"):
+    def write_index_json(self, output_file: str = "college_board_eval/results/index.json"):
         """Write distilled results to index.json for the dashboard JS to load, with metadata."""
         import datetime
         best_runs = self.get_best_runs()  # key: exam_identifier, value: result dict
@@ -133,8 +133,8 @@ class ResultsCollator:
 
 def main():
     parser = argparse.ArgumentParser(description='Generate AP evaluation results index.json for dashboard')
-    parser.add_argument('--results-dir', default='ap_eval/results', help='Directory containing result JSON files')
-    parser.add_argument('--output', default='ap_eval/results/index.json', help='Output JSON file path')
+    parser.add_argument('--results-dir', default='college_board_eval/results', help='Directory containing result JSON files')
+    parser.add_argument('--output', default='college_board_eval/results/index.json', help='Output JSON file path')
     args = parser.parse_args()
     collator = ResultsCollator(args.results_dir)
     collator.load_all_results()

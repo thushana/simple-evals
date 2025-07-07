@@ -31,7 +31,7 @@ class ShortAnswerScorer:
         """
         try:
             # Construct the full path to the image
-            exam_dir = Path(__file__).parent / "ap_exams" / exam_identifier
+            exam_dir = Path(__file__).parent / "exams" / exam_identifier
             full_image_path = exam_dir / image_path
             
             if not full_image_path.exists():

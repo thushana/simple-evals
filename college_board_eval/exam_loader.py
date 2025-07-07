@@ -120,20 +120,20 @@ def load_question_groups_from_json(json_file_path: str, exam_type: str) -> List[
 
 def get_questions_for_exam(exam_identifier: str) -> tuple[List[Question], List[QuestionGroup]]:
     """Get questions and question groups for a specific exam identifier"""
-    # Look for exam files in ap_exams directory
-    ap_exams_dir = os.path.join(os.path.dirname(__file__), "ap_exams")
+    # Look for exam files in exams directory
+    exams_dir = os.path.join(os.path.dirname(__file__), "exams")
     
-    if not os.path.exists(ap_exams_dir):
-        print(f"Warning: ap_exams directory not found at {ap_exams_dir}")
+    if not os.path.exists(exams_dir):
+        print(f"Warning: exams directory not found at {exams_dir}")
         return [], []
     
     # Look for the exam directory and the JSON file
-    exam_dir = os.path.join(ap_exams_dir, exam_identifier)
+    exam_dir = os.path.join(exams_dir, exam_identifier)
     json_file_path = os.path.join(exam_dir, f"{exam_identifier}.json")
     
     if not os.path.exists(json_file_path):
         print(f"Warning: Exam file not found: {exam_identifier}/{exam_identifier}.json")
-        print(f"Available exams: {[d for d in os.listdir(ap_exams_dir) if os.path.isdir(os.path.join(ap_exams_dir, d))]}")
+        print(f"Available exams: {[d for d in os.listdir(exams_dir) if os.path.isdir(os.path.join(exams_dir, d))]}")
         return [], []
     
     print(f"Using exam: {exam_identifier}/{exam_identifier}.json")

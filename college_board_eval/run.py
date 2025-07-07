@@ -5,9 +5,9 @@ import argparse
 import json
 import time
 import base64
-from ap_eval.evaluator import APEvaluator
-from ap_eval.ap_types import Response
-from ap_eval.exam_loader import get_questions_for_exam
+from college_board_eval.evaluator import APEvaluator
+from college_board_eval.ap_types import Response
+from college_board_eval.exam_loader import get_questions_for_exam
 
 def get_sampler(model_name):
     """Get the appropriate sampler based on model name"""
@@ -108,7 +108,7 @@ def get_model_response(sampler, question, model_name, exam_identifier, show_ques
     # Add image if present
     if hasattr(question, 'question_image') and question.question_image:
         # Construct image path relative to the exam directory
-        exam_dir = os.path.join(os.path.dirname(__file__), "ap_exams", exam_identifier)
+        exam_dir = os.path.join(os.path.dirname(__file__), "exams", exam_identifier)
         image_path = os.path.join(exam_dir, question.question_image)
         
         # Encode the image
@@ -250,7 +250,7 @@ def get_model_response_no_options(sampler, question, model_name, exam_identifier
     # Add image if present
     if hasattr(question, 'question_image') and question.question_image:
         # Construct image path relative to the exam directory
-        exam_dir = os.path.join(os.path.dirname(__file__), "ap_exams", exam_identifier)
+        exam_dir = os.path.join(os.path.dirname(__file__), "exams", exam_identifier)
         image_path = os.path.join(exam_dir, question.question_image)
         
         # Encode the image
@@ -352,7 +352,7 @@ def main():
     
     if not questions:
         print(f"No questions found for exam: {args.exam_identifier}")
-        print("Make sure the exam file exists in ap_eval/ap_exams/ directory")
+        print("Make sure the exam file exists in college_board_eval/exams/ directory")
         sys.exit(1)
     
     evaluator = APEvaluator(questions)
@@ -436,7 +436,7 @@ def main():
     }
     
     # Load original exam data to merge with results
-    exam_file_path = os.path.join(os.path.dirname(__file__), "ap_exams", args.exam_identifier, f"{args.exam_identifier}.json")
+    exam_file_path = os.path.join(os.path.dirname(__file__), "exams", args.exam_identifier, f"{args.exam_identifier}.json")
     with open(exam_file_path, 'r') as f:
         exam_data = json.load(f)
     

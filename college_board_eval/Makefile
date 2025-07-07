@@ -54,7 +54,7 @@ run:
 		exit 1; \
 	fi
 	@echo "Running AP evaluation for $(MODEL) on $(EXAM)..."
-	cd .. && python -m ap_eval.run $(MODEL) $(EXAM)
+	cd .. && python -m college_board_eval.run $(MODEL) $(EXAM)
 
 # Convenience target to run evaluation and then start server
 evaluate: run collate results 

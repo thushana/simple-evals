@@ -4,7 +4,7 @@ The Results Collator automatically reads all AP evaluation result JSON files and
 
 ## Features
 
-- **Automatic Data Loading**: Reads all JSON result files from `ap_eval/results/`
+- **Automatic Data Loading**: Reads all JSON result files from `college_board_eval/results/`
 - **Interactive Dashboard**: Sortable table with all evaluation results
 - **Combined Statistics**: Overall accuracy, total questions, time metrics
 - **Visual Indicators**: Color-coded accuracy levels (green/yellow/red)
@@ -15,30 +15,30 @@ The Results Collator automatically reads all AP evaluation result JSON files and
 
 ### Basic Usage
 ```bash
-python ap_eval/results/collator/run.py
+python college_board_eval/results/collator/run.py
 ```
 
 ### With Custom Options
 ```bash
 # Custom results directory
-python ap_eval/results/collator/run.py --results-dir /path/to/results
+python college_board_eval/results/collator/run.py --results-dir /path/to/results
 
 # Custom output location
-python ap_eval/results/collator/run.py --output /path/to/dashboard.html
+python college_board_eval/results/collator/run.py --output /path/to/dashboard.html
 
 # Both custom directory and output
-python ap_eval/results/collator/run.py --results-dir /path/to/results --output /path/to/dashboard.html
+python college_board_eval/results/collator/run.py --results-dir /path/to/results --output /path/to/dashboard.html
 ```
 
 ### Viewing the Dashboard
 ```bash
 # Start a local server (recommended)
-cd ap_eval/results
+cd college_board_eval/results
 python3 -m http.server 8000
 # Then visit: http://localhost:8000
 
 # Or open directly in browser (may have CORS issues)
-open ap_eval/results/index.html
+open college_board_eval/results/index.html
 ```
 
 ## Dashboard Features
@@ -83,7 +83,7 @@ The collator generates:
 ## File Structure
 
 ```
-ap_eval/results/collator/
+college_board_eval/results/collator/
 ├── run.py                # Main collator script
 └── README.md             # This file
 ```
@@ -91,6 +91,6 @@ ap_eval/results/collator/
 ## Output
 
 The collator generates:
-- `ap_eval/results/index.html`: Interactive HTML dashboard
-- `ap_eval/results/index.json`: Dashboard data (used by the HTML)
+- `college_board_eval/results/index.html`: Interactive HTML dashboard
+- `college_board_eval/results/index.json`: Dashboard data (used by the HTML)
 - Console summary with key statistics 

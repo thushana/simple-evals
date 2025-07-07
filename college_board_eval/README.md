@@ -1,11 +1,11 @@
-# AP Evaluation System
+# College Board LLM Evaluation System
 
-A system for evaluating language models on Advanced Placement exam questions. A fork of OpenAI's Simple-Eval project.
+A system for evaluating language models on SAT and Advanced Placement exam questions. A fork of OpenAI's Simple-Eval project.
 
 ## Overview
 
 This system allows you to:
-- Load AP exam questions from JSON files
+- Load College Board exam questions from JSON files
 - Send questions to various language models (GPT-4, Claude, etc.)
 - Evaluate model responses and calculate scores
 - View detailed information about questions, prompts, and responses
@@ -37,13 +37,13 @@ make evaluate MODEL=gpt-4 EXAM=AP_US_HISTORY_2017
 
 ## Makefile Commands
 
-For convenience, this project includes a Makefile with common commands. All commands should be run from the `ap_eval` directory:
+For convenience, this project includes a Makefile with common commands. All commands should be run from the `college_board_eval` directory:
 
 ```bash
 make help                    # Show all available commands
 make install                 # Install the package in development mode
 make setup                   # Set up API keys (copy .env.example to .env)
-make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run AP evaluation
+make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation
 make collate                 # Generate dashboard from all result files
 make results                 # Start local server to view dashboard
 make clean                   # Remove generated result files
@@ -82,7 +82,7 @@ The system generates an interactive HTML dashboard showing all evaluation result
 
 ## Adding New Exams
 
-1. Create a directory in `ap_exams/` with the exam identifier (e.g., `AP_BIOLOGY_2023/`)
+1. Create a directory in `exams/` with the exam identifier (e.g., `AP_BIOLOGY_2023/`)
 2. Add the questions JSON file inside that directory (e.g., `AP_BIOLOGY_2023/AP_BIOLOGY_2023.json`)
 3. Follow the same JSON format as existing exams
 4. Run evaluation: `make run MODEL=gpt-4 EXAM=AP_BIOLOGY_2023`
@@ -130,7 +130,7 @@ Total Time:     62.99s
 ## File Structure
 
 ```
-ap_eval/
+college_board_eval/
 ├── README.md                    # This file
 ├── Makefile                     # Convenience commands
 ├── __init__.py                  # Package initialization
@@ -138,7 +138,7 @@ ap_eval/
 ├── evaluator.py                 # Core evaluation logic
 ├── exam_loader.py               # Exam loading logic
 ├── run.py                       # Main evaluation script
-├── ap_exams/                    # Exam data
+├── exams/                    # Exam data
 │   └── AP_US_HISTORY_2017/      # Individual exam directory
 │       └── AP_US_HISTORY_2017.json # Questions for this exam
 └── results/                     # Evaluation results
