@@ -1,85 +1,37 @@
-[
-  {
-    "id": "AP_TEST_YYYY_SECTION_PART_001",
-    "question": {
-      "type": "MULTIPLE_CHOICE",
-      "question_context": "",
-      "question_image": "",
-      "question_text": "",
-      "options": {
-        "A": "",
-        "B": "",
-        "C": "",
-        "D": ""
-      }
-    },
-    "answer": {
-      "correct": "",
-      "explanation": ""
-    },
-    "metadata": {
-      "domain": "",
-      "difficulty": 0.0,
-      "main_practice_skill": "",
-      "learning_objective": "",
-      "key_concepts": "",
-      "source": {
-        "ap_test": "",
-        "year": 2000,
-        "url": ""
-      }
-    }
-  },
-  {
-    "id": "AP_TEST_YYYY_SECTION_PART_002",
-    "question": {
-      "type": "SHORT_ANSWER",
-      "question_image": "",
-      "question_text": "",
-      "max_points": 3,
-      "short_answer_question_rubric_question": "For a short-answer question, a good response should accomplish all tasks set by the question.",
-      "rubric": {
-        "A": {
-          "criteria": "",
-          "examples": [
-            ""
-          ],
-          "points": 1
-        },
-        "B": {
-          "criteria": "",
-          "examples": [
-            ""
-          ],
-          "points": 1
-        },
-        "C": {
-          "criteria": "",
-          "examples": [
-            ""
-          ],
-          "points": 1
+{
+  "section_question_context": "Directions: Solve each of the following problems, using the available space for scratch work. After examining the form of the choices, decide which is the best of the choices given and fill in the corresponding circle on the answer sheet. No credit will be given for anything written in the exam book. Do not spend too much time on any one problem.\n\nIn this exam:\n(1) Unless otherwise specified, the domain of a function f is assumed to be the set of all real numbers x for which f(x) is a real number.\n(2) The inverse of a trigonometric function f may be indicated using the inverse function notation f⁻¹ or with the prefix “arc” (e.g., sin⁻¹x = arcsinx).",
+  "questions": [
+    {
+      "id": "AP_CALCULUS_BC_I_A_001",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_001.png",
+        "question_text": "If y = sin^3(x), then dy/dx =",
+        "options": {
+          "A": "cos^3(x)",
+          "B": "3cos^2(x)",
+          "C": "3sin^2(x)",
+          "D": "-3sin^2(x)cos(x)",
+          "E": "3sin^2(x)cos(x)"
+        }
+      },
+      "answer": {
+        "correct": "E",
+        "explanation": "Let y = (sin x)^3. By the chain rule, dy/dx = 3(sin x)^2 * cos x = 3sin^2(x)cos(x)."
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0.2,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
         }
       }
-    },
-    "answer": {
-      "exemplar": {
-        "A": "",
-        "B": "",
-        "C": ""
-      }
-    },
-    "metadata": {
-      "domain": "",
-      "difficulty": 0.0,
-      "main_practice_skill": "",
-      "learning_objective": "",
-      "key_concepts": "",
-      "source": {
-        "ap_test": "",
-        "year": 2000,
-        "url": ""
-      }
     }
-  }
-] 
+  ]
+} 
