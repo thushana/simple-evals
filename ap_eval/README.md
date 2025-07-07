@@ -87,6 +87,32 @@ The system generates an interactive HTML dashboard showing all evaluation result
 3. Follow the same JSON format as existing exams
 4. Run evaluation: `make run MODEL=gpt-4 EXAM=AP_BIOLOGY_2023`
 
+## Question Types
+
+### Multiple Choice Questions
+Standard multiple choice questions with A, B, C, D options. Model responses are evaluated for exact answer matching.
+
+### Short Answer Questions
+Short answer questions use AI-powered rubric-based scoring for more nuanced evaluation.
+
+#### Scoring System
+- **LLM-Powered Scoring**: Uses a consistent scoring model regardless of the response generator
+- **Rubric-Based**: Each question includes a detailed rubric with point allocation and exemplar answers
+- **Configurable**: Scoring parameters are defined in `config.json` with precedence hierarchy:
+  - Question-level overrides → Test-level overrides → System-level defaults
+- **Structured Prompts**: Scoring uses carefully crafted prompts to ensure consistent evaluation
+
+#### Configuration
+The scoring system is configured via `config.json`:
+```json
+{
+  "short_answer_question_scorer_provider": "openai",
+  "short_answer_question_scorer_model": "gpt-4o",
+  "short_answer_question_rubric_system": "For a short-answer question, a good response should:\n- accomplish all three tasks set by the question...",
+  "short_answer_question_rubric_prompt": "You are an AP Short Answer Question scorer.\n\nQuestion: {question_text}\nRubric: {rubric}\nStudent Response: {response}\n\nUse the general AP scoring criteria and specific rubric above to evaluate this response..."
+}
+```
+
 ## Example Output
 
 ```
