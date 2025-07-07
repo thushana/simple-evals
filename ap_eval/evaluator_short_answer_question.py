@@ -10,16 +10,61 @@ from .config import (
 import re
 import json
 import os
+import base64
 import openai
+from pathlib import Path
 
 class ShortAnswerScorer:
     """
     Scores Short Answer Questions using a configured model with precedence hierarchy.
+    Supports images when the model has vision capabilities.
     """
     
     def __init__(self):
         self.scorer_model = get_scorer_model()
         self.prompt_template = get_short_answer_question_prompt_template()
+    
+    def _load_image_as_base64(self, image_path: str, exam_identifier: str) -> Optional[str]:
+        """
+        Load an image file and return it as base64 encoded string.
+        Returns None if image cannot be loaded.
+        """
+        try:
+            # Construct the full path to the image
+            exam_dir = Path(__file__).parent / "ap_exams" / exam_identifier
+            full_image_path = exam_dir / image_path
+            
+            if not full_image_path.exists():
+                print(f"Warning: Image file not found: {full_image_path}")
+                return None
+            
+            # Read and encode the image
+            with open(full_image_path, "rb") as image_file:
+                image_data = image_file.read()
+                encoded_image = base64.b64encode(image_data).decode('utf-8')
+                return encoded_image
+                
+        except Exception as e:
+            print(f"Warning: Failed to load image {image_path}: {e}")
+            return None
+    
+    def _get_model_vision_support(self, model: str) -> bool:
+        """
+        Check if the model supports vision capabilities.
+        """
+        # Vision-capable models
+        vision_models = {
+            "gpt-4o", "gpt-4o-mini", "gpt-4-vision-preview",
+            "claude-3-5-sonnet-20241022", "claude-3-5-haiku-20241022",
+            "gemini-1.5-pro", "gemini-1.5-flash", "gemini-2.0-flash"
+        }
+        
+        # Check if model name contains vision indicators
+        model_lower = model.lower()
+        if "vision" in model_lower or "multimodal" in model_lower:
+            return True
+            
+        return model in vision_models
     
     def _get_scoring_guide_with_precedence(self, question: ShortAnswerQuestion, test_metadata: Optional[Dict] = None) -> str:
         """
@@ -64,6 +109,26 @@ class ShortAnswerScorer:
         scoring_guide = self._get_scoring_guide_with_precedence(question, test_metadata)
         # Format the rubric
         rubric_text = self._format_rubric_for_prompt(question.rubric)
+        
+        # Handle image if present
+        image_content = None
+        image_notice = ""
+        if question.question_image:
+            # Try to load the image
+            exam_identifier = question.id.split('_')[0:4]  # Extract exam identifier from question ID (including year)
+            exam_identifier = '_'.join(exam_identifier)
+            encoded_image = self._load_image_as_base64(question.question_image, exam_identifier)
+            
+            if encoded_image:
+                image_content = {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/png;base64,{encoded_image}"
+                    }
+                }
+            else:
+                image_notice = f"\n[Note: An image was supposed to be included here ({question.question_image}), but it could not be loaded. Please evaluate the response based on the text content only.]"
+        
         # Create the prompt
         prompt = self.prompt_template.format(
             question_text=question.question_text,
@@ -71,18 +136,40 @@ class ShortAnswerScorer:
             response=response.answer,
             max_points=question.max_points
         )
+        
         # Add the scoring guide to the prompt
         if scoring_guide:
             prompt = prompt.replace("Rubric:", f"General Scoring Criteria:\n{scoring_guide}\n\nRubric:")
+        
+        # Add image notice if image couldn't be loaded
+        if image_notice:
+            prompt = prompt.replace("Question:", f"Question:{image_notice}")
+        
         provider = get_short_answer_question_scorer_provider()
         model = get_short_answer_question_scorer_model()
+        
+        # Check if model supports vision
+        supports_vision = self._get_model_vision_support(model)
+        
         # Try OpenAI if configured
         if provider == "openai":
             try:
                 client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+                
+                # Prepare message content
+                message_content = [{"type": "text", "text": prompt}]
+                
+                # Add image if available and model supports vision
+                if image_content and supports_vision:
+                    message_content.append(image_content)
+                elif image_content and not supports_vision:
+                    # Add notice about image not being sent
+                    image_notice = f"\n[Note: An image was included in the question ({question.question_image}), but this model ({model}) doesn't support vision. Please evaluate based on the text content only.]"
+                    message_content[0]["text"] = message_content[0]["text"].replace("Question:", f"Question:{image_notice}")
+                
                 completion = client.chat.completions.create(
                     model=model,
-                    messages=[{"role": "user", "content": prompt}],
+                    messages=[{"role": "user", "content": message_content}],
                     temperature=0.0,
                     max_tokens=512,
                 )
@@ -101,6 +188,7 @@ class ShortAnswerScorer:
                 return score, explanation
             except Exception as e:
                 return 0.0, f"[OpenAI scoring failed: {e}]"
+        
         # Fallback: placeholder
         score = 2.5  # Placeholder score
         explanation = f"Scored using {self.scorer_model}. Response addresses most parts adequately."
