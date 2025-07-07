@@ -17,7 +17,7 @@ class APTest(Enum):
 
 class QuestionType(Enum):
     MULTIPLE_CHOICE = "Multiple Choice"
-    SHORT_ANSWER = "Short Answer"
+    SHORT_ANSWER_QUESTION = "Short Answer Question"
     DBQ = "Document-Based Question"
     LONG_ESSAY = "Long Essay"
 
@@ -45,6 +45,10 @@ class ShortAnswerQuestion(Question):
     question_context: Optional[str] = None  # Contextual paragraph or passage before the question
     question_image: Optional[str] = None  # Image file reference for the question
     source: Optional['Source'] = None  # Metadata about the question's source
+    max_points: int = 3  # Maximum points possible for this question
+    short_answer_question_rubric_question: Optional[str] = None  # Question-level scoring guide
+    rubric: Optional[Dict[str, Any]] = None  # Scoring rubric for the question
+    exemplar_answers: Optional[Dict[str, str]] = None  # Exemplar answers for each part
 
 @dataclass
 class Response:
@@ -57,6 +61,8 @@ class Response:
     model_name: str = "unknown"
     timestamp: datetime = field(default_factory=datetime.now)
     model_answer_no_options: Optional[str] = None  # Answer without seeing options
+    # For Short Answer Questions, store answers for each part
+    short_answer_question_parts: Optional[Dict[str, str]] = None  # e.g., {"A": "answer for part A", "B": "answer for part B"}
 
 @dataclass
 class EvaluationResult:

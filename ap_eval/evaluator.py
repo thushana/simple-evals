@@ -1,5 +1,6 @@
 from typing import List
-from .ap_types import Question, Response, EvaluationResult, TestResults, APTest
+from .ap_types import Question, Response, EvaluationResult, TestResults, APTest, QuestionType
+from .evaluator_short_answer_question import ShortAnswerScorer
 from datetime import datetime
 from collections import defaultdict
 
@@ -7,12 +8,23 @@ class APEvaluator:
     def __init__(self, questions: List[Question]):
         self.questions = {q.id: q for q in questions}
         self.test = questions[0].test if questions else None
+        self.short_answer_question_scorer = ShortAnswerScorer()
 
     def evaluate_response(self, response: Response) -> EvaluationResult:
         question = self.questions.get(response.question_id)
         if not question:
             raise ValueError(f"Question with ID {response.question_id} not found")
 
+        # Handle different question types
+        if question.question_type == QuestionType.MULTIPLE_CHOICE:
+            return self._evaluate_multiple_choice(question, response)
+        elif question.question_type == QuestionType.SHORT_ANSWER_QUESTION:
+            return self._evaluate_short_answer(question, response)
+        else:
+            raise ValueError(f"Unsupported question type: {question.question_type}")
+
+    def _evaluate_multiple_choice(self, question, response: Response) -> EvaluationResult:
+        """Evaluate a multiple choice question."""
         is_correct = response.answer == question.correct_answer
         score = 1.0 if is_correct else 0.0
 
@@ -29,6 +41,10 @@ class APEvaluator:
             timestamp=response.timestamp,
             score=score
         )
+
+    def _evaluate_short_answer(self, question, response: Response) -> EvaluationResult:
+        """Evaluate a Short Answer Question using the rubric-based scorer."""
+        return self.short_answer_question_scorer.score_question(question, response)
 
     def evaluate_all(self, responses: List[Response]) -> TestResults:
         results = [self.evaluate_response(r) for r in responses]

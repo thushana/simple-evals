@@ -2,7 +2,7 @@ import json
 import os
 from typing import List
 from .ap_types import (
-    APTest, QuestionType,
+    APTest, QuestionType, Question,
     MultipleChoiceQuestion, ShortAnswerQuestion, Source, QuestionGroup
 )
 
@@ -26,7 +26,7 @@ def get_ap_test_enum(exam_type: str) -> APTest:
     
     return exam_mapping[exam_type]
 
-def load_questions_from_json(json_file_path: str, exam_type: str) -> List[MultipleChoiceQuestion]:
+def load_questions_from_json(json_file_path: str, exam_type: str) -> List[Question]:
     """Load questions from JSON file and convert to Question objects"""
     if not os.path.exists(json_file_path):
         raise FileNotFoundError(f"Question file not found: {json_file_path}")
@@ -70,16 +70,20 @@ def load_questions_from_json(json_file_path: str, exam_type: str) -> List[Multip
             question = ShortAnswerQuestion(
                 id=item["id"],
                 test=ap_test,
-                question_type=QuestionType.SHORT_ANSWER,
+                question_type=QuestionType.SHORT_ANSWER_QUESTION,
                 question_text=item["question"]["question_text"],
-                correct_answer=item["answer"]["correct"],
-                explanation=item["answer"]["explanation"],
+                correct_answer="",  # Not applicable for Short Answer Question
+                explanation="",  # Not applicable for Short Answer Question
                 difficulty=item["metadata"]["difficulty"],
                 skill_domain=item["metadata"]["domain"],
                 year=item["metadata"]["source"]["year"],
                 source=source,
                 question_context=item["question"].get("question_context", ""),
-                question_image=item["question"].get("question_image", "")
+                question_image=item["question"].get("question_image", ""),
+                max_points=item["question"].get("max_points", 3),
+                short_answer_question_rubric_question=item["question"].get("short_answer_question_rubric_question", None),
+                rubric=item["question"].get("rubric", None),
+                exemplar_answers=item["answer"].get("exemplar", None)
             )
         else:
             raise ValueError(f"Unsupported question type: {question_type}")
@@ -113,7 +117,7 @@ def load_question_groups_from_json(json_file_path: str, exam_type: str) -> List[
     
     return list(groups.values())
 
-def get_questions_for_exam(exam_identifier: str) -> tuple[List[MultipleChoiceQuestion], List[QuestionGroup]]:
+def get_questions_for_exam(exam_identifier: str) -> tuple[List[Question], List[QuestionGroup]]:
     """Get questions and question groups for a specific exam identifier"""
     # Look for exam files in ap_exams directory
     ap_exams_dir = os.path.join(os.path.dirname(__file__), "ap_exams")

@@ -46,7 +46,7 @@ def build_prompt(question):
             prompt += f"{k}: {v}\n"
         prompt += "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\nExample: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
     else:
-        # For short answer questions
+        # For Short Answer Questions
         prompt += "Provide a detailed description of what you observe in the image."
     
     return prompt
@@ -91,7 +91,7 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
             prompt_text += f"{k}: {v}\n"
         prompt_text += "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\nExample: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
     else:
-        # For short answer questions
+        # For Short Answer Questions
         prompt_text += "Provide a detailed description of what you observe in the image."
     
     if show_model_query:
@@ -192,7 +192,7 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
         if not answer:
             answer = "?"  # fallback if not found
     else:
-        # Short answer question - use the full response as the answer
+        # Short Answer Question - use the full response as the answer
         answer = response_text
     
     generation_time = end_time - start_time
@@ -209,7 +209,7 @@ def get_model_response(sampler, question, model_name, show_question=False, show_
     )
 
 def get_model_response_no_options(sampler, question, model_name, show_question=False, show_model_query=False, show_model_response=False):
-    """Get model response without showing options - requires short answer"""
+    """Get model response without showing options - requires Short Answer Question"""
     if show_question:
         print(f"\n{'='*50}")
         print(f"QUESTION (NO OPTIONS): {question.id}")
@@ -235,7 +235,7 @@ def get_model_response_no_options(sampler, question, model_name, show_question=F
     
     prompt_text += f"{question.question_text}\n\n"
     
-    # Add instruction for short answer without options
+    # Add instruction for Short Answer Question without options
     prompt_text += "Provide a brief answer (less than 10 words) without seeing the options. Just give your best response based on the information provided."
     
     if show_model_query:
