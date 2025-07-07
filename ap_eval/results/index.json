@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_on": "2025-07-03T08:51:48.205265",
+    "generated_on": "2025-07-07T12:13:27.740521",
     "author_name": "Thushan Amarasiriwardena",
     "author_email": "thushan@thushan.net"
   },
@@ -138,6 +138,18 @@
       "results": "AP_US_HISTORY_2017_openai_gpt-4o-mini_20250630_111940.json"
     },
     {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "gpt-4o",
+      "provider": "openai",
+      "accuracy": 94.0,
+      "score": 63,
+      "questions": 59,
+      "time": 158.78335785865784,
+      "date": "2025-07-07T11:16:18.028148",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_openai_gpt-4o_20250707_111618.json"
+    },
+    {
       "exam": "AP_BIOLOGY_2008",
       "model": "gpt-4o",
       "provider": "openai",
@@ -148,6 +160,18 @@
       "date": "2025-07-01T15:15:34.006665",
       "is_best": true,
       "results": "AP_BIOLOGY_2008_openai_gpt-4o_20250701_151534.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "claude-3-7-sonnet-latest",
+      "provider": "anthropic",
+      "accuracy": 89.6,
+      "score": 60,
+      "questions": 59,
+      "time": 1450.4950432777405,
+      "date": "2025-07-07T11:47:06.417264",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_anthropic_claude-3-7-sonnet-latest_20250707_114706.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",
@@ -172,6 +196,18 @@
       "date": "2025-07-02T13:47:19.991668",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_google_gemini-1.5-flash_20250702_134719.json"
+    },
+    {
+      "exam": "AP_US_HISTORY_2017",
+      "model": "gpt-3.5-turbo",
+      "provider": "openai",
+      "accuracy": 85.1,
+      "score": 57,
+      "questions": 59,
+      "time": 62.24203896522522,
+      "date": "2025-07-07T12:11:36.292343",
+      "is_best": false,
+      "results": "AP_US_HISTORY_2017_openai_gpt-3.5-turbo_20250707_121136.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",
