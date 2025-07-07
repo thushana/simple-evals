@@ -1,0 +1,1145 @@
+{
+  "exam_metadata": {
+    "exam_identifier": "AP_CALCULUS_BC_2012",
+    "model_name": "gpt-4o",
+    "model_provider": "openai",
+    "score": 18,
+    "total_possible": 28,
+    "score_average": 0.6428571428571429,
+    "time_timestamp": "2025-07-07T13:10:20.903957",
+    "time_total_generation": 140.21472597122192,
+    "questions_count": 28
+  },
+  "questions": [
+    {
+      "id": "AP_CALCULUS_BC_I_A_001",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_001.png",
+        "question_text": "If y = sin^3(x), then dy/dx =",
+        "options": {
+          "A": "cos^3(x)",
+          "B": "3cos^2(x)",
+          "C": "3sin^2(x)",
+          "D": "-3sin^2(x)cos(x)",
+          "E": "3sin^2(x)cos(x)"
+        }
+      },
+      "answer": {
+        "correct": "E",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "E",
+        "model_answer_no_options": "\\(3\\sin^2(x)\\cos(x)\\)",
+        "explanation": "E: To find \\(\\frac{dy}{dx}\\) for \\(y = \\sin^3(x)\\), use the chain rule. Let \\(u = \\sin(x)\\), so \\(y = u^3\\). Then \\(\\frac{dy}{du} = 3u^2\\) and \\(\\frac{du}{dx} = \\cos(x)\\). Thus, \\(\\frac{dy}{dx} = 3\\sin^2(x)\\cos(x)\\).",
+        "generation_time": 4.419762849807739,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_002",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_002.png",
+        "question_text": "The position of a particle moving in the xy-plane is given by the parametric equations x(t) = t^3 - 3t^2 and y(t) = 12t - 3t^2. At which of the following points (x, y) is the particle at rest?",
+        "options": {
+          "A": "(-4, 12)",
+          "B": "(-3, 6)",
+          "C": "(-2, 9)",
+          "D": "(0, 0)",
+          "E": "(3, 4)"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Set derivatives to zero: (0, 0).",
+        "explanation": "To find when the particle is at rest, we need to determine when both derivatives \\( x'(t) \\) and \\( y'(t) \\) are zero.\n\nCalculate the derivatives:\n\\[ x'(t) = 3t^2 - 6t = 3t(t-2) \\]\n\\[ y'(t) = 12 - 6t \\]\n\nSet them equal to zero:\n1. \\( 3t(t-2) = 0 \\) gives \\( t = 0 \\) or \\( t = 2 \\).\n2. \\( 12 - 6t = 0 \\) gives \\( t = 2 \\).\n\nBoth are zero at \\( t = 2 \\).\n\nSubstitute \\( t = 2 \\) into the parametric equations:\n\\[ x(2) = 2^3 - 3(2)^2 = 8 - 12 = -4 \\]\n\\[ y(2) = 12(2) - 3(2)^2 = 24 - 12 = 12 \\]\n\nSo, the particle is at rest at point \\((-4, 12)\\).\n\nA: The particle is at rest at (-4, 12) because both derivatives are zero at \\( t = 2 \\).",
+        "generation_time": 11.772847175598145,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_003",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_003.png",
+        "question_text": "The graph of f is shown above for 0 \u2264 x \u2264 4. What is the value of \u222b\u2080\u2074 f(x) dx?",
+        "options": {
+          "A": "-1",
+          "B": "0",
+          "C": "2",
+          "D": "6",
+          "E": "12"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "6",
+        "explanation": "C: The integral \u222b\u2080\u00b2 f(x) dx represents the area of the triangle with vertices at (0, 1), (2, 1), and (2, 5), which is 4. The integral \u222b\u2082\u2074 f(x) dx represents the area of the rectangle from (2, 1) to (4, -3), which is -6. Therefore, \u222b\u2080\u2074 f(x) dx = 4 + (-6) = -2.",
+        "generation_time": 3.993551731109619,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_004",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_004.png",
+        "question_text": "Which of the following integrals gives the length of the curve y = ln(x) from x = 1 to x = 2?",
+        "options": {
+          "A": "\u222b\u2081\u00b2 \u221a(1 + 1/x\u00b2) dx",
+          "B": "\u222b\u2081\u00b2 (1 + 1/x\u00b2) dx",
+          "C": "\u222b\u2081\u00b2 \u221a(1 + e\u00b2\u02e3) dx",
+          "D": "\u222b\u2081\u00b2 \u221a(1 + (ln x)\u00b2) dx",
+          "E": "\u222b\u2081\u00b2 (1 + (ln x)\u00b2) dx"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "Integral: \\(\\int_1^2 \\sqrt{1 + \\frac{1}{x^2}} \\, dx\\)",
+        "explanation": "A: The arc length of a curve \\( y = f(x) \\) from \\( x = a \\) to \\( x = b \\) is given by \\( \\int_a^b \\sqrt{1 + (f'(x))^2} \\, dx \\). For \\( y = \\ln(x) \\), \\( f'(x) = 1/x \\), so the integral becomes \\( \\int_1^2 \\sqrt{1 + (1/x)^2} \\, dx \\).",
+        "generation_time": 3.6115052700042725,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_005",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_005.png",
+        "question_text": "The Maclaurin series for the function f is given by f(x) = \u2211 (from n=0 to \u221e) [(-x/4)^n]. What is the value of f(3)?",
+        "options": {
+          "A": "-3",
+          "B": "-3/7",
+          "C": "4/7",
+          "D": "13/16",
+          "E": "4"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "\\(-3/7\\)",
+        "explanation": "C: The series is a geometric series with the first term \\( a = 1 \\) and common ratio \\( r = -\\frac{x}{4} \\). For \\( f(3) \\), \\( r = -\\frac{3}{4} \\). The sum of an infinite geometric series is \\( \\frac{a}{1-r} \\), so \\( f(3) = \\frac{1}{1 - (-\\frac{3}{4})} = \\frac{1}{1 + \\frac{3}{4}} = \\frac{4}{7} \\).",
+        "generation_time": 4.09319806098938,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_006",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_006.png",
+        "question_text": "Using the substitution u = x\u00b2 - 3, \u222b from -1 to 4 of x(x\u00b2 - 3)^5 dx is equal to which of the following?",
+        "options": {
+          "A": "2 \u222b from -2 to 13 u^5 du",
+          "B": "\u222b from -2 to 13 u^5 du",
+          "C": "(1/2) \u222b from -2 to 13 u^5 du",
+          "D": "\u222b from -1 to 4 u^5 du",
+          "E": "(1/2) \u222b from -1 to 4 u^5 du"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "\\(\\frac{1}{2} \\int_{-2}^{13} u^5 \\, du\\)",
+        "explanation": "C: (1/2) \u222b from -2 to 13 u^5 du\n\nExplanation: With the substitution \\( u = x^2 - 3 \\), we have \\( du = 2x \\, dx \\) or \\( x \\, dx = \\frac{1}{2} \\, du \\). The limits change from \\( x = -1 \\) to \\( u = (-1)^2 - 3 = -2 \\) and from \\( x = 4 \\) to \\( u = 4^2 - 3 = 13 \\). Thus, the integral becomes \\(\\frac{1}{2} \\int_{-2}^{13} u^5 \\, du\\).",
+        "generation_time": 6.006691932678223,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_007",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_007.png",
+        "question_text": "If arcsin x = ln y, then dy/dx =",
+        "options": {
+          "A": "y / sqrt(1 - x^2)",
+          "B": "xy / sqrt(1 - x^2)",
+          "C": "y / (1 + x^2)",
+          "D": "e^{arcsin x}",
+          "E": "e^{arcsin x} / (1 + x^2)"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "\\( \\frac{y}{\\sqrt{1-x^2}} \\)",
+        "explanation": "To solve for \\(\\frac{dy}{dx}\\), start by differentiating both sides of the equation \\(\\arcsin x = \\ln y\\).\n\nDifferentiating \\(\\arcsin x\\) with respect to \\(x\\) gives \\(\\frac{1}{\\sqrt{1-x^2}}\\).\n\nDifferentiating \\(\\ln y\\) with respect to \\(x\\) using the chain rule gives \\(\\frac{1}{y} \\cdot \\frac{dy}{dx}\\).\n\nSetting these equal gives:\n\\[\n\\frac{1}{\\sqrt{1-x^2}} = \\frac{1}{y} \\cdot \\frac{dy}{dx}\n\\]\n\nSolving for \\(\\frac{dy}{dx}\\), we get:\n\\[\n\\frac{dy}{dx} = y \\cdot \\frac{1}{\\sqrt{1-x^2}} = \\frac{y}{\\sqrt{1-x^2}}\n\\]\n\nSo the correct answer is:\n\nA: \\(\\frac{y}{\\sqrt{1-x^2}}\\)",
+        "generation_time": 7.80992579460144,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_008",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_008.png",
+        "question_text": "A tank contains 50 liters of oil at time t = 4 hours. Oil is pumped into the tank at a rate R(t). Using a right Riemann sum with 3 subintervals and data from the table, what is the approximation of the number of liters of oil in the tank at t = 15 hours?",
+        "options": {
+          "A": "64.9",
+          "B": "68.2",
+          "C": "114.9",
+          "D": "116.6",
+          "E": "118.2"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "114.9 liters",
+        "explanation": "To approximate the number of liters of oil in the tank at \\( t = 15 \\) hours using a right Riemann sum with 3 subintervals:\n\n1. Identify the subintervals: \\([4, 7]\\), \\([7, 12]\\), \\([12, 15]\\).\n2. Use the right endpoint of each subinterval for the Riemann sum: \\(R(7) = 6.2\\), \\(R(12) = 5.9\\), \\(R(15) = 5.6\\).\n3. Calculate the Riemann sum:\n   \\[\n   \\text{Sum} = (7-4) \\cdot 6.2 + (12-7) \\cdot 5.9 + (15-12) \\cdot 5.6\n   \\]\n   \\[\n   = 3 \\cdot 6.2 + 5 \\cdot 5.9 + 3 \\cdot 5.6\n   \\]\n   \\[\n   = 18.6 + 29.5 + 16.8 = 64.9\n   \\]\n\n4. Add the initial amount of oil:\n   \\[\n   50 + 64.9 = 114.9\n   \\]\n\nC: The approximation of the number of liters of oil in the tank at \\( t = 15 \\) hours is 114.9.",
+        "generation_time": 9.567843198776245,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_009",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_009.png",
+        "question_text": "Which of the following series converge?\nI. \u2211 8^n / n!\nII. \u2211 n! / n^100\nIII. \u2211 (n+1)/[(n)(n+2)(n+3)]",
+        "options": {
+          "A": "I only",
+          "B": "II only",
+          "C": "III only",
+          "D": "I and III only",
+          "E": "I, II, and III"
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "I and III only.",
+        "explanation": "D: \n\nI. Converges by the ratio test since \\( \\frac{8^{n+1}/(n+1)!}{8^n/n!} = \\frac{8}{n+1} \\to 0 \\) as \\( n \\to \\infty \\).\n\nII. Diverges because \\( n! \\) grows much faster than \\( n^{100} \\).\n\nIII. Converges by partial fraction decomposition and comparison to a convergent series.",
+        "generation_time": 4.38872766494751,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_010",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_context": "",
+        "question_image": "AP_CALCULUS_BC_I_A_010.png",
+        "question_text": "\u222b\u2081\u2074 t^(-3/2) dt =",
+        "options": {
+          "A": "-1",
+          "B": "-7/8",
+          "C": "-1/2",
+          "D": "1/2",
+          "E": "1"
+        }
+      },
+      "answer": {
+        "correct": "E",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "\\(-1\\)",
+        "explanation": "B: To solve the integral \u222b\u2081\u2074 t^(-3/2) dt, we find the antiderivative of t^(-3/2), which is -2t^(-1/2). Evaluating from 1 to 4 gives [-2(4)^(-1/2)] - [-2(1)^(-1/2)] = -1 - (-2) = -1 + 2 = 1. The correct answer is B: -7/8.",
+        "generation_time": 3.674872875213623,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_011",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_011.png",
+        "question_text": "Let f be the function defined by f(x) = \u221a|x - 2| for all x. Which of the following statements is true?",
+        "options": {
+          "A": "f is continuous but not differentiable at x = 2.",
+          "B": "f is differentiable at x = 2.",
+          "C": "f is not continuous at x = 2.",
+          "D": "lim x\u21922 f(x) \u2260 0",
+          "E": "x = 2 is a vertical asymptote of the graph of f."
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "f is continuous but not differentiable at x = 2.",
+        "explanation": "A: The function f(x) = \u221a|x - 2| is continuous at x = 2 because the limit as x approaches 2 is 0, which equals f(2). However, it is not differentiable at x = 2 due to the cusp point created by the absolute value and square root.",
+        "generation_time": 4.3920369148254395,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_012",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_012.png",
+        "question_text": "The points (-1, -1) and (1, -5) are on the graph of a function y = f(x) that satisfies dy/dx = x\u00b2 + y. Which of the following must be true?",
+        "options": {
+          "A": "(1, -5) is a local maximum of f.",
+          "B": "(1, -5) is a point of inflection of the graph of f.",
+          "C": "(-1, -1) is a local maximum of f.",
+          "D": "(-1, -1) is a local minimum of f.",
+          "E": "(-1, -1) is a point of inflection of the graph of f."
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "?",
+        "model_answer_no_options": "(1, -5) is a point of inflection.",
+        "explanation": "To determine which statement must be true, we need to evaluate the given differential equation \\( \\frac{dy}{dx} = x^2 + y \\) at the points (-1, -1) and (1, -5).\n\n1. **Evaluate \\( \\frac{dy}{dx} \\) at (-1, -1):**\n\n   \\[\n   \\frac{dy}{dx} = (-1)^2 + (-1) = 1 - 1 = 0\n   \\]\n\n   The derivative is zero, indicating a potential local extremum (maximum or minimum).\n\n2. **Evaluate \\( \\frac{dy}{dx} \\) at (1, -5):**\n\n   \\[\n   \\frac{dy}{dx} = (1)^2 + (-5) = 1 - 5 = -4\n   \\]\n\n   The derivative is not zero, so (1, -5) is neither a local maximum nor a local minimum.\n\nTo determine if (-1, -1) is a local maximum or minimum, we need to consider the second derivative test. However, since the question asks for what \"must be true,\" we can conclude:\n\n- **C: (-1, -1) is a local maximum of f.**\n- **D: (-1, -1) is a local minimum of f.**\n\nWithout additional information about the second derivative, we cannot definitively conclude whether it is a maximum or minimum. Therefore, none of the options about local extrema can be confirmed as true without further analysis.\n\nThus, the only conclusion we can make based on the information given is:\n\n**E: (-1, -1) is a point of inflection of the graph of f.**\n\nThis is incorrect as well, given the context. Therefore, none of the options can be definitively stated as true based on the information provided.",
+        "generation_time": 12.665079832077026,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_013",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_013.png",
+        "question_text": "What is the radius of convergence of the series \u2211 ((x - 4)^(2n)) / 3^n ?",
+        "options": {
+          "A": "2\u221a3",
+          "B": "3",
+          "C": "\u221a3",
+          "D": "\u221a3 / 2",
+          "E": "0"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "\\(\\sqrt{3}\\)",
+        "explanation": "C: The radius of convergence can be found using the formula for the geometric series, where the term is \\(((x-4)^2/3)^n\\). The radius is \\(\\sqrt{3}\\) because the series converges when \\(|(x-4)^2/3| < 1\\), leading to \\(|x-4| < \\sqrt{3}\\).",
+        "generation_time": 3.234096050262451,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_014",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_014.png",
+        "question_text": "Let k be a positive constant. Which of the following is a logistic differential equation?",
+        "options": {
+          "A": "dy/dt = kt",
+          "B": "dy/dt = ky",
+          "C": "dy/dt = kt(1 - t)",
+          "D": "dy/dt = ky(1 - t)",
+          "E": "dy/dt = ky(1 - y)"
+        }
+      },
+      "answer": {
+        "correct": "E",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "E",
+        "model_answer_no_options": "\\(\\frac{dy}{dt} = ky(1-y)\\)",
+        "explanation": "E: A logistic differential equation has the form \\( \\frac{dy}{dt} = ky(1 - \\frac{y}{K}) \\), which simplifies to \\( \\frac{dy}{dt} = ky(1 - y) \\) when \\( K = 1 \\).",
+        "generation_time": 2.512479066848755,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_015",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_015.png",
+        "question_text": "The graph of a differentiable function f is shown above. If h(x) = \u222b\u2080\u02e3 f(t) dt, which of the following is true?",
+        "options": {
+          "A": "h(6) < h\u2032(6) < h\u2033(6)",
+          "B": "h(6) < h\u2033(6) < h\u2032(6)",
+          "C": "h\u2032(6) < h(6) < h\u2033(6)",
+          "D": "h\u2033(6) < h(6) < h\u2032(6)",
+          "E": "h\u2033(6) < h\u2032(6) < h(6)"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "D",
+        "model_answer_no_options": "\\( h'(6) = f(6) > 0 \\) and \\( h''(6) < 0 \\).",
+        "explanation": "D: \\(h''(6) < h(6) < h'(6)\\)\n\nExplanation: By the Fundamental Theorem of Calculus, \\(h'(x) = f(x)\\), so \\(h'(6) = f(6)\\), which is positive. The second derivative \\(h''(x) = f'(x)\\) is the slope of \\(f\\) at \\(x = 6\\), which is negative. Since \\(h(6)\\) is the area under \\(f\\) from 0 to 6 and \\(f\\) is mostly negative over this interval, \\(h(6)\\) is negative but greater than \\(h''(6)\\).",
+        "generation_time": 5.161989212036133,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_016",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_016.png",
+        "question_text": "Let y = f(x) be the solution to the differential equation dy/dx = x - y with initial condition f(1) = 3. What is the approximation for f(2) obtained by using Euler\u2019s method with two steps of equal length starting at x = 1?",
+        "options": {
+          "A": "-5/4",
+          "B": "1",
+          "C": "7/4",
+          "D": "2",
+          "E": "21/4"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "21/4",
+        "explanation": "C: Using Euler\u2019s method with step size \\( h = 0.5 \\), starting at \\( x = 1 \\) with \\( y = 3 \\), we get the next approximation: \\( y_1 = 3 + 0.5(1 - 3) = 2 \\). For the next step, \\( y_2 = 2 + 0.5(1.5 - 2) = 1.75 \\). Thus, \\( f(2) \\approx 7/4 \\).",
+        "generation_time": 4.392895936965942,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_017",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_017.png",
+        "question_text": "For x > 0, the power series 1 - x\u00b2/3! + x\u2074/5! - x\u2076/7! + ... + (-1)^n * x^(2n)/(2n+1)! + ... converges to which of the following?",
+        "options": {
+          "A": "cos x",
+          "B": "sin x",
+          "C": "sin x / x",
+          "D": "e^x - e^{x\u00b2}",
+          "E": "1 + e^x - e^{x\u00b2}"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "The series converges to \\(\\frac{\\sin x}{x}\\).",
+        "explanation": "C: The given series is the Taylor series expansion for \\(\\frac{\\sin x}{x}\\), which is \\(\\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{(2n+1)!}\\).",
+        "generation_time": 2.238816022872925,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_018",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_018.png",
+        "question_text": "The graph of f\u2032, the derivative of a function f, consists of two line segments and a semicircle. If f(2) = 1, then f(\u22125) = ?",
+        "options": {
+          "A": "2\u03c0 \u2212 2",
+          "B": "2\u03c0 \u2212 3",
+          "C": "2\u03c0 \u2212 5",
+          "D": "6 \u2212 2\u03c0",
+          "E": "4 \u2212 2\u03c0"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "\\(4 - 2\\pi\\)",
+        "explanation": "C: To find \\( f(-5) \\), calculate the net area under \\( f' \\) from \\( x = -5 \\) to \\( x = 2 \\). The area under the semicircle (radius 3) is \\( -\\frac{9\\pi}{2} \\), and the triangular areas are each 9. The total area is \\( 9 - \\frac{9\\pi}{2} + 9 = 18 - \\frac{9\\pi}{2} \\). Since \\( f(2) = 1 \\), \\( f(-5) = 1 - (18 - \\frac{9\\pi}{2}) = \\frac{9\\pi}{2} - 17 \\). Simplifying gives \\( f(-5) = 2\\pi - 5 \\).",
+        "generation_time": 5.796302080154419,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_019",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_019.png",
+        "question_text": "The function f is defined by f(x) = x / (x + 2). What points (x, y) on the graph of f have the property that the line tangent to f at (x, y) has slope 1/2?",
+        "options": {
+          "A": "(0, 0) only",
+          "B": "(1/2, 1/5) only",
+          "C": "(0, 0) and (\u22124, 2)",
+          "D": "(0, 0) and (4, 2/3)",
+          "E": "There are no such points."
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "\\((0,0) \\text{ and } (4, \\frac{2}{3})\\)",
+        "explanation": "To find the points where the tangent to the curve has a slope of \\( \\frac{1}{2} \\), we need to differentiate \\( f(x) = \\frac{x}{x+2} \\) and set the derivative equal to \\( \\frac{1}{2} \\).\n\nFirst, find the derivative \\( f'(x) \\) using the quotient rule:\n\n\\[\nf'(x) = \\frac{(x+2)(1) - x(1)}{(x+2)^2} = \\frac{2}{(x+2)^2}\n\\]\n\nSet \\( f'(x) = \\frac{1}{2} \\):\n\n\\[\n\\frac{2}{(x+2)^2} = \\frac{1}{2}\n\\]\n\nCross-multiply to solve for \\( x \\):\n\n\\[\n4 = (x+2)^2\n\\]\n\nTaking the square root of both sides:\n\n\\[\nx+2 = \\pm 2\n\\]\n\nSolving for \\( x \\), we get:\n\n1. \\( x + 2 = 2 \\) gives \\( x = 0 \\)\n2. \\( x + 2 = -2 \\) gives \\( x = -4 \\)\n\nNow, find \\( f(x) \\) for these \\( x \\)-values:\n\n- For \\( x = 0 \\), \\( f(0) = \\frac{0}{0+2} = 0 \\). So, the point is \\( (0, 0) \\).\n- For \\( x = -4 \\), \\( f(-4) = \\frac{-4}{-4+2} = 2 \\). So, the point is \\( (-4, 2) \\).\n\nThus, the points are \\( (0, 0) \\) and \\( (-4, 2) \\).\n\nC: (0, 0) and (\u22124, 2)",
+        "generation_time": 13.295068979263306,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_020",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_020.png",
+        "question_text": "\u222b\u2080\u00b9 (5x + 8)/(x\u00b2 + 3x + 2) dx is",
+        "options": {
+          "A": "ln(8)",
+          "B": "ln(27/2)",
+          "C": "ln(18)",
+          "D": "ln(288)",
+          "E": "divergent"
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "ln(18)",
+        "explanation": "B: The integral can be solved using partial fraction decomposition. The expression \\((5x + 8)/(x\u00b2 + 3x + 2)\\) decomposes into \\(\\frac{3}{x+1} + \\frac{2}{x+2}\\). Integrating from 0 to 1 gives \\(\\ln(27/2)\\).",
+        "generation_time": 2.953916072845459,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_021",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_021.png",
+        "question_text": "The line y = 5 is a horizontal asymptote to the graph of which of the following functions?",
+        "options": {
+          "A": "y = sin(5x)/x",
+          "B": "y = 5x",
+          "C": "y = 1/(x \u2212 5)",
+          "D": "y = 5x / (1 \u2212 x)",
+          "E": "y = (20x\u00b2 \u2212 x) / (1 + 4x\u00b2)"
+        }
+      },
+      "answer": {
+        "correct": "E",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "E",
+        "model_answer_no_options": "(E) \\(y = \\frac{20x^2 - x}{1 + 4x^2}\\)",
+        "explanation": "E: As \\( x \\to \\pm\\infty \\), the highest degree terms dominate, so \\(\\frac{20x^2 - x}{1 + 4x^2} \\approx \\frac{20x^2}{4x^2} = 5\\), making \\( y = 5 \\) a horizontal asymptote.",
+        "generation_time": 2.4722561836242676,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_022",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_022.png",
+        "question_text": "The power series \u2211 a\u2099(x \u2212 3)\u207f converges at x = 5. Which of the following must be true?",
+        "options": {
+          "A": "The series diverges at x = 0.",
+          "B": "The series diverges at x = 1.",
+          "C": "The series converges at x = 1.",
+          "D": "The series converges at x = 2.",
+          "E": "The series converges at x = 6."
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "The series converges at \\(x = 1\\).",
+        "explanation": "B: The series diverges at x = 1. \n\nThe series converges at x = 5, implying the radius of convergence is at least 2. The distance from x = 3 to x = 1 is 2, which is the boundary of convergence, so the series must diverge at x = 1.",
+        "generation_time": 2.6588847637176514,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_023",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_023.png",
+        "question_text": "If P(t) is the size of a population at time t, which of the following differential equations describes linear growth in the size of the population?",
+        "options": {
+          "A": "dP/dt = 200",
+          "B": "dP/dt = 200t",
+          "C": "dP/dt = 100t\u00b2",
+          "D": "dP/dt = 200P",
+          "E": "dP/dt = 100P\u00b2"
+        }
+      },
+      "answer": {
+        "correct": "A",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "A",
+        "model_answer_no_options": "\\(\\frac{dP}{dt} = 200\\) describes linear growth.",
+        "explanation": "A: Linear growth is described by a constant rate of change, and \\( \\frac{dP}{dt} = 200 \\) represents a constant growth rate.",
+        "generation_time": 1.5973470211029053,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_024",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_024.png",
+        "question_text": "Let f be a differentiable function such that \u222b f(x) sin x dx = \u2212f(x) cos x + \u222b 4x\u00b3 cos x dx. Which of the following could be f(x)?",
+        "options": {
+          "A": "cos x",
+          "B": "sin x",
+          "C": "4x\u00b3",
+          "D": "\u2212x\u2074",
+          "E": "x\u2074"
+        }
+      },
+      "answer": {
+        "correct": "E",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "\\(x^4\\)",
+        "explanation": "C: If \\( f(x) = 4x^3 \\), then the equation becomes \\(\\int 4x^3 \\sin x \\, dx = -4x^3 \\cos x + \\int 4x^3 \\cos x \\, dx\\), which satisfies the given condition.",
+        "generation_time": 2.767756223678589,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_025",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_025.png",
+        "question_text": "\u222b from 1 to \u221e of x e^(\u2212x\u00b2) dx is",
+        "options": {
+          "A": "\u22121/e",
+          "B": "1/(2e)",
+          "C": "1/e",
+          "D": "2/e",
+          "E": "divergent"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "\\(\\frac{1}{2e}\\)",
+        "explanation": "B: The integral \u222b from 1 to \u221e of x e^(\u2212x\u00b2) dx can be solved using substitution and integration by parts, and the result is 1/(2e).",
+        "generation_time": 2.6112420558929443,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_026",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_026.png",
+        "question_text": "What is the slope of the line tangent to the polar curve r = 1 + 2 sin(\u03b8) at \u03b8 = 0?",
+        "options": {
+          "A": "2",
+          "B": "1/2",
+          "C": "0",
+          "D": "\u22121/2",
+          "E": "\u22122"
+        }
+      },
+      "answer": {
+        "correct": "B",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "0",
+        "explanation": "C: The slope of the tangent line to a polar curve \\( r = f(\\theta) \\) is given by \\(\\frac{dy}{dx} = \\frac{f'(\\theta) \\sin(\\theta) + f(\\theta) \\cos(\\theta)}{f'(\\theta) \\cos(\\theta) - f(\\theta) \\sin(\\theta)}\\). At \\(\\theta = 0\\), \\(f(\\theta) = 1 + 2\\sin(0) = 1\\) and \\(f'(\\theta) = 2\\cos(\\theta)\\). Substituting these values, the slope simplifies to 0.",
+        "generation_time": 5.326665163040161,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_027",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_027.png",
+        "question_text": "For what values of p will both series \u2211 1/n^(2p) and \u2211 (p/2)^n converge?",
+        "options": {
+          "A": "\u22122 < p < 2 only",
+          "B": "\u22121/2 < p < 1/2 only",
+          "C": "1/2 < p < 2 only",
+          "D": "p < 1/2 and p > 2",
+          "E": "There are no such values of p."
+        }
+      },
+      "answer": {
+        "correct": "C",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "C",
+        "model_answer_no_options": "\\( \\frac{1}{2} < p < 2 \\) only.",
+        "explanation": "C: The series \u2211 1/n^(2p) converges for 2p > 1, or p > 1/2. The series \u2211 (p/2)^n converges for |p/2| < 1, or p < 2. Thus, both series converge for 1/2 < p < 2.",
+        "generation_time": 3.1721608638763428,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    },
+    {
+      "id": "AP_CALCULUS_BC_I_A_028",
+      "question": {
+        "type": "MULTIPLE_CHOICE",
+        "question_image": "AP_CALCULUS_BC_I_A_028.png",
+        "question_text": "Let g be a continuously differentiable function with g(1) = 6 and g\u2032(1) = 3. What is lim as x \u2192 1 of (\u222b\u2081\u02e3 g(t) dt) / (g(x) \u2212 6)?",
+        "options": {
+          "A": "0",
+          "B": "1/2",
+          "C": "1",
+          "D": "2",
+          "E": "The limit does not exist."
+        }
+      },
+      "answer": {
+        "correct": "D",
+        "explanation": null
+      },
+      "metadata": {
+        "domain": "",
+        "difficulty": 0,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": "",
+        "source": {
+          "ap_test": "AP Calculus BC",
+          "year": 2012,
+          "url": "https://apcentral.collegeboard.org/media/pdf/ap-calculus-bc-practice-exam-2012.pdf"
+        }
+      },
+      "Response": {
+        "model_answer": "B",
+        "model_answer_no_options": "\\(\\frac{1}{2}\\)",
+        "explanation": "B: By L'H\u00f4pital's Rule, the limit becomes \\(\\lim_{x \\to 1} \\frac{g(x)}{g'(x)}\\). Since \\(g(1) = 6\\) and \\(g'(1) = 3\\), the limit is \\(\\frac{6}{3} = 2\\).",
+        "generation_time": 3.6268069744110107,
+        "main_practice_skill": "",
+        "learning_objective": "",
+        "key_concepts": ""
+      }
+    }
+  ]
+}

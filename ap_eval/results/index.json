@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_on": "2025-07-07T12:26:21.022572",
+    "generated_on": "2025-07-07T13:22:46.569754",
     "author_name": "Thushan Amarasiriwardena",
     "author_email": "thushan@thushan.net"
   },
@@ -71,6 +71,19 @@
       "results": "AP_US_HISTORY_2017_openai_gpt-4o_20250703_084443.json"
     },
     {
+      "exam": "AP_CALCULUS_BC_2012",
+      "model": "gpt-4o",
+      "provider": "openai",
+      "accuracy": 64.3,
+      "score": 18,
+      "total_possible": 28,
+      "questions": 28,
+      "time": 140.21472597122192,
+      "date": "2025-07-07T13:10:20.903957",
+      "is_best": false,
+      "results": "AP_CALCULUS_BC_2012_openai_gpt-4o_20250707_131020.json"
+    },
+    {
       "exam": "AP_US_HISTORY_2017",
       "model": "gpt-4o-mini",
       "provider": "openai",
@@ -123,6 +136,19 @@
       "results": "AP_BIOLOGY_2008_openai_gpt-4o-mini_20250630_123010.json"
     },
     {
+      "exam": "AP_CALCULUS_BC_2012",
+      "model": "gpt-4",
+      "provider": "openai",
+      "accuracy": 42.9,
+      "score": 12,
+      "total_possible": 28,
+      "questions": 28,
+      "time": 118.2595226764679,
+      "date": "2025-07-07T13:15:47.976702",
+      "is_best": false,
+      "results": "AP_CALCULUS_BC_2012_openai_gpt-4_20250707_131547.json"
+    },
+    {
       "exam": "AP_US_HISTORY_2017",
       "model": "gemini-2.0-flash",
       "provider": "google",
@@ -134,6 +160,19 @@
       "date": "2025-07-02T14:05:46.351121",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_google_gemini-2.0-flash_20250702_140546.json"
+    },
+    {
+      "exam": "AP_CALCULUS_BC_2012",
+      "model": "claude-3-haiku-20240307",
+      "provider": "anthropic",
+      "accuracy": 17.9,
+      "score": 5,
+      "total_possible": 28,
+      "questions": 28,
+      "time": 60.096962690353394,
+      "date": "2025-07-07T13:21:43.823853",
+      "is_best": false,
+      "results": "AP_CALCULUS_BC_2012_anthropic_claude-3-haiku-20240307_20250707_132143.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",
@@ -173,6 +212,32 @@
       "date": "2025-07-01T15:15:34.006665",
       "is_best": true,
       "results": "AP_BIOLOGY_2008_openai_gpt-4o_20250701_151534.json"
+    },
+    {
+      "exam": "AP_CALCULUS_BC_2012",
+      "model": "gpt-3.5-turbo",
+      "provider": "openai",
+      "accuracy": 17.9,
+      "score": 5,
+      "total_possible": 28,
+      "questions": 28,
+      "time": 26.64001202583313,
+      "date": "2025-07-07T13:13:07.173688",
+      "is_best": false,
+      "results": "AP_CALCULUS_BC_2012_openai_gpt-3.5-turbo_20250707_131307.json"
+    },
+    {
+      "exam": "AP_CALCULUS_BC_2012",
+      "model": "claude-3-7-sonnet-latest",
+      "provider": "anthropic",
+      "accuracy": 75.0,
+      "score": 21,
+      "total_possible": 28,
+      "questions": 28,
+      "time": 112.10772132873535,
+      "date": "2025-07-07T13:19:16.263836",
+      "is_best": true,
+      "results": "AP_CALCULUS_BC_2012_anthropic_claude-3-7-sonnet-latest_20250707_131916.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",
