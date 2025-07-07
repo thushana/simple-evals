@@ -11,6 +11,7 @@ class APTest(Enum):
     AP_US_GOV = "AP United States Government & Politics"
     AP_PSYCHOLOGY = "AP Psychology"
     AP_CALCULUS_AB = "AP Calculus AB"
+    AP_CALCULUS_BC = "AP Calculus BC"
     AP_BIOLOGY = "AP Biology"
     AP_HUMAN_GEO = "AP Human Geography"
     AP_STATISTICS = "AP Statistics"
