@@ -1,8 +1,16 @@
 from typing import Dict, List, Any, Optional, Tuple
 from .ap_types import ShortAnswerQuestion, Response, EvaluationResult
-from .config import get_scorer_model, get_short_answer_question_prompt_template, get_system_level_scoring_guide
+from .config import (
+    get_scorer_model,
+    get_short_answer_question_prompt_template,
+    get_system_level_scoring_guide,
+    get_short_answer_question_scorer_provider,
+    get_short_answer_question_scorer_model,
+)
 import re
 import json
+import os
+import openai
 
 class ShortAnswerScorer:
     """
@@ -54,10 +62,8 @@ class ShortAnswerScorer:
         """
         # Get the appropriate scoring guide based on precedence
         scoring_guide = self._get_scoring_guide_with_precedence(question, test_metadata)
-        
         # Format the rubric
         rubric_text = self._format_rubric_for_prompt(question.rubric)
-        
         # Create the prompt
         prompt = self.prompt_template.format(
             question_text=question.question_text,
@@ -65,22 +71,39 @@ class ShortAnswerScorer:
             response=response.answer,
             max_points=question.max_points
         )
-        
         # Add the scoring guide to the prompt
         if scoring_guide:
             prompt = prompt.replace("Rubric:", f"General Scoring Criteria:\n{scoring_guide}\n\nRubric:")
-        
-        # TODO: Implement actual model call here
-        # For now, return a placeholder score
-        # In the real implementation, you would:
-        # 1. Call the configured model (self.scorer_model) with the prompt
-        # 2. Parse the response to extract score and explanation
-        # 3. Return the parsed results
-        
-        # Placeholder implementation
+        provider = get_short_answer_question_scorer_provider()
+        model = get_short_answer_question_scorer_model()
+        # Try OpenAI if configured
+        if provider == "openai":
+            try:
+                client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+                completion = client.chat.completions.create(
+                    model=model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.0,
+                    max_tokens=512,
+                )
+                reply = completion.choices[0].message.content.strip()
+                # Parse the response for score and explanation
+                import re
+                # Look for score at the end of the response
+                score_match = re.search(r"Score:\s*([0-9.]+)/([0-9.]+)\s*$", reply, re.MULTILINE)
+                # Look for explanation at the beginning (before the score)
+                explanation_match = re.search(r"Explanation:\s*(.*?)(?=\nScore:|$)", reply, re.DOTALL)
+                if score_match:
+                    score = float(score_match.group(1))
+                else:
+                    score = 0.0
+                explanation = explanation_match.group(1).strip() if explanation_match else reply
+                return score, explanation
+            except Exception as e:
+                return 0.0, f"[OpenAI scoring failed: {e}]"
+        # Fallback: placeholder
         score = 2.5  # Placeholder score
         explanation = f"Scored using {self.scorer_model}. Response addresses most parts adequately."
-        
         return score, explanation
     
     def score_question(self, question: ShortAnswerQuestion, response: Response, test_metadata: Optional[Dict] = None) -> EvaluationResult:

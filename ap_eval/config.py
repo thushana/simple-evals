@@ -26,3 +26,11 @@ def get_system_level_scoring_guide() -> str:
     """Get the system-level scoring guide for Short Answer Questions"""
     config = get_config()
     return config.get("short_answer_question_rubric_system", "") 
+
+def get_short_answer_question_scorer_provider() -> str:
+    config = get_config()
+    return config.get("short_answer_question_scorer_provider", "openai")
+
+def get_short_answer_question_scorer_model() -> str:
+    config = get_config()
+    return config.get("short_answer_question_scorer_model", "gpt-4o") 
