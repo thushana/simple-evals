@@ -19,6 +19,7 @@ def get_ap_test_enum(exam_type: str) -> APTest:
         'biology': APTest.AP_BIOLOGY,
         'human_geo': APTest.AP_HUMAN_GEO,
         'statistics': APTest.AP_STATISTICS,
+        'calculus_bc': APTest.AP_CALCULUS_BC,
     }
     
     if exam_type not in exam_mapping:
