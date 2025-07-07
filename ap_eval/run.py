@@ -386,24 +386,31 @@ def main():
         status = "✅" if result.is_correct else "❌"
         
         # Determine question type for display with emojis
-        question_type = "Multiple Choice ☑️"
-        if hasattr(question, 'question_image') and question.question_image:
-            question_type = "Multiple Choice 🖼️"
-        elif hasattr(question, 'question_context') and question.question_context:
-            question_type = "Multiple Choice 📃"
-        
-        print(f"\r{question.id} – {question_type} → Answered {result.given_answer} | Expected {result.expected_answer} | {status}")
+        if question.question_type == "Short Answer Question":
+            question_type = "Short Answer Question 📝"
+            # For short answer questions, show score instead of answer
+            score_emoji = "✅" if result.score >= question.max_points * 0.8 else "🟡" if result.score >= question.max_points * 0.5 else "🔴"
+            print(f"\r{question.id} – {question_type} → Score {result.score} | Max {question.max_points} | {score_emoji}")
+        else:
+            question_type = "Multiple Choice ☑️"
+            if hasattr(question, 'question_image') and question.question_image:
+                question_type = "Multiple Choice 🖼️"
+            elif hasattr(question, 'question_context') and question.question_context:
+                question_type = "Multiple Choice 📃"
+            
+            print(f"\r{question.id} – {question_type} → Answered {result.given_answer} | Expected {result.expected_answer} | {status}")
     
     
     # Calculate final statistics
     total_score = sum(r.score for r in results)
+    total_possible = sum(questions[i].max_points for i in range(len(questions)))
     num_questions = len(results)
-    score_average = total_score / num_questions if num_questions > 0 else 0.0
+    score_average = total_score / total_possible if total_possible > 0 else 0.0
     time_total_generation = sum(r.time_taken for r in responses)
     time_timestamp = datetime.datetime.now().isoformat()
 
     print(f"\nResults for \033[1m{args.model_name}\033[0m on \033[1m{args.exam_identifier}\033[0m:")
-    print(f"Score:\t\t{int(total_score)}/{num_questions} correct")
+    print(f"Score:\t\t{int(total_score)}/{total_possible} correct")
     print(f"Average:\t{score_average:.1%}")
     print(f"Total Time:\t{time_total_generation:.2f}s")
     
@@ -414,6 +421,7 @@ def main():
             "model_name": args.model_name,
             "model_provider": model_provider,
             "score": int(total_score),
+            "total_possible": total_possible,
             "score_average": score_average,
             "time_timestamp": time_timestamp,
             "time_total_generation": time_total_generation,
