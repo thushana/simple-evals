@@ -15,8 +15,15 @@ This system allows you to:
 
 ### 1. Install and Setup
 ```bash
-make install    # Install the package
-make setup      # Set up API keys (.env file)
+make install        # Install the package
+make install-dev    # Install development dependencies (optional but recommended)
+make setup          # Set up API keys (.env file)
+```
+
+### 2. Development Setup (Optional)
+For the best development experience, set up pre-commit hooks:
+```bash
+make setup-pre-commit  # Automatically format code on commit
 ```
 
 ### 2. Run Evaluation
@@ -39,15 +46,40 @@ make evaluate MODEL=gpt-4 EXAM=AP_US_HISTORY_2017
 
 For convenience, this project includes a Makefile with common commands. All commands should be run from the `college_board_eval` directory:
 
+### Core Commands
 ```bash
 make help                    # Show all available commands
 make install                 # Install the package in development mode
+make install-dev             # Install development dependencies (black, isort, flake8, mypy)
 make setup                   # Set up API keys (copy .env.example to .env)
+make setup-pre-commit        # Set up pre-commit hooks for automatic formatting
 make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation
 make collate                 # Generate dashboard from all result files
 make results                 # Start local server to view dashboard
 make clean                   # Remove generated result files
 make evaluate MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation + collate + start server
+```
+
+### Code Quality Commands
+```bash
+make format                  # Format code with black and isort
+make lint                    # Run flake8 linting
+make typecheck               # Run mypy type checking
+make check                   # Run all code quality checks (format + lint + typecheck)
+make fix                     # Auto-fix formatting issues
+```
+
+### Development Workflow
+For the best development experience, run these commands in sequence:
+```bash
+make format                  # Format code first
+make lint                    # Check for style issues
+make typecheck               # Verify type safety
+```
+
+Or use the convenience command:
+```bash
+make check                   # Run all quality checks at once
 ```
 
 ## Supported Models
@@ -147,6 +179,29 @@ college_board_eval/
     ├── collator/                # Results collator
     └── *.json                   # Individual result files
 ```
+
+## Code Quality Standards
+
+This project maintains high code quality standards using automated tools:
+
+### Python Version
+- **Target**: Python 3.10+
+- **Type System**: Full type annotations with mypy strict checking
+- **Formatting**: Black with 120 character line length
+- **Import Sorting**: isort for consistent import organization
+- **Linting**: flake8 for style and error detection
+
+### Type Safety
+- All functions and methods have type annotations
+- Uses mypy for static type checking with strict settings
+- Generic types properly implemented for scorer classes
+- Dataclasses with proper field ordering and defaults
+
+### Code Style
+- 120 character line length limit
+- Consistent import organization
+- No unused imports or variables
+- Proper f-string usage (no f-strings without placeholders)
 
 ## Contributing
 
