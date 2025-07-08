@@ -1,8 +1,17 @@
-from typing import List
-from .ap_types import Question, Response, EvaluationResult, TestResults, APTest, QuestionType
-from .scorer.scorer_registry import ScorerRegistry
-from datetime import datetime
 from collections import defaultdict
+from datetime import datetime
+from typing import List
+
+from .ap_types import (
+    APTest,
+    EvaluationResult,
+    Question,
+    QuestionType,
+    Response,
+    TestResults,
+)
+from .scorer.scorer_registry import ScorerRegistry
+
 
 class APEvaluator:
     def __init__(self, questions: List[Question]):
@@ -17,13 +26,13 @@ class APEvaluator:
 
         # Get the appropriate scorer for this question type
         scorer = self.scorer_registry.get_scorer(question.question_type)
-        
+
         # Evaluate the response using the scorer
         return scorer.score_question(question, response)
 
     def evaluate_all(self, responses: List[Response]) -> TestResults:
         results = [self.evaluate_response(r) for r in responses]
-        
+
         # Calculate total score and number of questions
         total_score = sum(r.score for r in results)
         num_questions = len(results)
@@ -41,10 +50,18 @@ class APEvaluator:
         # Calculate confidence statistics
         correct_confidences = [r.confidence for r in results if r.is_correct]
         incorrect_confidences = [r.confidence for r in results if not r.is_correct]
-        
+
         confidence_stats = {
-            "correct_avg": sum(correct_confidences) / len(correct_confidences) if correct_confidences else 0.0,
-            "incorrect_avg": sum(incorrect_confidences) / len(incorrect_confidences) if incorrect_confidences else 0.0
+            "correct_avg": (
+                sum(correct_confidences) / len(correct_confidences)
+                if correct_confidences
+                else 0.0
+            ),
+            "incorrect_avg": (
+                sum(incorrect_confidences) / len(incorrect_confidences)
+                if incorrect_confidences
+                else 0.0
+            ),
         }
 
         return TestResults(
@@ -55,5 +72,5 @@ class APEvaluator:
             time_period_stats=dict(time_period_stats),
             confidence_stats=confidence_stats,
             results=results,
-            timestamp=datetime.now()
-        ) 
+            timestamp=datetime.now(),
+        )

@@ -1,7 +1,8 @@
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import List, Optional, Dict, Any
 from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional
+
 
 class APTest(Enum):
     AP_US_HISTORY = "AP United States History"
@@ -16,6 +17,7 @@ class APTest(Enum):
     AP_HUMAN_GEO = "AP Human Geography"
     AP_STATISTICS = "AP Statistics"
 
+
 class QuestionType(Enum):
     MULTIPLE_CHOICE = "Multiple Choice"
     SHORT_ANSWER_QUESTION = "Short Answer Question"
@@ -24,6 +26,7 @@ class QuestionType(Enum):
     FREE_RESPONSE = "Free Response"  # General free response
     DBQ = "Document-Based Question"
     LONG_ESSAY = "Long Essay"
+
 
 @dataclass
 class Question:
@@ -37,55 +40,70 @@ class Question:
     skill_domain: str
     year: int
 
+
 @dataclass
 class MultipleChoiceQuestion(Question):
     options: Dict[str, str]  # Dictionary mapping letters (A, B, C, D) to their text
-    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
+    question_context: Optional[str] = (
+        None  # Contextual paragraph or passage before the question
+    )
     question_image: Optional[str] = None  # Image file reference for the question
-    source: Optional['Source'] = None  # Metadata about the question's source
+    source: Optional["Source"] = None  # Metadata about the question's source
+
 
 @dataclass
 class ShortAnswerQuestion(Question):
-    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
+    question_context: Optional[str] = (
+        None  # Contextual paragraph or passage before the question
+    )
     question_image: Optional[str] = None  # Image file reference for the question
-    source: Optional['Source'] = None  # Metadata about the question's source
+    source: Optional["Source"] = None  # Metadata about the question's source
     max_points: int = 3  # Maximum points possible for this question
-    short_answer_question_rubric_question: Optional[str] = None  # Question-level scoring guide
+    short_answer_question_rubric_question: Optional[str] = (
+        None  # Question-level scoring guide
+    )
     rubric: Optional[Dict[str, Any]] = None  # Scoring rubric for the question
     exemplar_answers: Optional[Dict[str, str]] = None  # Exemplar answers for each part
+
 
 @dataclass
 class StudentProducedResponseQuestion(Question):
     """SAT Student-Produced Response (Grid-In) questions"""
+
     question_context: Optional[str] = None
     question_image: Optional[str] = None
-    source: Optional['Source'] = None
+    source: Optional["Source"] = None
     max_points: int = 1
     acceptable_answers: Optional[List[str]] = None  # List of acceptable numeric answers
     tolerance: Optional[float] = None  # Tolerance for numeric answers
     rubric: Optional[Dict[str, Any]] = None
 
+
 @dataclass
 class LongAnswerQuestion(Question):
     """AP Long Answer/Long Essay questions"""
+
     question_context: Optional[str] = None
     question_image: Optional[str] = None
-    source: Optional['Source'] = None
+    source: Optional["Source"] = None
     max_points: int = 6  # Typical for AP long essays
     rubric: Optional[Dict[str, Any]] = None
     exemplar_answers: Optional[Dict[str, str]] = None
     long_answer_rubric_question: Optional[str] = None  # Question-level scoring guide
 
+
 @dataclass
 class FreeResponseQuestion(Question):
     """General Free Response questions"""
+
     question_context: Optional[str] = None
     question_image: Optional[str] = None
-    source: Optional['Source'] = None
+    source: Optional["Source"] = None
     max_points: int = 4
     rubric: Optional[Dict[str, Any]] = None
     exemplar_answers: Optional[Dict[str, str]] = None
     free_response_rubric_question: Optional[str] = None  # Question-level scoring guide
+
 
 @dataclass
 class Response:
@@ -99,7 +117,10 @@ class Response:
     timestamp: datetime = field(default_factory=datetime.now)
     model_answer_no_options: Optional[str] = None  # Answer without seeing options
     # For Short Answer Questions, store answers for each part
-    short_answer_question_parts: Optional[Dict[str, str]] = None  # e.g., {"A": "answer for part A", "B": "answer for part B"}
+    short_answer_question_parts: Optional[Dict[str, str]] = (
+        None  # e.g., {"A": "answer for part A", "B": "answer for part B"}
+    )
+
 
 @dataclass
 class EvaluationResult:
@@ -115,6 +136,7 @@ class EvaluationResult:
     timestamp: datetime = field(default_factory=datetime.now)
     score: float = 1.0
 
+
 @dataclass
 class TestResults:
     test: APTest
@@ -126,9 +148,9 @@ class TestResults:
     results: List[EvaluationResult] = field(default_factory=list)
     timestamp: datetime = field(default_factory=datetime.now)
 
+
 Message = dict[str, Any]  # keys role, content
 MessageList = list[Message]
-
 
 
 @dataclass
@@ -136,9 +158,11 @@ class SamplerResponse:
     """
     Response from a sampler.
     """
+
     response_text: str
     actual_queried_message_list: MessageList
     response_metadata: dict[str, Any]
+
 
 class SamplerBase:
     """
@@ -147,7 +171,7 @@ class SamplerBase:
     """
 
     def __call__(
-        self, 
+        self,
         message_list: MessageList,
     ) -> SamplerResponse:
         raise NotImplementedError
@@ -197,10 +221,10 @@ class Source:
     date: str
     description: str
 
+
 @dataclass
 class QuestionGroup:
     id: str
     preamble: str
     source: Source
     questions: list = field(default_factory=list)
-
