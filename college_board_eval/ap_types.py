@@ -44,24 +44,18 @@ class Question:
 @dataclass
 class MultipleChoiceQuestion(Question):
     options: Dict[str, str]  # Dictionary mapping letters (A, B, C, D) to their text
-    question_context: Optional[str] = (
-        None  # Contextual paragraph or passage before the question
-    )
+    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
     question_image: Optional[str] = None  # Image file reference for the question
     source: Optional["Source"] = None  # Metadata about the question's source
 
 
 @dataclass
 class ShortAnswerQuestion(Question):
-    question_context: Optional[str] = (
-        None  # Contextual paragraph or passage before the question
-    )
+    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
     question_image: Optional[str] = None  # Image file reference for the question
     source: Optional["Source"] = None  # Metadata about the question's source
     max_points: int = 3  # Maximum points possible for this question
-    short_answer_question_rubric_question: Optional[str] = (
-        None  # Question-level scoring guide
-    )
+    short_answer_question_rubric_question: Optional[str] = None  # Question-level scoring guide
     rubric: Optional[Dict[str, Any]] = None  # Scoring rubric for the question
     exemplar_answers: Optional[Dict[str, str]] = None  # Exemplar answers for each part
 
@@ -200,9 +194,7 @@ class SingleEvalResult:
     metrics: dict[str, float] = field(default_factory=dict)
     html: str | None = None
     convo: MessageList | None = None  # sampled conversation
-    example_level_metadata: dict[str, Any] | None = (
-        None  # Extra data such as rubric scores or sollen
-    )
+    example_level_metadata: dict[str, Any] | None = None  # Extra data such as rubric scores or sollen
 
 
 class Eval:

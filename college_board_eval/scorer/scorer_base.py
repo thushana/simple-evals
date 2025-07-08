@@ -1,10 +1,9 @@
 import base64
-import json
 import os
 import re
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 import openai
 
@@ -44,9 +43,7 @@ class ScorerBase(ABC):
         """
         pass
 
-    def _load_image_as_base64(
-        self, image_path: str, exam_identifier: str
-    ) -> Optional[str]:
+    def _load_image_as_base64(self, image_path: str, exam_identifier: str) -> Optional[str]:
         """
         Load an image file and return it as base64 encoded string.
         Returns None if image cannot be loaded.
@@ -93,9 +90,7 @@ class ScorerBase(ABC):
 
         return model in vision_models
 
-    def _get_scoring_guide_with_precedence(
-        self, question: Question, test_metadata: Optional[Dict] = None
-    ) -> str:
+    def _get_scoring_guide_with_precedence(self, question: Question, test_metadata: Optional[Dict] = None) -> str:
         """
         Get the appropriate scoring guide based on precedence:
         1. Question-level (highest priority)
@@ -129,9 +124,7 @@ class ScorerBase(ABC):
         formatted = []
         for part_label, part_rubric in rubric.items():
             formatted.append(f"Part {part_label}:")
-            formatted.append(
-                f"  Criteria: {part_rubric.get('criteria', 'No criteria')}"
-            )
+            formatted.append(f"  Criteria: {part_rubric.get('criteria', 'No criteria')}")
             formatted.append(f"  Points: {part_rubric.get('points', 1)}")
             if part_rubric.get("examples"):
                 formatted.append(f"  Examples: {', '.join(part_rubric['examples'])}")
@@ -139,9 +132,7 @@ class ScorerBase(ABC):
 
         return "\n".join(formatted)
 
-    def _call_openai_model(
-        self, prompt: str, model: str, image_content: Optional[Dict] = None
-    ) -> Tuple[float, str]:
+    def _call_openai_model(self, prompt: str, model: str, image_content: Optional[Dict] = None) -> Tuple[float, str]:
         """
         Call OpenAI model to evaluate the response.
         Returns (score, explanation).
@@ -158,10 +149,11 @@ class ScorerBase(ABC):
                 message_content.append(image_content)
             elif image_content and not supports_vision:
                 # Add notice about image not being sent
-                image_notice = f"\n[Note: An image was included in the question, but this model ({model}) doesn't support vision. Please evaluate based on the text content only.]"
-                message_content[0]["text"] = message_content[0]["text"].replace(
-                    "Question:", f"Question:{image_notice}"
+                image_notice = (
+                    f"\n[Note: An image was included in the question, but this model ({model}) "
+                    "doesn't support vision. Please evaluate based on the text content only.]"
                 )
+                message_content[0]["text"] = message_content[0]["text"].replace("Question:", f"Question:{image_notice}")
 
             completion = client.chat.completions.create(
                 model=model,
@@ -172,21 +164,15 @@ class ScorerBase(ABC):
             reply = completion.choices[0].message.content.strip()
 
             # Parse the response for score and explanation
-            score_match = re.search(
-                r"Score:\s*([0-9.]+)/([0-9.]+)\s*$", reply, re.MULTILINE
-            )
-            explanation_match = re.search(
-                r"Explanation:\s*(.*?)(?=\nScore:|$)", reply, re.DOTALL
-            )
+            score_match = re.search(r"Score:\s*([0-9.]+)/([0-9.]+)\s*$", reply, re.MULTILINE)
+            explanation_match = re.search(r"Explanation:\s*(.*?)(?=\nScore:|$)", reply, re.DOTALL)
 
             if score_match:
                 score = float(score_match.group(1))
             else:
                 score = 0.0
 
-            explanation = (
-                explanation_match.group(1).strip() if explanation_match else reply
-            )
+            explanation = explanation_match.group(1).strip() if explanation_match else reply
             return score, explanation
 
         except Exception as e:

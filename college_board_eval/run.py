@@ -51,7 +51,10 @@ def build_prompt(question):
         prompt += "Options:\n"
         for k, v in question.options.items():
             prompt += f"{k}: {v}\n"
-        prompt += "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\nExample: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
+        prompt += (
+            "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\n"
+            "Example: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
+        )
     else:
         # For Short Answer Questions
         prompt += "Provide a detailed description of what you observe in the image."
@@ -84,7 +87,7 @@ def get_model_response(
 
         # Show options for multiple choice questions
         if hasattr(question, "options"):
-            print(f"\nOPTIONS:")
+            print("\nOPTIONS:")
             for k, v in question.options.items():
                 print(f"  {k}: {v}")
 
@@ -105,20 +108,21 @@ def get_model_response(
         prompt_text += "Options:\n"
         for k, v in question.options.items():
             prompt_text += f"{k}: {v}\n"
-        prompt_text += "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\nExample: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
+        prompt_text += (
+            "\nAnswer with the letter (A, B, C, or D) followed by your reasoning.\n"
+            "Example: A: (Explain why this option is correct because [keep to 1-2 sentences]...)"
+        )
     else:
         # For Short Answer Questions
-        prompt_text += (
-            "Provide a detailed description of what you observe in the image."
-        )
+        prompt_text += "Provide a detailed description of what you observe in the image."
 
     if show_model_query:
-        print(f"\nPROMPT SENT TO MODEL:")
-        print(f"{'='*50}")
+        print("\nPROMPT SENT TO MODEL:")
+        print("=" * 50)
         print(prompt_text)
         if hasattr(question, "question_image") and question.question_image:
             print(f"\n[Image will be included: {question.question_image}]")
-        print(f"{'='*50}")
+        print("=" * 50)
 
     # Prepare message content
     content = [{"type": "text", "text": prompt_text}]
@@ -178,10 +182,10 @@ def get_model_response(
     end_time = time.time()
 
     if show_model_response:
-        print(f"\nMODEL RESPONSE:")
-        print(f"{'='*50}")
+        print("\nMODEL RESPONSE:")
+        print("=" * 50)
         print(sampler_response.response_text)
-        print(f"{'='*50}")
+        print("=" * 50)
 
     # Extract answer based on question type
     answer = ""
@@ -266,15 +270,18 @@ def get_model_response_no_options(
     prompt_text += f"{question.question_text}\n\n"
 
     # Add instruction for Short Answer Question without options
-    prompt_text += "Provide a brief answer (less than 10 words) without seeing the options. Just give your best response based on the information provided."
+    prompt_text += (
+        "Provide a brief answer (less than 10 words) without seeing the options. "
+        "Just give your best response based on the information provided."
+    )
 
     if show_model_query:
-        print(f"\nPROMPT SENT TO MODEL (NO OPTIONS):")
-        print(f"{'='*50}")
+        print("\nPROMPT SENT TO MODEL (NO OPTIONS):")
+        print("=" * 50)
         print(prompt_text)
         if hasattr(question, "question_image") and question.question_image:
             print(f"\n[Image will be included: {question.question_image}]")
-        print(f"{'='*50}")
+        print("=" * 50)
 
     # Prepare message content
     content = [{"type": "text", "text": prompt_text}]
@@ -334,10 +341,10 @@ def get_model_response_no_options(
     end_time = time.time()
 
     if show_model_response:
-        print(f"\nMODEL RESPONSE (NO OPTIONS):")
-        print(f"{'='*50}")
+        print("\nMODEL RESPONSE (NO OPTIONS):")
+        print("=" * 50)
         print(sampler_response.response_text)
-        print(f"{'='*50}")
+        print("=" * 50)
 
     # Use the full response as the answer (since no options to match against)
     answer_no_options = sampler_response.response_text.strip()
@@ -361,9 +368,7 @@ def encode_image(image_path):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Run AP evaluation for a specific model and exam"
-    )
+    parser = argparse.ArgumentParser(description="Run AP evaluation for a specific model and exam")
     parser.add_argument(
         "model_name",
         help="Name of the model to evaluate (e.g., gpt-4, claude-3.5-sonnet)",
@@ -481,7 +486,8 @@ def main():
                 question_type = "Multiple Choice 📃"
 
             print(
-                f"\r{question.id} – {question_type} → Answered {result.given_answer} | Expected {result.expected_answer} | {status}"
+                f"\r{question.id} – {question_type} → "
+                f"Answered {result.given_answer} | Expected {result.expected_answer} | {status}"
             )
 
     # Calculate final statistics
@@ -499,9 +505,7 @@ def main():
     time_total_generation = sum(r.time_taken for r in responses)
     time_timestamp = datetime.datetime.now().isoformat()
 
-    print(
-        f"\nResults for \033[1m{args.model_name}\033[0m on \033[1m{args.exam_identifier}\033[0m:"
-    )
+    print(f"\nResults for \033[1m{args.model_name}\033[0m on \033[1m{args.exam_identifier}\033[0m:")
     print(f"Score:\t\t{int(total_score)}/{total_possible} correct")
     print(f"Average:\t{score_average:.1%}")
     print(f"Total Time:\t{time_total_generation:.2f}s")
@@ -551,13 +555,9 @@ def main():
             if "metadata" in question:
                 metadata = question["metadata"]
                 if "main_practice_skill" in metadata:
-                    question["Response"]["main_practice_skill"] = metadata[
-                        "main_practice_skill"
-                    ]
+                    question["Response"]["main_practice_skill"] = metadata["main_practice_skill"]
                 if "learning_objective" in metadata:
-                    question["Response"]["learning_objective"] = metadata[
-                        "learning_objective"
-                    ]
+                    question["Response"]["learning_objective"] = metadata["learning_objective"]
                 if "key_concepts" in metadata:
                     question["Response"]["key_concepts"] = metadata["key_concepts"]
 
@@ -566,7 +566,10 @@ def main():
     # Save to file
     results_dir = os.path.join(os.path.dirname(__file__), "results")
     os.makedirs(results_dir, exist_ok=True)
-    output_filename = f"{args.exam_identifier}_{model_provider}_{args.model_name}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    output_filename = (
+        f"{args.exam_identifier}_{model_provider}_{args.model_name}_"
+        f"{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+    )
     output_path = os.path.join(results_dir, output_filename)
     with open(output_path, "w") as f:
         json.dump(results_data, f, indent=2)

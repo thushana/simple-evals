@@ -3,10 +3,8 @@ from datetime import datetime
 from typing import List
 
 from .ap_types import (
-    APTest,
     EvaluationResult,
     Question,
-    QuestionType,
     Response,
     TestResults,
 )
@@ -52,15 +50,9 @@ class APEvaluator:
         incorrect_confidences = [r.confidence for r in results if not r.is_correct]
 
         confidence_stats = {
-            "correct_avg": (
-                sum(correct_confidences) / len(correct_confidences)
-                if correct_confidences
-                else 0.0
-            ),
+            "correct_avg": (sum(correct_confidences) / len(correct_confidences) if correct_confidences else 0.0),
             "incorrect_avg": (
-                sum(incorrect_confidences) / len(incorrect_confidences)
-                if incorrect_confidences
-                else 0.0
+                sum(incorrect_confidences) / len(incorrect_confidences) if incorrect_confidences else 0.0
             ),
         }
 

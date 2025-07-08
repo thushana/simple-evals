@@ -69,9 +69,7 @@ class ScorerShortAnswer(ScorerBase):
         if question.question_image:
             # Try to load the image
             exam_identifier = self._extract_exam_identifier(question.id)
-            encoded_image = self._load_image_as_base64(
-                question.question_image, exam_identifier
-            )
+            encoded_image = self._load_image_as_base64(question.question_image, exam_identifier)
 
             if encoded_image:
                 image_content = {
@@ -79,7 +77,10 @@ class ScorerShortAnswer(ScorerBase):
                     "image_url": {"url": f"data:image/png;base64,{encoded_image}"},
                 }
             else:
-                image_notice = f"\n[Note: An image was supposed to be included here ({question.question_image}), but it could not be loaded. Please evaluate the response based on the text content only.]"
+                image_notice = (
+                    f"\n[Note: An image was supposed to be included here ({question.question_image}), "
+                    "but it could not be loaded. Please evaluate the response based on the text content only.]"
+                )
 
         # Create the prompt
         prompt = self.prompt_template.format(
@@ -91,9 +92,7 @@ class ScorerShortAnswer(ScorerBase):
 
         # Add the scoring guide to the prompt
         if scoring_guide:
-            prompt = prompt.replace(
-                "Rubric:", f"General Scoring Criteria:\n{scoring_guide}\n\nRubric:"
-            )
+            prompt = prompt.replace("Rubric:", f"General Scoring Criteria:\n{scoring_guide}\n\nRubric:")
 
         # Add image notice if image couldn't be loaded
         if image_notice:
@@ -121,9 +120,7 @@ class ScorerShortAnswer(ScorerBase):
         Score a complete Short Answer Question using the configured model with precedence hierarchy.
         """
         # Call the scorer model
-        total_score, explanation = self._call_scorer_model(
-            question, response, test_metadata
-        )
+        total_score, explanation = self._call_scorer_model(question, response, test_metadata)
 
         # Determine if the overall response is correct (score >= 80% of max)
         is_correct = total_score >= (question.max_points * 0.8)

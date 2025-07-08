@@ -30,9 +30,7 @@ def get_ap_test_enum(exam_type: str) -> APTest:
     }
 
     if exam_type not in exam_mapping:
-        raise ValueError(
-            f"Unsupported exam type: {exam_type}. Supported types: {list(exam_mapping.keys())}"
-        )
+        raise ValueError(f"Unsupported exam type: {exam_type}. Supported types: {list(exam_mapping.keys())}")
 
     return exam_mapping[exam_type]
 
@@ -54,7 +52,9 @@ def load_questions_from_json(json_file_path: str, exam_type: str) -> List[Questi
             name=item["metadata"]["source"]["ap_test"],
             url=item["metadata"]["source"]["url"],
             date=str(item["metadata"]["source"]["year"]),
-            description=f"AP {item['metadata']['source']['ap_test']} {item['metadata']['source']['year']} Practice Exam",
+            description=(
+                f"AP {item['metadata']['source']['ap_test']} " f"{item['metadata']['source']['year']} Practice Exam"
+            ),
         )
 
         question_type = item["question"]["type"]
@@ -106,9 +106,7 @@ def load_questions_from_json(json_file_path: str, exam_type: str) -> List[Questi
     return questions
 
 
-def load_question_groups_from_json(
-    json_file_path: str, exam_type: str
-) -> List[QuestionGroup]:
+def load_question_groups_from_json(json_file_path: str, exam_type: str) -> List[QuestionGroup]:
     """Load questions from JSON and group them by shared preamble and source"""
     questions = load_questions_from_json(json_file_path, exam_type)
 
@@ -151,9 +149,8 @@ def get_questions_for_exam(
 
     if not os.path.exists(json_file_path):
         print(f"Warning: Exam file not found: {exam_identifier}/{exam_identifier}.json")
-        print(
-            f"Available exams: {[d for d in os.listdir(exams_dir) if os.path.isdir(os.path.join(exams_dir, d))]}"
-        )
+        available_exams = [d for d in os.listdir(exams_dir) if os.path.isdir(os.path.join(exams_dir, d))]
+        print(f"Available exams: {available_exams}")
         return [], []
 
     print(f"Using exam: {exam_identifier}/{exam_identifier}.json")
@@ -163,9 +160,7 @@ def get_questions_for_exam(
     import re
 
     exam_type = exam_identifier.lower().replace("ap_", "")
-    exam_type = re.sub(
-        r"_\d{4}$", "", exam_type
-    )  # Remove year suffix like _2017, _2023, etc.
+    exam_type = re.sub(r"_\d{4}$", "", exam_type)  # Remove year suffix like _2017, _2023, etc.
 
     try:
         questions = load_questions_from_json(json_file_path, exam_type)

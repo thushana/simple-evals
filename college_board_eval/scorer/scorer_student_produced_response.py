@@ -34,7 +34,10 @@ class ScorerStudentProducedResponse(ScorerBase):
         score = 1.0 if is_correct else 0.0
 
         # Generate explanation
-        explanation = f"Correct answer: {question.correct_answer}. Student answer: {response.answer}. {'Correct' if is_correct else 'Incorrect'}."
+        explanation = (
+            f"Correct answer: {question.correct_answer}. Student answer: {response.answer}. "
+            f"{'Correct' if is_correct else 'Incorrect'}."
+        )
 
         return EvaluationResult(
             question_id=response.question_id,

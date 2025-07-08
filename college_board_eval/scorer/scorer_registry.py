@@ -31,18 +31,14 @@ class ScorerRegistry:
         """
         if question_type not in self._scorer_instances:
             if question_type not in self._scorers:
-                raise ValueError(
-                    f"No scorer registered for question type: {question_type}"
-                )
+                raise ValueError(f"No scorer registered for question type: {question_type}")
 
             scorer_class = self._scorers[question_type]
             self._scorer_instances[question_type] = scorer_class()
 
         return self._scorer_instances[question_type]
 
-    def register_scorer(
-        self, question_type: QuestionType, scorer_class: Type[ScorerBase]
-    ) -> None:
+    def register_scorer(self, question_type: QuestionType, scorer_class: Type[ScorerBase]) -> None:
         """
         Register a new scorer class for a question type.
         """

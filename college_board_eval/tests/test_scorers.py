@@ -14,7 +14,6 @@ from college_board_eval import (
     ScorerMultipleChoice,
     ScorerRegistry,
     ScorerShortAnswer,
-    ShortAnswerQuestion,
 )
 
 
@@ -66,15 +65,11 @@ def test_multiple_choice():
     correct_result = evaluator.evaluate_response(correct_response)
     incorrect_result = evaluator.evaluate_response(incorrect_response)
 
-    print(
-        f"Correct response: score={correct_result.score}, is_correct={correct_result.is_correct}"
-    )
-    print(
-        f"Incorrect response: score={incorrect_result.score}, is_correct={incorrect_result.is_correct}"
-    )
+    print(f"Correct response: score={correct_result.score}, is_correct={correct_result.is_correct}")
+    print(f"Incorrect response: score={incorrect_result.score}, is_correct={incorrect_result.is_correct}")
 
-    assert correct_result.is_correct == True
-    assert incorrect_result.is_correct == False
+    assert correct_result.is_correct is True
+    assert incorrect_result.is_correct is False
     assert correct_result.score == 1.0
     assert incorrect_result.score == 0.0
 

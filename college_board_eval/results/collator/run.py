@@ -22,9 +22,7 @@ class ResultsCollator:
         """Load all JSON result files from the results directory"""
         json_files = glob.glob(os.path.join(self.results_dir, "*.json"))
         # Filter out index.json and Results.json
-        json_files = [
-            f for f in json_files if os.path.basename(f) not in ("index.json")
-        ]
+        json_files = [f for f in json_files if os.path.basename(f) not in ("index.json")]
 
         for json_file in json_files:
             try:
@@ -42,12 +40,8 @@ class ResultsCollator:
                     "score": exam_meta.get("score", 0),
                     "score_average": exam_meta.get("score_average", 0.0),
                     "questions_count": exam_meta.get("questions_count", 0),
-                    "total_possible": exam_meta.get(
-                        "total_possible", exam_meta.get("questions_count", 0)
-                    ),
-                    "time_total_generation": exam_meta.get(
-                        "time_total_generation", 0.0
-                    ),
+                    "total_possible": exam_meta.get("total_possible", exam_meta.get("questions_count", 0)),
+                    "time_total_generation": exam_meta.get("time_total_generation", 0.0),
                     "time_timestamp": exam_meta.get("time_timestamp", ""),
                     "accuracy_percentage": (
                         round(
@@ -61,15 +55,11 @@ class ResultsCollator:
                             * 100,
                             1,
                         )
-                        if exam_meta.get(
-                            "total_possible", exam_meta.get("questions_count", 0)
-                        )
-                        > 0
+                        if exam_meta.get("total_possible", exam_meta.get("questions_count", 0)) > 0
                         else 0.0
                     ),
                     "questions_per_minute": round(
-                        exam_meta.get("questions_count", 1)
-                        / (exam_meta.get("time_total_generation", 1) / 60),
+                        exam_meta.get("questions_count", 1) / (exam_meta.get("time_total_generation", 1) / 60),
                         2,
                     ),
                 }
@@ -94,15 +84,9 @@ class ResultsCollator:
             "total_exams": len(self.results_data),
             "total_questions": total_questions,
             "total_correct": total_correct,
-            "overall_accuracy": (
-                round((total_correct / total_questions * 100), 1)
-                if total_questions > 0
-                else 0
-            ),
+            "overall_accuracy": (round((total_correct / total_questions * 100), 1) if total_questions > 0 else 0),
             "total_time_minutes": round(total_time / 60, 2),
-            "average_questions_per_minute": (
-                round(total_questions / (total_time / 60), 2) if total_time > 0 else 0
-            ),
+            "average_questions_per_minute": (round(total_questions / (total_time / 60), 2) if total_time > 0 else 0),
         }
 
     def get_best_runs(self):
@@ -119,8 +103,7 @@ class ResultsCollator:
                     best_runs[exam_id] = result
                 elif (
                     result["accuracy_percentage"] == current["accuracy_percentage"]
-                    and result["time_total_generation"]
-                    < current["time_total_generation"]
+                    and result["time_total_generation"] < current["time_total_generation"]
                 ):
                     best_runs[exam_id] = result
         return best_runs
@@ -128,21 +111,13 @@ class ResultsCollator:
     @staticmethod
     def get_git_user():
         try:
-            name = (
-                subprocess.check_output(["git", "config", "user.name"]).decode().strip()
-            )
-            email = (
-                subprocess.check_output(["git", "config", "user.email"])
-                .decode()
-                .strip()
-            )
+            name = subprocess.check_output(["git", "config", "user.name"]).decode().strip()
+            email = subprocess.check_output(["git", "config", "user.email"]).decode().strip()
             return name, email
         except Exception:
             return None, None
 
-    def write_index_json(
-        self, output_file: str = "college_board_eval/results/index.json"
-    ):
+    def write_index_json(self, output_file: str = "college_board_eval/results/index.json"):
         """Write distilled results to index.json for the dashboard JS to load, with metadata."""
         import datetime
 
@@ -151,8 +126,7 @@ class ResultsCollator:
         for result in self.results_data:
             is_best = (
                 best_runs.get(result["exam_identifier"])
-                and result["filename"]
-                == best_runs[result["exam_identifier"]]["filename"]
+                and result["filename"] == best_runs[result["exam_identifier"]]["filename"]
             )
             distilled_rows.append(
                 {
@@ -187,9 +161,7 @@ class ResultsCollator:
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Generate AP evaluation results index.json for dashboard"
-    )
+    parser = argparse.ArgumentParser(description="Generate AP evaluation results index.json for dashboard")
     parser.add_argument(
         "--results-dir",
         default="college_board_eval/results",
