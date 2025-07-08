@@ -80,12 +80,12 @@ P4 — Unlikely in this iteration (stretch goals)
 
 **Getting Started:**
 ```bash
-cd frontend
+cd college_board_eval/web/frontend
 npm install
 npm run dev
 ```
 
-The frontend will be available at `http://localhost:5173`
+The frontend will be available at `http://localhost:1600` by default. If that port is in use, Vite will automatically use the next available port (e.g., `http://localhost:1600`).
 
 ### 🔄 **Backend (FastAPI) - NEXT**
 
@@ -107,17 +107,19 @@ The frontend will be available at `http://localhost:5173`
 ## Project Structure
 
 ```
-examextractor/
-├── README.md                    # This file
-├── frontend/                    # React/MUI frontend
+web/
+├── frontend/                  # React/MUI frontend
 │   ├── src/
-│   │   ├── App.tsx             # Main application component
-│   │   └── main.tsx            # Application entry point
-│   ├── package.json            # Frontend dependencies
+│   │   ├── App.tsx           # Main application component
+│   │   ├── main.tsx          # Application entry point
+│   │   └── components/
+│   │       └── Layout.tsx    # Page layout (header/footer)
+│   ├── public/               # Static assets (logo, favicon, etc.)
+│   ├── package.json          # Frontend dependencies
 │   └── ...
-└── backend/                    # FastAPI backend (planned)
-    ├── main.py                 # FastAPI application
-    ├── requirements.txt        # Python dependencies
+└── backend/                  # FastAPI backend (planned)
+    ├── main.py               # FastAPI application
+    ├── requirements.txt      # Python dependencies
     └── ...
 ```
 
