@@ -1,13 +1,13 @@
 # AP Evaluation System Makefile
 
-.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix
+.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck
 
 # Default target
 help:
 	@echo "AP Evaluation System - Available commands:"
 	@echo ""
 	@echo "  install    - Install the package in development mode"
-	@echo "  install-dev- Install development dependencies (black, isort, flake8)"
+	@echo "  install-dev- Install development dependencies (black, isort, flake8, mypy)"
 	@echo "  setup      - Set up API keys (copy .env.example to .env)"
 	@echo "  setup-pre-commit - Set up pre-commit hooks for automatic formatting"
 	@echo "  collate    - Generate dashboard from all result files"
@@ -18,7 +18,8 @@ help:
 	@echo "Code Quality Commands:"
 	@echo "  format     - Format code with black and isort"
 	@echo "  lint       - Run flake8 linting"
-	@echo "  check      - Run all code quality checks (format + lint)"
+	@echo "  typecheck  - Run mypy type checking"
+	@echo "  check      - Run all code quality checks (format + lint + typecheck)"
 	@echo "  fix        - Auto-fix formatting issues"
 	@echo ""
 
@@ -89,8 +90,13 @@ lint:
 	@echo "Running flake8 linting..."
 	flake8 .
 
+# Run mypy type checking
+typecheck:
+	@echo "Running mypy type checking..."
+	mypy .
+
 # Run all code quality checks
-check: format lint
+check: format lint typecheck
 	@echo "All code quality checks completed!"
 
 # Auto-fix formatting issues

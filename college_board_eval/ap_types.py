@@ -39,64 +39,49 @@ class Question:
     difficulty: float  # 0.0 to 1.0
     skill_domain: str
     year: int
+    options: Optional[Dict[str, str]] = None  # Only for MultipleChoiceQuestion, but safe to add here for typing
+    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
+    question_image: Optional[str] = None  # Image file reference for the question
+    source: Optional["Source"] = None  # Metadata about the question's source
+    max_points: int = 1  # Maximum points possible for this question (default 1 for multiple choice)
+    rubric: Optional[Dict[str, Any]] = None  # Scoring rubric for the question
+    exemplar_answers: Optional[Dict[str, str]] = None  # Exemplar answers for each part
+    group_id: Optional[str] = None  # ID of the question group this question belongs to
 
 
 @dataclass
 class MultipleChoiceQuestion(Question):
     options: Dict[str, str]  # Dictionary mapping letters (A, B, C, D) to their text
-    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
-    question_image: Optional[str] = None  # Image file reference for the question
-    source: Optional["Source"] = None  # Metadata about the question's source
 
 
 @dataclass
 class ShortAnswerQuestion(Question):
-    question_context: Optional[str] = None  # Contextual paragraph or passage before the question
-    question_image: Optional[str] = None  # Image file reference for the question
-    source: Optional["Source"] = None  # Metadata about the question's source
-    max_points: int = 3  # Maximum points possible for this question
     short_answer_question_rubric_question: Optional[str] = None  # Question-level scoring guide
-    rubric: Optional[Dict[str, Any]] = None  # Scoring rubric for the question
-    exemplar_answers: Optional[Dict[str, str]] = None  # Exemplar answers for each part
+    max_points: int = field(default=3)  # Override default for short answer questions
 
 
 @dataclass
 class StudentProducedResponseQuestion(Question):
     """SAT Student-Produced Response (Grid-In) questions"""
 
-    question_context: Optional[str] = None
-    question_image: Optional[str] = None
-    source: Optional["Source"] = None
-    max_points: int = 1
     acceptable_answers: Optional[List[str]] = None  # List of acceptable numeric answers
     tolerance: Optional[float] = None  # Tolerance for numeric answers
-    rubric: Optional[Dict[str, Any]] = None
 
 
 @dataclass
 class LongAnswerQuestion(Question):
     """AP Long Answer/Long Essay questions"""
 
-    question_context: Optional[str] = None
-    question_image: Optional[str] = None
-    source: Optional["Source"] = None
-    max_points: int = 6  # Typical for AP long essays
-    rubric: Optional[Dict[str, Any]] = None
-    exemplar_answers: Optional[Dict[str, str]] = None
     long_answer_rubric_question: Optional[str] = None  # Question-level scoring guide
+    max_points: int = field(default=6)  # Override default for AP long essays
 
 
 @dataclass
 class FreeResponseQuestion(Question):
     """General Free Response questions"""
 
-    question_context: Optional[str] = None
-    question_image: Optional[str] = None
-    source: Optional["Source"] = None
-    max_points: int = 4
-    rubric: Optional[Dict[str, Any]] = None
-    exemplar_answers: Optional[Dict[str, str]] = None
     free_response_rubric_question: Optional[str] = None  # Question-level scoring guide
+    max_points: int = field(default=4)  # Override default for free response questions
 
 
 @dataclass
@@ -219,4 +204,4 @@ class QuestionGroup:
     id: str
     preamble: str
     source: Source
-    questions: list = field(default_factory=list)
+    questions: List[Question] = field(default_factory=list)

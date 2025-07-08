@@ -10,13 +10,13 @@ import json
 import os
 import subprocess
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Tuple
 
 
 class ResultsCollator:
     def __init__(self, results_dir: str = "college_board_eval/results"):
         self.results_dir = results_dir
-        self.results_data = []
+        self.results_data: List[Dict[str, Any]] = []
 
     def load_all_results(self) -> List[Dict[str, Any]]:
         """Load all JSON result files from the results directory"""
@@ -89,9 +89,9 @@ class ResultsCollator:
             "average_questions_per_minute": (round(total_questions / (total_time / 60), 2) if total_time > 0 else 0),
         }
 
-    def get_best_runs(self):
+    def get_best_runs(self) -> Dict[str, Dict[str, Any]]:
         """Get the best single run (highest accuracy, then fastest time) for each test."""
-        best_runs = {}
+        best_runs: Dict[str, Dict[str, Any]] = {}
         for result in self.results_data:
             exam_id = result["exam_identifier"]
             if exam_id not in best_runs:
@@ -109,7 +109,7 @@ class ResultsCollator:
         return best_runs
 
     @staticmethod
-    def get_git_user():
+    def get_git_user() -> Tuple[Optional[str], Optional[str]]:
         try:
             name = subprocess.check_output(["git", "config", "user.name"]).decode().strip()
             email = subprocess.check_output(["git", "config", "user.email"]).decode().strip()
@@ -117,7 +117,7 @@ class ResultsCollator:
         except Exception:
             return None, None
 
-    def write_index_json(self, output_file: str = "college_board_eval/results/index.json"):
+    def write_index_json(self, output_file: str = "college_board_eval/results/index.json") -> None:
         """Write distilled results to index.json for the dashboard JS to load, with metadata."""
         import datetime
 
@@ -160,7 +160,7 @@ class ResultsCollator:
         print(f"Distilled results saved to: {output_file}")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Generate AP evaluation results index.json for dashboard")
     parser.add_argument(
         "--results-dir",

@@ -3,14 +3,17 @@ import os
 import re
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Generic, List, Optional, Tuple, TypeVar
 
 import openai
 
 from ..ap_types import EvaluationResult, Question, Response
 
+# Generic type for question types
+Q = TypeVar("Q", bound=Question)
 
-class ScorerBase(ABC):
+
+class ScorerBase(ABC, Generic[Q]):
     """
     Abstract base class for all question type scorers.
     Provides standardized interface and common utilities.
@@ -33,7 +36,7 @@ class ScorerBase(ABC):
     @abstractmethod
     def score_question(
         self,
-        question: Question,
+        question: Q,
         response: Response,
         test_metadata: Optional[Dict] = None,
     ) -> EvaluationResult:
@@ -90,7 +93,7 @@ class ScorerBase(ABC):
 
         return model in vision_models
 
-    def _get_scoring_guide_with_precedence(self, question: Question, test_metadata: Optional[Dict] = None) -> str:
+    def _get_scoring_guide_with_precedence(self, question: Q, test_metadata: Optional[Dict] = None) -> str:
         """
         Get the appropriate scoring guide based on precedence:
         1. Question-level (highest priority)
@@ -132,7 +135,9 @@ class ScorerBase(ABC):
 
         return "\n".join(formatted)
 
-    def _call_openai_model(self, prompt: str, model: str, image_content: Optional[Dict] = None) -> Tuple[float, str]:
+    def _call_openai_model(
+        self, prompt: str, model: str, image_content: Optional[Dict[str, Any]] = None
+    ) -> Tuple[float, str]:
         """
         Call OpenAI model to evaluate the response.
         Returns (score, explanation).
@@ -141,7 +146,7 @@ class ScorerBase(ABC):
             client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
             # Prepare message content
-            message_content = [{"type": "text", "text": prompt}]
+            message_content: List[Dict[str, Any]] = [{"type": "text", "text": prompt}]
 
             # Add image if available and model supports vision
             supports_vision = self._get_model_vision_support(model)
@@ -157,7 +162,7 @@ class ScorerBase(ABC):
 
             completion = client.chat.completions.create(
                 model=model,
-                messages=[{"role": "user", "content": message_content}],
+                messages=[{"role": "user", "content": message_content}],  # type: ignore[misc]
                 temperature=0.0,
                 max_tokens=512,
             )

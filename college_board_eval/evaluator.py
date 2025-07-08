@@ -1,8 +1,9 @@
 from collections import defaultdict
 from datetime import datetime
-from typing import List
+from typing import Dict, List
 
 from .ap_types import (
+    APTest,
     EvaluationResult,
     Question,
     Response,
@@ -37,7 +38,7 @@ class APEvaluator:
         average_score = total_score / num_questions if num_questions > 0 else 0.0
 
         # Calculate time period statistics
-        time_period_stats = defaultdict(lambda: {"correct": 0, "total": 0})
+        time_period_stats: Dict[str, Dict[str, float]] = defaultdict(lambda: {"correct": 0, "total": 0})
         for r in results:
             question = self.questions[r.question_id]
             period = str(question.year)  # Using year as the time period
@@ -56,8 +57,15 @@ class APEvaluator:
             ),
         }
 
+        # Ensure we have a valid test
+        if self.test is None:
+            # Use the first question's test as fallback
+            test = self.questions[list(self.questions.keys())[0]].test if self.questions else APTest.AP_US_HISTORY
+        else:
+            test = self.test
+
         return TestResults(
-            test=self.test,
+            test=test,
             total_score=total_score,
             num_questions=num_questions,
             average_score=average_score,

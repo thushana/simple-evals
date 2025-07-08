@@ -44,7 +44,7 @@ def load_questions_from_json(json_file_path: str, exam_type: str) -> List[Questi
         data = json.load(f)
 
     ap_test = get_ap_test_enum(exam_type)
-    questions = []
+    questions: List[Question] = []
 
     for item in data:
         # Create Source object from metadata
@@ -61,7 +61,7 @@ def load_questions_from_json(json_file_path: str, exam_type: str) -> List[Questi
 
         if question_type == "MULTIPLE_CHOICE":
             # Create MultipleChoiceQuestion
-            question = MultipleChoiceQuestion(
+            question: Question = MultipleChoiceQuestion(
                 id=item["id"],
                 test=ap_test,
                 question_type=QuestionType.MULTIPLE_CHOICE,
@@ -111,17 +111,21 @@ def load_question_groups_from_json(json_file_path: str, exam_type: str) -> List[
     questions = load_questions_from_json(json_file_path, exam_type)
 
     # Group questions by preamble and source
-    groups = {}
+    groups: dict[tuple[str, str, str], QuestionGroup] = {}
     for question in questions:
         # Create a key based on preamble and source
-        key = (question.question_context, question.source.name, question.source.date)
+        key = (
+            question.question_context or "",
+            question.source.name if question.source else "",
+            question.source.date if question.source else "",
+        )
 
         if key not in groups:
             # Create new group
             group = QuestionGroup(
                 id=f"GROUP_{len(groups) + 1}",
-                preamble=question.question_context,
-                source=question.source,
+                preamble=question.question_context or "",
+                source=question.source or Source("", "", "", ""),
             )
             groups[key] = group
 

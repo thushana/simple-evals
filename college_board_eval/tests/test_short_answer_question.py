@@ -157,7 +157,8 @@ def test_real_model_responses(exam_identifier, model_name="gpt-4o-mini", show_de
 
             # Show question details
             if getattr(question, "question_context", None):
-                print(f"📚 Context: {question.question_context[:200]}...")
+                context = question.question_context or ""
+                print(f"📚 Context: {context[:200]}...")
             print(f"❓ Question: {question.question_text}")
             print(f"📊 Max points: {question.max_points}")
 
