@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/images/college_board_acorn.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ExamExtractor: PDF ➜ Structured Exam Assets</title>
+    
+    <!-- Google Fonts - College Board uses Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+      /* College Board Style Guide Foundation */
+      body {
+        font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+        background: #fff !important;
+        margin: 0;
+        padding: 0;
+        color: #1e1e1e;
+        line-height: 1.5;
+      }
+      
+      /* College Board Color Palette */
+      :root {
+        /* Primary Colors */
+        --cb-blue2: #009cde;
+        --cb-blue5: #324dc7;
+        --cb-blue2-light: #0077c8;
+        
+        /* Secondary Colors */
+        --cb-yellow: #fedb00;
+        --cb-purple1: #702f8a;
+        
+        /* Grays */
+        --cb-black1: #1e1e1e;
+        --cb-gray: #d9d9d9;
+        --cb-gray5-bg: #f0f0f0;
+        --cb-gray-text: #4D4D4D;
+        
+        /* Whites */
+        --cb-white: #fff;
+        
+        /* Spacing */
+        --cb-spacing-xs: 8px;
+        --cb-spacing-sm: 16px;
+        --cb-spacing-md: 24px;
+        --cb-spacing-lg: 32px;
+        --cb-spacing-xl: 48px;
+        
+        /* Border Radius */
+        --cb-border-radius: 8px;
+        --cb-border-radius-full: 999px;
+      }
+      
+      /* College Board Typography Scale */
+      .cb-text-xs { font-size: 0.75rem; }
+      .cb-text-sm { font-size: 0.875rem; }
+      .cb-text-base { font-size: 1rem; }
+      .cb-text-lg { font-size: 1.125rem; }
+      .cb-text-xl { font-size: 1.25rem; }
+      .cb-text-2xl { font-size: 1.5rem; }
+      .cb-text-3xl { font-size: 2rem; }
+      .cb-text-4xl { font-size: 2.5rem; }
+      
+      /* College Board Font Weights */
+      .cb-font-light { font-weight: 300; }
+      .cb-font-normal { font-weight: 400; }
+      .cb-font-medium { font-weight: 500; }
+      .cb-font-bold { font-weight: 700; }
+      
+      /* College Board Button Styles */
+      .cb-btn {
+        border-radius: 999px;
+        padding: 11px 23px;
+        font-weight: 700;
+        font-size: 0.875rem;
+        line-height: 24px;
+        text-transform: none;
+        transition: all 0.25s ease-in-out;
+        min-height: 44px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .cb-btn-primary {
+        background-color: var(--cb-blue2);
+        color: var(--cb-white);
+      }
+      
+      .cb-btn-primary:hover {
+        background-color: var(--cb-blue2-light);
+        box-shadow: inset 0 0 0 1px var(--cb-black1);
+      }
+      
+      .cb-btn-outline {
+        background-color: transparent;
+        color: var(--cb-black1);
+        border: 1px solid var(--cb-black1);
+      }
+      
+      .cb-btn-outline:hover {
+        background-color: var(--cb-gray5-bg);
+        box-shadow: inset 0 0 0 1px var(--cb-black1);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
