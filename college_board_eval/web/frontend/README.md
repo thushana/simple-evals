@@ -4,6 +4,30 @@ A streamlined pipeline that ingests SAT or Advanced Placement PDFs and outputs p
 
 ---
 
+## Code Quality Commands
+
+From the project root, you can run:
+
+```bash
+# Python
+make lint         # Lint all Python and frontend JS/TS code
+make typecheck    # Type check all Python and frontend TS code
+make format       # Format all Python code (black, isort)
+
+# Or, run only frontend checks:
+npm run lint:frontend         # Lint all TypeScript/JS files in the frontend
+npm run typecheck:frontend    # Run TypeScript type checking for the frontend
+```
+
+Or, from the frontend directory:
+
+```bash
+npm run lint         # Lint all TypeScript/JS files in the frontend
+npm run typecheck    # Run TypeScript type checking only (no emit)
+```
+
+---
+
 ## Confidence Colors
 
 - ✅ Very Confident & Widely Agreed On
