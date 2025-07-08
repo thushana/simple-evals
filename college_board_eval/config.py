@@ -33,4 +33,41 @@ def get_short_answer_question_scorer_provider() -> str:
 
 def get_short_answer_question_scorer_model() -> str:
     config = get_config()
-    return config.get("short_answer_question_scorer_model", "gpt-4o") 
+    return config.get("short_answer_question_scorer_model", "gpt-4o")
+
+# New configuration functions for additional question types
+
+def get_long_answer_scorer_model() -> str:
+    """Get the configured scorer model name for long answer questions"""
+    config = get_config()
+    return config.get("long_answer_scorer_model", "gpt-4o")
+
+def get_long_answer_prompt_template() -> str:
+    """Get the Long Answer rubric prompt template"""
+    config = get_config()
+    return config.get("long_answer_rubric_prompt", "")
+
+def get_long_answer_system_scoring_guide() -> str:
+    """Get the system-level scoring guide for Long Answer Questions"""
+    config = get_config()
+    return config.get("long_answer_rubric_system", "")
+
+def get_free_response_scorer_model() -> str:
+    """Get the configured scorer model name for free response questions"""
+    config = get_config()
+    return config.get("free_response_scorer_model", "gpt-4o")
+
+def get_free_response_prompt_template() -> str:
+    """Get the Free Response rubric prompt template"""
+    config = get_config()
+    return config.get("free_response_rubric_prompt", "")
+
+def get_free_response_system_scoring_guide() -> str:
+    """Get the system-level scoring guide for Free Response Questions"""
+    config = get_config()
+    return config.get("free_response_rubric_system", "")
+
+def get_student_produced_response_scorer_model() -> str:
+    """Get the configured scorer model name for student produced response questions"""
+    config = get_config()
+    return config.get("student_produced_response_scorer_model", "numeric_match") 

@@ -19,6 +19,9 @@ class APTest(Enum):
 class QuestionType(Enum):
     MULTIPLE_CHOICE = "Multiple Choice"
     SHORT_ANSWER_QUESTION = "Short Answer Question"
+    STUDENT_PRODUCED_RESPONSE = "Student Produced Response"  # SAT grid-in
+    LONG_ANSWER = "Long Answer"  # AP long essay
+    FREE_RESPONSE = "Free Response"  # General free response
     DBQ = "Document-Based Question"
     LONG_ESSAY = "Long Essay"
 
@@ -50,6 +53,39 @@ class ShortAnswerQuestion(Question):
     short_answer_question_rubric_question: Optional[str] = None  # Question-level scoring guide
     rubric: Optional[Dict[str, Any]] = None  # Scoring rubric for the question
     exemplar_answers: Optional[Dict[str, str]] = None  # Exemplar answers for each part
+
+@dataclass
+class StudentProducedResponseQuestion(Question):
+    """SAT Student-Produced Response (Grid-In) questions"""
+    question_context: Optional[str] = None
+    question_image: Optional[str] = None
+    source: Optional['Source'] = None
+    max_points: int = 1
+    acceptable_answers: Optional[List[str]] = None  # List of acceptable numeric answers
+    tolerance: Optional[float] = None  # Tolerance for numeric answers
+    rubric: Optional[Dict[str, Any]] = None
+
+@dataclass
+class LongAnswerQuestion(Question):
+    """AP Long Answer/Long Essay questions"""
+    question_context: Optional[str] = None
+    question_image: Optional[str] = None
+    source: Optional['Source'] = None
+    max_points: int = 6  # Typical for AP long essays
+    rubric: Optional[Dict[str, Any]] = None
+    exemplar_answers: Optional[Dict[str, str]] = None
+    long_answer_rubric_question: Optional[str] = None  # Question-level scoring guide
+
+@dataclass
+class FreeResponseQuestion(Question):
+    """General Free Response questions"""
+    question_context: Optional[str] = None
+    question_image: Optional[str] = None
+    source: Optional['Source'] = None
+    max_points: int = 4
+    rubric: Optional[Dict[str, Any]] = None
+    exemplar_answers: Optional[Dict[str, str]] = None
+    free_response_rubric_question: Optional[str] = None  # Question-level scoring guide
 
 @dataclass
 class Response:
