@@ -1,7 +1,6 @@
 from typing import Dict, Optional
 from .scorer_base import ScorerBase
 from ..ap_types import MultipleChoiceQuestion, Response, EvaluationResult
-from ..config import get_scorer_model
 
 class ScorerMultipleChoice(ScorerBase):
     """
