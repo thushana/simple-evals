@@ -1,22 +1,27 @@
 import React from 'react';
-import { TableCell, Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import type { SortField, SortConfig } from '../types/dashboard.types';
+import { HeaderCell } from './HeaderCell';
 
 interface SortableHeaderProps {
   field: SortField;
-  label: string;
+  label: React.ReactNode;
   sortConfig: SortConfig;
   onSort: (field: SortField) => void;
+  sx?: any;
+  align?: 'inherit' | 'left' | 'center' | 'right' | 'justify';
 }
 
 export const SortableHeader: React.FC<SortableHeaderProps> = ({
   field,
   label,
   sortConfig,
-  onSort
+  onSort,
+  sx,
+  align
 }) => {
   const isActive = sortConfig.field === field;
   const isAscending = sortConfig.direction === 'asc';
@@ -38,7 +43,7 @@ export const SortableHeader: React.FC<SortableHeaderProps> = ({
   };
 
   return (
-    <TableCell
+    <HeaderCell
       onClick={handleClick}
       sx={{
         cursor: 'pointer',
@@ -46,15 +51,9 @@ export const SortableHeader: React.FC<SortableHeaderProps> = ({
         '&:hover': {
           backgroundColor: '#e3f2fd'
         },
-        fontWeight: 800,
-        backgroundColor: '#0677C9',
-        borderColor: '#0677C9',
-        color: 'white',
-        fontSize: '1rem',
-        letterSpacing: 0.5,
-        textTransform: 'none',
-        lineHeight: 1.2
+        ...sx
       }}
+      align={align}
     >
       <Box
         sx={{
@@ -63,11 +62,11 @@ export const SortableHeader: React.FC<SortableHeaderProps> = ({
           gap: 0.5
         }}
       >
-        <Typography variant="body2" sx={{ fontWeight: 800, color: 'inherit' }}>
+        <Typography variant="body2" sx={{ fontWeight: 700, fontSize: '0.95rem', textTransform: 'uppercase', color: 'inherit' }}>
           {label}
         </Typography>
         {getSortIcon()}
       </Box>
-    </TableCell>
+    </HeaderCell>
   );
 }; 

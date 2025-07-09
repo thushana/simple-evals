@@ -21,7 +21,7 @@ export interface ResultEntry {
   results: string; // filename
 }
 
-export type SortField = 'exam' | 'model' | 'provider' | 'accuracy' | 'score' | 'time' | 'date';
+export type SortField = 'star' | 'exam' | 'model' | 'provider' | 'accuracy' | 'score' | 'time' | 'date';
 export type SortDirection = 'asc' | 'desc';
 
 export interface SortConfig {

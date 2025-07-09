@@ -13,6 +13,7 @@ import {
   Tooltip
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import StarIcon from '@mui/icons-material/Star';
 import type { ResultEntry, SortField, SortConfig } from '../types/dashboard.types';
 import { SortableHeader } from './SortableHeader';
 import { ProviderIcon } from './ProviderIcon';
@@ -21,6 +22,7 @@ import { BestPerformerBadge } from './BestPerformerBadge';
 import { DownloadButton } from './DownloadButton';
 import { formatTime, formatDate, formatScore } from '../utils/formatters';
 import { getProviderDisplayName } from '../utils/providers';
+import { HeaderCell } from './HeaderCell';
 
 interface ResultsTableProps {
   data: ResultEntry[];
@@ -45,7 +47,7 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell sx={{ fontWeight: 800, backgroundColor: '#0677C9', color: 'white', width: 40, textAlign: 'center' }}>⭐️</TableCell>
+            <SortableHeader field="star" label={<StarIcon sx={{ color: 'white', fontSize: '1.2rem' }} />} sortConfig={sortConfig} onSort={onSort} align="center" />
             {/* Column headers: heavy bold, white */}
             {/* We'll add the star column in the next step */}
             <SortableHeader field="exam" label="Exam" sortConfig={sortConfig} onSort={onSort} />
@@ -55,9 +57,7 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({
             <SortableHeader field="score" label="Score" sortConfig={sortConfig} onSort={onSort} />
             <SortableHeader field="time" label="Time" sortConfig={sortConfig} onSort={onSort} />
             <SortableHeader field="date" label="Date" sortConfig={sortConfig} onSort={onSort} />
-            <TableCell sx={{ fontWeight: 800, backgroundColor: '#0677C9', color: 'white' }}>
-              Actions
-            </TableCell>
+            <HeaderCell>Actions</HeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,7 +69,7 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({
                 <BestPerformerBadge isBest={entry.is_best} />
               </TableCell>
               <TableCell>
-                <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                <Typography variant="body2" sx={{ fontWeight: 700, color: '#1E1E1E' }}>
                   {entry.exam}
                 </Typography>
               </TableCell>
@@ -97,16 +97,16 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({
                 </Box>
               </TableCell>
               
-              <TableCell>
+              <TableCell align="right">
                 <AccuracyIndicator accuracy={entry.accuracy} />
               </TableCell>
               
-              <TableCell>
+              <TableCell align="right">
                 <Typography
                   variant="body2"
                   sx={{
                     fontFamily: 'Roboto Mono, monospace',
-                    textAlign: 'center',
+                    textAlign: 'right',
                     fontWeight: 500
                   }}
                 >

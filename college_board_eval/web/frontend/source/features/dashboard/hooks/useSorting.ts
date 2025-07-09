@@ -15,6 +15,16 @@ export const useSorting = (data: ResultEntry[]): UseSortingReturn => {
 
   const sortedData = useMemo(() => {
     const sorted = [...data].sort((a, b) => {
+      // Special case: sort by star (is_best)
+      if (sortConfig.field === 'star') {
+        if (a.is_best === b.is_best) return 0;
+        if (sortConfig.direction === 'asc') {
+          return a.is_best ? -1 : 1; // true first
+        } else {
+          return a.is_best ? 1 : -1; // false first
+        }
+      }
+
       let aValue: unknown = a[sortConfig.field];
       let bValue: unknown = b[sortConfig.field];
 
