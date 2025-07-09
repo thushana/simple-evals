@@ -130,15 +130,12 @@ export const Dashboard: React.FC = () => {
         <JsonViewer state={jsonViewerState} onClose={closeJsonViewer} />
         {/* Metadata at the bottom */}
         {data.metadata && (
-          <Box sx={{ mt: 4, textAlign: "center", color: "text.secondary" }}>
+          <Box sx={{ mt: 4, textAlign: 'center', color: 'text.secondary' }}>
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ fontStyle: "italic" }}
             >
-              Generated on{" "}
-              {new Date(data.metadata.generated_on).toLocaleString()} by{" "}
-              {data.metadata.author_name}
+              Generated on {new Date(data.metadata.generated_on).toLocaleString()} by {data.metadata.author_name}
             </Typography>
           </Box>
         )}
