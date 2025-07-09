@@ -89,6 +89,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ### ✅ **Frontend (React/MUI) - COMPLETED**
 
 **Features Implemented:**
+
 - PDF upload interface with drag-and-drop functionality
 - File validation (PDF format, 10MB limit)
 - Visual feedback and error handling
@@ -97,12 +98,14 @@ P4 — Unlikely in this iteration (stretch goals)
 - Development server with hot module replacement
 
 **Tech Stack:**
+
 - React 19 with TypeScript
 - Material-UI (MUI) for components and theming
 - Vite for fast development and building
 - Emotion for styled components
 
 **Getting Started:**
+
 ```bash
 cd college_board_eval/web/frontend
 npm install
@@ -114,6 +117,7 @@ The frontend will be available at `http://localhost:1600` by default. If that po
 ### 🔄 **Backend (FastAPI) - NEXT**
 
 **Planned Features:**
+
 - PDF file upload and processing
 - Page rendering (72 dpi thumbnails + 300 dpi detail views)
 - Image cropping and trimming
@@ -121,6 +125,7 @@ The frontend will be available at `http://localhost:1600` by default. If that po
 - JSON aggregation and output generation
 
 **Tech Stack:**
+
 - Python 3.10+
 - FastAPI for API framework
 - PDF processing libraries (PyMuPDF, Pillow)
@@ -156,4 +161,3 @@ web/
 - File size limit is set to 10MB
 - Only PDF files are accepted for upload
 - Frontend is ready for backend API integration
-

@@ -51,7 +51,9 @@ source/
 ## Organization Principles
 
 ### 1. Feature-Based Architecture
+
 Each major feature gets its own directory under `features/` with a consistent internal structure:
+
 - `components/` - Feature-specific React components
 - `hooks/` - Feature-specific custom hooks
 - `types/` - TypeScript interfaces for the feature
@@ -59,10 +61,12 @@ Each major feature gets its own directory under `features/` with a consistent in
 - Main feature component (e.g., `Dashboard.tsx`)
 
 ### 2. Shared vs Feature-Specific
+
 - **Shared**: Components, types, and utilities used across multiple features
 - **Feature-Specific**: Components, hooks, types, and utilities used only within one feature
 
 ### 3. Clear Boundaries
+
 - Features are self-contained with minimal cross-dependencies
 - Shared code is explicitly placed in shared directories
 - Each feature can be developed and tested independently
@@ -70,49 +74,63 @@ Each major feature gets its own directory under `features/` with a consistent in
 ## Feature Directories
 
 ### `/features/dashboard/`
+
 AP Evaluation Results Dashboard - displays performance metrics for AI models on AP exams.
 
 **Key Components:**
+
 - ResultsTable - Main data table with sorting
 - JsonViewer - Modal for viewing detailed JSON results
 - ProviderIcon - Favicon display for AI providers
 - AccuracyIndicator - Color-coded accuracy display
 
 **Data Sources:**
+
 - `index.json` - Aggregated results data
 - Individual result JSON files for detailed viewing
 
 ### `/features/examExtractor/`
+
 PDF upload and processing interface for creating exam assets.
 
 **Key Components:**
+
 - FileUpload - Drag-and-drop PDF upload
 - ProcessingStatus - Progress indicators
 - ResultsDisplay - Extracted exam data preview
 
 ### `/features/project/`
+
 Project overview and information page.
 
 ## Shared Directories
 
 ### `/components/`
+
 Reusable UI components used across multiple features:
+
 - `Layout.tsx` - Main application layout
 - `common/` - Generic UI components (buttons, spinners, etc.)
 
 ### `/services/`
+
 API and data fetching logic:
+
 - `api.ts` - Base API client configuration
 - `results.ts` - Results data fetching service
 - Feature-specific services as needed
 
 ### `/types/`
+
 Global TypeScript type definitions:
+
 - `common.ts` - Shared interfaces and types
 - Feature-specific types should live in their feature directory
 
 ### `/utils/`
+
 Global utility functions:
+
 - `constants.ts` - Application constants
 - `formatters.ts` - Data formatting utilities
 - `validators.ts` - Input validation functions
@@ -120,34 +138,37 @@ Global utility functions:
 ## Best Practices
 
 ### 1. Import Organization
+
 ```typescript
 // External libraries
-import React from 'react';
-import { Box, Typography } from '@mui/material';
+import React from "react";
+import { Box, Typography } from "@mui/material";
 
 // Shared imports
-import { Layout } from '@/components/Layout';
-import { useApi } from '@/services/api';
+import { Layout } from "@/components/Layout";
+import { useApi } from "@/services/api";
 
 // Feature-specific imports
-import { ResultsTable } from './components/ResultsTable';
-import { useResultsData } from './hooks/useResultsData';
-import { ResultEntry } from './types/dashboard.types';
+import { ResultsTable } from "./components/ResultsTable";
+import { useResultsData } from "./hooks/useResultsData";
+import { ResultEntry } from "./types/dashboard.types";
 ```
 
 ### 2. File Naming
+
 - Components: PascalCase (e.g., `ResultsTable.tsx`)
 - Hooks: camelCase with `use` prefix (e.g., `useResultsData.ts`)
 - Types: camelCase with `.types.ts` suffix (e.g., `dashboard.types.ts`)
 - Utils: camelCase (e.g., `sorting.ts`)
 
 ### 3. Component Structure
+
 ```typescript
 // components/ResultsTable.tsx
-import React from 'react';
-import { Table } from '@mui/material';
-import { useResultsData } from '../hooks/useResultsData';
-import { ResultEntry } from '../types/dashboard.types';
+import React from "react";
+import { Table } from "@mui/material";
+import { useResultsData } from "../hooks/useResultsData";
+import { ResultEntry } from "../types/dashboard.types";
 
 interface ResultsTableProps {
   // props
@@ -175,4 +196,4 @@ When migrating existing functionality:
 3. **Reusability**: Shared components and utilities
 4. **Team Development**: Multiple developers can work on different features
 5. **Testing**: Features can be tested independently
-6. **Code Splitting**: Natural boundaries for lazy loading 
+6. **Code Splitting**: Natural boundaries for lazy loading

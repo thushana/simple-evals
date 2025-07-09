@@ -1,6 +1,6 @@
 # AP Evaluation System Makefile
 
-.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend web
+.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend web format-frontend
 
 # Default target
 help:
@@ -26,6 +26,7 @@ help:
 	@echo "Frontend Commands:"
 	@echo "  lint-frontend    - Run ESLint on frontend"
 	@echo "  typecheck-frontend - Run TypeScript type checking on frontend"
+	@echo "  format-frontend    - Run Prettier on frontend for consistent code style"
 	@echo ""
 
 # Install the package in development mode
@@ -128,3 +129,6 @@ typecheck-frontend:
 # Start the React frontend development server
 web:
 	cd web/frontend && npm run dev 
+
+format-frontend:
+	cd web/frontend && npx prettier --write . 

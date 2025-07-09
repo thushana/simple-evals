@@ -1,12 +1,14 @@
-import React from 'react';
-import { Box, Tooltip } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+import React from "react";
+import { Box, Tooltip } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 interface BestPerformerBadgeProps {
   isBest: boolean;
 }
 
-export const BestPerformerBadge: React.FC<BestPerformerBadgeProps> = ({ isBest }) => {
+export const BestPerformerBadge: React.FC<BestPerformerBadgeProps> = ({
+  isBest,
+}) => {
   if (!isBest) return null;
 
   return (
@@ -14,18 +16,18 @@ export const BestPerformerBadge: React.FC<BestPerformerBadgeProps> = ({ isBest }
       <Box
         component="span"
         sx={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          marginRight: 1
+          display: "inline-flex",
+          alignItems: "center",
+          marginRight: 1,
         }}
       >
         <StarIcon
           sx={{
-            color: '#FFD700',
-            fontSize: '1rem'
+            color: "#FFD700",
+            fontSize: "1rem",
           }}
         />
       </Box>
     </Tooltip>
   );
-}; 
+};

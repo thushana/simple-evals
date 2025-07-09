@@ -21,8 +21,16 @@ export interface ResultEntry {
   results: string; // filename
 }
 
-export type SortField = 'star' | 'exam' | 'model' | 'provider' | 'accuracy' | 'score' | 'time' | 'date';
-export type SortDirection = 'asc' | 'desc';
+export type SortField =
+  | "star"
+  | "exam"
+  | "model"
+  | "provider"
+  | "accuracy"
+  | "score"
+  | "time"
+  | "date";
+export type SortDirection = "asc" | "desc";
 
 export interface SortConfig {
   field: SortField;
@@ -34,4 +42,4 @@ export interface JsonViewerState {
   data: unknown | null;
   title: string;
   error: string | null;
-} 
+}

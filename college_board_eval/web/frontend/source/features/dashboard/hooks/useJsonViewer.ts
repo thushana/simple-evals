@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import type { JsonViewerState } from '../types/dashboard.types';
+import { useState } from "react";
+import type { JsonViewerState } from "../types/dashboard.types";
 
 interface UseJsonViewerReturn {
   jsonViewerState: JsonViewerState;
@@ -11,8 +11,8 @@ export const useJsonViewer = (): UseJsonViewerReturn => {
   const [jsonViewerState, setJsonViewerState] = useState<JsonViewerState>({
     isOpen: false,
     data: null,
-    title: '',
-    error: null
+    title: "",
+    error: null,
   });
 
   const openJsonViewer = async (filename: string, title: string) => {
@@ -21,28 +21,31 @@ export const useJsonViewer = (): UseJsonViewerReturn => {
         isOpen: true,
         data: null,
         title,
-        error: null
+        error: null,
       });
 
       // Fetch the JSON file from the results directory
       const response = await fetch(`/results/${filename}`);
-      
+
       if (!response.ok) {
-        throw new Error(`Failed to fetch JSON file: ${response.status} ${response.statusText}`);
+        throw new Error(
+          `Failed to fetch JSON file: ${response.status} ${response.statusText}`,
+        );
       }
-      
+
       const data = await response.json();
-      
-      setJsonViewerState(prev => ({
+
+      setJsonViewerState((prev) => ({
         ...prev,
         data,
-        isOpen: true
+        isOpen: true,
       }));
     } catch (error) {
-      setJsonViewerState(prev => ({
+      setJsonViewerState((prev) => ({
         ...prev,
-        error: error instanceof Error ? error.message : 'An unknown error occurred',
-        isOpen: true
+        error:
+          error instanceof Error ? error.message : "An unknown error occurred",
+        isOpen: true,
       }));
     }
   };
@@ -51,10 +54,10 @@ export const useJsonViewer = (): UseJsonViewerReturn => {
     setJsonViewerState({
       isOpen: false,
       data: null,
-      title: '',
-      error: null
+      title: "",
+      error: null,
     });
   };
 
   return { jsonViewerState, openJsonViewer, closeJsonViewer };
-}; 
+};

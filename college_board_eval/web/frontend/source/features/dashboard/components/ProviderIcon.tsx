@@ -1,15 +1,15 @@
-import React from 'react';
-import { Box, Avatar } from '@mui/material';
-import { getProviderFavicon } from '../utils/providers';
+import React from "react";
+import { Box, Avatar } from "@mui/material";
+import { getProviderFavicon } from "../utils/providers";
 
 interface ProviderIconProps {
   provider: string;
   size?: number;
 }
 
-export const ProviderIcon: React.FC<ProviderIconProps> = ({ 
-  provider, 
-  size = 19 
+export const ProviderIcon: React.FC<ProviderIconProps> = ({
+  provider,
+  size = 19,
 }) => {
   const [imageError, setImageError] = React.useState(false);
   const faviconUrl = getProviderFavicon(provider);
@@ -25,8 +25,8 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
           width: size,
           height: size,
           fontSize: size * 0.6,
-          bgcolor: '#0677C9',
-          color: 'white'
+          bgcolor: "#0677C9",
+          color: "white",
         }}
       >
         {provider.charAt(0).toUpperCase()}
@@ -42,11 +42,11 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
       sx={{
         width: size,
         height: size,
-        borderRadius: '2px',
-        objectFit: 'contain',
-        flexShrink: 0
+        borderRadius: "2px",
+        objectFit: "contain",
+        flexShrink: 0,
       }}
       onError={handleImageError}
     />
   );
-}; 
+};

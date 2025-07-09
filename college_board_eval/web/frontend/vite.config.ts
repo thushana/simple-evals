@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { resolve } from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -8,15 +8,15 @@ export default defineConfig({
   server: {
     port: 1600,
     fs: {
-      allow: ['..'] // allow symlinks to parent directory (for results)
-    }
+      allow: [".."], // allow symlinks to parent directory (for results)
+    },
   },
-  publicDir: 'public',
+  publicDir: "public",
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
+        main: resolve(__dirname, "index.html"),
       },
     },
   },
-})
+});
