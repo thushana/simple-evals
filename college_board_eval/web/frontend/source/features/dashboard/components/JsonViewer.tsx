@@ -17,14 +17,6 @@ interface JsonViewerProps {
 }
 
 export const JsonViewer: React.FC<JsonViewerProps> = ({ state, onClose }) => {
-  const formatJson = (data: unknown): string => {
-    try {
-      return JSON.stringify(data, null, 2);
-    } catch {
-      return "Error formatting JSON";
-    }
-  };
-
   const syntaxHighlight = (json: string): string => {
     return json.replace(/(".*?":|".*?"|true|false|null|\d+)/g, (match) => {
       let className = "";
@@ -90,6 +82,7 @@ export const JsonViewer: React.FC<JsonViewerProps> = ({ state, onClose }) => {
               fontSize: "0.875rem",
               overflow: "auto",
               maxHeight: "70vh",
+              whiteSpace: "pre",
               "& .json-key": {
                 color: "#1e3a8a",
                 fontWeight: "bold",
@@ -109,7 +102,7 @@ export const JsonViewer: React.FC<JsonViewerProps> = ({ state, onClose }) => {
               },
             }}
             dangerouslySetInnerHTML={{
-              __html: syntaxHighlight(formatJson(state.data)),
+              __html: syntaxHighlight(JSON.stringify(state.data, null, 2)),
             }}
           />
         ) : (
