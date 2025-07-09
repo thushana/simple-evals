@@ -9,9 +9,6 @@ import {
   Alert,
   CircularProgress,
   Chip,
-  Divider,
-  AppBar,
-  Toolbar,
   Tab,
   Tabs,
 } from '@mui/material';
@@ -88,7 +85,7 @@ function App() {
         isUploading: false,
         success: true,
       }));
-    } catch (error) {
+    } catch {
       setUploadState(prev => ({
         ...prev,
         isUploading: false,
@@ -109,7 +106,7 @@ function App() {
       input.type = 'file';
       input.files = event.dataTransfer.files;
       input.dispatchEvent(new Event('change', { bubbles: true }));
-      handleFileSelect({ target: { files: event.dataTransfer.files } } as any);
+      handleFileSelect({ target: { files: event.dataTransfer.files } } as React.ChangeEvent<HTMLInputElement>);
     }
   };
 

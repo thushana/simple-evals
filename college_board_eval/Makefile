@@ -1,6 +1,6 @@
 # AP Evaluation System Makefile
 
-.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck
+.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend
 
 # Default target
 help:
@@ -21,6 +21,10 @@ help:
 	@echo "  typecheck  - Run mypy type checking"
 	@echo "  check      - Run all code quality checks (format + lint + typecheck)"
 	@echo "  fix        - Auto-fix formatting issues"
+	@echo ""
+	@echo "Frontend Commands:"
+	@echo "  lint-frontend    - Run ESLint on frontend"
+	@echo "  typecheck-frontend - Run TypeScript type checking on frontend"
 	@echo ""
 
 # Install the package in development mode
@@ -104,4 +108,16 @@ fix:
 	@echo "Auto-fixing formatting issues..."
 	black . --check --diff || black .
 	isort . --check-only --diff || isort .
-	@echo "Formatting fixes applied!" 
+	@echo "Formatting fixes applied!"
+
+# Frontend Commands
+
+# Run ESLint on frontend
+lint-frontend:
+	@echo "Running ESLint on frontend..."
+	cd web/frontend && npm run lint
+
+# Run TypeScript type checking on frontend
+typecheck-frontend:
+	@echo "Running TypeScript type checking on frontend..."
+	cd web/frontend && npm run typecheck 
