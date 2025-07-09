@@ -11,6 +11,9 @@ exclude =
     .eggs,
     *.egg,
     results,
-    exams
+    exams,
+    node_modules,
+    **/node_modules,
+    **/node_modules/**
 per-file-ignores = 
     __init__.py:F401 
