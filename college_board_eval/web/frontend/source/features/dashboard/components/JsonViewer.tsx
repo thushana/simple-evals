@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Dialog,
   DialogTitle,
@@ -19,6 +20,7 @@ import type { JsonViewerState } from "../types/dashboard.types";
 interface JsonViewerProps {
   state: JsonViewerState;
   onClose: () => void;
+  questionId?: string;
 }
 
 interface QuestionInfo {
@@ -70,12 +72,18 @@ const KEY_COLOR = {
   default: "#1e3a8a", // blue
 };
 
-export const JsonViewer: React.FC<JsonViewerProps> = ({ state, onClose }) => {
+export const JsonViewer: React.FC<JsonViewerProps> = ({
+  state,
+  onClose,
+  questionId,
+}) => {
   const [selectedQuestion, setSelectedQuestion] = useState<string>("");
   const [highlighted, setHighlighted] = useState<string>("");
   const questionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const navigate = useNavigate();
+  const { examSlug } = useParams<{ examSlug?: string }>();
 
-  // Only use questions for the dropdown, not for rendering JSON
+  // Extract question information from the JSON data
   const dropdownQuestions = useMemo(() => {
     if (!state.data || typeof state.data !== "object") return [];
     const data = state.data as JsonData;
@@ -100,6 +108,18 @@ export const JsonViewer: React.FC<JsonViewerProps> = ({ state, onClose }) => {
       };
     });
   }, [state.data]);
+
+  // On open, if questionId is present, select and scroll to that question
+  useEffect(() => {
+    if (
+      state.isOpen &&
+      questionId &&
+      dropdownQuestions.some((q) => q.id === questionId)
+    ) {
+      setSelectedQuestion(questionId);
+      setTimeout(() => scrollToQuestion(questionId), 200);
+    }
+  }, [state.isOpen, questionId, dropdownQuestions]);
 
   // Helper to render JSON with colored keys
   const renderJson = (
@@ -186,6 +206,10 @@ export const JsonViewer: React.FC<JsonViewerProps> = ({ state, onClose }) => {
   const handleQuestionSelect = (questionId: string) => {
     setSelectedQuestion(questionId);
     scrollToQuestion(questionId);
+    // Update the URL to include the selected question
+    if (examSlug) {
+      navigate(`/dashboard/${examSlug}/${questionId}`);
+    }
   };
 
   // Render the rest of the JSON (metadata, etc.)
@@ -217,7 +241,7 @@ export const JsonViewer: React.FC<JsonViewerProps> = ({ state, onClose }) => {
           borderBottom: "1px solid #e0e0e0",
         }}
       >
-        <Typography variant="h6" sx={{ color: "#0677C9" }}>
+        <Typography variant="h6" component="span" sx={{ color: "#0677C9" }}>
           {state.title}
         </Typography>
         <IconButton onClick={onClose} size="small">

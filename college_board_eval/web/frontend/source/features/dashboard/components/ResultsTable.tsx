@@ -32,7 +32,7 @@ interface ResultsTableProps {
   data: ResultEntry[];
   sortConfig: SortConfig;
   onSort: (field: SortField) => void;
-  onViewJson: (filename: string, title: string) => void;
+  onViewJson: (entry: ResultEntry, questionId?: string) => void;
 }
 
 export const ResultsTable: React.FC<ResultsTableProps> = ({
@@ -41,9 +41,8 @@ export const ResultsTable: React.FC<ResultsTableProps> = ({
   onSort,
   onViewJson,
 }) => {
-  const handleViewJson = (entry: ResultEntry) => {
-    const title = `${entry.exam} - ${entry.model} (${entry.provider})`;
-    onViewJson(entry.results, title);
+  const handleViewJson = (entry: ResultEntry, questionId?: string) => {
+    onViewJson(entry, questionId);
   };
 
   return (

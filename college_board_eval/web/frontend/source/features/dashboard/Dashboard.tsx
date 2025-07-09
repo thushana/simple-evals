@@ -11,13 +11,66 @@ import { useSorting } from "./hooks/useSorting";
 import { useJsonViewer } from "./hooks/useJsonViewer";
 import { ResultsTable } from "./components/ResultsTable";
 import { JsonViewer } from "./components/JsonViewer";
+import { useParams, useNavigate } from "react-router-dom";
+import type { ResultEntry } from "./types/dashboard.types";
 
 export const Dashboard: React.FC = () => {
+  const { examSlug, questionId } = useParams<{
+    examSlug?: string;
+    questionId?: string;
+  }>();
+  const navigate = useNavigate();
   const { data, loading, error, refresh } = useResultsData();
   const { sortedData, sortConfig, handleSort } = useSorting(
     data?.results || [],
   );
   const { jsonViewerState, openJsonViewer, closeJsonViewer } = useJsonViewer();
+  const lastAutoOpened = React.useRef<{
+    examSlug?: string;
+    questionId?: string;
+  }>({});
+
+  // Auto-open JSON viewer for deep link
+  React.useEffect(() => {
+    if (!examSlug || !data || !data.results) return;
+    // Only auto-open if we haven't already for this slug/question
+    if (
+      lastAutoOpened.current.examSlug === examSlug &&
+      lastAutoOpened.current.questionId === questionId
+    ) {
+      return;
+    }
+    const exam = data.results.find(
+      (r) => r.results.replace(/\.json$/, "") === examSlug,
+    );
+    if (exam) {
+      openJsonViewer({
+        title: `${exam.exam} - ${exam.model} (${exam.provider})`,
+        data: exam,
+        questionId: questionId || undefined,
+      });
+      lastAutoOpened.current = { examSlug, questionId };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [examSlug, questionId, data]);
+
+  // When user opens a question, update the URL
+  const handleViewJson = (exam: ResultEntry, questionId?: string) => {
+    const slug = exam.results.replace(/\.json$/, "");
+    if (questionId) {
+      navigate(`/dashboard/${slug}/${questionId}`);
+    } else {
+      navigate(`/dashboard/${slug}`);
+    }
+    openJsonViewer(
+      {
+        title: `${exam.exam} - ${exam.model} (${exam.provider})`,
+        data: exam,
+        questionId: questionId || undefined,
+      },
+      true,
+    );
+  };
 
   if (loading) {
     return (
@@ -125,9 +178,13 @@ export const Dashboard: React.FC = () => {
           data={sortedData}
           sortConfig={sortConfig}
           onSort={handleSort}
-          onViewJson={openJsonViewer}
+          onViewJson={handleViewJson}
         />
-        <JsonViewer state={jsonViewerState} onClose={closeJsonViewer} />
+        <JsonViewer
+          state={jsonViewerState}
+          onClose={closeJsonViewer}
+          questionId={questionId}
+        />
         {/* Metadata at the bottom */}
         {data.metadata && (
           <Box sx={{ mt: 4, textAlign: "center", color: "text.secondary" }}>

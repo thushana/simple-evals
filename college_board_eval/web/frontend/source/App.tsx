@@ -492,6 +492,11 @@ function MainApp() {
         <Routes>
           <Route path="/" element={<ProjectPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/:examSlug" element={<Dashboard />} />
+          <Route
+            path="/dashboard/:examSlug/:questionId"
+            element={<Dashboard />}
+          />
           <Route
             path="/examextractor"
             element={
