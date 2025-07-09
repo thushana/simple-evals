@@ -13,6 +13,7 @@ import {
   Tabs,
 } from '@mui/material';
 import { CloudUpload, UploadFile, CheckCircle } from '@mui/icons-material';
+import { Dashboard } from './features/dashboard/Dashboard';
 
 interface UploadState {
   file: File | null;
@@ -180,57 +181,94 @@ function App() {
         </Container>
       </Box>
 
-      {/* Hero Section - College Board Style */}
-      <Box 
-        sx={{ 
-          background: 'linear-gradient(135deg, #009cde 0%, #0077c8 100%)',
-          color: '#fff',
-          py: 8,
-          px: 2,
-          textAlign: 'center',
-        }}
-      >
-        <Container maxWidth="md">
-          <Typography 
-            variant="h1" 
-            component="h1" 
-            sx={{ 
-              fontWeight: 700,
-              color: '#fff',
-              mb: 3,
-              fontSize: { xs: '2rem', md: '2.5rem' },
-            }}
-          >
-            📝 ExamExtractor
-          </Typography>
-          <Typography 
-            variant="h3" 
-            sx={{ 
-              fontWeight: 400,
-              color: '#fff',
-              mb: 2,
-              fontSize: { xs: '1.25rem', md: '1.5rem' },
-            }}
-          >
-            PDF ➜ Structured Exam Assets
-          </Typography>
-          <Typography 
-            variant="body1" 
-            sx={{ 
-              maxWidth: 600,
-              mx: 'auto',
-              lineHeight: 1.6,
-              fontSize: '1.125rem',
-              opacity: 0.9,
-            }}
-          >
-            Upload SAT or Advanced Placement PDFs to extract perfectly cropped images and standards-compliant JSON ready for College Board Evals.
-          </Typography>
-        </Container>
-      </Box>
+      {/* Hero Section for Project only */}
+      {activeTab === 0 && (
+        <Box 
+          sx={{ 
+            background: 'linear-gradient(135deg, #009cde 0%, #0077c8 100%)',
+            color: '#fff',
+            py: { xs: 4, md: 5 },
+            px: 2,
+            textAlign: 'center',
+          }}
+        >
+          <Container maxWidth="md">
+            <Typography 
+              variant="h1" 
+              component="h1" 
+              sx={{ 
+                fontWeight: 700,
+                color: '#fff',
+                mb: 2,
+                fontSize: { xs: '1.5rem', md: '2.2rem' },
+              }}
+            >
+              📁 Project Overview
+            </Typography>
+            <Typography 
+              variant="h3" 
+              sx={{ 
+                fontWeight: 500,
+                color: '#fff',
+                mb: 0,
+                fontSize: { xs: '1.2rem', md: '1.5rem' }
+              }}
+            >
+              College Board Evaluation System
+            </Typography>
+          </Container>
+        </Box>
+      )}
+      {activeTab === 0 && (
+        <Box sx={{ py: 4 }}>
+          <Container maxWidth="md">
+            {/* ... Project content ... */}
+          </Container>
+        </Box>
+      )}
+      {activeTab === 1 && <Dashboard />}
 
-      {/* Main Content Section */}
-      <Container maxWidth="md" sx={{ py: 8, px: 2 }}>
+      {activeTab === 2 && (
+        <>
+          {/* Hero Section - College Board Style */}
+          <Box 
+            sx={{ 
+              background: 'linear-gradient(135deg, #009cde 0%, #0077c8 100%)',
+              color: '#fff',
+              py: { xs: 4, md: 5 },
+              px: 2,
+              textAlign: 'center',
+            }}
+          >
+            <Container maxWidth="md">
+              <Typography 
+                variant="h1" 
+                component="h1" 
+                sx={{ 
+                  fontWeight: 700,
+                  color: '#fff',
+                  mb: 2,
+                  fontSize: { xs: '1.5rem', md: '2.2rem' },
+                }}
+              >
+                📝 ExamExtractor
+              </Typography>
+              <Typography 
+                variant="h3" 
+                sx={{ 
+                  fontWeight: 500,
+                  color: '#fff',
+                  mb: 0,
+                  fontSize: { xs: '1.2rem', md: '1.5rem' }
+                }}
+              >
+                PDF ➜ Structured Exam Assets
+              </Typography>
+            </Container>
+          </Box>
+
+          {/* Main Content Section */}
+          <Container maxWidth="md" sx={{ py: 8, px: 2 }}>
         {/* Upload Card */}
         <Card 
           elevation={2}
@@ -395,6 +433,8 @@ function App() {
           </CardContent>
         </Card>
       </Container>
+        </>
+      )}
 
       {/* Footer - College Board Style */}
       <Box sx={{ 

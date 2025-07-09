@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generated_on": "2025-07-07T13:22:46.569754",
+    "generated_on": "2025-07-09T12:36:17.440515",
     "author_name": "Thushan Amarasiriwardena",
     "author_email": "thushan@thushan.net"
   },
@@ -43,6 +43,19 @@
       "date": "2025-07-02T14:04:38.637867",
       "is_best": false,
       "results": "AP_US_HISTORY_2017_google_gemini-2.0-flash-lite_20250702_140438.json"
+    },
+    {
+      "exam": "AP_CALCULUS_BC_2012",
+      "model": "claude-3-haiku-20240307",
+      "provider": "anthropic",
+      "accuracy": 17.9,
+      "score": 5,
+      "total_possible": 28,
+      "questions": 28,
+      "time": 60.030975103378296,
+      "date": "2025-07-07T14:27:53.881762",
+      "is_best": false,
+      "results": "AP_CALCULUS_BC_2012_anthropic_claude-3-haiku-20240307_20250707_142753.json"
     },
     {
       "exam": "AP_US_HISTORY_2017",

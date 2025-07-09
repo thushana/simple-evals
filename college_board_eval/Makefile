@@ -1,6 +1,6 @@
 # AP Evaluation System Makefile
 
-.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend
+.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend web
 
 # Default target
 help:
@@ -14,6 +14,7 @@ help:
 	@echo "  results    - Start local server to view dashboard"
 	@echo "  clean      - Remove generated result files"
 	@echo "  run        - Run AP evaluation (usage: make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017)"
+	@echo "  web        - Start the React frontend development server (npm run dev)"
 	@echo ""
 	@echo "Code Quality Commands:"
 	@echo "  format     - Format code with black and isort"
@@ -53,6 +54,8 @@ setup:
 collate:
 	@echo "Generating dashboard from result files..."
 	python results/collator/run.py --results-dir results --output results/index.json
+	@echo "Symlinking results directory for frontend..."
+	ln -sf ../../results web/frontend/public/results
 
 # Start local server to view dashboard
 results:
@@ -121,3 +124,7 @@ lint-frontend:
 typecheck-frontend:
 	@echo "Running TypeScript type checking on frontend..."
 	cd web/frontend && npm run typecheck 
+
+# Start the React frontend development server
+web:
+	cd web/frontend && npm run dev 
