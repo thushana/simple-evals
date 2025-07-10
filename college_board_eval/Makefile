@@ -13,7 +13,8 @@ help:
 	@echo "  collate    - Generate dashboard from all result files"
 	@echo "  clean      - Remove generated result files"
 	@echo "  run        - Run AP evaluation (usage: make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017)"
-	@echo "  web        - Start the React frontend development server (npm run dev)"
+	@echo "  web        - Start both FastAPI backend and React frontend development servers"
+	@echo "  backend    - Start only the FastAPI backend server"
 	@echo ""
 	@echo "Code Quality Commands:"
 	@echo "  format     - Format code with black and isort"
@@ -119,8 +120,16 @@ typecheck-frontend:
 	@echo "Running TypeScript type checking on frontend..."
 	cd web/frontend && npm run typecheck 
 
-# Start the React frontend development server
+# Start only the FastAPI backend server
+backend:
+	@echo "Starting FastAPI backend..."
+	cd web/backend && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# Start both FastAPI backend and React frontend development servers
 web:
+	@echo "Starting FastAPI backend..."
+	cd web/backend && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000 &
+	@echo "Starting Vite frontend..."
 	cd web/frontend && npm run dev 
 
 format-frontend:
