@@ -8,12 +8,14 @@
         {
           "exam_id": "AP_RESEARCH",
           "exam_name": "AP Research",
-          "exam_icon": "🎓"
+          "exam_icon": "🎓",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-research"
         },
         {
           "exam_id": "AP_SEMINAR",
           "exam_name": "AP Seminar",
-          "exam_icon": "🎓"
+          "exam_icon": "🎓",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-seminar"
         }
       ]
     },
@@ -25,27 +27,32 @@
         {
           "exam_id": "AP_2D_ART_AND_DESIGN",
           "exam_name": "AP 2-D Art and Design",
-          "exam_icon": "🎨"
+          "exam_icon": "🎨",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-2-d-art-and-design"
         },
         {
           "exam_id": "AP_3D_ART_AND_DESIGN",
           "exam_name": "AP 3-D Art and Design",
-          "exam_icon": "🫖"
+          "exam_icon": "🫖",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-3-d-art-and-design"
         },
         {
           "exam_id": "AP_DRAWING",
           "exam_name": "AP Drawing",
-          "exam_icon": "🎨"
+          "exam_icon": "🎨",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-drawing"
         },
         {
           "exam_id": "AP_ART_HISTORY",
           "exam_name": "AP Art History",
-          "exam_icon": "🖼️"
+          "exam_icon": "🖼️",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-art-history"
         },
         {
           "exam_id": "AP_MUSIC_THEORY",
           "exam_name": "AP Music Theory",
-          "exam_icon": "🎵"
+          "exam_icon": "🎵",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-music-theory"
         }
       ]
     },
@@ -57,12 +64,14 @@
         {
           "exam_id": "AP_ENGLISH_LANGUAGE_AND_COMPOSITION",
           "exam_name": "AP English Language and Composition",
-          "exam_icon": "✍️"
+          "exam_icon": "✍️",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-english-language-and-composition"
         },
         {
           "exam_id": "AP_ENGLISH_LITERATURE_AND_COMPOSITION",
           "exam_name": "AP English Literature and Composition",
-          "exam_icon": "📖"
+          "exam_icon": "📖",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-english-literature-and-composition"
         }
       ]
     },
@@ -74,52 +83,62 @@
         {
           "exam_id": "AP_AFRICAN_AMERICAN_STUDIES",
           "exam_name": "AP African American Studies",
-          "exam_icon": "📚"
+          "exam_icon": "📚",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-african-american-studies"
         },
         {
           "exam_id": "AP_COMPARATIVE_GOVERNMENT_AND_POLITICS",
           "exam_name": "AP Comparative Government and Politics",
-          "exam_icon": "🏛️"
+          "exam_icon": "🏛️",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-comparative-government-and-politics"
         },
         {
           "exam_id": "AP_EUROPEAN_HISTORY",
           "exam_name": "AP European History",
-          "exam_icon": "📚"
+          "exam_icon": "📚",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-european-history"
         },
         {
           "exam_id": "AP_HUMAN_GEOGRAPHY",
           "exam_name": "AP Human Geography",
-          "exam_icon": "🗺️"
+          "exam_icon": "🗺️",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-human-geography"
         },
         {
           "exam_id": "AP_MACROECONOMICS",
           "exam_name": "AP Macroeconomics",
-          "exam_icon": "📈"
+          "exam_icon": "📈",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-macroeconomics"
         },
         {
           "exam_id": "AP_MICROECONOMICS",
           "exam_name": "AP Microeconomics",
-          "exam_icon": "📈"
+          "exam_icon": "📈",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-microeconomics"
         },
         {
           "exam_id": "AP_PSYCHOLOGY",
           "exam_name": "AP Psychology",
-          "exam_icon": "🧠"
+          "exam_icon": "🧠",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-psychology"
         },
         {
           "exam_id": "AP_UNITED_STATES_GOVERNMENT_AND_POLITICS",
           "exam_name": "AP United States Government and Politics",
-          "exam_icon": "🇺🇸"
+          "exam_icon": "🇺🇸",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-united-states-government-and-politics"
         },
         {
           "exam_id": "AP_UNITED_STATES_HISTORY",
           "exam_name": "AP United States History",
-          "exam_icon": "🇺🇸"
+          "exam_icon": "🇺🇸",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-united-states-history"
         },
         {
           "exam_id": "AP_WORLD_HISTORY_MODERN",
           "exam_name": "AP World History: Modern",
-          "exam_icon": "🌍"
+          "exam_icon": "🌍",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-world-history-modern"
         }
       ]
     },
@@ -131,32 +150,38 @@
         {
           "exam_id": "AP_CALCULUS_AB",
           "exam_name": "AP Calculus AB",
-          "exam_icon": "📊"
+          "exam_icon": "📊",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-calculus-ab"
         },
         {
           "exam_id": "AP_CALCULUS_BC",
           "exam_name": "AP Calculus BC",
-          "exam_icon": "📊"
+          "exam_icon": "📊",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-calculus-bc"
         },
         {
           "exam_id": "AP_COMPUTER_SCIENCE_A",
           "exam_name": "AP Computer Science A",
-          "exam_icon": "💻"
+          "exam_icon": "💻",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-computer-science-a"
         },
         {
           "exam_id": "AP_COMPUTER_SCIENCE_PRINCIPLES",
           "exam_name": "AP Computer Science Principles",
-          "exam_icon": "💻"
+          "exam_icon": "💻",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-computer-science-principles"
         },
         {
           "exam_id": "AP_PRECALCULUS",
           "exam_name": "AP Precalculus",
-          "exam_icon": "📏"
+          "exam_icon": "📏",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-precalculus"
         },
         {
           "exam_id": "AP_STATISTICS",
           "exam_name": "AP Statistics",
-          "exam_icon": "📈"
+          "exam_icon": "📈",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-statistics"
         }
       ]
     },
@@ -168,37 +193,44 @@
         {
           "exam_id": "AP_BIOLOGY",
           "exam_name": "AP Biology",
-          "exam_icon": "🧬"
+          "exam_icon": "🧬",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-biology"
         },
         {
           "exam_id": "AP_CHEMISTRY",
           "exam_name": "AP Chemistry",
-          "exam_icon": "🧪"
+          "exam_icon": "🧪",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-chemistry"
         },
         {
           "exam_id": "AP_ENVIRONMENTAL_SCIENCE",
           "exam_name": "AP Environmental Science",
-          "exam_icon": "🌿"
+          "exam_icon": "🌿",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-environmental-science"
         },
         {
           "exam_id": "AP_PHYSICS_1_ALGEBRA_BASED",
           "exam_name": "AP Physics 1: Algebra-Based",
-          "exam_icon": "💫"
+          "exam_icon": "💫",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-physics-1-algebra-based"
         },
         {
           "exam_id": "AP_PHYSICS_2_ALGEBRA_BASED",
           "exam_name": "AP Physics 2: Algebra-Based",
-          "exam_icon": "💫"
+          "exam_icon": "💫",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-physics-2-algebra-based"
         },
         {
           "exam_id": "AP_PHYSICS_C_ELECTRICITY_AND_MAGNETISM",
           "exam_name": "AP Physics C: Electricity and Magnetism",
-          "exam_icon": "🧲"
+          "exam_icon": "🧲",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-physics-c-electricity-and-magnetism"
         },
         {
           "exam_id": "AP_PHYSICS_C_MECHANICS",
           "exam_name": "AP Physics C: Mechanics",
-          "exam_icon": "⚙️"
+          "exam_icon": "⚙️",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-physics-c-mechanics"
         }
       ]
     },
@@ -210,42 +242,50 @@
         {
           "exam_id": "AP_CHINESE_LANGUAGE_AND_CULTURE",
           "exam_name": "AP Chinese Language and Culture",
-          "exam_icon": "🇨🇳"
+          "exam_icon": "🇨🇳",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-chinese-language-and-culture"
         },
         {
           "exam_id": "AP_FRENCH_LANGUAGE_AND_CULTURE",
           "exam_name": "AP French Language and Culture",
-          "exam_icon": "🇫🇷"
+          "exam_icon": "🇫🇷",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-french-language-and-culture"
         },
         {
           "exam_id": "AP_GERMAN_LANGUAGE_AND_CULTURE",
           "exam_name": "AP German Language and Culture",
-          "exam_icon": "🇩🇪"
+          "exam_icon": "🇩🇪",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-german-language-and-culture"
         },
         {
           "exam_id": "AP_ITALIAN_LANGUAGE_AND_CULTURE",
           "exam_name": "AP Italian Language and Culture",
-          "exam_icon": "🇮🇹"
+          "exam_icon": "🇮🇹",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-italian-language-and-culture"
         },
         {
           "exam_id": "AP_JAPANESE_LANGUAGE_AND_CULTURE",
           "exam_name": "AP Japanese Language and Culture",
-          "exam_icon": "🇯🇵"
+          "exam_icon": "🇯🇵",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-japanese-language-and-culture"
         },
         {
           "exam_id": "AP_LATIN",
           "exam_name": "AP Latin",
-          "exam_icon": "🏛️"
+          "exam_icon": "🏛️",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-latin"
         },
         {
           "exam_id": "AP_SPANISH_LANGUAGE_AND_CULTURE",
           "exam_name": "AP Spanish Language and Culture",
-          "exam_icon": "🇪🇸"
+          "exam_icon": "🇪🇸",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-spanish-language-and-culture"
         },
         {
           "exam_id": "AP_SPANISH_LITERATURE_AND_CULTURE",
           "exam_name": "AP Spanish Literature and Culture",
-          "exam_icon": "🇪🇸"
+          "exam_icon": "🇪🇸",
+          "exam_details_url": "https://apstudents.collegeboard.org/courses/ap-spanish-literature-and-culture"
         }
       ]
     },
@@ -257,22 +297,26 @@
         {
           "exam_id": "SAT_MATH",
           "exam_name": "SAT Math",
-          "exam_icon": "📝"
+          "exam_icon": "📝",
+          "exam_details_url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/math"
         },
         {
           "exam_id": "SAT_READING",
           "exam_name": "SAT Reading",
-          "exam_icon": "📝"
+          "exam_icon": "📝",
+          "exam_details_url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/reading-writing"
         },
         {
           "exam_id": "PSAT_MATH",
           "exam_name": "PSAT Math",
-          "exam_icon": "📝"
+          "exam_icon": "📝",
+          "exam_details_url": "https://satsuite.collegeboard.org/psat-nmsqt/whats-on-the-test/math"
         },
         {
           "exam_id": "PSAT_READING",
           "exam_name": "PSAT Reading",
-          "exam_icon": "📝"
+          "exam_icon": "📝",
+          "exam_details_url": "https://satsuite.collegeboard.org/psat-nmsqt/whats-on-the-test/reading-writing"
         }
       ]
     }
