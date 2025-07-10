@@ -7,18 +7,22 @@ This frontend is built with React 19, TypeScript, Material-UI, and Vite, followi
 ## Getting Started
 
 - Install dependencies: `npm install`
-- Start dev server: `npm run dev`
+- Start dev server: `npm run dev` (requires backend to be running)
 - Lint: `npm run lint`
 - Type check: `npm run typecheck`
 - Format: `npm run format`
+
+**Note:** The frontend requires the FastAPI backend to be running at `http://localhost:8000` for data access.
 
 ## Features
 
 - Feature-based directory structure for scalability
 - Modern React + TypeScript + MUI + Vite stack
+- Backend API integration for data access
 - Deep linking and robust routing
 - Modular, reusable components and hooks
 - Strong type safety throughout
+- Centralized API configuration
 
 ## Directory Structure
 
@@ -102,8 +106,8 @@ AP Evaluation Results Dashboard - displays performance metrics for AI models on 
 
 **Data Sources:**
 
-- `index.json` - Aggregated results data
-- Individual result JSON files for detailed viewing
+- Backend API at `/api/v1/results/` - Aggregated results data
+- Individual result JSON files via `/api/v1/results/{filename}`
 
 ### `/features/examExtractor/`
 
@@ -132,8 +136,7 @@ Reusable UI components used across multiple features:
 
 API and data fetching logic:
 
-- `api.ts` - Base API client configuration
-- `results.ts` - Results data fetching service
+- `api.ts` - Centralized API configuration and client utilities
 - Feature-specific services as needed
 
 ### `/types/`
@@ -197,7 +200,7 @@ export const ResultsTable: React.FC<ResultsTableProps> = (props) => {
 
 ## Project Status
 
-The frontend is fully migrated to a feature-based, scalable architecture. All new features and refactors should follow this structure.
+The frontend is fully migrated to a feature-based, scalable architecture with backend API integration. All new features and refactors should follow this structure. The migration from Vite static file serving to backend API is complete.
 
 ## Benefits
 

@@ -34,7 +34,7 @@ make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017
 ### 3. View Results
 ```bash
 make collate    # Generate dashboard
-make web        # Start React frontend at http://localhost:5173
+make web        # Start both backend and frontend development servers
 ```
 
 **Or do everything at once:**
@@ -122,17 +122,19 @@ The system generates a modern, interactive dashboard for exploring evaluation re
 
 ### Frontend Development
 
-The dashboard frontend lives in `web/frontend/` and uses Vite for fast development.
+The dashboard frontend lives in `web/frontend/` and uses Vite for fast development. It communicates with the FastAPI backend for data access.
 
 To develop or run the frontend:
 ```bash
 cd web/frontend
 npm install
-npm run dev         # Start dev server (default: http://localhost:5173)
+npm run dev         # Start dev server (default: http://localhost:1600)
 npm run lint        # Run ESLint
 npm run typecheck   # Run TypeScript type checking
 npm run format      # Run Prettier
 ```
+
+**Note:** The frontend requires the backend to be running for data access. Use `make web` to start both servers simultaneously.
 
 ## Adding New Exams
 
@@ -192,13 +194,21 @@ college_board_eval/
 ├── evaluator.py                 # Core evaluation logic
 ├── exam_loader.py               # Exam loading logic
 ├── run.py                       # Main evaluation script
-├── exams/                    # Exam data
+├── exams/                       # Exam data
+│   ├── exam-types.json          # Exam types configuration
 │   └── AP_US_HISTORY_2017/      # Individual exam directory
 │       └── AP_US_HISTORY_2017.json # Questions for this exam
-└── results/                     # Evaluation results
-    ├── index.json               # Dashboard data
-    ├── collator/                # Results collator
-    └── *.json                   # Individual result files
+├── results/                     # Evaluation results
+│   ├── index.json               # Dashboard data
+│   ├── collator/                # Results collator
+│   └── *.json                   # Individual result files
+└── web/                         # Web application
+    ├── backend/                 # FastAPI backend
+    │   ├── main.py              # API endpoints
+    │   └── image_processor.py   # Image processing
+    └── frontend/                # React frontend
+        ├── source/              # Source code
+        └── package.json         # Frontend dependencies
 ```
 
 ## Code Quality Standards

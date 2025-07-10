@@ -1,8 +1,21 @@
-# 📝 ExamExtractor: PDF ➜ Structured Exam Assets
+# 📝 College Board Evaluation Dashboard
 
-A streamlined pipeline that ingests SAT or Advanced Placement PDFs and outputs perfectly cropped images plus standards‑compliant JSON ready for College Board Evals.
+A modern React frontend for viewing and analyzing AP evaluation results, built with TypeScript, Material-UI, and Vite. The frontend communicates with a FastAPI backend for data access.
 
 ---
+
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# The frontend will be available at http://localhost:1600
+# Note: Requires the backend to be running for data access
+```
 
 ## Code Quality Commands
 
@@ -15,8 +28,8 @@ make typecheck    # Type check all Python and frontend TS code
 make format       # Format all Python code (black, isort)
 
 # Or, run only frontend checks:
-npm run lint:frontend         # Lint all TypeScript/JS files in the frontend
-npm run typecheck:frontend    # Run TypeScript type checking for the frontend
+make lint-frontend         # Lint all TypeScript/JS files in the frontend
+make typecheck-frontend    # Run TypeScript type checking for the frontend
 ```
 
 Or, from the frontend directory:
@@ -90,10 +103,11 @@ P4 — Unlikely in this iteration (stretch goals)
 
 **Features Implemented:**
 
-- PDF upload interface with drag-and-drop functionality
-- File validation (PDF format, 10MB limit)
-- Visual feedback and error handling
-- Progress indicators and loading states
+- Modern dashboard interface for viewing AP evaluation results
+- Sortable results table with provider icons and accuracy indicators
+- JSON viewer for detailed result analysis
+- Deep linking support for direct navigation to exams and questions
+- Download functionality for individual result files
 - Responsive Material-UI design
 - Development server with hot module replacement
 
@@ -104,32 +118,21 @@ P4 — Unlikely in this iteration (stretch goals)
 - Vite for fast development and building
 - Emotion for styled components
 
-**Getting Started:**
+### ✅ **Backend (FastAPI) - COMPLETED**
 
-```bash
-cd college_board_eval/web/frontend
-npm install
-npm run dev
-```
+**Features Implemented:**
 
-The frontend will be available at `http://localhost:1600` by default. If that port is in use, Vite will automatically use the next available port (e.g., `http://localhost:1600`).
-
-### 🔄 **Backend (FastAPI) - NEXT**
-
-**Planned Features:**
-
-- PDF file upload and processing
-- Page rendering (72 dpi thumbnails + 300 dpi detail views)
-- Image cropping and trimming
-- Multimodal LLM integration for question extraction
-- JSON aggregation and output generation
+- Results API endpoints for serving evaluation data
+- CORS configuration for frontend integration
+- Health check endpoint
+- Exam types and years configuration endpoints
+- PDF upload and image processing (for ExamExtractor feature)
 
 **Tech Stack:**
 
 - Python 3.10+
 - FastAPI for API framework
-- PDF processing libraries (PyMuPDF, Pillow)
-- Multimodal LLM integration
+- CORS middleware for cross-origin requests
 
 ---
 
@@ -138,17 +141,20 @@ The frontend will be available at `http://localhost:1600` by default. If that po
 ```
 web/
 ├── frontend/                  # React/MUI frontend
-│   ├── src/
+│   ├── source/               # Source code
 │   │   ├── App.tsx           # Main application component
 │   │   ├── main.tsx          # Application entry point
-│   │   └── components/
-│   │       └── Layout.tsx    # Page layout (header/footer)
+│   │   ├── features/         # Feature-based organization
+│   │   │   ├── dashboard/    # Results dashboard
+│   │   │   └── examExtractor/ # PDF upload (planned)
+│   │   ├── services/         # API services
+│   │   └── components/       # Shared components
 │   ├── public/               # Static assets (logo, favicon, etc.)
 │   ├── package.json          # Frontend dependencies
 │   └── ...
-└── backend/                  # FastAPI backend (planned)
+└── backend/                  # FastAPI backend
     ├── main.py               # FastAPI application
-    ├── requirements.txt      # Python dependencies
+    ├── image_processor.py    # Image processing utilities
     └── ...
 ```
 
@@ -156,8 +162,8 @@ web/
 
 ## Development Notes
 
-- Frontend currently simulates upload process (2-second delay)
-- Backend integration is marked with TODO comments in frontend code
-- File size limit is set to 10MB
-- Only PDF files are accepted for upload
-- Frontend is ready for backend API integration
+- Frontend communicates with backend API for data access
+- CORS is configured for local development (localhost:1600)
+- API endpoints are centralized in `source/services/api.ts`
+- Feature-based architecture for scalability
+- TypeScript provides strong type safety throughout

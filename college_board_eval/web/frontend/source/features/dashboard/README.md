@@ -48,18 +48,21 @@ source/features/dashboard/
 - **Exam + Question:** `/dashboard/AP_CALCULUS_BC_2012_openai_gpt-4o_20250707_131020/AP_CALCULUS_BC_I_A_013`
 - URLs update automatically when you select a question from the dropdown.
 
-## JSON File Support
+## Data Access
 
-- **index.json:** Used for the main dashboard table.
-- **Result JSONs:** Each run is a separate JSON file, viewable and downloadable.
-- **File Serving:** All JSON files are accessible from the frontend.
+- **Backend API:** Results data is served via FastAPI backend at `http://localhost:8000`
+- **index.json:** Used for the main dashboard table, served at `/api/v1/results/`
+- **Result JSONs:** Each run is a separate JSON file, served at `/api/v1/results/{filename}`
+- **API Client:** Centralized API configuration in `source/services/api.ts`
 - **Deep Linking:** Direct links to any question in any run.
 
 ## Status
 
 - All dashboard functionality is implemented and stable.
-- JSON file viewing and downloading works as expected.
+- Backend API integration is complete and working.
+- JSON file viewing and downloading works via API endpoints.
 - Deep linking and navigation via dropdown are supported.
 - Performance is excellent, even with large files.
 - Code is maintainable and follows best practices.
 - Seamless College Board branding throughout.
+- CORS is properly configured for local development.
