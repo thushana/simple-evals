@@ -34,7 +34,7 @@ make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017
 ### 3. View Results
 ```bash
 make collate    # Generate dashboard
-make results    # Start server at http://localhost:8000
+make web        # Start React frontend at http://localhost:5173
 ```
 
 **Or do everything at once:**
@@ -55,7 +55,8 @@ make setup                   # Set up API keys (copy .env.example to .env)
 make setup-pre-commit        # Set up pre-commit hooks for automatic formatting
 make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation
 make collate                 # Generate dashboard from all result files
-make results                 # Start local server to view dashboard
+make web                     # Start React frontend development server
+make results                 # Start local server to view static dashboard (legacy)
 make clean                   # Remove generated result files
 make evaluate MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation + collate + start server
 ```
@@ -67,6 +68,13 @@ make lint                    # Run flake8 linting
 make typecheck               # Run mypy type checking
 make check                   # Run all code quality checks (format + lint + typecheck)
 make fix                     # Auto-fix formatting issues
+```
+
+### Frontend Commands
+```bash
+make lint-frontend           # Run ESLint on frontend
+make typecheck-frontend      # Run TypeScript type checking on frontend
+make format-frontend         # Run Prettier on frontend for consistent code style
 ```
 
 ### Development Workflow
@@ -102,15 +110,30 @@ make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017 -- --show-all           # Show ever
 
 ## Results Dashboard
 
-The system generates an interactive HTML dashboard showing all evaluation results.
+The system generates a modern, interactive dashboard for exploring evaluation results.
 
 ### Features
+- **Modern React Frontend**: Built with React, TypeScript, and Material-UI for a fast, responsive, and accessible UI
+- **Deep Linking**: URLs like `/dashboard/:examSlug` and `/dashboard/:examSlug/:questionId` for direct navigation to any exam or question
 - **Interactive Table**: Sort by any column (exam, model, provider, accuracy, score, time)
 - **Best Performer Highlighting**: Gold stars and highlighting for the best performing model on each exam
-- **Detailed JSON View**: Click on any exam to view the complete evaluation results
-- **Markdown Documentation**: Click "Project Details README" at the bottom to view this documentation
-- **Deep Linking**: Share direct links to specific results using URL hashes
+- **Detailed JSON View**: Click on any exam to view the complete evaluation results, with pretty-printed and color-coded JSON
+- **Download & Metadata**: Download individual result files and view run metadata
 - **Responsive Design**: Works on desktop and mobile devices
+
+### Frontend Development
+
+The dashboard frontend lives in `web/frontend/` and uses Vite for fast development.
+
+To develop or run the frontend:
+```bash
+cd web/frontend
+npm install
+npm run dev         # Start dev server (default: http://localhost:5173)
+npm run lint        # Run ESLint
+npm run typecheck   # Run TypeScript type checking
+npm run format      # Run Prettier
+```
 
 ## Adding New Exams
 
@@ -174,7 +197,7 @@ college_board_eval/
 │   └── AP_US_HISTORY_2017/      # Individual exam directory
 │       └── AP_US_HISTORY_2017.json # Questions for this exam
 └── results/                     # Evaluation results
-    ├── index.html               # Interactive dashboard
+    ├── index.html               # (Legacy) Static dashboard
     ├── index.json               # Dashboard data
     ├── collator/                # Results collator
     └── *.json                   # Individual result files

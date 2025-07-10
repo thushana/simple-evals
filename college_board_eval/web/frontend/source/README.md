@@ -2,7 +2,23 @@
 
 ## Overview
 
-This document outlines the organization strategy for the React/TypeScript frontend codebase, following feature-based architecture principles.
+This frontend is built with React 19, TypeScript, Material-UI, and Vite, following a feature-based architecture for scalability and maintainability.
+
+## Getting Started
+
+- Install dependencies: `npm install`
+- Start dev server: `npm run dev`
+- Lint: `npm run lint`
+- Type check: `npm run typecheck`
+- Format: `npm run format`
+
+## Features
+
+- Feature-based directory structure for scalability
+- Modern React + TypeScript + MUI + Vite stack
+- Deep linking and robust routing
+- Modular, reusable components and hooks
+- Strong type safety throughout
 
 ## Directory Structure
 
@@ -179,15 +195,9 @@ export const ResultsTable: React.FC<ResultsTableProps> = (props) => {
 };
 ```
 
-## Migration Strategy
+## Project Status
 
-When migrating existing functionality:
-
-1. **Create feature directory** with proper structure
-2. **Move feature-specific code** to appropriate subdirectories
-3. **Extract shared code** to shared directories
-4. **Update imports** to use new structure
-5. **Add documentation** in feature README.md
+The frontend is fully migrated to a feature-based, scalable architecture. All new features and refactors should follow this structure.
 
 ## Benefits
 
@@ -197,3 +207,10 @@ When migrating existing functionality:
 4. **Team Development**: Multiple developers can work on different features
 5. **Testing**: Features can be tested independently
 6. **Code Splitting**: Natural boundaries for lazy loading
+
+## Contributing
+
+- Please follow the file and directory structure outlined above.
+- Use Prettier and ESLint for code style and linting.
+- Submit pull requests with clear descriptions and reference related issues if applicable.
+- Write or update documentation in feature-level README files as needed.
