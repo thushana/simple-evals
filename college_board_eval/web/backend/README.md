@@ -44,8 +44,8 @@ cd ../.. && make backend
 
 ### Configuration
 
-- `GET /api/v1/config/exam-types` - Get available exam types
-- `GET /api/v1/years` - Get available years (2000 to current)
+- `GET /api/v1/exams/types` - Get available exam types
+- `GET /api/v1/exams/years` - Get available years (2000 to current)
 
 ### File Upload
 

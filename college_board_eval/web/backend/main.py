@@ -46,7 +46,7 @@ logger = logging.getLogger(__name__)
 async def root():
     return {"message": "College Board Exam Extractor API"}
 
-@app.get("/api/v1/config/exam-types")
+@app.get("/api/v1/exams/types")
 async def get_exam_types():
     """Get exam types configuration"""
     config_path = BASE_DIR / "exams" / "exam-types.json"
@@ -63,7 +63,7 @@ async def get_exam_types():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error loading exam types: {str(e)}")
 
-@app.get("/api/v1/years")
+@app.get("/api/v1/exams/years")
 async def get_years():
     """Get available years (2000 to current year)"""
     current_year = datetime.now().year
