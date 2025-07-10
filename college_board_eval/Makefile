@@ -11,7 +11,6 @@ help:
 	@echo "  setup      - Set up API keys (copy .env.example to .env)"
 	@echo "  setup-pre-commit - Set up pre-commit hooks for automatic formatting"
 	@echo "  collate    - Generate dashboard from all result files"
-	@echo "  results    - Start local server to view dashboard"
 	@echo "  clean      - Remove generated result files"
 	@echo "  run        - Run AP evaluation (usage: make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017)"
 	@echo "  web        - Start the React frontend development server (npm run dev)"
@@ -58,12 +57,6 @@ collate:
 	@echo "Symlinking results directory for frontend..."
 	ln -sf ../../results web/frontend/public/results
 
-# Start local server to view dashboard
-results:
-	@echo "Starting local server at http://localhost:8000"
-	@echo "Press Ctrl+C to stop the server"
-	cd results && python3 -m http.server 8000
-
 # Clean generated result files
 clean:
 	@echo "Removing generated result files..."
@@ -82,7 +75,7 @@ run:
 	cd .. && python -m college_board_eval.run $(MODEL) $(EXAM)
 
 # Convenience target to run evaluation and then start server
-evaluate: run collate results
+evaluate: run collate web
 
 # Code Quality Commands
 

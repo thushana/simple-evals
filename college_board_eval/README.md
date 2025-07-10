@@ -56,7 +56,6 @@ make setup-pre-commit        # Set up pre-commit hooks for automatic formatting
 make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation
 make collate                 # Generate dashboard from all result files
 make web                     # Start React frontend development server
-make results                 # Start local server to view static dashboard (legacy)
 make clean                   # Remove generated result files
 make evaluate MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation + collate + start server
 ```
@@ -197,7 +196,6 @@ college_board_eval/
 │   └── AP_US_HISTORY_2017/      # Individual exam directory
 │       └── AP_US_HISTORY_2017.json # Questions for this exam
 └── results/                     # Evaluation results
-    ├── index.html               # (Legacy) Static dashboard
     ├── index.json               # Dashboard data
     ├── collator/                # Results collator
     └── *.json                   # Individual result files
