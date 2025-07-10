@@ -7,9 +7,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 1600,
-    fs: {
-      allow: [".."], // allow symlinks to parent directory (for results)
-    },
   },
   publicDir: "public",
   build: {

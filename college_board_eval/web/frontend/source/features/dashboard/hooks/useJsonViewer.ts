@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { JsonViewerState, ResultEntry } from "../types/dashboard.types";
 import type { JsonData } from "../types/dashboard.types";
+import { apiClient, API_ENDPOINTS } from "../../../services/api";
 
 interface UseJsonViewerReturn {
   jsonViewerState: JsonViewerState;
@@ -44,13 +45,7 @@ export const useJsonViewer = (): UseJsonViewerReturn => {
         error: null,
       });
       const filename = (opts.data as ResultEntry).results;
-      const response = await fetch(`/results/${filename}`);
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch JSON file: ${response.status} ${response.statusText}`,
-        );
-      }
-      const data = await response.json();
+      const data = await apiClient.get(API_ENDPOINTS.results.file(filename));
       setJsonViewerState({
         isOpen: true,
         data,

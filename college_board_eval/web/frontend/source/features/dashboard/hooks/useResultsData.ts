@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { ResultsData } from "../types/dashboard.types";
+import { apiClient, API_ENDPOINTS } from "../../../services/api";
 
 interface UseResultsDataReturn {
   data: ResultsData | null;
@@ -18,16 +19,7 @@ export const useResultsData = (): UseResultsDataReturn => {
       setLoading(true);
       setError(null);
 
-      // Fetch from the existing index.json location
-      const response = await fetch("/results/index.json");
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch data: ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const jsonData: ResultsData = await response.json();
+      const jsonData: ResultsData = await apiClient.get(API_ENDPOINTS.results.index);
       setData(jsonData);
     } catch (err) {
       setError(
