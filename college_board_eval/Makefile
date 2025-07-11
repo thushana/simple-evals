@@ -1,6 +1,6 @@
 # AP Evaluation System Makefile
 
-.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend web web-frontend web-backend format-frontend python-codecleanup js-codecleanup
+.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend web web-frontend web-backend format-frontend python-codecleanup js-codecleanup test-backend test-backend-coverage
 
 # Default target
 help:
@@ -33,6 +33,9 @@ help:
 	@echo "  format-frontend    - Run Prettier on frontend for consistent code style"
 	@echo "  js-codecleanup     - Run all JavaScript/TypeScript code quality checks (format + lint + typecheck)"
 	@echo ""
+	@echo "Testing Commands:"
+	@echo "  test-backend - Run lightweight backend tests (config, imports, API structure)"
+	@echo "  test-backend-coverage - Run backend tests with code coverage report"
 
 # Install the package in development mode
 install:
@@ -173,3 +176,12 @@ js-codecleanup:
 	@echo "🔍 Running TypeScript type checking..."
 	cd web/frontend && npm run typecheck
 	@echo "✅ JavaScript/TypeScript code cleanup completed!" 
+
+# Run lightweight backend tests
+test-backend:
+	@echo "🧪 Running Backend Tests..."
+	cd .. && PYTHONPATH=. python college_board_eval/tests/test_backend.py 
+
+# Run backend tests with coverage
+test-backend-coverage:
+	cd .. && PYTHONPATH=. pytest --cov=college_board_eval.web.backend --cov-report=term-missing --cov-report=html college_board_eval/tests/ 
