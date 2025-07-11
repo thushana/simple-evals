@@ -1,5 +1,5 @@
 // API Configuration
-export const API_BASE_URL = 'http://localhost:8000';
+export const API_BASE_URL = "http://localhost:8000";
 
 // API Endpoints
 export const API_ENDPOINTS = {
@@ -13,7 +13,8 @@ export const API_ENDPOINTS = {
     types: `${API_BASE_URL}/api/v1/config/exam-types`,
     years: `${API_BASE_URL}/api/v1/config/years`,
     upload: `${API_BASE_URL}/api/v1/exams/upload`,
-    images: (examName: string) => `${API_BASE_URL}/api/v1/exams/${examName}/images`,
+    images: (examName: string) =>
+      `${API_BASE_URL}/api/v1/exams/${examName}/images`,
   },
   // Health check
   health: `${API_BASE_URL}/health`,
@@ -24,32 +25,38 @@ export const apiClient = {
   async get<T>(url: string): Promise<T> {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `API request failed: ${response.status} ${response.statusText}`,
+      );
     }
     return response.json();
   },
 
   async post<T>(url: string, data?: unknown): Promise<T> {
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: data ? JSON.stringify(data) : undefined,
     });
     if (!response.ok) {
-      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `API request failed: ${response.status} ${response.statusText}`,
+      );
     }
     return response.json();
   },
 
   async upload<T>(url: string, formData: FormData): Promise<T> {
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
     if (!response.ok) {
-      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `API request failed: ${response.status} ${response.statusText}`,
+      );
     }
     return response.json();
   },
@@ -57,8 +64,10 @@ export const apiClient = {
   async download(url: string): Promise<Blob> {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Download failed: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Download failed: ${response.status} ${response.statusText}`,
+      );
     }
     return response.blob();
   },
-}; 
+};

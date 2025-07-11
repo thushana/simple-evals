@@ -19,7 +19,9 @@ export const useResultsData = (): UseResultsDataReturn => {
       setLoading(true);
       setError(null);
 
-      const jsonData: ResultsData = await apiClient.get(API_ENDPOINTS.results.index);
+      const jsonData: ResultsData = await apiClient.get(
+        API_ENDPOINTS.results.index,
+      );
       setData(jsonData);
     } catch (err) {
       setError(

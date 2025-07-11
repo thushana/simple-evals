@@ -45,6 +45,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: BACKEND API
 
 ### FastAPI Backend Setup
+
 ✅ **FASTAPI BACKEND** - Set up FastAPI server with proper project structure
 ✅ **OPENAPI INTEGRATION** - Configure FastAPI to auto-generate OpenAPI spec
 ⬜️ **TYPE GENERATION PIPELINE** - Set up openapi-typescript to generate TypeScript types from OpenAPI spec
@@ -53,6 +54,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ✅ **CORS CONFIGURATION** - Configure CORS for frontend-backend communication
 
 ### File Upload & Management
+
 ✅ **PDF UPLOAD ENDPOINT** - RESTful endpoint for PDF file uploads (`POST /api/v1/exams/upload`)
 ✅ **FILE VALIDATION** - Validate PDF files (size, format, security)
 ✅ **SLUG GENERATION** - Generate unique exam slugs (e.g., `AP_CALCULUS_AB_2025`)
@@ -62,6 +64,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ✅ **FILE METADATA** - Store and retrieve file metadata (upload date, original filename, etc.)
 
 ### Image Processing
+
 ✅ **PDF TO IMAGES** - Convert PDF pages to high-resolution images (300 DPI)
 ✅ **THUMBNAIL GENERATION** - Generate 72 DPI thumbnails for preview
 ✅ **IMAGE STORAGE** - Store images in organized directory structure
@@ -71,6 +74,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **JOB RESULTS ENDPOINT** - Endpoint to retrieve processing results (`GET /api/v1/jobs/{job_id}/results`)
 
 ### Configuration Management
+
 ✅ **EXAM TYPES CONFIG** - Shared JSON config for exam types (served by backend)
 ✅ **CONFIG ENDPOINT** - Endpoint to serve exam types configuration (`GET /api/v1/config/exam-types`)
 ✅ **YEAR RANGE** - Dynamic year dropdown generation (2000 to current year)
@@ -81,6 +85,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: FRONTEND INTERFACE
 
 ### Exam Selection & Upload
+
 ⬜️ **EXAM TYPE DROPDOWN** - Dropdown to select exam type from backend config
 ⬜️ **YEAR SELECTION** - Dynamic year dropdown (2000 to current year)
 ⬜️ **FILE UPLOAD UI** - Drag-and-drop or file picker for PDF uploads
@@ -90,6 +95,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **UPLOAD STATUS** - Real-time status updates during upload process
 
 ### Image Viewer Interface
+
 ⬜️ **THUMBNAIL TRAY** - Left sidebar with page thumbnails (10% width)
 ⬜️ **FULL PAGE VIEW** - Right pane showing full-resolution page images
 ⬜️ **PAGE NAVIGATION** - Click thumbnails to navigate between pages
@@ -98,6 +104,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **ERROR HANDLING** - Graceful error handling for failed image loads
 
 ### Question Extraction Interface
+
 ⬜️ **MANUAL CROPPING TOOL** - Default interface for manual question cropping
 ⬜️ **CROP SELECTION** - Click and drag to select question boundaries
 ⬜️ **CROP PREVIEW** - Preview of cropped question area
@@ -106,6 +113,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **PROGRESS TRACKING** - Track progress of question extraction
 
 ### Results & Export
+
 ⬜️ **JSON PREVIEW** - Preview generated JSON structure
 ⬜️ **DOWNLOAD BUNDLE** - Download JSON + images as a bundle
 ⬜️ **EXPORT OPTIONS** - Different export formats and options
@@ -116,6 +124,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: TYPE SAFETY & INTEGRATION
 
 ### Type Generation Pipeline
+
 ⬜️ **OPENAPI SPEC GENERATION** - FastAPI auto-generates OpenAPI JSON spec
 ⬜️ **TYPESCRIPT TYPE GENERATION** - Use openapi-typescript to generate TS types
 ⬜️ **TYPE SYNC WORKFLOW** - Automated workflow to keep types in sync
@@ -123,6 +132,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **TYPE DOCUMENTATION** - Generated type documentation for developers
 
 ### API Contract Management
+
 ⬜️ **SINGLE SOURCE OF TRUTH** - OpenAPI spec as canonical API contract
 ⬜️ **VERSION MANAGEMENT** - API versioning strategy and documentation
 ⬜️ **BREAKING CHANGES** - Process for handling breaking API changes
@@ -133,6 +143,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: DATA MODELS
 
 ### Pydantic Models (Backend)
+
 ⬜️ **EXAM UPLOAD MODEL** - Pydantic model for exam upload requests
 ⬜️ **JOB STATUS MODEL** - Pydantic model for job status responses
 ⬜️ **IMAGE RESULT MODEL** - Pydantic model for image processing results
@@ -140,6 +151,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **CONFIG MODEL** - Pydantic model for exam type configuration
 
 ### TypeScript Types (Frontend)
+
 ⬜️ **AUTO-GENERATED TYPES** - TypeScript types generated from OpenAPI spec
 ⬜️ **API CLIENT TYPES** - Types for API client functions
 ⬜️ **COMPONENT PROPS TYPES** - TypeScript interfaces for React components
@@ -150,12 +162,14 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: STORAGE & FILE MANAGEMENT
 
 ### Directory Structure
+
 ⬜️ **EXAM DIRECTORY STRUCTURE** - Organized directory structure for exams
 ⬜️ **IMAGE STORAGE** - Separate storage for thumbnails and full-res images
 ⬜️ **METADATA STORAGE** - Storage for exam metadata and configuration
 ⬜️ **BACKUP STRATEGY** - Backup and recovery procedures for uploaded files
 
 ### File Naming Conventions
+
 ⬜️ **SLUG-BASED NAMING** - Consistent naming using exam slugs
 ⬜️ **PAGE NUMBERING** - Consistent page numbering across all files
 ⬜️ **IMAGE SUFFIXES** - Clear suffixes for different image types (thumb, full, crop)
@@ -166,6 +180,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: ERROR HANDLING & MONITORING
 
 ### Error Handling
+
 ⬜️ **UPLOAD ERRORS** - Handle file upload failures gracefully
 ⬜️ **PROCESSING ERRORS** - Handle image processing failures
 ⬜️ **API ERRORS** - Standardized API error responses
@@ -173,6 +188,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **RETRY LOGIC** - Automatic retry for transient failures
 
 ### Monitoring & Logging
+
 ⬜️ **REQUEST LOGGING** - Log all API requests and responses
 ⬜️ **ERROR LOGGING** - Comprehensive error logging and alerting
 ⬜️ **PERFORMANCE MONITORING** - Monitor processing times and resource usage
@@ -183,6 +199,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: SECURITY & VALIDATION
 
 ### Security Measures
+
 ⬜️ **FILE VALIDATION** - Validate uploaded files for security threats
 ⬜️ **SIZE LIMITS** - Enforce reasonable file size limits
 ⬜️ **TYPE VALIDATION** - Validate file types and content
@@ -190,6 +207,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **INPUT SANITIZATION** - Sanitize all user inputs
 
 ### Data Validation
+
 ⬜️ **SCHEMA VALIDATION** - Validate JSON schemas for exam data
 ⬜️ **CONTENT VALIDATION** - Validate extracted question content
 ⬜️ **IMAGE QUALITY CHECKS** - Validate generated image quality
@@ -200,11 +218,13 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: PERFORMANCE & SCALABILITY
 
 ### Performance Optimization
+
 ⬜️ **IMAGE CACHING** - Cache generated images for faster access
 ⬜️ **LAZY LOADING** - Lazy load images as needed
 ⬜️ **COMPRESSION** - Compress images for faster delivery
 
 ### Scalability Considerations
+
 ⬜️ **ASYNC PROCESSING** - Process large files asynchronously
 ⬜️ **QUEUE MANAGEMENT** - Manage processing queues efficiently
 ⬜️ **RESOURCE MANAGEMENT** - Efficient resource usage and cleanup
@@ -215,6 +235,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: TESTING & QUALITY ASSURANCE
 
 ### Testing Strategy
+
 ⬜️ **UNIT TESTS** - Unit tests for backend API endpoints
 ⬜️ **INTEGRATION TESTS** - Integration tests for full pipeline
 ⬜️ **FRONTEND TESTS** - Component and integration tests for frontend
@@ -222,6 +243,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ⬜️ **PERFORMANCE TESTS** - Performance testing for large file processing
 
 ### Quality Assurance
+
 ⬜️ **CODE QUALITY** - ESLint, Prettier, and TypeScript strict mode
 ⬜️ **API TESTING** - Automated API testing with OpenAPI spec
 ⬜️ **IMAGE QUALITY QA** - Quality checks for generated images
@@ -232,12 +254,14 @@ P4 — Unlikely in this iteration (stretch goals)
 ## COMPONENT: DEPLOYMENT & OPERATIONS
 
 ### Deployment
+
 ⬜️ **DOCKER CONFIGURATION** - Docker setup for backend and frontend
 ⬜️ **ENVIRONMENT CONFIGURATION** - Environment-specific configuration
 ⬜️ **CI/CD PIPELINE** - Automated build and deployment pipeline
 ⬜️ **HEALTH CHECKS** - Health check endpoints for monitoring
 
 ### Operations
+
 ⬜️ **LOGGING SETUP** - Comprehensive logging configuration
 ⬜️ **MONITORING SETUP** - Application and infrastructure monitoring
 ⬜️ **BACKUP PROCEDURES** - Automated backup procedures
@@ -248,6 +272,7 @@ P4 — Unlikely in this iteration (stretch goals)
 ## Technical Decisions Summary
 
 ### Architecture Decisions
+
 - **Backend Framework**: FastAPI with Pydantic models
 - **Frontend Framework**: React 19 + TypeScript + MUI
 - **Type Safety**: OpenAPI spec → openapi-typescript for TypeScript generation
@@ -256,6 +281,7 @@ P4 — Unlikely in this iteration (stretch goals)
 - **Storage**: Structured directory organization with slug-based naming
 
 ### API Design Decisions
+
 - **RESTful Endpoints**: Versioned API with JSON payloads
 - **Error Handling**: Standardized error responses with HTTP status codes
 - **File Upload**: Multipart form data with progress tracking
@@ -263,6 +289,7 @@ P4 — Unlikely in this iteration (stretch goals)
 - **Configuration**: Shared JSON config served by backend
 
 ### Frontend Design Decisions
+
 - **Layout**: Left thumbnail tray (10%) + right full-page view
 - **Navigation**: Deep linking with React Router
 - **State Management**: React hooks for local state
@@ -270,6 +297,7 @@ P4 — Unlikely in this iteration (stretch goals)
 - **UI Framework**: Material-UI for consistent design
 
 ### Data Flow Decisions
+
 - **Single Source of Truth**: OpenAPI spec for API contracts
 - **Type Generation**: Automated pipeline from backend to frontend
 - **File Organization**: Consistent naming and directory structure

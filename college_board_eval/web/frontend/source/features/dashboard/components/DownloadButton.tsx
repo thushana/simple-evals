@@ -16,7 +16,9 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({
 }) => {
   const handleDownload = async () => {
     try {
-      const blob = await apiClient.download(API_ENDPOINTS.results.file(filename));
+      const blob = await apiClient.download(
+        API_ENDPOINTS.results.file(filename),
+      );
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
