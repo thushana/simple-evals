@@ -1,6 +1,6 @@
 # AP Evaluation System Makefile
 
-.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend web format-frontend
+.PHONY: help install install-dev setup setup-pre-commit collate results clean format lint check fix typecheck lint-frontend typecheck-frontend web web-frontend web-backend format-frontend python-codecleanup js-codecleanup
 
 # Default target
 help:
@@ -13,20 +13,25 @@ help:
 	@echo "  collate    - Generate dashboard from all result files"
 	@echo "  clean      - Remove generated result files"
 	@echo "  run        - Run AP evaluation (usage: make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017)"
-	@echo "  web        - Start both FastAPI backend and React frontend development servers"
-	@echo "  backend    - Start only the FastAPI backend server"
 	@echo ""
-	@echo "Code Quality Commands:"
+	@echo "Web Development Commands:"
+	@echo "  web        - Start both FastAPI backend and React frontend development servers"
+	@echo "  web-backend - Start only the FastAPI backend server"
+	@echo "  web-frontend - Start only the React frontend development server"
+	@echo ""
+	@echo "Python Code Quality Commands:"
 	@echo "  format     - Format code with black and isort"
 	@echo "  lint       - Run flake8 linting"
 	@echo "  typecheck  - Run mypy type checking"
 	@echo "  check      - Run all code quality checks (format + lint + typecheck)"
 	@echo "  fix        - Auto-fix formatting issues"
+	@echo "  python-codecleanup - Run all Python code quality checks (format + lint + typecheck)"
 	@echo ""
-	@echo "Frontend Commands:"
+	@echo "TypeScript/Frontend Commands:"
 	@echo "  lint-frontend    - Run ESLint on frontend"
 	@echo "  typecheck-frontend - Run TypeScript type checking on frontend"
 	@echo "  format-frontend    - Run Prettier on frontend for consistent code style"
+	@echo "  js-codecleanup     - Run all JavaScript/TypeScript code quality checks (format + lint + typecheck)"
 	@echo ""
 
 # Install the package in development mode
@@ -120,17 +125,51 @@ typecheck-frontend:
 	@echo "Running TypeScript type checking on frontend..."
 	cd web/frontend && npm run typecheck 
 
+# Web Development Commands
+
+# Start only the React frontend development server
+web-frontend:
+	@echo "🚀 Starting Vite frontend development server..."
+	cd web/frontend && npm run dev
+
 # Start only the FastAPI backend server
-backend:
-	@echo "Starting FastAPI backend..."
-	cd web/backend && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
+web-backend:
+	@echo "🚀 Starting FastAPI backend server..."
+	cd .. && PYTHONPATH=. uvicorn college_board_eval.web.backend.main:app --reload --host 0.0.0.0 --port 8000
 
 # Start both FastAPI backend and React frontend development servers
 web:
+	@echo "🚀 Starting both backend and frontend development servers..."
+	@echo "📡 Backend will be available at: http://localhost:8000"
+	@echo "🌐 Frontend will be available at: http://localhost:5173"
+	@echo ""
 	@echo "Starting FastAPI backend..."
-	cd web/backend && python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000 &
+	cd .. && PYTHONPATH=. uvicorn college_board_eval.web.backend.main:app --reload --host 0.0.0.0 --port 8000 &
 	@echo "Starting Vite frontend..."
-	cd web/frontend && npm run dev 
+	cd web/frontend && npm run dev
 
 format-frontend:
 	cd web/frontend && npx prettier --write . 
+
+# Run all Python code quality checks in one go
+python-codecleanup:
+	@echo "🧹 Running Python code cleanup..."
+	@echo "📝 Formatting code with black and isort..."
+	black .
+	isort .
+	@echo "🔍 Running flake8 linting..."
+	flake8 .
+	@echo "🔍 Running mypy type checking..."
+	mypy .
+	@echo "✅ Python code cleanup completed!"
+
+# Run all JavaScript/TypeScript code quality checks in one go
+js-codecleanup:
+	@echo "🧹 Running JavaScript/TypeScript code cleanup..."
+	@echo "📝 Formatting code with Prettier..."
+	cd web/frontend && npx prettier --write .
+	@echo "🔍 Running ESLint..."
+	cd web/frontend && npm run lint
+	@echo "🔍 Running TypeScript type checking..."
+	cd web/frontend && npm run typecheck
+	@echo "✅ JavaScript/TypeScript code cleanup completed!" 
