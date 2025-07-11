@@ -26,12 +26,12 @@ For the best development experience, set up pre-commit hooks:
 make setup-pre-commit  # Automatically format code on commit
 ```
 
-### 2. Run Evaluation
+### 3. Run Evaluation
 ```bash
 make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017
 ```
 
-### 3. View Results
+### 4. View Results
 ```bash
 make collate    # Generate dashboard
 make web        # Start both backend and frontend development servers
@@ -55,39 +55,79 @@ make setup                   # Set up API keys (copy .env.example to .env)
 make setup-pre-commit        # Set up pre-commit hooks for automatic formatting
 make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation
 make collate                 # Generate dashboard from all result files
-make web                     # Start React frontend development server
 make clean                   # Remove generated result files
 make evaluate MODEL=gpt-4 EXAM=AP_US_HISTORY_2017  # Run evaluation + collate + start server
 ```
 
-### Code Quality Commands
+### Web Development Commands
+```bash
+make web                     # Start both FastAPI backend and React frontend development servers
+make web-backend             # Start only the FastAPI backend server
+make web-frontend            # Start only the React frontend development server
+```
+
+### Python Code Quality Commands
 ```bash
 make format                  # Format code with black and isort
 make lint                    # Run flake8 linting
 make typecheck               # Run mypy type checking
 make check                   # Run all code quality checks (format + lint + typecheck)
 make fix                     # Auto-fix formatting issues
+make python-codecleanup      # Run all Python code quality checks in one go
 ```
 
-### Frontend Commands
+### TypeScript/Frontend Commands
 ```bash
 make lint-frontend           # Run ESLint on frontend
 make typecheck-frontend      # Run TypeScript type checking on frontend
 make format-frontend         # Run Prettier on frontend for consistent code style
+make js-codecleanup          # Run all JavaScript/TypeScript code quality checks in one go
 ```
 
 ### Development Workflow
 For the best development experience, run these commands in sequence:
+```bash
+make python-codecleanup      # Clean up Python code
+make js-codecleanup          # Clean up JavaScript/TypeScript code
+```
+
+Or use individual commands:
 ```bash
 make format                  # Format code first
 make lint                    # Check for style issues
 make typecheck               # Verify type safety
 ```
 
-Or use the convenience command:
-```bash
-make check                   # Run all quality checks at once
+## Backend API Architecture
+
+The backend has been refactored into a modular, maintainable structure:
+
+### Directory Structure
 ```
+web/backend/
+├── api/v1/                  # API endpoints organized by feature
+│   ├── exams.py             # Exam types and years endpoints
+│   ├── uploads.py           # File upload and image processing endpoints
+│   ├── results.py           # Results data endpoints
+│   └── health.py            # Health check endpoint
+├── core/                    # Core configuration and utilities
+│   └── config.py            # Centralized configuration (paths, CORS, etc.)
+├── services/                # Business logic services
+│   └── image_processor.py   # Image processing service
+└── main.py                  # Main FastAPI application
+```
+
+### Key Features
+- **Modular Design**: Each API endpoint group is in its own module
+- **Absolute Imports**: Uses best-practice absolute imports for maintainability
+- **Centralized Config**: All configuration in `core/config.py`
+- **Service Layer**: Business logic separated into services
+- **Type Safety**: Full type annotations with mypy checking
+
+### Adding New Endpoints
+1. Create a new file in `api/v1/` (e.g., `users.py`)
+2. Define a FastAPI `APIRouter` with your endpoints
+3. Import and include the router in `main.py`
 
 ## Supported Models
 
