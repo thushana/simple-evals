@@ -2,14 +2,14 @@ from collections import defaultdict
 from datetime import datetime
 from typing import Dict, List
 
-from .ap_types import (
+from college_board_eval.ap_types import (
     APTest,
     EvaluationResult,
     Question,
     Response,
     TestResults,
 )
-from .scorer.scorer_registry import ScorerRegistry
+from college_board_eval.scorer.scorer_registry import ScorerRegistry
 
 
 class APEvaluator:
@@ -59,8 +59,9 @@ class APEvaluator:
 
         # Ensure we have a valid test
         if self.test is None:
-            # Use the first question's test as fallback
-            test = self.questions[list(self.questions.keys())[0]].test if self.questions else APTest.AP_US_HISTORY
+            # Use the first question's test as fallback, or AP_US_HISTORY if that's also None
+            first_question = self.questions[list(self.questions.keys())[0]] if self.questions else None
+            test = first_question.test if first_question and first_question.test else APTest.AP_US_HISTORY
         else:
             test = self.test
 

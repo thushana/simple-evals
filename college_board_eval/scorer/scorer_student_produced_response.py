@@ -1,8 +1,8 @@
 from typing import Dict, Optional
 
-from ..ap_types import EvaluationResult, Response, StudentProducedResponseQuestion
-from ..config import get_student_produced_response_scorer_model
-from .scorer_base import ScorerBase
+from college_board_eval.ap_types import EvaluationResult, Response, StudentProducedResponseQuestion
+from college_board_eval.config import get_student_produced_response_scorer_model
+from college_board_eval.scorer.scorer_base import ScorerBase
 
 
 class ScorerStudentProducedResponse(ScorerBase):

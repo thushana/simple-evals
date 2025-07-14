@@ -1,12 +1,12 @@
 from typing import Dict, Type
 
-from ..ap_types import QuestionType
-from .scorer_base import ScorerBase
-from .scorer_free_response import ScorerFreeResponse
-from .scorer_long_answer import ScorerLongAnswer
-from .scorer_multiple_choice import ScorerMultipleChoice
-from .scorer_short_answer import ScorerShortAnswer
-from .scorer_student_produced_response import ScorerStudentProducedResponse
+from college_board_eval.ap_types import QuestionType
+from college_board_eval.scorer.scorer_base import ScorerBase
+from college_board_eval.scorer.scorer_free_response import ScorerFreeResponse
+from college_board_eval.scorer.scorer_long_answer import ScorerLongAnswer
+from college_board_eval.scorer.scorer_multiple_choice import ScorerMultipleChoice
+from college_board_eval.scorer.scorer_short_answer import ScorerShortAnswer
+from college_board_eval.scorer.scorer_student_produced_response import ScorerStudentProducedResponse
 
 
 class ScorerRegistry:

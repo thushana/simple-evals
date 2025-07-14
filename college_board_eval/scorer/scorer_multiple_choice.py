@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 
-from ..ap_types import EvaluationResult, MultipleChoiceQuestion, Response
-from .scorer_base import ScorerBase
+from college_board_eval.ap_types import EvaluationResult, MultipleChoiceQuestion, Response
+from college_board_eval.scorer.scorer_base import ScorerBase
 
 
 class ScorerMultipleChoice(ScorerBase):

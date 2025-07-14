@@ -2,7 +2,7 @@ import json
 import os
 from typing import List
 
-from .ap_types import (
+from college_board_eval.ap_types import (
     APTest,
     MultipleChoiceQuestion,
     Question,

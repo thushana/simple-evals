@@ -180,7 +180,7 @@ js-codecleanup:
 # Run lightweight backend tests
 test-backend:
 	@echo "🧪 Running Backend Tests..."
-	cd .. && PYTHONPATH=. python college_board_eval/tests/test_backend.py 
+	cd .. && PYTHONPATH=. python -m pytest college_board_eval/tests/test_backend.py -v 
 
 # Run backend tests with coverage
 test-backend-coverage:

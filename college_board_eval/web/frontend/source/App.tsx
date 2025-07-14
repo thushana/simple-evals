@@ -11,6 +11,7 @@ import {
   Chip,
   Tab,
   Tabs,
+  LinearProgress,
 } from "@mui/material";
 import { CloudUpload, UploadFile, CheckCircle } from "@mui/icons-material";
 import { Dashboard } from "./features/dashboard/Dashboard";
@@ -28,6 +29,28 @@ interface UploadState {
   isUploading: boolean;
   error: string | null;
   success: boolean;
+  uploadResponse?: {
+    message: string;
+    filename: string;
+    file_path: string;
+    size: number;
+    upload_time: string;
+    processing: string;
+    processing_id: string;
+  };
+  processingStatus?: {
+    status: string;
+    progress: number;
+    message: string;
+    filename: string;
+    file_path: string;
+    size: number;
+    upload_time: string;
+    total_pages: number;
+    processed_pages: number;
+    error: string | null;
+  };
+  isPolling: boolean;
 }
 
 interface ExamExtractorPageProps {
@@ -248,7 +271,7 @@ function ExamExtractorPage({
               </Alert>
             )}
 
-            {uploadState.success && (
+            {uploadState.success && uploadState.uploadResponse && (
               <Alert
                 severity="success"
                 sx={{
@@ -259,7 +282,90 @@ function ExamExtractorPage({
                   borderRadius: 2,
                 }}
               >
-                PDF uploaded successfully! Processing...
+                <Box>
+                  <Typography variant="body1" sx={{ fontWeight: 600, mb: 1 }}>
+                    {uploadState.uploadResponse.message}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#666", mb: 0.5 }}>
+                    File: {uploadState.uploadResponse.filename}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#666", mb: 0.5 }}>
+                    Size: {(uploadState.uploadResponse.size / 1024 / 1024).toFixed(2)} MB
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#666" }}>
+                    Status: {uploadState.uploadResponse.processing}
+                  </Typography>
+                </Box>
+              </Alert>
+            )}
+
+            {/* Progress Bar */}
+            {uploadState.isPolling && uploadState.processingStatus && (
+              <Box sx={{ mt: 4 }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+                  <Typography variant="body2" sx={{ color: "#666" }}>
+                    {uploadState.processingStatus.message}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#666", fontWeight: 600 }}>
+                    {uploadState.processingStatus.progress}%
+                  </Typography>
+                </Box>
+                <LinearProgress
+                  variant="determinate"
+                  value={uploadState.processingStatus.progress}
+                  sx={{
+                    height: 8,
+                    borderRadius: 4,
+                    backgroundColor: "#e0e0e0",
+                    "& .MuiLinearProgress-bar": {
+                      borderRadius: 4,
+                      backgroundColor: "#009cde",
+                    },
+                  }}
+                />
+                {uploadState.processingStatus.total_pages > 0 && (
+                  <Typography variant="body2" sx={{ color: "#666", mt: 1, textAlign: "center" }}>
+                    Pages: {uploadState.processingStatus.processed_pages} / {uploadState.processingStatus.total_pages}
+                  </Typography>
+                )}
+              </Box>
+            )}
+
+            {/* Processing Error */}
+            {uploadState.processingStatus?.error && (
+              <Alert
+                severity="error"
+                sx={{
+                  mt: 4,
+                  border: "1px solid #fca5a5",
+                  backgroundColor: "#fef2f2",
+                  borderRadius: 2,
+                }}
+              >
+                Processing Error: {uploadState.processingStatus.error}
+              </Alert>
+            )}
+
+            {/* Processing Complete */}
+            {uploadState.processingStatus?.status === "completed" && (
+              <Alert
+                severity="success"
+                sx={{
+                  mt: 4,
+                  border: "1px solid #10b981",
+                  backgroundColor: "#f0fdf4",
+                  color: "#10b981",
+                  borderRadius: 2,
+                }}
+              >
+                <Box>
+                  <Typography variant="body1" sx={{ fontWeight: 600, mb: 1 }}>
+                    ✅ Processing Complete!
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "#666" }}>
+                    {uploadState.processingStatus.message}
+                  </Typography>
+                </Box>
               </Alert>
             )}
 
@@ -293,6 +399,8 @@ function ExamExtractorPage({
                 }}
               >
                 {uploadState.isUploading
+                  ? "Uploading..."
+                  : uploadState.isPolling
                   ? "Processing..."
                   : "Extract Exam Data"}
               </Button>
@@ -310,6 +418,7 @@ function MainApp() {
     isUploading: false,
     error: null,
     success: false,
+    isPolling: false,
   });
 
   const navigate = useNavigate();
@@ -359,18 +468,41 @@ function MainApp() {
     setUploadState((prev) => ({ ...prev, isUploading: true, error: null }));
     try {
       const formData = new FormData();
-      formData.append("pdf", uploadState.file);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      formData.append("file", uploadState.file);
+      
+      // Import the API client
+      const { apiClient, API_ENDPOINTS } = await import("./services/api");
+      
+      const response = await apiClient.upload<{
+        message: string;
+        filename: string;
+        file_path: string;
+        size: number;
+        upload_time: string;
+        processing: string;
+        processing_id: string;
+      }>(API_ENDPOINTS.exams.upload, formData);
+      
+      console.log("📤 Upload response:", response);
+      console.log("🆔 Processing ID:", response.processing_id);
+      
       setUploadState((prev) => ({
         ...prev,
         isUploading: false,
         success: true,
+        uploadResponse: response,
+        isPolling: true,
       }));
-    } catch {
+      
+      console.log("🚀 Starting polling for processing status...");
+      // Start polling for processing status
+      pollProcessingStatus(response.processing_id);
+    } catch (error) {
+      console.error("Upload error:", error);
       setUploadState((prev) => ({
         ...prev,
         isUploading: false,
-        error: "Upload failed. Please try again.",
+        error: error instanceof Error ? error.message : "Upload failed. Please try again.",
       }));
     }
   };
@@ -386,6 +518,56 @@ function MainApp() {
       handleFileSelect({
         target: { files: event.dataTransfer.files },
       } as ChangeEvent<HTMLInputElement>);
+    }
+  };
+
+  const pollProcessingStatus = async (processingId: string) => {
+    console.log("🔄 Starting to poll processing status for:", processingId);
+    try {
+      const { apiClient, API_ENDPOINTS } = await import("./services/api");
+      
+      const url = API_ENDPOINTS.exams.processing(processingId);
+      console.log("📡 Polling URL:", url);
+      
+      const status = await apiClient.get<{
+        status: string;
+        progress: number;
+        message: string;
+        filename: string;
+        file_path: string;
+        size: number;
+        upload_time: string;
+        total_pages: number;
+        processed_pages: number;
+        error: string | null;
+      }>(url);
+      
+      console.log("📊 Received status:", status);
+      
+      setUploadState((prev) => ({
+        ...prev,
+        processingStatus: status,
+      }));
+      
+      // Continue polling if not completed or failed
+      if (status.status === "processing" || status.status === "uploaded") {
+        console.log("⏳ Continuing to poll...");
+        setTimeout(() => pollProcessingStatus(processingId), 2000); // Poll every 2 seconds
+      } else {
+        console.log("✅ Polling completed, status:", status.status);
+        // Stop polling when completed or failed
+        setUploadState((prev) => ({
+          ...prev,
+          isPolling: false,
+        }));
+      }
+    } catch (error) {
+      console.error("❌ Error polling processing status:", error);
+      // Stop polling on error
+      setUploadState((prev) => ({
+        ...prev,
+        isPolling: false,
+      }));
     }
   };
 

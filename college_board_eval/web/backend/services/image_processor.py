@@ -15,13 +15,14 @@ class ImageProcessor:
         self.uploads_dir = uploads_dir
         self.images_dir = images_dir
 
-    def pdf_to_images(self, pdf_path: Path, dpi: int = 300) -> List[Path]:
+    def pdf_to_images(self, pdf_path: Path, dpi: int = 300, output_dir: Optional[Path] = None) -> List[Path]:
         """
         Convert PDF pages to high-resolution images
 
         Args:
             pdf_path: Path to the PDF file
             dpi: Resolution for image conversion (default: 300)
+            output_dir: Optional output directory (default: uses self.images_dir)
 
         Returns:
             List of paths to generated images
@@ -30,10 +31,14 @@ class ImageProcessor:
             # Convert PDF to images
             images = convert_from_path(pdf_path, dpi=dpi)
 
-            # Create exam-specific directory
-            exam_name = pdf_path.stem
-            exam_dir = self.images_dir / exam_name
-            exam_dir.mkdir(exist_ok=True)
+            # Use provided output directory or default
+            if output_dir:
+                exam_dir = output_dir
+            else:
+                # Create exam-specific directory in default location
+                exam_name = pdf_path.stem
+                exam_dir = self.images_dir / exam_name
+                exam_dir.mkdir(exist_ok=True)
 
             image_paths = []
             for i, image in enumerate(images):

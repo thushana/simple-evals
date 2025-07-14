@@ -15,6 +15,8 @@ export const API_ENDPOINTS = {
     upload: `${API_BASE_URL}/api/v1/exams/upload`,
     images: (examName: string) =>
       `${API_BASE_URL}/api/v1/exams/${examName}/images`,
+    processing: (processingId: string) =>
+      `${API_BASE_URL}/api/v1/exams/processing/${processingId}`,
   },
   // Health check
   health: `${API_BASE_URL}/health`,

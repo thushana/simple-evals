@@ -7,7 +7,7 @@ from typing import Any, Dict, Generic, List, Optional, Tuple, TypeVar
 
 import openai
 
-from ..ap_types import EvaluationResult, Question, Response
+from college_board_eval.ap_types import EvaluationResult, Question, Response
 
 # Generic type for question types
 Q = TypeVar("Q", bound=Question)

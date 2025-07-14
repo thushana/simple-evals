@@ -1,13 +1,13 @@
 from typing import Dict, Optional, Tuple
 
-from ..ap_types import EvaluationResult, Response, ShortAnswerQuestion
-from ..config import (
+from college_board_eval.ap_types import EvaluationResult, Response, ShortAnswerQuestion
+from college_board_eval.config import (
     get_short_answer_question_prompt_template,
     get_short_answer_question_scorer_model,
     get_short_answer_question_scorer_provider,
     get_system_level_scoring_guide,
 )
-from .scorer_base import ScorerBase
+from college_board_eval.scorer.scorer_base import ScorerBase
 
 
 class ScorerShortAnswer(ScorerBase):

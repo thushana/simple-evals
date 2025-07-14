@@ -1,12 +1,12 @@
 from typing import Dict, Optional
 
-from ..ap_types import EvaluationResult, LongAnswerQuestion, Response
-from ..config import (
+from college_board_eval.ap_types import EvaluationResult, LongAnswerQuestion, Response
+from college_board_eval.config import (
     get_long_answer_prompt_template,
     get_long_answer_scorer_model,
     get_long_answer_system_scoring_guide,
 )
-from .scorer_base import ScorerBase
+from college_board_eval.scorer.scorer_base import ScorerBase
 
 
 class ScorerLongAnswer(ScorerBase):

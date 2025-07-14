@@ -10,9 +10,9 @@ from datetime import datetime
 
 from sampler.chat_completion_sampler import ChatCompletionSampler
 
-from ..ap_types import QuestionType, Response
-from ..evaluator import APEvaluator
-from ..exam_loader import get_questions_for_exam
+from college_board_eval.ap_types import QuestionType, Response
+from college_board_eval.evaluator import APEvaluator
+from college_board_eval.exam_loader import get_questions_for_exam
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
