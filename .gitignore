@@ -134,3 +134,4 @@ dist/
 .vite/
 *.log
 .env*
+college_board_eval/exams/processing/*

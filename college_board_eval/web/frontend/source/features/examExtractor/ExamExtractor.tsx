@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Box,
   Typography,
-  Paper,
   FormControl,
   InputLabel,
   Select,
@@ -18,9 +17,12 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
-import { useExamData } from "./hooks/useExamData";
-import type { ExamUploadForm } from "./types/examExtractor.types";
+import type {
+  ExamUploadForm,
+  ProcessingStatus,
+} from "./types/examExtractor.types";
 import { uploadExamFile, fetchProcessingStatus } from "./utils/api";
+import { useExamData } from "./hooks/useExamData";
 
 export const ExamExtractor: React.FC = () => {
   const { examTypes, years, loading, error } = useExamData();
@@ -33,34 +35,32 @@ export const ExamExtractor: React.FC = () => {
     uploadMethod: null,
   });
   const [processingId, setProcessingId] = useState<string | null>(null);
-  const [examFolder, setExamFolder] = useState<string | null>(null);
-  const [processingStatus, setProcessingStatus] = useState<any>(null);
+  const [processingStatus, setProcessingStatus] =
+    useState<ProcessingStatus | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [polling, setPolling] = useState(false);
   const [pollError, setPollError] = useState<string | null>(null);
 
   // Poll processing status
   React.useEffect(() => {
     if (!processingId) return;
-    setPolling(true);
     setPollError(null);
-    let interval: ReturnType<typeof setInterval>;
     const poll = async () => {
       try {
         const status = await fetchProcessingStatus(processingId);
         setProcessingStatus(status);
         if (status.status === "completed" || status.status === "error") {
-          setPolling(false);
           clearInterval(interval);
         }
-      } catch (err: any) {
-        setPollError(err.message || "Failed to poll processing status");
-        setPolling(false);
+      } catch (err: unknown) {
+        setPollError(
+          err instanceof Error
+            ? err.message
+            : "Failed to poll processing status",
+        );
         clearInterval(interval);
       }
     };
-    poll();
-    interval = setInterval(poll, 2000);
+    const interval = setInterval(poll, 2000);
     return () => clearInterval(interval);
   }, [processingId]);
 
@@ -103,13 +103,11 @@ export const ExamExtractor: React.FC = () => {
           formData.file,
           slug,
           formData.examType,
-          Number(formData.year)
+          Number(formData.year),
         );
         setProcessingId(resp.processing_id);
-        setExamFolder(resp.exam_folder);
-        setProcessingStatus(null);
-      } catch (err: any) {
-        setPollError(err.message || "Upload failed");
+      } catch (err: unknown) {
+        setPollError(err instanceof Error ? err.message : "Upload failed");
       } finally {
         setUploading(false);
       }
@@ -200,194 +198,200 @@ export const ExamExtractor: React.FC = () => {
         </Typography>
 
         <Stack spacing={3}>
-            {/* Exam Type Selection */}
-            <FormControl fullWidth>
-              <InputLabel id="exam-type-label">Exam Type</InputLabel>
-              <Select
-                labelId="exam-type-label"
-                value={formData.examType}
-                label="Exam Type"
-                onChange={handleExamTypeChange}
-              >
-                {examTypes?.categories
-                  .map((category) => [
+          {/* Exam Type Selection */}
+          <FormControl fullWidth>
+            <InputLabel id="exam-type-label">Exam Type</InputLabel>
+            <Select
+              labelId="exam-type-label"
+              value={formData.examType}
+              label="Exam Type"
+              onChange={handleExamTypeChange}
+            >
+              {examTypes?.categories
+                .map(
+                  (
+                    category: import("./types/examExtractor.types").ExamCategory,
+                  ) => [
                     <ListSubheader
                       key={`header-${category.category_id}`}
                       sx={{ fontWeight: "bold", color: "text.secondary" }}
                     >
                       {category.category_icon} {category.category_name}
                     </ListSubheader>,
-                    ...category.exams.map((exam) => (
-                      <MenuItem
-                        key={exam.exam_id}
-                        value={exam.exam_id}
-                        sx={{ pl: 4 }}
-                      >
-                        {exam.exam_icon} {exam.exam_name}
-                      </MenuItem>
-                    )),
-                  ])
-                  .flat()}
-              </Select>
-            </FormControl>
+                    ...category.exams.map(
+                      (exam: import("./types/examExtractor.types").Exam) => (
+                        <MenuItem
+                          key={exam.exam_id}
+                          value={exam.exam_id}
+                          sx={{ pl: 4 }}
+                        >
+                          {exam.exam_icon} {exam.exam_name}
+                        </MenuItem>
+                      ),
+                    ),
+                  ],
+                )
+                .flat()}
+            </Select>
+          </FormControl>
 
-            {/* Year Selection */}
-            <FormControl fullWidth>
-              <InputLabel id="year-label">Year</InputLabel>
-              <Select
-                labelId="year-label"
-                value={formData.year}
-                label="Year"
-                onChange={handleYearChange}
-              >
-                <MenuItem value="" disabled>
-                  Select Year
-                </MenuItem>
-                {years?.years
-                  ?.slice()
-                  .sort((a, b) => b - a)
-                  .map((year) => (
-                    <MenuItem key={year} value={year}>
-                      {year}
-                    </MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
+          {/* Year Selection */}
+          <FormControl fullWidth>
+            <InputLabel id="year-label">Year</InputLabel>
+            <Select
+              labelId="year-label"
+              value={formData.year}
+              label="Year"
+              onChange={handleYearChange}
+            >
+              <MenuItem value="" disabled>
+                Select Year
+              </MenuItem>
+              {years?.years
+                ?.slice()
+                .sort((a: number, b: number) => b - a)
+                .map((year: number) => (
+                  <MenuItem key={year} value={year}>
+                    {year}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
 
-            {/* Only show import method and subsequent fields if examType and year are selected */}
-            {formData.examType && formData.year && (
-              <>
-                {/* Preview of generated filename */}
-                <Box p={2} bgcolor="grey.50" borderRadius={1}>
-                  <Typography variant="body2" color="text.secondary">
-                    Generated filename:{" "}
-                    <Box component="span" fontWeight="bold" color="text.primary">
-                      {formData.examType}_{formData.year}.pdf
-                    </Box>
-                  </Typography>
-                </Box>
-
-                {/* Upload Method Selection */}
-                <Box>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    gutterBottom
-                  >
-                    Choose import method:
-                  </Typography>
-                  <ToggleButtonGroup
-                    value={formData.uploadMethod}
-                    exclusive
-                    onChange={handleUploadMethodChange}
-                    aria-label="upload method"
-                    fullWidth
-                  >
-                    <ToggleButton value="grab" aria-label="import from url">
-                      🌐 Import from URL
-                    </ToggleButton>
-                    <ToggleButton value="upload" aria-label="upload pdf">
-                      📁 Upload PDF
-                    </ToggleButton>
-                  </ToggleButtonGroup>
-                </Box>
-
-                {/* Source URL Field (always show when a method is selected) */}
-                {formData.uploadMethod && (
-                  <TextField
-                    fullWidth
-                    label="Source URL"
-                    placeholder="https://apcentral.collegeboard.org/media/pdf/..."
-                    value={formData.sourceUrl}
-                    onChange={handleSourceUrlChange}
-                    helperText={
-                      formData.uploadMethod === "grab"
-                        ? "The URL to the PDF file (will be included in metadata)"
-                        : "The original source URL for this exam (will be included in metadata)"
-                    }
-                    variant="outlined"
-                  />
-                )}
-
-                {/* File Upload (only show if upload method selected) */}
-                {formData.uploadMethod === "upload" && (
-                  <Box>
-                    <input
-                      accept=".pdf"
-                      style={{ display: "none" }}
-                      id="file-upload"
-                      type="file"
-                      onChange={handleFileChange}
-                    />
-                    <label htmlFor="file-upload">
-                      <Button
-                        variant="outlined"
-                        component="span"
-                        fullWidth
-                        disabled={!formData.examType}
-                      >
-                        {formData.file ? formData.file.name : "Choose PDF"}
-                      </Button>
-                    </label>
+          {/* Only show import method and subsequent fields if examType and year are selected */}
+          {formData.examType && formData.year && (
+            <>
+              {/* Preview of generated filename */}
+              <Box p={2} bgcolor="grey.50" borderRadius={1}>
+                <Typography variant="body2" color="text.secondary">
+                  Generated filename:{" "}
+                  <Box component="span" fontWeight="bold" color="text.primary">
+                    {formData.examType}_{formData.year}.pdf
                   </Box>
-                )}
+                </Typography>
+              </Box>
 
-                {/* Process Button */}
-                <Button
-                  variant="contained"
-                  size="large"
-                  onClick={handleUpload}
-                  disabled={
-                    uploading ||
-                    !formData.examType ||
-                    !formData.sourceUrl ||
-                    !formData.uploadMethod ||
-                    (formData.uploadMethod === "upload" && !formData.file)
-                  }
+              {/* Upload Method Selection */}
+              <Box>
+                <Typography variant="body2" color="text.secondary" gutterBottom>
+                  Choose import method:
+                </Typography>
+                <ToggleButtonGroup
+                  value={formData.uploadMethod}
+                  exclusive
+                  onChange={handleUploadMethodChange}
+                  aria-label="upload method"
                   fullWidth
                 >
-                  {uploading ? "Uploading..." : "Process PDF"}
-                </Button>
-                {/* Processing Status UI */}
-                {processingStatus && (
-                  <Box mt={3}>
+                  <ToggleButton value="grab" aria-label="import from url">
+                    🌐 Import from URL
+                  </ToggleButton>
+                  <ToggleButton value="upload" aria-label="upload pdf">
+                    📁 Upload PDF
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+
+              {/* Source URL Field (always show when a method is selected) */}
+              {formData.uploadMethod && (
+                <TextField
+                  fullWidth
+                  label="Source URL"
+                  placeholder="https://apcentral.collegeboard.org/media/pdf/..."
+                  value={formData.sourceUrl}
+                  onChange={handleSourceUrlChange}
+                  helperText={
+                    formData.uploadMethod === "grab"
+                      ? "The URL to the PDF file (will be included in metadata)"
+                      : "The original source URL for this exam (will be included in metadata)"
+                  }
+                  variant="outlined"
+                />
+              )}
+
+              {/* File Upload (only show if upload method selected) */}
+              {formData.uploadMethod === "upload" && (
+                <Box>
+                  <input
+                    accept=".pdf"
+                    style={{ display: "none" }}
+                    id="file-upload"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                  <label htmlFor="file-upload">
+                    <Button
+                      variant="outlined"
+                      component="span"
+                      fullWidth
+                      disabled={!formData.examType}
+                    >
+                      {formData.file ? formData.file.name : "Choose PDF"}
+                    </Button>
+                  </label>
+                </Box>
+              )}
+
+              {/* Process Button */}
+              <Button
+                variant="contained"
+                size="large"
+                onClick={handleUpload}
+                disabled={
+                  uploading ||
+                  !formData.examType ||
+                  !formData.sourceUrl ||
+                  !formData.uploadMethod ||
+                  (formData.uploadMethod === "upload" && !formData.file)
+                }
+                fullWidth
+              >
+                {uploading ? "Uploading..." : "Process PDF"}
+              </Button>
+              {/* Processing Status UI */}
+              {processingStatus && (
+                <Box mt={3}>
+                  <Typography variant="body2" color="text.secondary">
+                    Status: {processingStatus.status} —{" "}
+                    {processingStatus.message}
+                  </Typography>
+                  {processingStatus.total_pages > 0 && (
                     <Typography variant="body2" color="text.secondary">
-                      Status: {processingStatus.status} — {processingStatus.message}
+                      Pages: {processingStatus.processed_pages} /{" "}
+                      {processingStatus.total_pages}
                     </Typography>
-                    {processingStatus.total_pages > 0 && (
-                      <Typography variant="body2" color="text.secondary">
-                        Pages: {processingStatus.processed_pages} / {processingStatus.total_pages}
-                      </Typography>
-                    )}
-                    <Box mt={1}>
+                  )}
+                  <Box mt={1}>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        height: 10,
+                        background: "#eee",
+                        borderRadius: 5,
+                        overflow: "hidden",
+                      }}
+                    >
                       <Box
                         sx={{
-                          width: "100%",
-                          height: 10,
-                          background: "#eee",
-                          borderRadius: 5,
-                          overflow: "hidden",
+                          width: `${processingStatus.progress || 0}%`,
+                          height: "100%",
+                          background: "#0677C9",
+                          transition: "width 0.5s",
                         }}
-                      >
-                        <Box
-                          sx={{
-                            width: `${processingStatus.progress || 0}%`,
-                            height: "100%",
-                            background: "#0677C9",
-                            transition: "width 0.5s",
-                          }}
-                        />
-                      </Box>
+                      />
                     </Box>
                   </Box>
-                )}
-                {pollError && (
-                  <Alert severity="error" sx={{ mt: 2 }}>{pollError}</Alert>
-                )}
-              </>
-                            )}
-              </Stack>
-            </Container>
-          </>
-        );
-      };
+                </Box>
+              )}
+              {pollError && (
+                <Alert severity="error" sx={{ mt: 2 }}>
+                  {pollError}
+                </Alert>
+              )}
+            </>
+          )}
+        </Stack>
+      </Container>
+    </>
+  );
+};
