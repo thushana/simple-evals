@@ -190,11 +190,14 @@ export const ExamExtractor: React.FC = () => {
                 <MenuItem value="" disabled>
                   Select Year
                 </MenuItem>
-                {years?.years.map((year) => (
-                  <MenuItem key={year} value={year}>
-                    {year}
-                  </MenuItem>
-                ))}
+                {years?.years
+                  ?.slice()
+                  .sort((a, b) => b - a)
+                  .map((year) => (
+                    <MenuItem key={year} value={year}>
+                      {year}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
 
