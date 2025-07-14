@@ -295,28 +295,16 @@
       "category_icon": "📝",
       "exams": [
         {
-          "exam_id": "SAT_MATH",
-          "exam_name": "SAT Math",
+          "exam_id": "SAT",
+          "exam_name": "SAT",
           "exam_icon": "📝",
-          "exam_details_url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/math"
+          "exam_details_url": "https://satsuite.collegeboard.org/sat"
         },
         {
-          "exam_id": "SAT_READING",
-          "exam_name": "SAT Reading",
+          "exam_id": "PSAT",
+          "exam_name": "PSAT",
           "exam_icon": "📝",
-          "exam_details_url": "https://satsuite.collegeboard.org/sat/whats-on-the-test/reading-writing"
-        },
-        {
-          "exam_id": "PSAT_MATH",
-          "exam_name": "PSAT Math",
-          "exam_icon": "📝",
-          "exam_details_url": "https://satsuite.collegeboard.org/psat-nmsqt/whats-on-the-test/math"
-        },
-        {
-          "exam_id": "PSAT_READING",
-          "exam_name": "PSAT Reading",
-          "exam_icon": "📝",
-          "exam_details_url": "https://satsuite.collegeboard.org/psat-nmsqt/whats-on-the-test/reading-writing"
+          "exam_details_url": "https://satsuite.collegeboard.org/psat-nmsqt"
         }
       ]
     }
