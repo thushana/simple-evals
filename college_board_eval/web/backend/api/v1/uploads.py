@@ -118,12 +118,12 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
 
         logger.info(f"Starting image processing for {pdf_path}")
 
-        # Create a temporary image processor for this exam
-        temp_images_dir = exam_processing_dir / "temp_images"
-        temp_images_dir.mkdir(exist_ok=True)
+        # Create an extracted images directory for this exam
+        extracted_dir = exam_processing_dir / "extracted"
+        extracted_dir.mkdir(exist_ok=True)
 
         # Convert PDF to images in the exam processing directory
-        image_paths = image_processor.pdf_to_images(pdf_path, output_dir=temp_images_dir, slug=slug)
+        image_paths = image_processor.pdf_to_images(pdf_path, output_dir=extracted_dir, slug=slug)
 
         if processing_id in processing_status:
             processing_status[processing_id].update(
@@ -167,10 +167,9 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
             except Exception as e:
                 logger.warning(f"Error processing image {image_path}: {str(e)}")
 
-        # Clean up temporary directory
-        import shutil
-
-        shutil.rmtree(temp_images_dir, ignore_errors=True)
+        # Clean up extracted directory if needed (optional, or keep for debugging)
+        # import shutil
+        # shutil.rmtree(extracted_dir, ignore_errors=True)
 
         # Update final status
         if processing_id in processing_status:
