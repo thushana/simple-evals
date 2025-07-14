@@ -15,7 +15,7 @@ class ImageProcessor:
         self.uploads_dir = uploads_dir
         self.images_dir = images_dir
 
-    def pdf_to_images(self, pdf_path: Path, dpi: int = 300, output_dir: Optional[Path] = None) -> List[Path]:
+    def pdf_to_images(self, pdf_path: Path, dpi: int = 300, output_dir: Optional[Path] = None, slug: Optional[str] = None) -> List[Path]:
         """
         Convert PDF pages to high-resolution images
 
@@ -42,8 +42,9 @@ class ImageProcessor:
 
             image_paths = []
             for i, image in enumerate(images):
+                prefix = f"{slug}_" if slug else ""
                 # Save full-resolution image
-                image_filename = f"page_{i+1:03d}_full.png"
+                image_filename = f"{prefix}page_{i+1:03d}_full.png"
                 image_path = exam_dir / image_filename
                 image.save(image_path, "PNG", optimize=True)
                 image_paths.append(image_path)
@@ -51,7 +52,7 @@ class ImageProcessor:
                 # Generate thumbnail (72 DPI equivalent)
                 thumbnail = image.copy()
                 thumbnail.thumbnail((800, 800), Image.Resampling.LANCZOS)
-                thumb_filename = f"page_{i+1:03d}_thumb.png"
+                thumb_filename = f"{prefix}page_{i+1:03d}_thumb.png"
                 thumb_path = exam_dir / thumb_filename
                 thumbnail.save(thumb_path, "PNG", optimize=True)
 

@@ -20,6 +20,7 @@ import {
 import type { SelectChangeEvent } from "@mui/material";
 import { useExamData } from "./hooks/useExamData";
 import type { ExamUploadForm } from "./types/examExtractor.types";
+import { uploadExamFile, fetchProcessingStatus } from "./utils/api";
 
 export const ExamExtractor: React.FC = () => {
   const { examTypes, years, loading, error } = useExamData();
@@ -31,6 +32,37 @@ export const ExamExtractor: React.FC = () => {
     pdfUrl: "",
     uploadMethod: null,
   });
+  const [processingId, setProcessingId] = useState<string | null>(null);
+  const [examFolder, setExamFolder] = useState<string | null>(null);
+  const [processingStatus, setProcessingStatus] = useState<any>(null);
+  const [uploading, setUploading] = useState(false);
+  const [polling, setPolling] = useState(false);
+  const [pollError, setPollError] = useState<string | null>(null);
+
+  // Poll processing status
+  React.useEffect(() => {
+    if (!processingId) return;
+    setPolling(true);
+    setPollError(null);
+    let interval: ReturnType<typeof setInterval>;
+    const poll = async () => {
+      try {
+        const status = await fetchProcessingStatus(processingId);
+        setProcessingStatus(status);
+        if (status.status === "completed" || status.status === "error") {
+          setPolling(false);
+          clearInterval(interval);
+        }
+      } catch (err: any) {
+        setPollError(err.message || "Failed to poll processing status");
+        setPolling(false);
+        clearInterval(interval);
+      }
+    };
+    poll();
+    interval = setInterval(poll, 2000);
+    return () => clearInterval(interval);
+  }, [processingId]);
 
   const handleExamTypeChange = (event: SelectChangeEvent<string>) => {
     setFormData((prev) => ({ ...prev, examType: event.target.value }));
@@ -60,9 +92,30 @@ export const ExamExtractor: React.FC = () => {
     setFormData((prev) => ({ ...prev, sourceUrl: event.target.value }));
   };
 
-  const handleUpload = () => {
-    // TODO: Implement file upload logic
-    console.log("Upload form data:", formData);
+  const handleUpload = async () => {
+    if (formData.uploadMethod === "upload" && formData.file) {
+      setUploading(true);
+      setPollError(null);
+      try {
+        // Generate slug from examType and year
+        const slug = `${formData.examType}_${formData.year}`;
+        const resp = await uploadExamFile(
+          formData.file,
+          slug,
+          formData.examType,
+          Number(formData.year)
+        );
+        setProcessingId(resp.processing_id);
+        setExamFolder(resp.exam_folder);
+        setProcessingStatus(null);
+      } catch (err: any) {
+        setPollError(err.message || "Upload failed");
+      } finally {
+        setUploading(false);
+      }
+    } else {
+      // TODO: handle 'grab' method
+    }
   };
 
   if (loading) {
@@ -285,6 +338,7 @@ export const ExamExtractor: React.FC = () => {
                   size="large"
                   onClick={handleUpload}
                   disabled={
+                    uploading ||
                     !formData.examType ||
                     !formData.sourceUrl ||
                     !formData.uploadMethod ||
@@ -292,8 +346,44 @@ export const ExamExtractor: React.FC = () => {
                   }
                   fullWidth
                 >
-                  Process PDF
+                  {uploading ? "Uploading..." : "Process PDF"}
                 </Button>
+                {/* Processing Status UI */}
+                {processingStatus && (
+                  <Box mt={3}>
+                    <Typography variant="body2" color="text.secondary">
+                      Status: {processingStatus.status} — {processingStatus.message}
+                    </Typography>
+                    {processingStatus.total_pages > 0 && (
+                      <Typography variant="body2" color="text.secondary">
+                        Pages: {processingStatus.processed_pages} / {processingStatus.total_pages}
+                      </Typography>
+                    )}
+                    <Box mt={1}>
+                      <Box
+                        sx={{
+                          width: "100%",
+                          height: 10,
+                          background: "#eee",
+                          borderRadius: 5,
+                          overflow: "hidden",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: `${processingStatus.progress || 0}%`,
+                            height: "100%",
+                            background: "#0677C9",
+                            transition: "width 0.5s",
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                )}
+                {pollError && (
+                  <Alert severity="error" sx={{ mt: 2 }}>{pollError}</Alert>
+                )}
               </>
                             )}
               </Stack>

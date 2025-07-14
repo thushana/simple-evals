@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
 
-from fastapi import APIRouter, BackgroundTasks, File, HTTPException, UploadFile
+from fastapi import APIRouter, BackgroundTasks, File, HTTPException, UploadFile, Form
 
 from college_board_eval.web.backend.core.config import IMAGES_DIR, MAX_FILE_SIZE, PROCESSING_DIR, UPLOADS_DIR
 from college_board_eval.web.backend.services.image_processor import ImageProcessor
@@ -26,8 +26,9 @@ processing_status: Dict[str, Dict] = {}
 async def upload_exam(
     background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
-    exam_type: Optional[str] = None,
-    year: Optional[int] = None,
+    slug: str = Form(...),
+    exam_type: Optional[str] = Form(None),
+    year: Optional[int] = Form(None),
 ):
     """Upload a PDF exam file and start image processing"""
 
@@ -39,16 +40,9 @@ async def upload_exam(
     if file.size and file.size > MAX_FILE_SIZE:
         raise HTTPException(status_code=400, detail="File size must be less than 50MB")
 
-    # Generate unique filename and exam folder
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    unique_id = str(uuid.uuid4())[:8]
-
-    if exam_type and year:
-        exam_folder = f"{exam_type}_{year}_{timestamp}_{unique_id}"
-        filename = f"{exam_type}_{year}_{timestamp}_{unique_id}.pdf"
-    else:
-        exam_folder = f"exam_{timestamp}_{unique_id}"
-        filename = f"exam_{timestamp}_{unique_id}.pdf"
+    # Use slug for folder and filename
+    exam_folder = slug
+    filename = f"{slug}.pdf"
 
     # Create exam processing directory
     exam_processing_dir = PROCESSING_DIR / exam_folder
@@ -83,14 +77,17 @@ async def upload_exam(
         "exam_folder": exam_folder,
         "exam_processing_dir": str(exam_processing_dir),
         "size": len(content),
-        "upload_time": timestamp,
+        "upload_time": datetime.now().strftime("%Y%m%d_%H%M%S"),
         "total_pages": 0,
         "processed_pages": 0,
         "error": None,
+        "slug": slug,
+        "exam_type": exam_type,
+        "year": year,
     }
 
-    # Start background image processing with the new directory structure
-    background_tasks.add_task(process_pdf_images, pdf_path, exam_processing_dir, processing_id)
+    # Start background image processing with the new directory structure, pass slug
+    background_tasks.add_task(process_pdf_images, pdf_path, exam_processing_dir, processing_id, slug)
 
     return {
         "message": "File uploaded successfully, image processing started",
@@ -99,13 +96,14 @@ async def upload_exam(
         "exam_folder": exam_folder,
         "exam_processing_dir": str(exam_processing_dir),
         "size": len(content),
-        "upload_time": timestamp,
+        "upload_time": datetime.now().strftime("%Y%m%d_%H%M%S"),
         "processing": "started",
         "processing_id": processing_id,
+        "slug": slug,
     }
 
 
-async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processing_id: str):
+async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processing_id: str, slug: str):
     """Background task to process PDF into images"""
     try:
         # Update status to processing
@@ -125,7 +123,7 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
         temp_images_dir.mkdir(exist_ok=True)
 
         # Convert PDF to images in the exam processing directory
-        image_paths = image_processor.pdf_to_images(pdf_path, output_dir=temp_images_dir)
+        image_paths = image_processor.pdf_to_images(pdf_path, output_dir=temp_images_dir, slug=slug)
 
         if processing_id in processing_status:
             processing_status[processing_id].update(
