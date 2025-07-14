@@ -42,13 +42,46 @@ P4 — Unlikely in this iteration (stretch goals)
 
 ---
 
-## COMPONENT: BACKEND API
+## Technical Decisions Summary
 
-### FastAPI Backend Setup
+### Architecture Decisions
+
+- **Backend Framework**: FastAPI with Pydantic models
+- **Frontend Framework**: React 19 + TypeScript + MUI
+- **Type Safety**: OpenAPI spec → openapi-typescript for TypeScript generation
+- **File Processing**: Async job queue for PDF processing
+- **Image Generation**: 72 DPI thumbnails + 300 DPI full-res images
+- **Storage**: Structured directory organization with slug-based naming
+
+### API Design Decisions
+
+- **RESTful Endpoints**: Versioned API with JSON payloads
+- **Error Handling**: Standardized error responses with HTTP status codes
+- **File Upload**: Multipart form data with progress tracking
+- **Job Processing**: Async jobs with status polling
+- **Configuration**: Shared JSON config served by backend
+
+### Frontend Design Decisions
+
+- **Layout**: Left thumbnail tray (10%) + right full-page view
+- **Navigation**: Deep linking with React Router
+- **State Management**: React hooks for local state
+- **Type Safety**: Auto-generated TypeScript types from OpenAPI
+- **UI Framework**: Material-UI for consistent design
+
+### Data Flow Decisions
+
+- **Single Source of Truth**: OpenAPI spec for API contracts
+- **Type Generation**: Automated pipeline from backend to frontend
+- **File Organization**: Consistent naming and directory structure
+- **Error Propagation**: Graceful error handling throughout the stack
+
+---
+
+### COMPONENT: BACKEND API
 
 ✅ **FASTAPI BACKEND** - Set up FastAPI server with proper project structure
 ✅ **OPENAPI INTEGRATION** - Configure FastAPI to auto-generate OpenAPI spec
-⬜️ **TYPE GENERATION PIPELINE** - Set up openapi-typescript to generate TypeScript types from OpenAPI spec
 ✅ **API VERSIONING** - Implement versioned API endpoints (e.g., `/api/v1/`)
 ✅ **ERROR HANDLING** - Standardized error responses with proper HTTP status codes
 ✅ **CORS CONFIGURATION** - Configure CORS for frontend-backend communication
@@ -70,13 +103,13 @@ P4 — Unlikely in this iteration (stretch goals)
 ✅ **IMAGE STORAGE** - Store images in organized directory structure
 ✅ **IMAGE OPTIMIZATION** - Optimize images for web delivery
 ✅ **JOB QUEUE SYSTEM** - Implement async job processing for image generation
-⬜️ **JOB STATUS ENDPOINT** - Endpoint to check processing status (`GET /api/v1/jobs/{job_id}`)
-⬜️ **JOB RESULTS ENDPOINT** - Endpoint to retrieve processing results (`GET /api/v1/jobs/{job_id}/results`)
+✅ **JOB STATUS ENDPOINT** - Endpoint to check processing status (`GET /api/v1/jobs/{job_id}`)
+✅ **JOB RESULTS ENDPOINT** - Endpoint to retrieve processing results (`GET /api/v1/jobs/{job_id}/results`)
 
 ### Configuration Management
 
 ✅ **EXAM TYPES CONFIG** - Shared JSON config for exam types (served by backend)
-✅ **CONFIG ENDPOINT** - Endpoint to serve exam types configuration (`GET /api/v1/config/exam-types`)
+✅ **CONFIG ENDPOINT** - Endpoint to serve exam types configuration (`GET /api/v1/exams/types`)
 ✅ **YEAR RANGE** - Dynamic year dropdown generation (2000 to current year)
 ✅ **CONFIG VALIDATION** - Validate exam type configuration on startup
 
@@ -86,11 +119,11 @@ P4 — Unlikely in this iteration (stretch goals)
 
 ### Exam Selection & Upload
 
-⬜️ **EXAM TYPE DROPDOWN** - Dropdown to select exam type from backend config
-⬜️ **YEAR SELECTION** - Dynamic year dropdown (2000 to current year)
-⬜️ **FILE UPLOAD UI** - Drag-and-drop or file picker for PDF uploads
+✅ **EXAM TYPE DROPDOWN** - Dropdown to select exam type from backend config
+✅ **YEAR SELECTION** - Dynamic year dropdown (2000 to current year)
+✅ **FILE UPLOAD UI** - Drag-and-drop or file picker for PDF uploads
 ⬜️ **UPLOAD PROGRESS** - Visual progress indicator during file upload
-⬜️ **UPLOAD VALIDATION** - Client-side validation of file type and size
+✅ **UPLOAD VALIDATION** - Client-side validation of file type and size
 ⬜️ **MULTI-FILE UPLOAD** - Support for uploading multiple PDF files
 ⬜️ **UPLOAD STATUS** - Real-time status updates during upload process
 
@@ -125,16 +158,16 @@ P4 — Unlikely in this iteration (stretch goals)
 
 ### Type Generation Pipeline
 
-⬜️ **OPENAPI SPEC GENERATION** - FastAPI auto-generates OpenAPI JSON spec
+✅ **OPENAPI SPEC GENERATION** - FastAPI auto-generates OpenAPI JSON spec
 ⬜️ **TYPESCRIPT TYPE GENERATION** - Use openapi-typescript to generate TS types
 ⬜️ **TYPE SYNC WORKFLOW** - Automated workflow to keep types in sync
-⬜️ **TYPE VALIDATION** - Runtime type validation on API responses
+✅ **TYPE VALIDATION** - Runtime type validation on API responses
 ⬜️ **TYPE DOCUMENTATION** - Generated type documentation for developers
 
 ### API Contract Management
 
-⬜️ **SINGLE SOURCE OF TRUTH** - OpenAPI spec as canonical API contract
-⬜️ **VERSION MANAGEMENT** - API versioning strategy and documentation
+✅ **SINGLE SOURCE OF TRUTH** - OpenAPI spec as canonical API contract
+✅ **VERSION MANAGEMENT** - API versioning strategy and documentation
 ⬜️ **BREAKING CHANGES** - Process for handling breaking API changes
 ⬜️ **API DOCUMENTATION** - Auto-generated API documentation from OpenAPI
 
@@ -144,161 +177,62 @@ P4 — Unlikely in this iteration (stretch goals)
 
 ### Pydantic Models (Backend)
 
-⬜️ **EXAM UPLOAD MODEL** - Pydantic model for exam upload requests
-⬜️ **JOB STATUS MODEL** - Pydantic model for job status responses
-⬜️ **IMAGE RESULT MODEL** - Pydantic model for image processing results
-⬜️ **ERROR RESPONSE MODEL** - Standardized error response model
-⬜️ **CONFIG MODEL** - Pydantic model for exam type configuration
+✅ **EXAM UPLOAD MODEL** - Pydantic model for exam upload requests
+✅ **JOB STATUS MODEL** - Pydantic model for job status responses
+✅ **IMAGE RESULT MODEL** - Pydantic model for image processing results
+✅ **ERROR RESPONSE MODEL** - Standardized error response model
+✅ **CONFIG MODEL** - Pydantic model for exam type configuration
 
 ### TypeScript Types (Frontend)
 
-⬜️ **AUTO-GENERATED TYPES** - TypeScript types generated from OpenAPI spec
-⬜️ **API CLIENT TYPES** - Types for API client functions
-⬜️ **COMPONENT PROPS TYPES** - TypeScript interfaces for React components
-⬜️ **STATE MANAGEMENT TYPES** - Types for application state management
+✅ **AUTO-GENERATED TYPES** - TypeScript types generated from OpenAPI spec
+✅ **API CLIENT TYPES** - Types for API client functions
+✅ **COMPONENT PROPS TYPES** - TypeScript interfaces for React components
+✅ **STATE MANAGEMENT TYPES** - Types for application state management
 
 ---
 
-## COMPONENT: STORAGE & FILE MANAGEMENT
+## Current Features
 
-### Directory Structure
+### ✅ Implemented
 
-⬜️ **EXAM DIRECTORY STRUCTURE** - Organized directory structure for exams
-⬜️ **IMAGE STORAGE** - Separate storage for thumbnails and full-res images
-⬜️ **METADATA STORAGE** - Storage for exam metadata and configuration
-⬜️ **BACKUP STRATEGY** - Backup and recovery procedures for uploaded files
+1. **Exam Type Selection** - Dropdown populated from backend API with all AP exam types organized by category
+2. **Year Selection** - Dynamic year dropdown (2000 to current year)
+3. **File Upload** - PDF file selection with validation
+4. **Conformant Filenames** - Preview of generated filename based on selected exam type and year
+5. **Backend Integration** - Full integration with FastAPI backend
+6. **Type Safety** - Complete TypeScript types for all API responses
+7. **Error Handling** - Graceful error handling for API failures
+8. **Loading States** - Loading indicators while fetching data
 
-### File Naming Conventions
+### 🔄 In Progress
 
-⬜️ **SLUG-BASED NAMING** - Consistent naming using exam slugs
-⬜️ **PAGE NUMBERING** - Consistent page numbering across all files
-⬜️ **IMAGE SUFFIXES** - Clear suffixes for different image types (thumb, full, crop)
-⬜️ **VERSION CONTROL** - File versioning for updates and corrections
+1. **File Upload Implementation** - Connecting the upload button to the backend API
+2. **Processing Status** - Real-time status updates during PDF processing
+3. **Image Viewer** - Display processed images after upload
 
----
+### 📋 Next Steps
 
-## COMPONENT: ERROR HANDLING & MONITORING
+1. **Complete Upload Flow** - Implement the actual file upload functionality
+2. **Processing Status UI** - Add progress indicators and status updates
+3. **Image Viewer** - Build the image viewing interface
+4. **Question Extraction** - Manual cropping and metadata tools
+5. **Export Functionality** - Download processed exam assets
 
-### Error Handling
+## Usage
 
-⬜️ **UPLOAD ERRORS** - Handle file upload failures gracefully
-⬜️ **PROCESSING ERRORS** - Handle image processing failures
-⬜️ **API ERRORS** - Standardized API error responses
-⬜️ **CLIENT ERRORS** - Frontend error handling and user feedback
-⬜️ **RETRY LOGIC** - Automatic retry for transient failures
+1. Navigate to the "Exam Extractor" tab in the application
+2. Select an exam type from the dropdown (e.g., "AP Calculus BC")
+3. Select a year from the dropdown (e.g., "2025")
+4. Choose a PDF file to upload
+5. Click "Upload & Process Exam" to start the extraction process
 
-### Monitoring & Logging
+The system will generate conformant filenames like: `AP_CALCULUS_BC_2025_20250115_143022_a1b2c3d4.pdf`
 
-⬜️ **REQUEST LOGGING** - Log all API requests and responses
-⬜️ **ERROR LOGGING** - Comprehensive error logging and alerting
-⬜️ **PERFORMANCE MONITORING** - Monitor processing times and resource usage
-⬜️ **USER ANALYTICS** - Track feature usage and user behavior
+## Technical Architecture
 
----
-
-## COMPONENT: SECURITY & VALIDATION
-
-### Security Measures
-
-⬜️ **FILE VALIDATION** - Validate uploaded files for security threats
-⬜️ **SIZE LIMITS** - Enforce reasonable file size limits
-⬜️ **TYPE VALIDATION** - Validate file types and content
-⬜️ **ACCESS CONTROL** - Implement proper access controls if needed
-⬜️ **INPUT SANITIZATION** - Sanitize all user inputs
-
-### Data Validation
-
-⬜️ **SCHEMA VALIDATION** - Validate JSON schemas for exam data
-⬜️ **CONTENT VALIDATION** - Validate extracted question content
-⬜️ **IMAGE QUALITY CHECKS** - Validate generated image quality
-⬜️ **METADATA VALIDATION** - Validate exam metadata completeness
-
----
-
-## COMPONENT: PERFORMANCE & SCALABILITY
-
-### Performance Optimization
-
-⬜️ **IMAGE CACHING** - Cache generated images for faster access
-⬜️ **LAZY LOADING** - Lazy load images as needed
-⬜️ **COMPRESSION** - Compress images for faster delivery
-
-### Scalability Considerations
-
-⬜️ **ASYNC PROCESSING** - Process large files asynchronously
-⬜️ **QUEUE MANAGEMENT** - Manage processing queues efficiently
-⬜️ **RESOURCE MANAGEMENT** - Efficient resource usage and cleanup
-⬜️ **HORIZONTAL SCALING** - Design for horizontal scaling if needed
-
----
-
-## COMPONENT: TESTING & QUALITY ASSURANCE
-
-### Testing Strategy
-
-⬜️ **UNIT TESTS** - Unit tests for backend API endpoints
-⬜️ **INTEGRATION TESTS** - Integration tests for full pipeline
-⬜️ **FRONTEND TESTS** - Component and integration tests for frontend
-⬜️ **E2E TESTS** - End-to-end tests for complete workflows
-⬜️ **PERFORMANCE TESTS** - Performance testing for large file processing
-
-### Quality Assurance
-
-⬜️ **CODE QUALITY** - ESLint, Prettier, and TypeScript strict mode
-⬜️ **API TESTING** - Automated API testing with OpenAPI spec
-⬜️ **IMAGE QUALITY QA** - Quality checks for generated images
-⬜️ **DATA VALIDATION QA** - Validation of extracted exam data
-
----
-
-## COMPONENT: DEPLOYMENT & OPERATIONS
-
-### Deployment
-
-⬜️ **DOCKER CONFIGURATION** - Docker setup for backend and frontend
-⬜️ **ENVIRONMENT CONFIGURATION** - Environment-specific configuration
-⬜️ **CI/CD PIPELINE** - Automated build and deployment pipeline
-⬜️ **HEALTH CHECKS** - Health check endpoints for monitoring
-
-### Operations
-
-⬜️ **LOGGING SETUP** - Comprehensive logging configuration
-⬜️ **MONITORING SETUP** - Application and infrastructure monitoring
-⬜️ **BACKUP PROCEDURES** - Automated backup procedures
-⬜️ **DISASTER RECOVERY** - Disaster recovery procedures and documentation
-
----
-
-## Technical Decisions Summary
-
-### Architecture Decisions
-
-- **Backend Framework**: FastAPI with Pydantic models
-- **Frontend Framework**: React 19 + TypeScript + MUI
-- **Type Safety**: OpenAPI spec → openapi-typescript for TypeScript generation
-- **File Processing**: Async job queue for PDF processing
-- **Image Generation**: 72 DPI thumbnails + 300 DPI full-res images
-- **Storage**: Structured directory organization with slug-based naming
-
-### API Design Decisions
-
-- **RESTful Endpoints**: Versioned API with JSON payloads
-- **Error Handling**: Standardized error responses with HTTP status codes
-- **File Upload**: Multipart form data with progress tracking
-- **Job Processing**: Async jobs with status polling
-- **Configuration**: Shared JSON config served by backend
-
-### Frontend Design Decisions
-
-- **Layout**: Left thumbnail tray (10%) + right full-page view
-- **Navigation**: Deep linking with React Router
-- **State Management**: React hooks for local state
-- **Type Safety**: Auto-generated TypeScript types from OpenAPI
-- **UI Framework**: Material-UI for consistent design
-
-### Data Flow Decisions
-
-- **Single Source of Truth**: OpenAPI spec for API contracts
-- **Type Generation**: Automated pipeline from backend to frontend
-- **File Organization**: Consistent naming and directory structure
-- **Error Propagation**: Graceful error handling throughout the stack
+- **Frontend**: React 19 + TypeScript + Material-UI
+- **Backend**: FastAPI + Python
+- **API**: RESTful endpoints with OpenAPI specification
+- **File Processing**: Async background jobs with status polling
+- **Type Safety**: Full TypeScript integration with backend types

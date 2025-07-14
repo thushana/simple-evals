@@ -10,8 +10,8 @@ export const API_ENDPOINTS = {
   },
   // Exam endpoints
   exams: {
-    types: `${API_BASE_URL}/api/v1/config/exam-types`,
-    years: `${API_BASE_URL}/api/v1/config/years`,
+    types: `${API_BASE_URL}/api/v1/exams/types`,
+    years: `${API_BASE_URL}/api/v1/exams/years`,
     upload: `${API_BASE_URL}/api/v1/exams/upload`,
     images: (examName: string) =>
       `${API_BASE_URL}/api/v1/exams/${examName}/images`,
