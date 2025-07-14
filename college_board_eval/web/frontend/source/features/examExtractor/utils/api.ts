@@ -19,13 +19,16 @@ export const fetchYears = async (): Promise<YearsResponse> => {
 
 // File Upload API
 export const uploadExamFile = async (
-  file: File,
+  file: File | null,
   slug: string,
   examType?: string,
   year?: number,
+  pdfUrl?: string,
 ): Promise<UploadResponse> => {
   const formData = new FormData();
-  formData.append("file", file);
+  if (file) {
+    formData.append("file", file);
+  }
   formData.append("slug", slug);
 
   if (examType) {
@@ -34,6 +37,10 @@ export const uploadExamFile = async (
 
   if (year) {
     formData.append("year", year.toString());
+  }
+
+  if (pdfUrl) {
+    formData.append("pdf_url", pdfUrl);
   }
 
   return apiClient.upload<UploadResponse>(API_ENDPOINTS.exams.upload, formData);

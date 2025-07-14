@@ -93,26 +93,36 @@ export const ExamExtractor: React.FC = () => {
   };
 
   const handleUpload = async () => {
-    if (formData.uploadMethod === "upload" && formData.file) {
-      setUploading(true);
-      setPollError(null);
-      try {
-        // Generate slug from examType and year
-        const slug = `${formData.examType}_${formData.year}`;
-        const resp = await uploadExamFile(
+    setUploading(true);
+    setPollError(null);
+    try {
+      // Generate slug from examType and year
+      const slug = `${formData.examType}_${formData.year}`;
+      let resp;
+      if (formData.uploadMethod === "upload" && formData.file) {
+        resp = await uploadExamFile(
           formData.file,
           slug,
           formData.examType,
           Number(formData.year),
         );
-        setProcessingId(resp.processing_id);
-      } catch (err: unknown) {
-        setPollError(err instanceof Error ? err.message : "Upload failed");
-      } finally {
-        setUploading(false);
+      } else if (formData.uploadMethod === "grab" && formData.sourceUrl) {
+        resp = await uploadExamFile(
+          null,
+          slug,
+          formData.examType,
+          Number(formData.year),
+          formData.sourceUrl,
+        );
+      } else {
+        throw new Error("No file or URL provided");
       }
-    } else {
-      // TODO: handle 'grab' method
+      setProcessingId(resp.processing_id);
+      setProcessingStatus(null);
+    } catch (err: unknown) {
+      setPollError(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploading(false);
     }
   };
 

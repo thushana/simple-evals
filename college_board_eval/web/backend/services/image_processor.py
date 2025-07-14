@@ -15,7 +15,9 @@ class ImageProcessor:
         self.uploads_dir = uploads_dir
         self.images_dir = images_dir
 
-    def pdf_to_images(self, pdf_path: Path, dpi: int = 300, output_dir: Optional[Path] = None, slug: Optional[str] = None) -> List[Path]:
+    def pdf_to_images(
+        self, pdf_path: Path, dpi: int = 300, output_dir: Optional[Path] = None, slug: Optional[str] = None
+    ) -> List[Path]:
         """
         Convert PDF pages to high-resolution images
 

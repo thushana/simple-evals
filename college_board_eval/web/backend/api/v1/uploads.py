@@ -6,7 +6,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, Optional
 
-from fastapi import APIRouter, BackgroundTasks, File, HTTPException, UploadFile, Form
+import requests
+from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
 
 from college_board_eval.web.backend.core.config import IMAGES_DIR, MAX_FILE_SIZE, PROCESSING_DIR, UPLOADS_DIR
 from college_board_eval.web.backend.services.image_processor import ImageProcessor
@@ -25,20 +26,13 @@ processing_status: Dict[str, Dict] = {}
 @router.post("/upload")
 async def upload_exam(
     background_tasks: BackgroundTasks,
-    file: UploadFile = File(...),
+    file: Optional[UploadFile] = File(None),
     slug: str = Form(...),
     exam_type: Optional[str] = Form(None),
     year: Optional[int] = Form(None),
+    pdf_url: Optional[str] = Form(None),
 ):
-    """Upload a PDF exam file and start image processing"""
-
-    # Validate file type
-    if not file.filename.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail="Only PDF files are allowed")
-
-    # Validate file size
-    if file.size and file.size > MAX_FILE_SIZE:
-        raise HTTPException(status_code=400, detail="File size must be less than 50MB")
+    """Upload a PDF exam file or grab from URL and start image processing"""
 
     # Use slug for folder and filename
     exam_folder = slug
@@ -57,14 +51,38 @@ async def upload_exam(
     images_dir.mkdir(exist_ok=True)
     thumbnails_dir.mkdir(exist_ok=True)
 
-    # Save PDF file in the exam processing directory
     pdf_path = pdf_dir / filename
-    try:
-        with open(pdf_path, "wb") as buffer:
-            content = await file.read()
-            buffer.write(content)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error saving file: {str(e)}")
+
+    content = None
+    # If file is provided, use it
+    if file is not None:
+        # Validate file type
+        if not file.filename.lower().endswith(".pdf"):
+            raise HTTPException(status_code=400, detail="Only PDF files are allowed")
+        # Validate file size
+        if file.size and file.size > MAX_FILE_SIZE:
+            raise HTTPException(status_code=400, detail="File size must be less than 50MB")
+        try:
+            with open(pdf_path, "wb") as buffer:
+                content = await file.read()
+                buffer.write(content)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error saving file: {str(e)}")
+    # If pdf_url is provided, download it
+    elif pdf_url:
+        try:
+            resp = requests.get(pdf_url, timeout=30)
+            if resp.status_code != 200:
+                raise HTTPException(status_code=400, detail=f"Failed to download PDF from URL: {pdf_url}")
+            if not pdf_url.lower().endswith(".pdf"):
+                raise HTTPException(status_code=400, detail="URL does not point to a PDF file")
+            content = resp.content
+            with open(pdf_path, "wb") as buffer:
+                buffer.write(content)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error downloading PDF: {str(e)}")
+    else:
+        raise HTTPException(status_code=400, detail="No file or pdf_url provided")
 
     # Initialize processing status
     processing_id = str(uuid.uuid4())
