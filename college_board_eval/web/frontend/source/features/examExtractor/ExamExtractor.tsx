@@ -139,15 +139,14 @@ export const ExamExtractor: React.FC = () => {
       {/* End Hero Section */}
 
       <Container maxWidth="xl" sx={{ py: 0 }}>
-        <Paper elevation={2} sx={{ p: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            Exam Configuration
-          </Typography>
-          <Typography variant="body2" color="text.secondary" paragraph>
-            Select the exam type and year to ensure conformant filenames.
-          </Typography>
+        <Typography variant="h6" gutterBottom>
+          Exam Configuration
+        </Typography>
+        <Typography variant="body2" color="text.secondary" paragraph>
+          Select the exam type and year to ensure conformant filenames.
+        </Typography>
 
-          <Stack spacing={3}>
+        <Stack spacing={3}>
             {/* Exam Type Selection */}
             <FormControl fullWidth>
               <InputLabel id="exam-type-label">Exam Type</InputLabel>
@@ -206,9 +205,9 @@ export const ExamExtractor: React.FC = () => {
                 <Box p={2} bgcolor="grey.50" borderRadius={1}>
                   <Typography variant="body2" color="text.secondary">
                     Generated filename:{" "}
-                    <code>
+                    <Box component="span" fontWeight="bold" color="text.primary">
                       {formData.examType}_{formData.year}.pdf
-                    </code>
+                    </Box>
                   </Typography>
                 </Box>
 
@@ -293,10 +292,9 @@ export const ExamExtractor: React.FC = () => {
                   Process PDF
                 </Button>
               </>
-            )}
-          </Stack>
-        </Paper>
-      </Container>
-    </>
-  );
-};
+                            )}
+              </Stack>
+            </Container>
+          </>
+        );
+      };
