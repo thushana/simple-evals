@@ -9,8 +9,6 @@ import {
 } from "@dnd-kit/core";
 import type {
   DragEndEvent,
-  DragOverEvent,
-  DragStartEvent,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -20,6 +18,67 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+
+// Color constants
+const COLORS = {
+  question: {
+    primary: "#d32f2f",
+    light: "#ffebee",
+    canvas: "rgba(211, 47, 47, 1)",
+    canvasInactive: "rgba(211, 47, 47, 0.5)",
+  },
+  context: {
+    primary: "#009cde",
+    light: "#e3f2fd",
+    canvas: "rgba(25, 118, 210, 1)",
+    canvasInactive: "rgba(25, 118, 210, 0.5)",
+  },
+  ui: {
+    border: "#ddd",
+    borderHover: "#ccc",
+    background: "#f9f9f9",
+    backgroundHover: "#f0f0f0",
+    dragHandle: "#999",
+    dragHandleHover: "#333",
+    selectedPage: "#0677C9",
+    selectedPageBg: "#f0f8ff",
+    headerGradient: "linear-gradient(135deg, #009cde 0%, #0077c8 100%)",
+  },
+  text: {
+    white: "#fff",
+    secondary: "text.secondary",
+  },
+} as const;
+
+// Common styles
+const COMMON_STYLES = {
+  pill: {
+    borderRadius: 1,
+    fontSize: "0.95em",
+    fontWeight: 600,
+    fontFamily: "'Roboto Mono', monospace",
+    height: 32,
+    minWidth: 120,
+    boxShadow: "none",
+    px: 0,
+    overflow: "hidden",
+  },
+  label: {
+    borderRadius: 1,
+    fontSize: "0.75rem",
+    fontWeight: 600,
+    fontFamily: "'Roboto Mono', monospace",
+    lineHeight: 1,
+    whiteSpace: "nowrap",
+    pointerEvents: "none",
+    zIndex: 5,
+    boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+  },
+  dragHandle: {
+    color: COLORS.ui.dragHandle,
+    cursor: "grab",
+  },
+} as const;
 
 // Utility functions for naming conventions
 const toTitleCase = (str: string): string => {
@@ -157,7 +216,7 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
           <ListItemIcon sx={{ minWidth: 24 }}>
             <DragIndicator
               fontSize="small"
-              sx={{ color: "#999", cursor: "grab" }}
+              sx={{ color: COLORS.ui.dragHandle, cursor: "grab" }}
               {...attributes}
               {...listeners}
             />
@@ -264,12 +323,12 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
   };
 
   const isActive = box.id === activeBoxId;
-  const borderColor = box.type === "Question" ? "#d32f2f" : "#1976d2";
+  const borderColor = box.type === "Question" ? COLORS.question.primary : COLORS.context.primary;
   const bgColor = isActive
     ? box.type === "Question"
-      ? "#ffebee"
-      : "#e3f2fd"
-    : "#f9f9f9";
+      ? COLORS.question.light
+      : COLORS.context.light
+    : COLORS.ui.background;
 
   return (
     <div ref={setNodeRef} style={style}>
@@ -278,14 +337,14 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
           sx={{
             width: "100%",
             p: 0.5,
-            border: isActive ? `2px solid ${borderColor}` : "1px solid #ddd",
+            border: isActive ? `2px solid ${borderColor}` : `1px solid ${COLORS.ui.border}`,
             borderRadius: 1,
             bgcolor: bgColor,
             cursor: "pointer",
             transition: "all 0.2s ease",
             "&:hover": {
-              border: isActive ? `2px solid ${borderColor}` : "1px solid #ccc",
-              bgcolor: isActive ? bgColor : "#f0f0f0",
+              border: isActive ? `2px solid ${borderColor}` : `1px solid ${COLORS.ui.borderHover}`,
+              bgcolor: isActive ? bgColor : COLORS.ui.backgroundHover,
             },
           }}
           onClick={() => onSetActiveBox(box.id)}
@@ -301,7 +360,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
             <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>
               <DragIndicator
                 fontSize="small"
-                sx={{ color: "#999", cursor: "grab" }}
+                sx={{ color: COLORS.ui.dragHandle, cursor: "grab" }}
                 {...attributes}
                 {...listeners}
               />
@@ -312,25 +371,17 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                   alignItems: "center",
                   bgcolor: isActive
                     ? box.type === "Question"
-                      ? "#d32f2f"
-                      : "#009cde"
+                      ? COLORS.question.primary
+                      : COLORS.context.primary
                     : box.type === "Question"
-                    ? "#ffebee"
-                    : "#e3f2fd",
+                    ? COLORS.question.light
+                    : COLORS.context.light,
                   color: isActive
-                    ? "#fff"
+                    ? COLORS.text.white
                     : box.type === "Question"
-                    ? "#d32f2f"
-                    : "#009cde",
-                  borderRadius: 1,
-                  fontSize: "0.95em",
-                  fontWeight: 600,
-                  fontFamily: "'Roboto Mono', monospace",
-                  height: 32,
-                  minWidth: 120,
-                  boxShadow: "none",
-                  px: 0,
-                  overflow: "hidden",
+                    ? COLORS.question.primary
+                    : COLORS.context.primary,
+                  ...COMMON_STYLES.pill,
                 }}
               >
                 {/* Type dropdown */}
@@ -442,10 +493,10 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                   onBoxDelete(box.id);
                 }}
                 sx={{
-                  color: "#999",
+                  color: COLORS.ui.dragHandle,
                   p: 0.25,
                   "&:hover": {
-                    color: "#333",
+                    color: COLORS.ui.dragHandleHover,
                   },
                 }}
               >
@@ -458,6 +509,41 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
     </div>
   );
 };
+
+// Reusable components
+const BoundingBoxLabel: React.FC<{
+  box: BoundingBox;
+  x: number;
+  y: number;
+  isDrawing?: boolean;
+}> = ({ box, x, y, isDrawing = false }) => (
+  <Box
+    sx={{
+      position: "absolute",
+      left: x,
+      top: y - 25,
+      backgroundColor: isDrawing 
+        ? COLORS.question.primary 
+        : box.type === "Question" 
+          ? COLORS.question.primary 
+          : COLORS.context.primary,
+      color: COLORS.text.white,
+      px: 1.5,
+      py: 0.5,
+      ...COMMON_STYLES.label,
+      display: "flex",
+      alignItems: "center",
+      gap: 0.5,
+    }}
+  >
+    {isDrawing 
+      ? "Question"
+      : box.type === "Question" 
+        ? `Question ${(box.questionNumber || 1).toString().padStart(3, "0")}`
+        : "Context"
+    }
+  </Box>
+);
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ExamBuilderProps {
@@ -474,14 +560,14 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   const [boundingBoxes, setBoundingBoxes] = useState<BoundingBox[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
   const [activeBoxId, setActiveBoxId] = useState<string | null>(null);
-  const [isDrawing, setIsDrawing] = useState(true); // Drawing by default
   const [drawStart, setDrawStart] = useState<{ x: number; y: number } | null>(
     null,
   );
   const [currentBox, setCurrentBox] = useState<Partial<BoundingBox> | null>(
     null,
   );
-  const [isDrawingMode, setIsDrawingMode] = useState(false); // Track if we're in drawing mode
+  const [drawingEnabled, setDrawingEnabled] = useState(true); // UI toggle
+  const [isDrawingBox, setIsDrawingBox] = useState(false); // Two-click state
   const [showAddSection, setShowAddSection] = useState(false);
   const [newSectionName, setNewSectionName] = useState("");
   const [newSectionParent, setNewSectionParent] = useState<string | null>(null);
@@ -554,13 +640,9 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
         const alpha = isActive ? 1.0 : 0.5;
 
         // Set color with opacity - match Material-UI chip colors
-        if (box.type === "Question") {
-          // Material-UI error color (red)
-          ctx.strokeStyle = `rgba(211, 47, 47, ${alpha})`;
-        } else {
-          // Material-UI primary color (blue)
-          ctx.strokeStyle = `rgba(25, 118, 210, ${alpha})`;
-        }
+        ctx.strokeStyle = box.type === "Question"
+          ? `rgba(211, 47, 47, ${alpha})`
+          : `rgba(25, 118, 210, ${alpha})`;
 
         ctx.lineWidth = 3;
         ctx.strokeRect(box.x, box.y, box.width, box.height);
@@ -568,7 +650,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
 
     // Draw current box being created
     if (currentBox && drawStart) {
-      ctx.strokeStyle = "rgba(211, 47, 47, 1)"; // Material-UI error color
+      ctx.strokeStyle = COLORS.question.canvas;
       ctx.lineWidth = 3;
       ctx.strokeRect(
         currentBox.x || 0,
@@ -602,15 +684,15 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
 
   // Mouse event handlers for drawing
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imageRef.current || !isDrawing) return;
+    if (!imageRef.current || !drawingEnabled) return;
 
     const rect = imageRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    if (!isDrawingMode) {
+    if (!isDrawingBox) {
       // First click - start drawing mode
-      setIsDrawingMode(true);
+      setIsDrawingBox(true);
       setDrawStart({ x, y });
       setCurrentBox({ x, y, width: 0, height: 0, pageNumber: selectedPage });
     } else {
@@ -629,31 +711,25 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
         setBoundingBoxes((prev) => [...prev, newBox]);
         setCurrentBox(null);
         setDrawStart(null);
-        setIsDrawingMode(false);
-        // Make the newly created box active
+        setIsDrawingBox(false);
         setActiveBoxId(newBox.id);
 
         // Auto-assign to the same section as the currently active box
         if (activeBoxId) {
           const activeBox = boundingBoxes.find((box) => box.id === activeBoxId);
           if (activeBox?.sectionId) {
-            // Assign to the same section as the active box
             assignQuestionToSection(newBox.id, activeBox.sectionId);
           } else if (sections.length > 0) {
-            // If active box has no section, assign to first section
             assignQuestionToSection(newBox.id, sections[0].id);
           }
         } else if (sections.length === 0) {
-          // No active box and no sections - create default section
           addSection("I");
-          // The new section will be created, so we need to assign after it's created
           setTimeout(() => {
             if (sections.length > 0) {
               assignQuestionToSection(newBox.id, sections[0].id);
             }
           }, 0);
         } else {
-          // No active box but sections exist - assign to first section
           assignQuestionToSection(newBox.id, sections[0].id);
         }
       }
@@ -661,7 +737,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!imageRef.current || !drawStart || !isDrawingMode) return;
+    if (!imageRef.current || !drawStart || !isDrawingBox) return;
 
     const rect = imageRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
@@ -674,10 +750,6 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
       height: Math.abs(y - drawStart.y),
       pageNumber: selectedPage,
     });
-  };
-
-  const handleMouseUp = () => {
-    // Mouse up doesn't finish the box - only second click does
   };
 
   // Handle bounding box type change
@@ -833,12 +905,12 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   };
 
   // Drag and drop handlers
-  const handleDragStart = (event: DragStartEvent) => {
-    console.log("Drag started:", event.active.id);
+  const handleDragStart = () => {
+    // Drag started
   };
 
-  const handleDragOver = (event: DragOverEvent) => {
-    console.log("Drag over:", event.active.id, "over", event.over?.id);
+  const handleDragOver = () => {
+    // Drag over
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -972,7 +1044,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
             gap: 2,
           }}
         >
-          <CircularProgress size={60} sx={{ color: "#0677C9" }} />
+          <CircularProgress size={60} sx={{ color: COLORS.ui.selectedPage }} />
           <Typography variant="h6" color="text.secondary">
             Loading exam builder...
           </Typography>
@@ -1003,8 +1075,8 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
       {/* Header */}
       <Box
         sx={{
-          background: "linear-gradient(135deg, #009cde 0%, #0077c8 100%)",
-          color: "#fff",
+          background: COLORS.ui.headerGradient,
+          color: COLORS.text.white,
           py: 3,
           px: 2,
           mb: 3,
@@ -1014,7 +1086,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <IconButton
               onClick={() => navigate("/examextractor")}
-              sx={{ color: "#fff" }}
+              sx={{ color: COLORS.text.white }}
             >
               <ArrowBack />
             </IconButton>
@@ -1043,12 +1115,12 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                     cursor: "pointer",
                     border:
                       selectedPage === page.page_number
-                        ? "2px solid #0677C9"
-                        : "1px solid #ddd",
+                        ? `2px solid ${COLORS.ui.selectedPage}`
+                        : `1px solid ${COLORS.ui.border}`,
                     borderRadius: 1,
                     p: 0.5,
                     bgcolor:
-                      selectedPage === page.page_number ? "#f0f8ff" : "#fff",
+                      selectedPage === page.page_number ? COLORS.ui.selectedPageBg : "#fff",
                   }}
                   onClick={() => setSelectedPage(page.page_number)}
                 >
@@ -1087,18 +1159,16 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
             <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
               <Typography variant="h6">Page {selectedPage}</Typography>
               <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
-                <Tooltip
-                  title={isDrawing ? "Disable Drawing" : "Enable Drawing"}
-                >
+                <Tooltip title={drawingEnabled ? "Disable Drawing" : "Enable Drawing"}>
                   <IconButton
                     onClick={() => {
-                      setIsDrawing(!isDrawing);
-                      setIsDrawingMode(false); // Reset drawing mode when toggling
+                      setDrawingEnabled(!drawingEnabled);
+                      setIsDrawingBox(false); // Reset drawing state when toggling
                       setCurrentBox(null);
                       setDrawStart(null);
                     }}
                     size="small"
-                    color={isDrawing ? "primary" : "default"}
+                    color={drawingEnabled ? "primary" : "default"}
                   >
                     <Create />
                   </IconButton>
@@ -1111,12 +1181,11 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                 flex: 1,
                 overflow: "auto",
                 position: "relative",
-                border: "1px solid #ddd",
+                border: `1px solid ${COLORS.ui.border}`,
                 borderRadius: 1,
               }}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
             >
               {selectedPageData && (
                 <>
@@ -1146,61 +1215,21 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                   />
                   {/* HTML Labels for crisp text rendering */}
                   {pageBoundingBoxes.map((box) => (
-                    <Box
+                    <BoundingBoxLabel
                       key={`label-${box.id}`}
-                      sx={{
-                        position: "absolute",
-                        left: box.x,
-                        top: box.y - 25,
-                        backgroundColor:
-                          box.type === "Question" ? "#d32f2f" : "#009cde",
-                        color: "white",
-                        px: 1.5,
-                        py: 0.5,
-                        borderRadius: 1,
-                        fontSize: "0.75rem",
-                        fontWeight: 600,
-                        fontFamily: "'Roboto Mono', monospace",
-                        lineHeight: 1,
-                        whiteSpace: "nowrap",
-                        pointerEvents: "none",
-                        zIndex: 5,
-                        boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 0.5,
-                      }}
-                    >
-                      {box.type === "Question" 
-                        ? `Question ${(box.questionNumber || 1).toString().padStart(3, "0")}`
-                        : "Context"
-                      }
-                    </Box>
+                      box={box}
+                      x={box.x}
+                      y={box.y}
+                    />
                   ))}
                   {/* Label for current box being drawn */}
                   {currentBox && drawStart && (
-                    <Box
-                      sx={{
-                        position: "absolute",
-                        left: currentBox.x || 0,
-                        top: (currentBox.y || 0) - 25,
-                        backgroundColor: "#d32f2f",
-                        color: "white",
-                        px: 1.5,
-                        py: 0.5,
-                        borderRadius: 1,
-                        fontSize: "0.75rem",
-                        fontWeight: 600,
-                        fontFamily: "'Roboto Mono', monospace",
-                        lineHeight: 1,
-                        whiteSpace: "nowrap",
-                        pointerEvents: "none",
-                        zIndex: 5,
-                        boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
-                      }}
-                    >
-                      Question
-                    </Box>
+                    <BoundingBoxLabel
+                      box={{ id: "temp_box", x: currentBox.x || 0, y: currentBox.y || 0, width: 0, height: 0, type: "Question", pageNumber: selectedPage }}
+                      x={currentBox.x || 0}
+                      y={currentBox.y || 0}
+                      isDrawing={true}
+                    />
                   )}
                 </>
               )}
@@ -1237,7 +1266,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                 <Box
                   sx={{
                     p: 1,
-                    border: "1px solid #ddd",
+                    border: `1px solid ${COLORS.ui.border}`,
                     borderRadius: 1,
                     mb: 1,
                   }}
