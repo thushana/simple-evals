@@ -54,35 +54,6 @@ def write_manifest(
 def update_manifest_page(
     exam_processing_dir: Path,
     page_number: int,
-    thumb_path: str,
-    full_path: str,
-):
-    """Add or update a page entry in the manifest.json file."""
-    manifest_path = exam_processing_dir / "manifest.json"
-    manifest = {}
-    if manifest_path.exists():
-        with open(manifest_path, "r") as f:
-            manifest = json.load(f)
-    if "pages" not in manifest:
-        manifest["pages"] = []
-    # Remove any existing entry for this page
-    manifest["pages"] = [p for p in manifest["pages"] if p["page_number"] != page_number]
-    manifest["pages"].append(
-        {
-            "page_number": page_number,
-            "thumb": thumb_path,
-            "full": full_path,
-        }
-    )
-    # Sort pages by page_number
-    manifest["pages"] = sorted(manifest["pages"], key=lambda p: p["page_number"])
-    with open(manifest_path, "w") as f:
-        json.dump(manifest, f, indent=2)
-
-
-def update_manifest_page_v2(
-    exam_processing_dir: Path,
-    page_number: int,
     full_path: str,
     preview_path: str,
     thumb_path: str,
@@ -111,6 +82,38 @@ def update_manifest_page_v2(
         json.dump(manifest, f, indent=2)
 
 
+def make_exam_metadata(
+    slug: str,
+    exam_id: str,
+    exam_year: int,
+    file_name: str,
+    file_original_url: Optional[str],
+    file_size_bytes: int,
+    exam_processing_dir: Path,
+    file_total_pages: int = 0,
+    processing_started: Optional[str] = None,
+    processing_completed: bool = False,
+    processing_pages_complete: int = 0,
+    processing_status: str = "File uploaded, waiting to start processing...",
+    error: Optional[str] = None,
+) -> dict:
+    return {
+        "slug": slug,
+        "exam_id": exam_id,
+        "exam_year": exam_year,
+        "file_name": file_name,
+        "file_original_url": file_original_url,
+        "file_size_bytes": file_size_bytes,
+        "file_total_pages": file_total_pages,
+        "processing_started": processing_started or datetime.now().isoformat(),
+        "processing_completed": processing_completed,
+        "processing_pages_complete": processing_pages_complete,
+        "processing_status": processing_status,
+        "error": error,
+        "exam_processing_dir": str(exam_processing_dir),
+    }
+
+
 @router.post("/upload")
 async def upload_exam(
     background_tasks: BackgroundTasks,
@@ -133,11 +136,8 @@ async def upload_exam(
     # Create subdirectories for different file types
     pdf_dir = exam_processing_dir / "pdf"
     images_dir = exam_processing_dir / "images"
-    thumbnails_dir = exam_processing_dir / "thumbnails"
-
     pdf_dir.mkdir(exist_ok=True)
     images_dir.mkdir(exist_ok=True)
-    thumbnails_dir.mkdir(exist_ok=True)
 
     pdf_path = pdf_dir / filename
 
@@ -174,38 +174,17 @@ async def upload_exam(
 
     # Initialize processing status
     processing_id = str(uuid.uuid4())
-    processing_status[processing_id] = {
-        "status": "uploaded",
-        "progress": 0,
-        "message": "File uploaded, starting processing...",
-        "filename": filename,
-        "file_path": str(pdf_path),
-        "exam_folder": exam_folder,
-        "exam_processing_dir": str(exam_processing_dir),
-        "size": len(content),
-        "upload_time": datetime.now().strftime("%Y%m%d_%H%M%S"),
-        "total_pages": 0,
-        "processed_pages": 0,
-        "error": None,
-        "slug": slug,
-        "exam_type": exam_type,
-        "year": year,
-    }
-
-    # After saving the PDF, create initial manifest
-    metadata = {
-        "slug": slug,
-        "exam_id": exam_type,
-        "exam_year": year,
-        "file_name": filename,
-        "file_original_url": pdf_url if pdf_url else None,
-        "file_size_bytes": len(content),
-        "file_total_pages": 0,
-        "processing_started": datetime.now().isoformat(),
-        "processing_completed": False,
-        "processing_pages_complete": 0,
-        "processing_status": "File uploaded, waiting to start processing...",
-    }
+    # Use make_exam_metadata for all metadata/status/response
+    metadata = make_exam_metadata(
+        slug=slug,
+        exam_id=exam_type,
+        exam_year=year,
+        file_name=filename,
+        file_original_url=pdf_url if pdf_url else None,
+        file_size_bytes=len(content),
+        exam_processing_dir=exam_processing_dir,
+    )
+    processing_status[processing_id] = metadata.copy()
     write_manifest(exam_processing_dir, metadata)
 
     # Start background image processing with the new directory structure, pass slug
@@ -213,15 +192,8 @@ async def upload_exam(
 
     return {
         "message": "File uploaded successfully, image processing started",
-        "filename": filename,
-        "file_path": str(pdf_path),
-        "exam_folder": exam_folder,
-        "exam_processing_dir": str(exam_processing_dir),
-        "size": len(content),
-        "upload_time": datetime.now().strftime("%Y%m%d_%H%M%S"),
-        "processing": "started",
+        **metadata,
         "processing_id": processing_id,
-        "slug": slug,
     }
 
 
@@ -299,7 +271,7 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
             preview_rel = str(preview_path.relative_to(exam_processing_dir))
             thumb_rel = str(thumb_path.relative_to(exam_processing_dir))
             logger.info(f"[MANIFEST DEBUG] Before update_manifest_page for page {page_num}: full={full_rel}, preview={preview_rel}, thumb={thumb_rel}")
-            update_manifest_page_v2(exam_processing_dir, page_num, full_rel, preview_rel, thumb_rel)
+            update_manifest_page(exam_processing_dir, page_num, full_rel, preview_rel, thumb_rel)
             logger.info(f"[MANIFEST DEBUG] After update_manifest_page for page {page_num}")
             # Update manifest with pages complete and status
             if manifest_path.exists():
@@ -376,7 +348,7 @@ async def get_exam_manifest(slug: str):
         raise HTTPException(status_code=404, detail="Manifest not found")
     with open(manifest_path, "r") as f:
         manifest = json.load(f)
-    return JSONResponse(content=manifest)
+    return JSONResponse(content=manifest, headers={"Cache-Control": "no-store"})
 
 
 @router.get("/{exam_name}/images")

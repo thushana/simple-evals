@@ -20,8 +20,9 @@ import type { SelectChangeEvent } from "@mui/material";
 import type {
   ExamUploadForm,
   ProcessingStatus,
+  Manifest,
 } from "./types/examExtractor.types";
-import { uploadExamFile, fetchProcessingStatus } from "./utils/api";
+import { uploadExamFile, fetchProcessingStatus, fetchManifest } from "./utils/api";
 import { useExamData } from "./hooks/useExamData";
 
 export const ExamExtractor: React.FC = () => {
@@ -41,6 +42,8 @@ export const ExamExtractor: React.FC = () => {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [showProcessing, setShowProcessing] = useState(false);
   const [pollError, setPollError] = useState<string | null>(null);
+  const [manifest, setManifest] = useState<Manifest | null>(null);
+  const [manifestSlug, setManifestSlug] = useState<string | null>(null);
 
   // Poll processing status
   React.useEffect(() => {
@@ -65,6 +68,28 @@ export const ExamExtractor: React.FC = () => {
     const interval = setInterval(poll, 2000);
     return () => clearInterval(interval);
   }, [processingId]);
+
+  // Poll manifest after upload
+  React.useEffect(() => {
+    if (!manifestSlug) return;
+    let stopped = false;
+    const poll = async () => {
+      try {
+        const m = await fetchManifest(manifestSlug);
+        setManifest(m);
+        if (m.metadata.processing_completed) {
+          stopped = true;
+        }
+      } catch (err) {
+        // Optionally handle error
+      }
+    };
+    poll();
+    const interval = setInterval(() => {
+      if (!stopped) poll();
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [manifestSlug]);
 
   const handleExamTypeChange = (event: SelectChangeEvent<string>) => {
     setFormData((prev) => ({ ...prev, examType: event.target.value }));
@@ -124,6 +149,8 @@ export const ExamExtractor: React.FC = () => {
       setShowProcessing(false);
       setProcessingId(resp.processing_id);
       setProcessingStatus(null);
+      setManifestSlug(slug); // Start manifest polling
+      setManifest(null);
       setTimeout(() => {
         setUploadComplete(false);
         setShowProcessing(true);
@@ -375,27 +402,22 @@ export const ExamExtractor: React.FC = () => {
                 </Alert>
               )}
 
-              {/* Processing Status UI (show immediately after upload complete message) */}
-              {showProcessing && processingStatus && (
+              {/* Manifest-based Processing Status UI */}
+              {showProcessing && manifest && (
                 <Box mt={3}>
-                  <Typography variant="body2" color="text.secondary">
-                    Status: {processingStatus.status} — {processingStatus.message}
-                  </Typography>
-                  {processingStatus.total_pages > 0 && (
+                  <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
                     <Typography variant="body2" color="text.secondary">
-                      Pages to extract: {processingStatus.total_pages}
+                      Processed: {manifest.metadata.processing_pages_complete}
                     </Typography>
-                  )}
-                  {processingStatus.total_pages > 0 && (
                     <Typography variant="body2" color="text.secondary">
-                      Pages processed: {processingStatus.processed_pages} / {processingStatus.total_pages}
+                      Total: {manifest.metadata.file_total_pages}
                     </Typography>
-                  )}
-                  <Box mt={1}>
+                  </Box>
+                  <Box mt={1} mb={1}>
                     <Box
                       sx={{
                         width: "100%",
-                        height: 10,
+                        height: 16,
                         background: "#eee",
                         borderRadius: 5,
                         overflow: "hidden",
@@ -403,13 +425,53 @@ export const ExamExtractor: React.FC = () => {
                     >
                       <Box
                         sx={{
-                          width: `${processingStatus.progress || 0}%`,
+                          width: `${
+                            manifest.metadata.file_total_pages > 0
+                              ? (manifest.metadata.processing_pages_complete / manifest.metadata.file_total_pages) * 100
+                              : 0
+                          }%`,
                           height: "100%",
                           background: "#0677C9",
                           transition: "width 0.5s",
                         }}
                       />
                     </Box>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary" mb={2}>
+                    {manifest.metadata.processing_status}
+                  </Typography>
+                  {/* Thumbnail grid */}
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(10, 1fr)",
+                      gap: 1,
+                      mt: 2,
+                    }}
+                  >
+                    {manifest.pages?.map((page) => (
+                      <Box
+                        key={page.page_number}
+                        sx={{
+                          width: "100%",
+                          aspectRatio: "2/3",
+                          overflow: "hidden",
+                          borderRadius: 1,
+                          border: "1px solid #eee",
+                          bgcolor: "#fafbfc",
+                        }}
+                      >
+                        <img
+                          src={
+                            page.thumb.startsWith("/")
+                              ? page.thumb
+                              : `/api/v1/exams/processing/${manifest.metadata.slug}/images/${page.thumb}`
+                          }
+                          alt={`Page ${page.page_number}`}
+                          style={{ width: "100%", display: "block" }}
+                        />
+                      </Box>
+                    ))}
                   </Box>
                 </Box>
               )}

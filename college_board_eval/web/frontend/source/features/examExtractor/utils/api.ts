@@ -5,6 +5,7 @@ import type {
   UploadResponse,
   ProcessingStatus,
   ExamImagesResponse,
+  Manifest,
 } from "../types/examExtractor.types";
 
 // Exam Types API
@@ -62,4 +63,9 @@ export const fetchExamImages = async (
   return apiClient.get<ExamImagesResponse>(
     API_ENDPOINTS.exams.images(examName),
   );
+};
+
+// Manifest API
+export const fetchManifest = async (slug: string): Promise<Manifest> => {
+  return apiClient.get<Manifest>(API_ENDPOINTS.exams.manifest(slug));
 };

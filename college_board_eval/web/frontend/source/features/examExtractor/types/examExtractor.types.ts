@@ -35,30 +35,37 @@ export interface ExamUploadForm {
 // Upload Response
 export interface UploadResponse {
   message: string;
-  filename: string;
-  file_path: string;
-  exam_folder: string;
+  slug: string;
+  exam_id: string;
+  exam_year: number;
+  file_name: string;
+  file_original_url: string | null;
+  file_size_bytes: number;
+  file_total_pages: number;
+  processing_started: string;
+  processing_completed: boolean;
+  processing_pages_complete: number;
+  processing_status: string;
+  error: string | null;
   exam_processing_dir: string;
-  size: number;
-  upload_time: string;
-  processing: string;
   processing_id: string;
 }
 
 // Processing Status
 export interface ProcessingStatus {
-  status: "uploaded" | "processing" | "completed" | "error";
-  progress: number;
-  message: string;
-  filename: string;
-  file_path: string;
-  exam_folder: string;
-  exam_processing_dir: string;
-  size: number;
-  upload_time: string;
-  total_pages: number;
-  processed_pages: number;
+  slug: string;
+  exam_id: string;
+  exam_year: number;
+  file_name: string;
+  file_original_url: string | null;
+  file_size_bytes: number;
+  file_total_pages: number;
+  processing_started: string;
+  processing_completed: boolean;
+  processing_pages_complete: number;
+  processing_status: string;
   error: string | null;
+  exam_processing_dir: string;
 }
 
 // Image Result
@@ -72,4 +79,32 @@ export interface ExamImagesResponse {
   exam_name: string;
   images: ExamImage[];
   total_pages: number;
+}
+
+// Manifest types
+export interface ManifestPage {
+  page_number: number;
+  full: string;
+  preview: string;
+  thumb: string;
+}
+
+export interface ManifestMetadata {
+  slug: string;
+  exam_id: string;
+  exam_year: number;
+  file_name: string;
+  file_original_url: string;
+  file_size_bytes: number;
+  file_total_pages: number;
+  processing_started: string;
+  processing_completed: boolean;
+  processing_pages_complete: number;
+  processing_status: string;
+  [key: string]: any; // allow for extra fields
+}
+
+export interface Manifest {
+  metadata: ManifestMetadata;
+  pages: ManifestPage[];
 }

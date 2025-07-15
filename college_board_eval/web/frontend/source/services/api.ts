@@ -17,6 +17,8 @@ export const API_ENDPOINTS = {
       `${API_BASE_URL}/api/v1/exams/${examName}/images`,
     processing: (processingId: string) =>
       `${API_BASE_URL}/api/v1/exams/processing/${processingId}`,
+    manifest: (slug: string) =>
+      `${API_BASE_URL}/api/v1/exams/${slug}/manifest/`,
   },
   // Health check
   health: `${API_BASE_URL}/health`,
