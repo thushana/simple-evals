@@ -511,14 +511,28 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
         // Make the newly created box active
         setActiveBoxId(newBox.id);
 
-        // Auto-assign to first available section or create default section
-        if (sections.length === 0) {
+        // Auto-assign to the same section as the currently active box
+        if (activeBoxId) {
+          const activeBox = boundingBoxes.find((box) => box.id === activeBoxId);
+          if (activeBox?.sectionId) {
+            // Assign to the same section as the active box
+            assignQuestionToSection(newBox.id, activeBox.sectionId);
+          } else if (sections.length > 0) {
+            // If active box has no section, assign to first section
+            assignQuestionToSection(newBox.id, sections[0].id);
+          }
+        } else if (sections.length === 0) {
+          // No active box and no sections - create default section
           addSection("I");
-        }
-        // Assign to first section by default
-        const firstSectionId = sections[0]?.id;
-        if (firstSectionId) {
-          assignQuestionToSection(newBox.id, firstSectionId);
+          // The new section will be created, so we need to assign after it's created
+          setTimeout(() => {
+            if (sections.length > 0) {
+              assignQuestionToSection(newBox.id, sections[0].id);
+            }
+          }, 0);
+        } else {
+          // No active box but sections exist - assign to first section
+          assignQuestionToSection(newBox.id, sections[0].id);
         }
       }
     }
