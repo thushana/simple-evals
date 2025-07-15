@@ -307,7 +307,8 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
               </Typography>
             )}
             <Typography variant="caption" sx={{ ml: "auto" }}>
-              {Math.round(box.width)} × {Math.round(box.height)}
+              {Math.round(box.width)} × {Math.round(box.height)} | P
+              {box.pageNumber}
             </Typography>
             <Tooltip title="Delete bounding box">
               <IconButton
@@ -1160,7 +1161,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                     <SortableContext
                       items={[
                         ...sections.map((s) => s.id),
-                        ...pageBoundingBoxes.map((box) => box.id),
+                        ...boundingBoxes.map((box) => box.id),
                       ]}
                       strategy={verticalListSortingStrategy}
                     >
@@ -1169,7 +1170,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                           <DraggableSectionNode
                             key={section.id}
                             section={section}
-                            boundingBoxes={pageBoundingBoxes}
+                            boundingBoxes={boundingBoxes}
                             activeBoxId={activeBoxId}
                             onToggleExpanded={toggleSectionExpanded}
                             onSetActiveBox={handleSetActiveBox}
