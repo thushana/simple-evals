@@ -1,5 +1,42 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import type {
+  DragEndEvent,
+  DragOverEvent,
+  DragStartEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
+// Utility functions for naming conventions
+const toTitleCase = (str: string): string => {
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+const toSnakeCase = (str: string): string => {
+  return str
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/(^_|_$)/g, "");
+};
+import {
   Box,
   Typography,
   Container,
@@ -10,8 +47,25 @@ import {
   Tooltip,
   Alert,
   CircularProgress,
+  TextField,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  ListItemButton,
 } from "@mui/material";
-import { Create, Save, ArrowBack, Delete } from "@mui/icons-material";
+import {
+  Create,
+  Save,
+  ArrowBack,
+  Delete,
+  Add,
+  ExpandMore,
+  ExpandLess,
+  DragIndicator,
+  Folder,
+} from "@mui/icons-material";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "../../services/api";
 import type { Manifest } from "./types/examExtractor.types";
@@ -25,7 +79,263 @@ interface BoundingBox {
   type: "Question" | "Context";
   pageNumber: number;
   isActive?: boolean;
+  questionNumber?: number;
+  sectionId?: string;
 }
+
+interface Section {
+  id: string;
+  name: string;
+  type: "section";
+  children: (Section | Question)[];
+  expanded?: boolean;
+}
+
+interface Question {
+  id: string;
+  type: "question";
+  boundingBox: BoundingBox;
+  questionNumber: number;
+  sectionId: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+type ExamNode = Section | Question;
+
+// Draggable Section Node Component
+interface SectionNodeProps {
+  section: Section;
+  boundingBoxes: BoundingBox[];
+  activeBoxId: string | null;
+  onToggleExpanded: (sectionId: string) => void;
+  onSetActiveBox: (boxId: string) => void;
+  onBoxTypeChange: (boxId: string, type: "Question" | "Context") => void;
+  onBoxDelete: (boxId: string) => void;
+  onAssignQuestion: (boxId: string, sectionId: string) => void;
+}
+
+const DraggableSectionNode: React.FC<SectionNodeProps> = ({
+  section,
+  boundingBoxes,
+  activeBoxId,
+  onToggleExpanded,
+  onSetActiveBox,
+  onBoxTypeChange,
+  onBoxDelete,
+  onAssignQuestion,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: section.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  const sectionQuestions = boundingBoxes.filter(
+    (box) => box.sectionId === section.id,
+  );
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <ListItem disablePadding>
+        <ListItemButton
+          onClick={() => onToggleExpanded(section.id)}
+          sx={{ pl: 1, py: 0.5 }}
+        >
+          <ListItemIcon sx={{ minWidth: 24 }}>
+            <DragIndicator
+              fontSize="small"
+              sx={{ color: "#999", cursor: "grab" }}
+              {...attributes}
+              {...listeners}
+            />
+          </ListItemIcon>
+          <ListItemIcon sx={{ minWidth: 24 }}>
+            {section.expanded ? <ExpandLess /> : <ExpandMore />}
+          </ListItemIcon>
+          <ListItemText
+            primary={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Folder fontSize="small" />
+                <Typography variant="body2" fontWeight={500}>
+                  {section.name}
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  ({sectionQuestions.length} items)
+                </Typography>
+              </Box>
+            }
+          />
+        </ListItemButton>
+      </ListItem>
+
+      <Collapse in={section.expanded} timeout="auto" unmountOnExit>
+        <List dense sx={{ pl: 2 }}>
+          <SortableContext
+            items={sectionQuestions.map((q) => q.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {sectionQuestions.map((box) => (
+              <DraggableQuestionItem
+                key={box.id}
+                box={box}
+                activeBoxId={activeBoxId}
+                onSetActiveBox={onSetActiveBox}
+                onBoxTypeChange={onBoxTypeChange}
+                onBoxDelete={onBoxDelete}
+              />
+            ))}
+          </SortableContext>
+
+          {/* Render nested sections */}
+          {section.children
+            .filter((child): child is Section => child.type === "section")
+            .map((childSection) => (
+              <DraggableSectionNode
+                key={childSection.id}
+                section={childSection}
+                boundingBoxes={boundingBoxes}
+                activeBoxId={activeBoxId}
+                onToggleExpanded={onToggleExpanded}
+                onSetActiveBox={onSetActiveBox}
+                onBoxTypeChange={onBoxTypeChange}
+                onBoxDelete={onBoxDelete}
+                onAssignQuestion={onAssignQuestion}
+              />
+            ))}
+        </List>
+      </Collapse>
+    </div>
+  );
+};
+
+// Draggable Question Item Component
+interface DraggableQuestionItemProps {
+  box: BoundingBox;
+  activeBoxId: string | null;
+  onSetActiveBox: (boxId: string) => void;
+  onBoxTypeChange: (boxId: string, type: "Question" | "Context") => void;
+  onBoxDelete: (boxId: string) => void;
+}
+
+const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
+  box,
+  activeBoxId,
+  onSetActiveBox,
+  onBoxTypeChange,
+  onBoxDelete,
+}) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: box.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  const isActive = box.id === activeBoxId;
+  const borderColor = box.type === "Question" ? "#d32f2f" : "#1976d2";
+  const bgColor = isActive
+    ? box.type === "Question"
+      ? "#ffebee"
+      : "#e3f2fd"
+    : "#f9f9f9";
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <ListItem disablePadding>
+        <Box
+          sx={{
+            width: "100%",
+            p: 0.5,
+            border: isActive ? `2px solid ${borderColor}` : "1px solid #ddd",
+            borderRadius: 1,
+            bgcolor: bgColor,
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            "&:hover": {
+              border: isActive ? `2px solid ${borderColor}` : "1px solid #ccc",
+              bgcolor: isActive ? bgColor : "#f0f0f0",
+            },
+          }}
+          onClick={() => onSetActiveBox(box.id)}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+              mb: 0.5,
+            }}
+          >
+            <DragIndicator
+              fontSize="small"
+              sx={{ color: "#999", cursor: "grab" }}
+              {...attributes}
+              {...listeners}
+            />
+            <Chip
+              label={box.type}
+              size="small"
+              color={box.type === "Question" ? "error" : "primary"}
+              onClick={(e) => {
+                e.stopPropagation();
+                onBoxTypeChange(
+                  box.id,
+                  box.type === "Question" ? "Context" : "Question",
+                );
+              }}
+            />
+            {box.questionNumber && (
+              <Typography variant="caption" sx={{ fontWeight: 500 }}>
+                #{box.questionNumber}
+              </Typography>
+            )}
+            <Typography variant="caption" sx={{ ml: "auto" }}>
+              {Math.round(box.width)} × {Math.round(box.height)}
+            </Typography>
+            <Tooltip title="Delete bounding box">
+              <IconButton
+                size="small"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onBoxDelete(box.id);
+                }}
+                sx={{
+                  color: "#999",
+                  p: 0.25,
+                  "&:hover": {
+                    color: "#333",
+                  },
+                }}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Typography variant="caption" color="text.secondary">
+            Position: ({Math.round(box.x)}, {Math.round(box.y)})
+          </Typography>
+        </Box>
+      </ListItem>
+    </div>
+  );
+};
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface ExamBuilderProps {
@@ -40,6 +350,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedPage, setSelectedPage] = useState<number>(1);
   const [boundingBoxes, setBoundingBoxes] = useState<BoundingBox[]>([]);
+  const [sections, setSections] = useState<Section[]>([]);
   const [activeBoxId, setActiveBoxId] = useState<string | null>(null);
   const [isDrawing, setIsDrawing] = useState(true); // Drawing by default
   const [drawStart, setDrawStart] = useState<{ x: number; y: number } | null>(
@@ -49,9 +360,20 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
     null,
   );
   const [isDrawingMode, setIsDrawingMode] = useState(false); // Track if we're in drawing mode
+  const [showAddSection, setShowAddSection] = useState(false);
+  const [newSectionName, setNewSectionName] = useState("");
+  const [newSectionParent, setNewSectionParent] = useState<string | null>(null);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Drag and drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
   // Fetch manifest data
   useEffect(() => {
@@ -188,6 +510,16 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
         setIsDrawingMode(false);
         // Make the newly created box active
         setActiveBoxId(newBox.id);
+
+        // Auto-assign to first available section or create default section
+        if (sections.length === 0) {
+          addSection("I");
+        }
+        // Assign to first section by default
+        const firstSectionId = sections[0]?.id;
+        if (firstSectionId) {
+          assignQuestionToSection(newBox.id, firstSectionId);
+        }
       }
     }
   };
@@ -231,6 +563,244 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   // Handle setting active box
   const handleSetActiveBox = (boxId: string) => {
     setActiveBoxId(boxId);
+  };
+
+  // Section management functions
+  const addSection = (name: string, parentId: string | null = null) => {
+    const displayName = toTitleCase(name);
+    const internalId = toSnakeCase(name);
+
+    const newSection: Section = {
+      id: internalId,
+      name: displayName,
+      type: "section",
+      children: [],
+      expanded: true,
+    };
+
+    if (!parentId) {
+      // Add to root level
+      setSections((prev) => [...prev, newSection]);
+    } else {
+      // Add to specific parent
+      setSections((prev) => addSectionToParent(prev, parentId, newSection));
+    }
+
+    setShowAddSection(false);
+    setNewSectionName("");
+    setNewSectionParent(null);
+  };
+
+  const addSectionToParent = (
+    sections: Section[],
+    parentId: string,
+    newSection: Section,
+  ): Section[] => {
+    return sections.map((section) => {
+      if (section.id === parentId) {
+        return { ...section, children: [...section.children, newSection] };
+      }
+      return {
+        ...section,
+        children: addSectionToParent(
+          section.children as Section[],
+          parentId,
+          newSection,
+        ),
+      };
+    });
+  };
+
+  const toggleSectionExpanded = (sectionId: string) => {
+    setSections((prev) => toggleSectionExpandedRecursive(prev, sectionId));
+  };
+
+  const toggleSectionExpandedRecursive = (
+    sections: Section[],
+    sectionId: string,
+  ): Section[] => {
+    return sections.map((section) => {
+      if (section.id === sectionId) {
+        return { ...section, expanded: !section.expanded };
+      }
+      return {
+        ...section,
+        children: toggleSectionExpandedRecursive(
+          section.children as Section[],
+          sectionId,
+        ),
+      };
+    });
+  };
+
+  const getNextQuestionNumber = (sectionId: string): number => {
+    const questions = getAllQuestionsInSection(sections, sectionId);
+    return questions.length + 1;
+  };
+
+  const getAllQuestionsInSection = (
+    sections: Section[],
+    sectionId: string,
+  ): Question[] => {
+    const questions: Question[] = [];
+
+    const traverse = (nodes: (Section | Question)[]) => {
+      nodes.forEach((node) => {
+        if (node.type === "question" && node.sectionId === sectionId) {
+          questions.push(node as Question);
+        } else if (node.type === "section") {
+          traverse((node as Section).children);
+        }
+      });
+    };
+
+    traverse(sections);
+    return questions;
+  };
+
+  const assignQuestionToSection = (boxId: string, sectionId: string) => {
+    const questionNumber = getNextQuestionNumber(sectionId);
+
+    setBoundingBoxes((prev) =>
+      prev.map((box) =>
+        box.id === boxId ? { ...box, sectionId, questionNumber } : box,
+      ),
+    );
+  };
+
+  // Drag and drop handlers
+  const handleDragStart = (event: DragStartEvent) => {
+    console.log("Drag started:", event.active.id);
+  };
+
+  const handleDragOver = (event: DragOverEvent) => {
+    console.log("Drag over:", event.active.id, "over", event.over?.id);
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over) return;
+
+    if (active.id !== over.id) {
+      const activeId = active.id as string;
+      const overId = over.id as string;
+
+      // Check if we're dragging a section or a question
+      const isDraggingSection =
+        sections.some((section) => section.id === activeId) ||
+        sections.some(
+          (section) => findSectionInHierarchy([section], activeId) !== null,
+        );
+
+      const isOverSection =
+        sections.some((section) => section.id === overId) ||
+        sections.some(
+          (section) => findSectionInHierarchy([section], overId) !== null,
+        );
+
+      if (isDraggingSection && isOverSection) {
+        // Section to section drag (nesting or reordering)
+        const draggedSectionId = activeId;
+        const targetSectionId = overId;
+
+        // Check if we're trying to nest a section (search recursively)
+        const isNesting =
+          findSectionInHierarchy(sections, targetSectionId) !== null;
+
+        if (isNesting) {
+          // Handle section nesting
+          setSections((prev) => {
+            const draggedSection = findAndRemoveSection(prev, draggedSectionId);
+            if (draggedSection) {
+              return addSectionToParent(prev, targetSectionId, draggedSection);
+            }
+            return prev;
+          });
+        } else {
+          // Handle section reordering at same level
+          setSections((prev) => {
+            const oldIndex = prev.findIndex(
+              (section) => section.id === active.id,
+            );
+            const newIndex = prev.findIndex(
+              (section) => section.id === over.id,
+            );
+
+            if (oldIndex !== -1 && newIndex !== -1) {
+              return arrayMove(prev, oldIndex, newIndex);
+            }
+
+            return prev;
+          });
+        }
+      } else if (!isDraggingSection && isOverSection) {
+        // Question to section drag (moving question to different section)
+        const questionId = activeId;
+        const targetSectionId = overId;
+
+        // Find the question in bounding boxes
+        const question = boundingBoxes.find((box) => box.id === questionId);
+        if (question) {
+          // Update the question's section assignment
+          setBoundingBoxes((prev) =>
+            prev.map((box) =>
+              box.id === questionId
+                ? { ...box, sectionId: targetSectionId }
+                : box,
+            ),
+          );
+        }
+      }
+    }
+  };
+
+  // Helper function to find a section in the hierarchy
+  const findSectionInHierarchy = (
+    sections: Section[],
+    sectionId: string,
+  ): Section | null => {
+    for (const section of sections) {
+      if (section.id === sectionId) {
+        return section;
+      }
+
+      // Search in children
+      const foundInChildren = findSectionInHierarchy(
+        section.children as Section[],
+        sectionId,
+      );
+      if (foundInChildren) {
+        return foundInChildren;
+      }
+    }
+
+    return null;
+  };
+
+  // Helper function to find and remove a section from the hierarchy
+  const findAndRemoveSection = (
+    sections: Section[],
+    sectionId: string,
+  ): Section | null => {
+    for (let i = 0; i < sections.length; i++) {
+      if (sections[i].id === sectionId) {
+        // Remove from current level
+        const [removedSection] = sections.splice(i, 1);
+        return removedSection;
+      }
+
+      // Search in children
+      const foundInChildren = findAndRemoveSection(
+        sections[i].children as Section[],
+        sectionId,
+      );
+      if (foundInChildren) {
+        return foundInChildren;
+      }
+    }
+
+    return null;
   };
 
   // No zoom/pan controls needed
@@ -479,7 +1049,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
             </Box>
           </Box>
 
-          {/* Column 3: Question Management */}
+          {/* Column 3: Exam Manager */}
           <Box
             sx={{
               width: 300,
@@ -487,126 +1057,139 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
               flexShrink: 0,
             }}
           >
-            <Typography variant="h6" gutterBottom>
-              Question Management
+            <Typography variant="h6" sx={{ mb: 1 }}>
+              Exam Manager
             </Typography>
 
-            <Stack spacing={2}>
+            <Stack spacing={1}>
+              {/* Add Section Button */}
+              <Button
+                variant="outlined"
+                size="small"
+                fullWidth
+                startIcon={<Add />}
+                onClick={() => setShowAddSection(true)}
+                sx={{ mb: 1 }}
+              >
+                Add Section
+              </Button>
+
+              {/* Add Section Dialog */}
+              {showAddSection && (
+                <Box
+                  sx={{
+                    p: 1,
+                    border: "1px solid #ddd",
+                    borderRadius: 1,
+                    mb: 1,
+                  }}
+                >
+                  <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                    New Section
+                  </Typography>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    label="Section Name"
+                    value={newSectionName}
+                    onChange={(e) => setNewSectionName(e.target.value)}
+                    placeholder="e.g., I, A, Part 1"
+                    sx={{ mb: 1 }}
+                  />
+                  <Box sx={{ display: "flex", gap: 1 }}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() =>
+                        addSection(newSectionName, newSectionParent)
+                      }
+                      disabled={!newSectionName.trim()}
+                    >
+                      Add
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => {
+                        setShowAddSection(false);
+                        setNewSectionName("");
+                        setNewSectionParent(null);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </Box>
+                </Box>
+              )}
+
+              {/* Sections Tree */}
               <Box>
-                <Typography variant="subtitle2" gutterBottom>
-                  Bounding Boxes (Page {selectedPage})
+                <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                  Sections
                 </Typography>
-                {pageBoundingBoxes.length === 0 ? (
-                  <Typography variant="body2" color="text.secondary">
-                    No bounding boxes on this page. Use the drawing tool to
-                    create boxes.
+                {sections.length === 0 ? (
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ p: 1 }}
+                  >
+                    No sections created. Add a section to organize questions.
                   </Typography>
                 ) : (
-                  <Stack spacing={1}>
-                    {pageBoundingBoxes.map((box) => {
-                      const isActive = box.id === activeBoxId;
-                      const borderColor =
-                        box.type === "Question" ? "#d32f2f" : "#1976d2";
-                      const bgColor = isActive
-                        ? box.type === "Question"
-                          ? "#ffebee"
-                          : "#e3f2fd"
-                        : "#f9f9f9";
-                      return (
-                        <Box
-                          key={box.id}
-                          sx={{
-                            p: 1,
-                            border: isActive
-                              ? `2px solid ${borderColor}`
-                              : "1px solid #ddd",
-                            borderRadius: 1,
-                            bgcolor: bgColor,
-                            cursor: "pointer",
-                            transition: "all 0.2s ease",
-                            "&:hover": {
-                              border: isActive
-                                ? `2px solid ${borderColor}`
-                                : "1px solid #ccc",
-                              bgcolor: isActive ? bgColor : "#f0f0f0",
-                            },
-                          }}
-                          onClick={() => handleSetActiveBox(box.id)}
-                        >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 1,
-                              mb: 1,
-                            }}
-                          >
-                            <Chip
-                              label={box.type}
-                              size="small"
-                              color={
-                                box.type === "Question" ? "error" : "primary"
-                              }
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleBoxTypeChange(
-                                  box.id,
-                                  box.type === "Question"
-                                    ? "Context"
-                                    : "Question",
-                                );
-                              }}
-                            />
-                            <Typography variant="caption" sx={{ ml: "auto" }}>
-                              {Math.round(box.width)} × {Math.round(box.height)}
-                            </Typography>
-                            <Tooltip title="Delete bounding box">
-                              <IconButton
-                                size="small"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleBoxDelete(box.id);
-                                }}
-                                sx={{
-                                  color: "#999",
-                                  p: 0.5,
-                                  "&:hover": {
-                                    color: "#333",
-                                  },
-                                }}
-                              >
-                                <Delete fontSize="small" />
-                              </IconButton>
-                            </Tooltip>
-                          </Box>
-                          <Typography variant="caption" color="text.secondary">
-                            Position: ({Math.round(box.x)}, {Math.round(box.y)})
-                          </Typography>
-                        </Box>
-                      );
-                    })}
-                  </Stack>
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragStart={handleDragStart}
+                    onDragOver={handleDragOver}
+                    onDragEnd={handleDragEnd}
+                  >
+                    <SortableContext
+                      items={[
+                        ...sections.map((s) => s.id),
+                        ...pageBoundingBoxes.map((box) => box.id),
+                      ]}
+                      strategy={verticalListSortingStrategy}
+                    >
+                      <List dense sx={{ p: 0 }}>
+                        {sections.map((section) => (
+                          <DraggableSectionNode
+                            key={section.id}
+                            section={section}
+                            boundingBoxes={pageBoundingBoxes}
+                            activeBoxId={activeBoxId}
+                            onToggleExpanded={toggleSectionExpanded}
+                            onSetActiveBox={handleSetActiveBox}
+                            onBoxTypeChange={handleBoxTypeChange}
+                            onBoxDelete={handleBoxDelete}
+                            onAssignQuestion={assignQuestionToSection}
+                          />
+                        ))}
+                      </List>
+                    </SortableContext>
+                  </DndContext>
                 )}
               </Box>
 
-              <Box>
-                <Typography variant="subtitle2" gutterBottom>
+              {/* Actions */}
+              <Box sx={{ mt: 1 }}>
+                <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
                   Actions
                 </Typography>
-                <Stack spacing={1}>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    onClick={() => {
-                      // TODO: Implement save functionality
-                      console.log("Saving bounding boxes:", boundingBoxes);
-                    }}
-                  >
-                    <Save sx={{ mr: 1 }} />
-                    Save Changes
-                  </Button>
-                </Stack>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  onClick={() => {
+                    // TODO: Implement save functionality
+                    console.log("Saving exam structure:", {
+                      sections,
+                      boundingBoxes,
+                    });
+                  }}
+                >
+                  <Save sx={{ mr: 1 }} />
+                  Save Changes
+                </Button>
               </Box>
             </Stack>
           </Box>
