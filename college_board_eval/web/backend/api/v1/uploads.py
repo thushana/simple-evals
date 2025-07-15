@@ -80,6 +80,37 @@ def update_manifest_page(
         json.dump(manifest, f, indent=2)
 
 
+def update_manifest_page_v2(
+    exam_processing_dir: Path,
+    page_number: int,
+    full_path: str,
+    preview_path: str,
+    thumb_path: str,
+):
+    """Add or update a page entry in the manifest.json file (full, preview, thumb)."""
+    manifest_path = exam_processing_dir / "manifest.json"
+    manifest = {}
+    if manifest_path.exists():
+        with open(manifest_path, "r") as f:
+            manifest = json.load(f)
+    if "pages" not in manifest:
+        manifest["pages"] = []
+    # Remove any existing entry for this page
+    manifest["pages"] = [p for p in manifest["pages"] if p["page_number"] != page_number]
+    manifest["pages"].append(
+        {
+            "page_number": page_number,
+            "full": full_path,
+            "preview": preview_path,
+            "thumb": thumb_path,
+        }
+    )
+    # Sort pages by page_number
+    manifest["pages"] = sorted(manifest["pages"], key=lambda p: p["page_number"])
+    with open(manifest_path, "w") as f:
+        json.dump(manifest, f, indent=2)
+
+
 @router.post("/upload")
 async def upload_exam(
     background_tasks: BackgroundTasks,
@@ -213,7 +244,7 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
         extracted_dir.mkdir(exist_ok=True)
 
         images_dir = exam_processing_dir / "images"
-        thumbnails_dir = exam_processing_dir / "thumbnails"
+        images_dir.mkdir(exist_ok=True)
 
         # Load all pages from the PDF as PIL Images (in memory)
         pil_images = convert_from_path(pdf_path, dpi=300)
@@ -229,39 +260,46 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
             with open(manifest_path, "w") as f:
                 json.dump(manifest, f, indent=2)
 
-        # Process each page in sequence: process full, generate thumb, save both, update manifest
         for i, pil_image in enumerate(pil_images):
             page_num = i + 1
             page_num_str = f"{page_num:03d}"
             prefix = f"{slug}_page_{page_num_str}"
 
-            # --- Process full image (crop/trim/pad as needed) ---
-            processed_img = pil_image
-            # Optionally, you can apply your process_question_image logic here
-            # For now, just use the original page image as the 'full' processed image
-            # If you want to apply crop/trim/pad, do it here
-
-            # Save full image
+            # --- Save full-resolution PNG (300 dpi) ---
             full_filename = f"{prefix}_full.png"
             full_path = images_dir / full_filename
-            processed_img.save(full_path, "PNG", optimize=True)
+            pil_image.save(full_path, "PNG", optimize=True)
 
-            # --- Generate and save thumb from processed image ---
-            thumb = processed_img.copy()
-            thumb.thumbnail((800, 800), Image.Resampling.LANCZOS)
-            thumb_filename = f"{prefix}_thumb.png"
-            thumb_path = thumbnails_dir / thumb_filename
-            thumb.save(thumb_path, "PNG", optimize=True)
+            # --- Generate and save 600px wide JPEG preview ---
+            preview = pil_image.copy()
+            preview_width = 600
+            w_percent = preview_width / float(preview.width)
+            preview_height = int(float(preview.height) * w_percent)
+            preview = preview.resize((preview_width, preview_height), Image.Resampling.LANCZOS)
+            preview_filename = f"{prefix}_preview.jpg"
+            preview_path = images_dir / preview_filename
+            preview = preview.convert("RGB")
+            preview.save(preview_path, "JPEG", quality=90, optimize=True)
 
-            logger.info(f"[MANIFEST DEBUG] Saved full and thumb for page {page_num}: {full_path}, {thumb_path}")
+            # --- Generate and save 150px wide JPEG thumbnail ---
+            thumb = pil_image.copy()
+            thumb_width = 150
+            w_percent = thumb_width / float(thumb.width)
+            thumb_height = int(float(thumb.height) * w_percent)
+            thumb = thumb.resize((thumb_width, thumb_height), Image.Resampling.LANCZOS)
+            thumb_filename = f"{prefix}_thumb.jpg"
+            thumb_path = images_dir / thumb_filename
+            thumb = thumb.convert("RGB")
+            thumb.save(thumb_path, "JPEG", quality=85, optimize=True)
+
+            logger.info(f"[MANIFEST DEBUG] Saved full, preview, and thumb for page {page_num}: {full_path}, {preview_path}, {thumb_path}")
 
             # --- Update manifest for this page ---
-            thumb_rel = str(thumb_path.relative_to(exam_processing_dir))
             full_rel = str(full_path.relative_to(exam_processing_dir))
-            logger.info(
-                f"[MANIFEST DEBUG] Before update_manifest_page for page {page_num}: thumb={thumb_rel}, full={full_rel}"
-            )
-            update_manifest_page(exam_processing_dir, page_num, thumb_rel, full_rel)
+            preview_rel = str(preview_path.relative_to(exam_processing_dir))
+            thumb_rel = str(thumb_path.relative_to(exam_processing_dir))
+            logger.info(f"[MANIFEST DEBUG] Before update_manifest_page for page {page_num}: full={full_rel}, preview={preview_rel}, thumb={thumb_rel}")
+            update_manifest_page_v2(exam_processing_dir, page_num, full_rel, preview_rel, thumb_rel)
             logger.info(f"[MANIFEST DEBUG] After update_manifest_page for page {page_num}")
             # Update manifest with pages complete and status
             if manifest_path.exists():
