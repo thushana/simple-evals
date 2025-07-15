@@ -38,6 +38,8 @@ export const ExamExtractor: React.FC = () => {
   const [processingStatus, setProcessingStatus] =
     useState<ProcessingStatus | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadComplete, setUploadComplete] = useState(false);
+  const [showProcessing, setShowProcessing] = useState(false);
   const [pollError, setPollError] = useState<string | null>(null);
 
   // Poll processing status
@@ -117,11 +119,17 @@ export const ExamExtractor: React.FC = () => {
       } else {
         throw new Error("No file or URL provided");
       }
+      setUploading(false);
+      setUploadComplete(true);
+      setShowProcessing(false);
       setProcessingId(resp.processing_id);
       setProcessingStatus(null);
+      setTimeout(() => {
+        setUploadComplete(false);
+        setShowProcessing(true);
+      }, 1500);
     } catch (err: unknown) {
       setPollError(err instanceof Error ? err.message : "Upload failed");
-    } finally {
       setUploading(false);
     }
   };
@@ -358,17 +366,29 @@ export const ExamExtractor: React.FC = () => {
               >
                 {uploading ? "Uploading..." : "Process PDF"}
               </Button>
-              {/* Processing Status UI */}
-              {processingStatus && (
+              {/* Upload/Download Complete Message (show for 1.5s) */}
+              {uploadComplete && (
+                <Alert severity="success" sx={{ mt: 3 }}>
+                  {formData.uploadMethod === "upload"
+                    ? "PDF upload complete. Starting extraction..."
+                    : "PDF downloaded successfully. Starting extraction..."}
+                </Alert>
+              )}
+
+              {/* Processing Status UI (show immediately after upload complete message) */}
+              {showProcessing && processingStatus && (
                 <Box mt={3}>
                   <Typography variant="body2" color="text.secondary">
-                    Status: {processingStatus.status} —{" "}
-                    {processingStatus.message}
+                    Status: {processingStatus.status} — {processingStatus.message}
                   </Typography>
                   {processingStatus.total_pages > 0 && (
                     <Typography variant="body2" color="text.secondary">
-                      Pages: {processingStatus.processed_pages} /{" "}
-                      {processingStatus.total_pages}
+                      Pages to extract: {processingStatus.total_pages}
+                    </Typography>
+                  )}
+                  {processingStatus.total_pages > 0 && (
+                    <Typography variant="body2" color="text.secondary">
+                      Pages processed: {processingStatus.processed_pages} / {processingStatus.total_pages}
                     </Typography>
                   )}
                   <Box mt={1}>

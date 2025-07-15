@@ -1,5 +1,6 @@
 """File upload and image processing API endpoints"""
 
+import json
 import logging
 import uuid
 from datetime import datetime
@@ -8,6 +9,9 @@ from typing import Dict, Optional
 
 import requests
 from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
+from fastapi.responses import JSONResponse
+from pdf2image import convert_from_path
+from PIL import Image
 
 from college_board_eval.web.backend.core.config import IMAGES_DIR, MAX_FILE_SIZE, PROCESSING_DIR, UPLOADS_DIR
 from college_board_eval.web.backend.services.image_processor import ImageProcessor
@@ -21,6 +25,59 @@ logger = logging.getLogger(__name__)
 
 # In-memory storage for processing status (in production, use Redis or database)
 processing_status: Dict[str, Dict] = {}
+
+
+def write_manifest(
+    exam_processing_dir: Path,
+    metadata: dict,
+    pages: list = None,
+):
+    """Write or update the manifest.json file in the exam processing directory."""
+    manifest_path = exam_processing_dir / "manifest.json"
+    manifest = {"metadata": metadata}
+    if pages is not None:
+        manifest["pages"] = pages
+    else:
+        # If manifest exists and has pages, preserve them
+        if manifest_path.exists():
+            try:
+                with open(manifest_path, "r") as f:
+                    existing = json.load(f)
+                if "pages" in existing:
+                    manifest["pages"] = existing["pages"]
+            except Exception:
+                pass
+    with open(manifest_path, "w") as f:
+        json.dump(manifest, f, indent=2)
+
+
+def update_manifest_page(
+    exam_processing_dir: Path,
+    page_number: int,
+    thumb_path: str,
+    full_path: str,
+):
+    """Add or update a page entry in the manifest.json file."""
+    manifest_path = exam_processing_dir / "manifest.json"
+    manifest = {}
+    if manifest_path.exists():
+        with open(manifest_path, "r") as f:
+            manifest = json.load(f)
+    if "pages" not in manifest:
+        manifest["pages"] = []
+    # Remove any existing entry for this page
+    manifest["pages"] = [p for p in manifest["pages"] if p["page_number"] != page_number]
+    manifest["pages"].append(
+        {
+            "page_number": page_number,
+            "thumb": thumb_path,
+            "full": full_path,
+        }
+    )
+    # Sort pages by page_number
+    manifest["pages"] = sorted(manifest["pages"], key=lambda p: p["page_number"])
+    with open(manifest_path, "w") as f:
+        json.dump(manifest, f, indent=2)
 
 
 @router.post("/upload")
@@ -104,6 +161,22 @@ async def upload_exam(
         "year": year,
     }
 
+    # After saving the PDF, create initial manifest
+    metadata = {
+        "slug": slug,
+        "exam_id": exam_type,
+        "exam_year": year,
+        "file_name": filename,
+        "file_original_url": pdf_url if pdf_url else None,
+        "file_size_bytes": len(content),
+        "file_total_pages": 0,
+        "processing_started": datetime.now().isoformat(),
+        "processing_completed": False,
+        "processing_pages_complete": 0,
+        "processing_status": "File uploaded, waiting to start processing...",
+    }
+    write_manifest(exam_processing_dir, metadata)
+
     # Start background image processing with the new directory structure, pass slug
     background_tasks.add_task(process_pdf_images, pdf_path, exam_processing_dir, processing_id, slug)
 
@@ -122,9 +195,8 @@ async def upload_exam(
 
 
 async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processing_id: str, slug: str):
-    """Background task to process PDF into images"""
+    """Background task to process PDF into images (efficient, in-memory)."""
     try:
-        # Update status to processing
         if processing_id in processing_status:
             processing_status[processing_id].update(
                 {
@@ -136,58 +208,80 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
 
         logger.info(f"Starting image processing for {pdf_path}")
 
-        # Create an extracted images directory for this exam
+        # Create an extracted images directory for this exam (not used for output, but for compatibility)
         extracted_dir = exam_processing_dir / "extracted"
         extracted_dir.mkdir(exist_ok=True)
 
-        # Convert PDF to images in the exam processing directory
-        image_paths = image_processor.pdf_to_images(pdf_path, output_dir=extracted_dir, slug=slug)
-
-        if processing_id in processing_status:
-            processing_status[processing_id].update(
-                {
-                    "progress": 50,
-                    "message": f"PDF converted to {len(image_paths)} images",
-                    "total_pages": len(image_paths),
-                    "processed_pages": len(image_paths),
-                }
-            )
-
-        # Move images to organized structure
         images_dir = exam_processing_dir / "images"
         thumbnails_dir = exam_processing_dir / "thumbnails"
 
-        # Process each image (crop, trim, add padding) and organize
-        for i, image_path in enumerate(image_paths):
-            if processing_id in processing_status:
-                progress = 50 + int((i / len(image_paths)) * 40)  # 50-90%
-                processing_status[processing_id].update(
-                    {
-                        "progress": progress,
-                        "message": f"Processing image {i+1} of {len(image_paths)}...",
-                    }
-                )
+        # Load all pages from the PDF as PIL Images (in memory)
+        pil_images = convert_from_path(pdf_path, dpi=300)
+        total_pages = len(pil_images)
 
-            # Process the image
-            try:
-                processed_image_path = image_processor.process_question_image(image_path)
+        # Update manifest with total pages and status
+        manifest_path = exam_processing_dir / "manifest.json"
+        if manifest_path.exists():
+            with open(manifest_path, "r") as f:
+                manifest = json.load(f)
+            manifest["metadata"]["file_total_pages"] = total_pages
+            manifest["metadata"]["processing_status"] = f"PDF loaded: {total_pages} pages. Starting image processing..."
+            with open(manifest_path, "w") as f:
+                json.dump(manifest, f, indent=2)
 
-                # Move to organized structure
-                if "thumb" in processed_image_path.name:
-                    # Move thumbnail to thumbnails directory
-                    final_path = thumbnails_dir / processed_image_path.name
-                    processed_image_path.rename(final_path)
-                else:
-                    # Move full image to images directory
-                    final_path = images_dir / processed_image_path.name
-                    processed_image_path.rename(final_path)
+        # Process each page in sequence: process full, generate thumb, save both, update manifest
+        for i, pil_image in enumerate(pil_images):
+            page_num = i + 1
+            page_num_str = f"{page_num:03d}"
+            prefix = f"{slug}_page_{page_num_str}"
 
-            except Exception as e:
-                logger.warning(f"Error processing image {image_path}: {str(e)}")
+            # --- Process full image (crop/trim/pad as needed) ---
+            processed_img = pil_image
+            # Optionally, you can apply your process_question_image logic here
+            # For now, just use the original page image as the 'full' processed image
+            # If you want to apply crop/trim/pad, do it here
 
-        # Clean up extracted directory if needed (optional, or keep for debugging)
-        # import shutil
-        # shutil.rmtree(extracted_dir, ignore_errors=True)
+            # Save full image
+            full_filename = f"{prefix}_full.png"
+            full_path = images_dir / full_filename
+            processed_img.save(full_path, "PNG", optimize=True)
+
+            # --- Generate and save thumb from processed image ---
+            thumb = processed_img.copy()
+            thumb.thumbnail((800, 800), Image.Resampling.LANCZOS)
+            thumb_filename = f"{prefix}_thumb.png"
+            thumb_path = thumbnails_dir / thumb_filename
+            thumb.save(thumb_path, "PNG", optimize=True)
+
+            logger.info(f"[MANIFEST DEBUG] Saved full and thumb for page {page_num}: {full_path}, {thumb_path}")
+
+            # --- Update manifest for this page ---
+            thumb_rel = str(thumb_path.relative_to(exam_processing_dir))
+            full_rel = str(full_path.relative_to(exam_processing_dir))
+            logger.info(
+                f"[MANIFEST DEBUG] Before update_manifest_page for page {page_num}: thumb={thumb_rel}, full={full_rel}"
+            )
+            update_manifest_page(exam_processing_dir, page_num, thumb_rel, full_rel)
+            logger.info(f"[MANIFEST DEBUG] After update_manifest_page for page {page_num}")
+            # Update manifest with pages complete and status
+            if manifest_path.exists():
+                with open(manifest_path, "r") as f:
+                    manifest = json.load(f)
+                manifest["metadata"]["processing_pages_complete"] = page_num
+                manifest["metadata"]["processing_status"] = f"Processing image {page_num} of {total_pages}..."
+                logger.info(f"[MANIFEST DEBUG] Before writing manifest.json for page {page_num}")
+                with open(manifest_path, "w") as f:
+                    json.dump(manifest, f, indent=2)
+                logger.info(f"[MANIFEST DEBUG] After writing manifest.json for page {page_num}")
+
+        # On completion, update manifest to mark as completed and status
+        if manifest_path.exists():
+            with open(manifest_path, "r") as f:
+                manifest = json.load(f)
+            manifest["metadata"]["processing_completed"] = True
+            manifest["metadata"]["processing_status"] = "Processing completed!"
+            with open(manifest_path, "w") as f:
+                json.dump(manifest, f, indent=2)
 
         # Update final status
         if processing_id in processing_status:
@@ -195,12 +289,12 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
                 {
                     "status": "completed",
                     "progress": 100,
-                    "message": f"Processing completed! {len(image_paths)} images ready in {exam_processing_dir.name}",
+                    "message": f"Processing completed! {total_pages} images ready in {exam_processing_dir.name}",
                 }
             )
 
         logger.info(
-            f"Image processing completed for {pdf_path}: {len(image_paths)} images generated in {exam_processing_dir}"
+            f"Image processing completed for {pdf_path}: {total_pages} images generated in {exam_processing_dir}"
         )
 
     except Exception as e:
@@ -214,6 +308,16 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, processi
                     "error": str(e),
                 }
             )
+        # On error, update manifest with error info and status
+        manifest_path = exam_processing_dir / "manifest.json"
+        if manifest_path.exists():
+            with open(manifest_path, "r") as f:
+                manifest = json.load(f)
+            manifest["metadata"]["processing_completed"] = False
+            manifest["metadata"]["error"] = str(e)
+            manifest["metadata"]["processing_status"] = f"Processing failed: {str(e)}"
+            with open(manifest_path, "w") as f:
+                json.dump(manifest, f, indent=2)
 
 
 @router.get("/processing/{processing_id}")
@@ -223,6 +327,18 @@ async def get_processing_status(processing_id: str):
         raise HTTPException(status_code=404, detail="Processing status not found")
 
     return processing_status[processing_id]
+
+
+@router.get("/{slug}/manifest/")
+async def get_exam_manifest(slug: str):
+    """Get the manifest.json for a given exam slug."""
+    exam_processing_dir = PROCESSING_DIR / slug
+    manifest_path = exam_processing_dir / "manifest.json"
+    if not manifest_path.exists():
+        raise HTTPException(status_code=404, detail="Manifest not found")
+    with open(manifest_path, "r") as f:
+        manifest = json.load(f)
+    return JSONResponse(content=manifest)
 
 
 @router.get("/{exam_name}/images")
