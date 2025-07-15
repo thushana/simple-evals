@@ -15,6 +15,7 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  Fade,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
 import type { ExamUploadForm, Manifest } from "./types/examExtractor.types";
@@ -487,69 +488,75 @@ export const ExamExtractor: React.FC = () => {
                       mt: 2,
                     }}
                   >
-                    {manifest.pages?.map((page) => (
-                      <Box
+                    {manifest.pages?.map((page, index) => (
+                      <Fade
                         key={page.page_number}
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          width: "100%",
-                        }}
+                        in={true}
+                        timeout={300 + index * 100} // Stagger the fade-in effect
+                        style={{ transitionDelay: `${index * 50}ms` }}
                       >
                         <Box
                           sx={{
-                            width: "100%",
-                            borderRadius: 1,
-                            border: "1px solid #eee",
-                            bgcolor: "#fafbfc",
-                            position: "relative",
                             display: "flex",
-                            justifyContent: "center",
+                            flexDirection: "column",
                             alignItems: "center",
+                            width: "100%",
                           }}
                         >
-                          <img
-                            src={API_ENDPOINTS.exams.image(manifest.metadata.slug, page.thumb.replace(/^images\//, ""))}
-                            alt={`Page ${page.page_number}`}
-                            style={{
-                              maxWidth: "100%",
-                              maxHeight: "100%",
-                              width: "auto",
-                              height: "auto",
-                              display: "block",
+                          <Box
+                            sx={{
+                              width: "100%",
+                              borderRadius: 1,
+                              border: "1px solid #eee",
+                              bgcolor: "#fafbfc",
+                              position: "relative",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
                             }}
-                            onError={(e) => {
-                              console.error(
-                                `Failed to load image: ${page.thumb}`,
-                              );
-                              console.error(
-                                `Full URL: http://localhost:8000/api/v1/exams/${manifest.metadata.slug}/images/${page.thumb.replace(/^images\//, "")}`,
-                              );
-                              e.currentTarget.style.display = "none";
+                          >
+                            <img
+                              src={API_ENDPOINTS.exams.image(manifest.metadata.slug, page.thumb.replace(/^images\//, ""))}
+                              alt={`Page ${page.page_number}`}
+                              style={{
+                                maxWidth: "100%",
+                                maxHeight: "100%",
+                                width: "auto",
+                                height: "auto",
+                                display: "block",
+                              }}
+                              onError={(e) => {
+                                console.error(
+                                  `Failed to load image: ${page.thumb}`,
+                                );
+                                console.error(
+                                  `Full URL: http://localhost:8000/api/v1/exams/${manifest.metadata.slug}/images/${page.thumb.replace(/^images\//, "")}`,
+                                );
+                                e.currentTarget.style.display = "none";
+                              }}
+                              onLoad={() => {
+                                console.log(
+                                  `Successfully loaded image: ${page.thumb}`,
+                                );
+                              }}
+                            />
+                          </Box>
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              color: "#aaa",
+                              fontSize: "0.75rem",
+                              textAlign: "center",
+                              mt: 0.5,
+                              mb: 0,
+                              fontWeight: 500,
+                              letterSpacing: "0.5px",
                             }}
-                            onLoad={() => {
-                              console.log(
-                                `Successfully loaded image: ${page.thumb}`,
-                              );
-                            }}
-                          />
+                          >
+                            {page.page_number}
+                          </Typography>
                         </Box>
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            color: "#aaa",
-                            fontSize: "0.75rem",
-                            textAlign: "center",
-                            mt: 0.5,
-                            mb: 0,
-                            fontWeight: 500,
-                            letterSpacing: "0.5px",
-                          }}
-                        >
-                          {page.page_number}
-                        </Typography>
-                      </Box>
+                      </Fade>
                     ))}
                   </Box>
                 </Box>
