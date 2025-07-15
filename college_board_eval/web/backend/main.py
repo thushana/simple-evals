@@ -5,7 +5,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from college_board_eval.web.backend.api.v1 import exams, health, results, uploads
+from college_board_eval.web.backend.api.v1 import exams, health, results
 from college_board_eval.web.backend.core.config import CORS_ORIGINS
 
 # Configure logging
@@ -30,7 +30,6 @@ app.add_middleware(
 
 # Include API routers
 app.include_router(exams.router, prefix="/api/v1")
-app.include_router(uploads.router, prefix="/api/v1")
 app.include_router(results.router, prefix="/api/v1")
 app.include_router(health.router)
 
