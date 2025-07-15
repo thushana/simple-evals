@@ -32,27 +32,8 @@ export interface ExamUploadForm {
   uploadMethod: "upload" | "grab" | null;
 }
 
-// Upload Response
+// Upload Response (now returns manifest metadata)
 export interface UploadResponse {
-  message: string;
-  slug: string;
-  exam_id: string;
-  exam_year: number;
-  file_name: string;
-  file_original_url: string | null;
-  file_size_bytes: number;
-  file_total_pages: number;
-  processing_started: string;
-  processing_completed: boolean;
-  processing_pages_complete: number;
-  processing_status: string;
-  error: string | null;
-  exam_processing_dir: string;
-  processing_id: string;
-}
-
-// Processing Status
-export interface ProcessingStatus {
   slug: string;
   exam_id: string;
   exam_year: number;
@@ -94,14 +75,15 @@ export interface ManifestMetadata {
   exam_id: string;
   exam_year: number;
   file_name: string;
-  file_original_url: string;
+  file_original_url: string | null;
   file_size_bytes: number;
   file_total_pages: number;
   processing_started: string;
   processing_completed: boolean;
   processing_pages_complete: number;
   processing_status: string;
-  [key: string]: any; // allow for extra fields
+  error: string | null;
+  exam_processing_dir: string;
 }
 
 export interface Manifest {

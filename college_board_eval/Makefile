@@ -135,19 +135,40 @@ web-frontend:
 	@echo "🚀 Starting Vite frontend development server..."
 	cd web/frontend && npm run dev
 
-# Start only the FastAPI backend server
+# Start only the FastAPI backend server (development mode - single worker)
 web-backend:
-	@echo "🚀 Starting FastAPI backend server..."
+	@echo "🚀 Starting FastAPI backend server (development mode)..."
 	cd .. && PYTHONPATH=. uvicorn college_board_eval.web.backend.main:app --reload --host 0.0.0.0 --port 8000
+
+# Start only the FastAPI backend server (production mode - multiple workers)
+web-backend-prod:
+	@echo "🚀 Starting FastAPI backend server (production mode with multiple workers)..."
+	cd .. && PYTHONPATH=. uvicorn college_board_eval.web.backend.main:app --host 0.0.0.0 --port 8000 --workers 4
+
+# Start FastAPI backend with multiple workers and file watching (development-friendly)
+web-backend-dev:
+	@echo "🚀 Starting FastAPI backend server (multi-worker dev mode with file watching)..."
+	cd .. && PYTHONPATH=. watchfiles --filter python "uvicorn college_board_eval.web.backend.main:app --host 0.0.0.0 --port 8000 --workers 4" college_board_eval/web/backend/
 
 # Start both FastAPI backend and React frontend development servers
 web:
 	@echo "🚀 Starting both backend and frontend development servers..."
 	@echo "📡 Backend will be available at: http://localhost:8000"
-	@echo "🌐 Frontend will be available at: http://localhost:5173"
+	@echo "🌐 Frontend will be available at: http://localhost:1600"
 	@echo ""
 	@echo "Starting FastAPI backend..."
 	cd .. && PYTHONPATH=. uvicorn college_board_eval.web.backend.main:app --reload --host 0.0.0.0 --port 8000 &
+	@echo "Starting Vite frontend..."
+	cd web/frontend && npm run dev
+
+# Start both backend (multi-worker) and frontend with hot reload
+web-dev:
+	@echo "🚀 Starting both backend (multi-worker) and frontend development servers..."
+	@echo "📡 Backend will be available at: http://localhost:8000"
+	@echo "🌐 Frontend will be available at: http://localhost:1600"
+	@echo ""
+	@echo "Starting FastAPI backend with multiple workers..."
+	cd .. && PYTHONPATH=. watchfiles --filter python "uvicorn college_board_eval.web.backend.main:app --host 0.0.0.0 --port 8000 --workers 4" college_board_eval/web/backend/ &
 	@echo "Starting Vite frontend..."
 	cd web/frontend && npm run dev
 

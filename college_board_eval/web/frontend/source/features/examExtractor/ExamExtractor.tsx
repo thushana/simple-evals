@@ -17,12 +17,8 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
-import type {
-  ExamUploadForm,
-  ProcessingStatus,
-  Manifest,
-} from "./types/examExtractor.types";
-import { uploadExamFile, fetchProcessingStatus, fetchManifest } from "./utils/api";
+import type { ExamUploadForm, Manifest } from "./types/examExtractor.types";
+import { uploadExamFile, fetchManifest } from "./utils/api";
 import { useExamData } from "./hooks/useExamData";
 
 export const ExamExtractor: React.FC = () => {
@@ -35,9 +31,6 @@ export const ExamExtractor: React.FC = () => {
     pdfUrl: "",
     uploadMethod: null,
   });
-  const [processingId, setProcessingId] = useState<string | null>(null);
-  const [processingStatus, setProcessingStatus] =
-    useState<ProcessingStatus | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [showProcessing, setShowProcessing] = useState(false);
@@ -45,50 +38,70 @@ export const ExamExtractor: React.FC = () => {
   const [manifest, setManifest] = useState<Manifest | null>(null);
   const [manifestSlug, setManifestSlug] = useState<string | null>(null);
 
-  // Poll processing status
-  React.useEffect(() => {
-    if (!processingId) return;
-    setPollError(null);
-    const poll = async () => {
-      try {
-        const status = await fetchProcessingStatus(processingId);
-        setProcessingStatus(status);
-        if (status.status === "completed" || status.status === "error") {
-          clearInterval(interval);
-        }
-      } catch (err: unknown) {
-        setPollError(
-          err instanceof Error
-            ? err.message
-            : "Failed to poll processing status",
-        );
-        clearInterval(interval);
-      }
-    };
-    const interval = setInterval(poll, 2000);
-    return () => clearInterval(interval);
-  }, [processingId]);
-
   // Poll manifest after upload
   React.useEffect(() => {
-    if (!manifestSlug) return;
-    let stopped = false;
+    if (!manifestSlug) {
+      return; // Skip polling if no slug (normal on component mount)
+    }
+    console.log(
+      `[DEBUG ${new Date().toISOString()}] Poll effect: started for manifestSlug`,
+      manifestSlug,
+    );
+
+    let intervalId: number | null = null;
+    let isStopped = false;
+
     const poll = async () => {
+      if (isStopped) {
+        console.log(
+          `[DEBUG ${new Date().toISOString()}] Poll stopped, skipping...`,
+        );
+        return;
+      }
+      console.log(`[DEBUG ${new Date().toISOString()}] Polling manifest...`);
       try {
         const m = await fetchManifest(manifestSlug);
+        console.log(`[DEBUG ${new Date().toISOString()}] Polled manifest:`, m);
         setManifest(m);
         if (m.metadata.processing_completed) {
-          stopped = true;
+          isStopped = true;
+          console.log(
+            `[DEBUG ${new Date().toISOString()}] Manifest processing completed, stopping poll.`,
+          );
+          if (intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+          }
         }
       } catch (err) {
-        // Optionally handle error
+        console.error(
+          `[DEBUG ${new Date().toISOString()}] Error polling manifest:`,
+          err,
+        );
       }
     };
+
+    // Start polling immediately
     poll();
-    const interval = setInterval(() => {
-      if (!stopped) poll();
-    }, 2000);
-    return () => clearInterval(interval);
+
+    // Set up interval for subsequent polls
+    intervalId = setInterval(() => {
+      if (!isStopped) {
+        poll();
+      }
+    }, 1000); // Reduced from 2000ms to 1000ms for more responsive updates
+
+    return () => {
+      isStopped = true;
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+      console.log(
+        `[DEBUG ${new Date().toISOString()}] Poll effect: cleanup for manifestSlug`,
+        manifestSlug,
+      );
+    };
   }, [manifestSlug]);
 
   const handleExamTypeChange = (event: SelectChangeEvent<string>) => {
@@ -122,42 +135,73 @@ export const ExamExtractor: React.FC = () => {
   const handleUpload = async () => {
     setUploading(true);
     setPollError(null);
+
+    // Generate slug from examType and year
+    const slug = `${formData.examType}_${formData.year}`;
+    console.log(
+      `[DEBUG ${new Date().toISOString()}] Uploading with slug:`,
+      slug,
+      formData,
+    );
+
+    // Start polling IMMEDIATELY when upload begins
+    console.log(
+      `[DEBUG ${new Date().toISOString()}] Starting manifest polling immediately for:`,
+      slug,
+    );
+    setManifestSlug(slug);
+    setManifest(null);
+
     try {
-      // Generate slug from examType and year
-      const slug = `${formData.examType}_${formData.year}`;
-      let resp;
       if (formData.uploadMethod === "upload" && formData.file) {
-        resp = await uploadExamFile(
+        console.log(
+          `[DEBUG ${new Date().toISOString()}] Calling uploadExamFile with file upload`,
+        );
+        await uploadExamFile(
           formData.file,
           slug,
           formData.examType,
           Number(formData.year),
         );
+        console.log(
+          `[DEBUG ${new Date().toISOString()}] uploadExamFile completed for file upload`,
+        );
       } else if (formData.uploadMethod === "grab" && formData.sourceUrl) {
-        resp = await uploadExamFile(
+        console.log(
+          `[DEBUG ${new Date().toISOString()}] Calling uploadExamFile with URL grab`,
+        );
+        await uploadExamFile(
           null,
           slug,
           formData.examType,
           Number(formData.year),
           formData.sourceUrl,
         );
+        console.log(
+          `[DEBUG ${new Date().toISOString()}] uploadExamFile completed for URL grab`,
+        );
       } else {
         throw new Error("No file or URL provided");
       }
+
       setUploading(false);
       setUploadComplete(true);
       setShowProcessing(false);
-      setProcessingId(resp.processing_id);
-      setProcessingStatus(null);
-      setManifestSlug(slug); // Start manifest polling
-      setManifest(null);
+
+      // Show processing immediately instead of waiting 1.5 seconds
       setTimeout(() => {
         setUploadComplete(false);
         setShowProcessing(true);
-      }, 1500);
+        console.log(
+          `[DEBUG ${new Date().toISOString()}] Show processing set to true`,
+        );
+      }, 500); // Reduced from 1500ms to 500ms
     } catch (err: unknown) {
+      console.error(`[DEBUG ${new Date().toISOString()}] Upload error:`, err);
       setPollError(err instanceof Error ? err.message : "Upload failed");
       setUploading(false);
+      // Clear manifestSlug on error to stop polling
+      setManifestSlug(null);
     }
   };
 
@@ -405,7 +449,12 @@ export const ExamExtractor: React.FC = () => {
               {/* Manifest-based Processing Status UI */}
               {showProcessing && manifest && (
                 <Box mt={3}>
-                  <Box display="flex" alignItems="center" justifyContent="space-between" mb={1}>
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mb={1}
+                  >
                     <Typography variant="body2" color="text.secondary">
                       Processed: {manifest.metadata.processing_pages_complete}
                     </Typography>
@@ -427,7 +476,9 @@ export const ExamExtractor: React.FC = () => {
                         sx={{
                           width: `${
                             manifest.metadata.file_total_pages > 0
-                              ? (manifest.metadata.processing_pages_complete / manifest.metadata.file_total_pages) * 100
+                              ? (manifest.metadata.processing_pages_complete /
+                                  manifest.metadata.file_total_pages) *
+                                100
                               : 0
                           }%`,
                           height: "100%",
@@ -465,7 +516,7 @@ export const ExamExtractor: React.FC = () => {
                           src={
                             page.thumb.startsWith("/")
                               ? page.thumb
-                              : `/api/v1/exams/processing/${manifest.metadata.slug}/images/${page.thumb}`
+                              : `/api/v1/exams/${manifest.metadata.slug}/images/${page.thumb}`
                           }
                           alt={`Page ${page.page_number}`}
                           style={{ width: "100%", display: "block" }}
