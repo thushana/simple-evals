@@ -310,8 +310,18 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  bgcolor: box.type === "Question" ? "#d32f2f" : "#009cde",
-                  color: "#fff",
+                  bgcolor: isActive
+                    ? box.type === "Question"
+                      ? "#d32f2f"
+                      : "#009cde"
+                    : box.type === "Question"
+                    ? "#ffebee"
+                    : "#e3f2fd",
+                  color: isActive
+                    ? "#fff"
+                    : box.type === "Question"
+                    ? "#d32f2f"
+                    : "#009cde",
                   borderRadius: 1,
                   fontSize: "0.95em",
                   fontWeight: 600,
@@ -336,13 +346,10 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                     borderTopRightRadius: box.type === "Question" ? 0 : 4,
                     borderBottomRightRadius: box.type === "Question" ? 0 : 4,
                     background: "inherit",
-                    borderRight:
-                      box.type === "Question"
-                        ? "1px solid rgba(255,255,255,0.25)"
-                        : "none",
+                    borderRight: box.type === "Question" ? "1px solid rgba(0,0,0,0.08)" : "none",
                     position: "relative",
                   }}
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation();
                     setTypeAnchorEl(e.currentTarget);
                     setShowTypeDropdown(!showTypeDropdown);
@@ -356,32 +363,22 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       open={showTypeDropdown}
                       onClose={() => setShowTypeDropdown(false)}
                       anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
+                        vertical: 'top',
+                        horizontal: 'left',
                       }}
                       transformOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
+                        vertical: 'bottom',
+                        horizontal: 'left',
                       }}
                     >
-                      <MenuItem
-                        value="Question"
-                        onClick={() => {
-                          onBoxTypeChange(box.id, "Question");
-                          setShowTypeDropdown(false);
-                        }}
-                      >
-                        Question
-                      </MenuItem>
-                      <MenuItem
-                        value="Context"
-                        onClick={() => {
-                          onBoxTypeChange(box.id, "Context");
-                          setShowTypeDropdown(false);
-                        }}
-                      >
-                        Context
-                      </MenuItem>
+                      <MenuItem value="Question" onClick={() => {
+                        onBoxTypeChange(box.id, "Question");
+                        setShowTypeDropdown(false);
+                      }}>Question</MenuItem>
+                      <MenuItem value="Context" onClick={() => {
+                        onBoxTypeChange(box.id, "Context");
+                        setShowTypeDropdown(false);
+                      }}>Context</MenuItem>
                     </Menu>
                   )}
                 </Box>
@@ -400,15 +397,13 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       position: "relative",
                       gap: 1,
                     }}
-                    onClick={(e) => {
+                    onClick={e => {
                       e.stopPropagation();
                       setNumberAnchorEl(e.currentTarget);
                       setShowNumberDropdown(!showNumberDropdown);
                     }}
                   >
-                    <span>
-                      {(box.questionNumber || 1).toString().padStart(3, "0")}
-                    </span>
+                    <span>{(box.questionNumber || 1).toString().padStart(3, "0")}</span>
                     <KeyboardArrowDown fontSize="small" />
                     {showNumberDropdown && (
                       <Menu
@@ -416,28 +411,22 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                         open={showNumberDropdown}
                         onClose={() => setShowNumberDropdown(false)}
                         anchorOrigin={{
-                          vertical: "top",
-                          horizontal: "left",
+                          vertical: 'top',
+                          horizontal: 'left',
                         }}
                         transformOrigin={{
-                          vertical: "bottom",
-                          horizontal: "left",
+                          vertical: 'bottom',
+                          horizontal: 'left',
                         }}
                       >
-                        {Array.from({ length: 999 }, (_, i) => i + 1).map(
-                          (num) => (
-                            <MenuItem
-                              key={num}
-                              value={num}
-                              onClick={() => {
-                                onQuestionNumberChange(box.id, Number(num));
-                                setShowNumberDropdown(false);
-                              }}
-                            >
-                              {num.toString().padStart(3, "0")}
-                            </MenuItem>
-                          ),
-                        )}
+                        {Array.from({ length: 999 }, (_, i) => i + 1).map(num => (
+                          <MenuItem key={num} value={num} onClick={() => {
+                            onQuestionNumberChange(box.id, Number(num));
+                            setShowNumberDropdown(false);
+                          }}>
+                            {num.toString().padStart(3, "0")}
+                          </MenuItem>
+                        ))}
                       </Menu>
                     )}
                   </Box>
@@ -1164,23 +1153,28 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                         left: box.x,
                         top: box.y - 25,
                         backgroundColor:
-                          box.type === "Question" ? "#d32f2f" : "#1976d2",
+                          box.type === "Question" ? "#d32f2f" : "#009cde",
                         color: "white",
                         px: 1.5,
                         py: 0.5,
                         borderRadius: 1,
                         fontSize: "0.75rem",
                         fontWeight: 600,
-                        fontFamily:
-                          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                        fontFamily: "'Roboto Mono', monospace",
                         lineHeight: 1,
                         whiteSpace: "nowrap",
                         pointerEvents: "none",
                         zIndex: 5,
                         boxShadow: "0 1px 3px rgba(0,0,0,0.2)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 0.5,
                       }}
                     >
-                      {box.type}
+                      {box.type === "Question" 
+                        ? `Question ${(box.questionNumber || 1).toString().padStart(3, "0")}`
+                        : "Context"
+                      }
                     </Box>
                   ))}
                   {/* Label for current box being drawn */}
@@ -1197,8 +1191,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                         borderRadius: 1,
                         fontSize: "0.75rem",
                         fontWeight: 600,
-                        fontFamily:
-                          "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                        fontFamily: "'Roboto Mono', monospace",
                         lineHeight: 1,
                         whiteSpace: "nowrap",
                         pointerEvents: "none",
