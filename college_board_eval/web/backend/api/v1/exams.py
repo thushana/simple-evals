@@ -34,6 +34,7 @@ logger = logging.getLogger(__name__)
 # EXAM METADATA ENDPOINTS
 # ============================================================================
 
+
 @router.get("/types")
 async def get_exam_types():
     """Get exam types configuration"""
@@ -63,6 +64,7 @@ async def get_years():
 # ============================================================================
 # EXAM UPLOAD AND PROCESSING ENDPOINTS
 # ============================================================================
+
 
 @router.post("/upload")
 async def upload_exam(
@@ -137,6 +139,7 @@ async def upload_exam(
 # EXAM MANIFEST ENDPOINTS
 # ============================================================================
 
+
 @router.get("/{slug}/manifest/")
 async def get_exam_manifest(slug: str):
     """Get the manifest.json for a given exam slug."""
@@ -184,6 +187,7 @@ async def get_exam_manifest_raw(slug: str):
 # ============================================================================
 # EXAM IMAGE ENDPOINTS
 # ============================================================================
+
 
 @router.get("/{slug}/images/{image_path:path}")
 async def serve_exam_image(slug: str, image_path: str):
@@ -256,6 +260,7 @@ async def get_exam_images(slug: str):
 # ============================================================================
 # HELPER FUNCTIONS
 # ============================================================================
+
 
 def write_manifest(
     exam_processing_dir: Path,

@@ -516,7 +516,10 @@ export const ExamExtractor: React.FC = () => {
                             }}
                           >
                             <img
-                              src={API_ENDPOINTS.exams.image(manifest.metadata.slug, page.thumb.replace(/^images\//, ""))}
+                              src={API_ENDPOINTS.exams.image(
+                                manifest.metadata.slug,
+                                page.thumb.replace(/^images\//, ""),
+                              )}
                               alt={`Page ${page.page_number}`}
                               style={{
                                 maxWidth: "100%",
@@ -565,6 +568,34 @@ export const ExamExtractor: React.FC = () => {
                 <Alert severity="error" sx={{ mt: 2 }}>
                   {pollError}
                 </Alert>
+              )}
+
+              {/* Build Exam Button - Show when processing is complete */}
+              {manifest?.metadata.processing_completed && (
+                <Box mt={3}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    fullWidth
+                    onClick={() => {
+                      window.location.href = `/examextractor/${manifest.metadata.slug}`;
+                    }}
+                    sx={{
+                      background:
+                        "linear-gradient(135deg, #009cde 0%, #0077c8 100%)",
+                      color: "#fff",
+                      py: 2,
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      "&:hover": {
+                        background:
+                          "linear-gradient(135deg, #0077c8 0%, #005a9e 100%)",
+                      },
+                    }}
+                  >
+                    🏗️ Build Exam
+                  </Button>
+                </Box>
               )}
             </>
           )}

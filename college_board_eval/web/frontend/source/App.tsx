@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Box, Container, Typography, Tab, Tabs } from "@mui/material";
 import { Dashboard } from "./features/dashboard/Dashboard";
 import { ExamExtractor } from "./features/examExtractor/ExamExtractor";
+import { ExamBuilder } from "./features/examExtractor/ExamBuilder";
 import {
   BrowserRouter,
   Routes,
@@ -182,6 +183,7 @@ function MainApp() {
             element={<Dashboard />}
           />
           <Route path="/examextractor" element={<ExamExtractor />} />
+          <Route path="/examextractor/:slug" element={<ExamBuilder />} />
         </Routes>
       </Box>
       {/* Footer - College Board Style */}
