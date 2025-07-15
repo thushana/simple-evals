@@ -15,6 +15,8 @@ export const API_ENDPOINTS = {
     upload: `${API_BASE_URL}/api/v1/exams/upload`,
     images: (examName: string) =>
       `${API_BASE_URL}/api/v1/exams/${examName}/images`,
+    image: (slug: string, imagePath: string) =>
+      `${API_BASE_URL}/api/v1/exams/${slug}/images/${imagePath}`,
     manifest: (slug: string) =>
       `${API_BASE_URL}/api/v1/exams/${slug}/manifest/`,
   },

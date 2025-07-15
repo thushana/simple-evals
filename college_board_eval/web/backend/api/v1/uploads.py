@@ -9,7 +9,7 @@ from typing import Optional
 
 import requests
 from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pdf2image import convert_from_path
 from PIL import Image
 
@@ -344,9 +344,10 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, slug: st
             )
 
             # --- Update manifest for this page ---
-            full_rel = str(full_path.relative_to(exam_processing_dir))
-            preview_rel = str(preview_path.relative_to(exam_processing_dir))
-            thumb_rel = str(thumb_path.relative_to(exam_processing_dir))
+            # Store only the filenames, not the full relative paths
+            full_rel = full_path.name
+            preview_rel = preview_path.name
+            thumb_rel = thumb_path.name
             logger.info(
                 f"[MANIFEST DEBUG {datetime.now().isoformat()}] Before update_manifest_page for page {page_num}: "
                 f"full={full_rel}, preview={preview_rel}, thumb={thumb_rel}"
@@ -447,6 +448,33 @@ async def get_exam_manifest_raw(slug: str):
         content = f.read()
 
     return {"raw_content": content, "file_size": len(content)}
+
+
+@router.get("/{slug}/images/{image_path:path}")
+async def serve_exam_image(slug: str, image_path: str):
+    """Serve an image file from the exam processing directory"""
+    logger.info(f"[IMAGE DEBUG {datetime.now().isoformat()}] Image request for slug: {slug}, path: {image_path}")
+
+    exam_processing_dir = PROCESSING_DIR / slug
+    # Images are stored in the images/ subdirectory
+    image_file_path = exam_processing_dir / "images" / image_path
+
+    logger.info(f"[IMAGE DEBUG {datetime.now().isoformat()}] Looking for image at: {image_file_path}")
+    logger.info(f"[IMAGE DEBUG {datetime.now().isoformat()}] Image file exists: {image_file_path.exists()}")
+
+    if not image_file_path.exists():
+        logger.error(f"[IMAGE DEBUG {datetime.now().isoformat()}] Image not found at: {image_file_path}")
+        raise HTTPException(status_code=404, detail="Image not found")
+
+    # Security check: ensure the path is within the exam processing directory
+    try:
+        image_file_path.resolve().relative_to(exam_processing_dir.resolve())
+    except ValueError:
+        logger.error(f"[IMAGE DEBUG {datetime.now().isoformat()}] Invalid image path: {image_path}")
+        raise HTTPException(status_code=400, detail="Invalid image path")
+
+    logger.info(f"[IMAGE DEBUG {datetime.now().isoformat()}] Serving image: {image_file_path}")
+    return FileResponse(image_file_path)
 
 
 @router.get("/{exam_name}/images")

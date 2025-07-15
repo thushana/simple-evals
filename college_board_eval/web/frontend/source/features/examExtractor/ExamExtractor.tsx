@@ -20,6 +20,7 @@ import type { SelectChangeEvent } from "@mui/material";
 import type { ExamUploadForm, Manifest } from "./types/examExtractor.types";
 import { uploadExamFile, fetchManifest } from "./utils/api";
 import { useExamData } from "./hooks/useExamData";
+import { API_ENDPOINTS } from "../../services/api";
 
 export const ExamExtractor: React.FC = () => {
   const { examTypes, years, loading, error } = useExamData();
@@ -152,6 +153,9 @@ export const ExamExtractor: React.FC = () => {
     setManifestSlug(slug);
     setManifest(null);
 
+    // Show processing UI immediately
+    setShowProcessing(true);
+
     try {
       if (formData.uploadMethod === "upload" && formData.file) {
         console.log(
@@ -186,16 +190,7 @@ export const ExamExtractor: React.FC = () => {
 
       setUploading(false);
       setUploadComplete(true);
-      setShowProcessing(false);
-
-      // Show processing immediately instead of waiting 1.5 seconds
-      setTimeout(() => {
-        setUploadComplete(false);
-        setShowProcessing(true);
-        console.log(
-          `[DEBUG ${new Date().toISOString()}] Show processing set to true`,
-        );
-      }, 500); // Reduced from 1500ms to 500ms
+      // Keep processing UI visible since we already set it to true
     } catch (err: unknown) {
       console.error(`[DEBUG ${new Date().toISOString()}] Upload error:`, err);
       setPollError(err instanceof Error ? err.message : "Upload failed");
@@ -428,6 +423,7 @@ export const ExamExtractor: React.FC = () => {
                 onClick={handleUpload}
                 disabled={
                   uploading ||
+                  showProcessing ||
                   !formData.examType ||
                   !formData.sourceUrl ||
                   !formData.uploadMethod ||
@@ -435,7 +431,11 @@ export const ExamExtractor: React.FC = () => {
                 }
                 fullWidth
               >
-                {uploading ? "Uploading..." : "Process PDF"}
+                {uploading
+                  ? "Uploading..."
+                  : showProcessing
+                    ? "Processing..."
+                    : "Process PDF"}
               </Button>
               {/* Upload/Download Complete Message (show for 1.5s) */}
               {uploadComplete && (
@@ -449,19 +449,6 @@ export const ExamExtractor: React.FC = () => {
               {/* Manifest-based Processing Status UI */}
               {showProcessing && manifest && (
                 <Box mt={3}>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    mb={1}
-                  >
-                    <Typography variant="body2" color="text.secondary">
-                      Processed: {manifest.metadata.processing_pages_complete}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Total: {manifest.metadata.file_total_pages}
-                    </Typography>
-                  </Box>
                   <Box mt={1} mb={1}>
                     <Box
                       sx={{
@@ -504,23 +491,64 @@ export const ExamExtractor: React.FC = () => {
                       <Box
                         key={page.page_number}
                         sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
                           width: "100%",
-                          aspectRatio: "2/3",
-                          overflow: "hidden",
-                          borderRadius: 1,
-                          border: "1px solid #eee",
-                          bgcolor: "#fafbfc",
                         }}
                       >
-                        <img
-                          src={
-                            page.thumb.startsWith("/")
-                              ? page.thumb
-                              : `/api/v1/exams/${manifest.metadata.slug}/images/${page.thumb}`
-                          }
-                          alt={`Page ${page.page_number}`}
-                          style={{ width: "100%", display: "block" }}
-                        />
+                        <Box
+                          sx={{
+                            width: "100%",
+                            borderRadius: 1,
+                            border: "1px solid #eee",
+                            bgcolor: "#fafbfc",
+                            position: "relative",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            src={API_ENDPOINTS.exams.image(manifest.metadata.slug, page.thumb.replace(/^images\//, ""))}
+                            alt={`Page ${page.page_number}`}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              width: "auto",
+                              height: "auto",
+                              display: "block",
+                            }}
+                            onError={(e) => {
+                              console.error(
+                                `Failed to load image: ${page.thumb}`,
+                              );
+                              console.error(
+                                `Full URL: http://localhost:8000/api/v1/exams/${manifest.metadata.slug}/images/${page.thumb.replace(/^images\//, "")}`,
+                              );
+                              e.currentTarget.style.display = "none";
+                            }}
+                            onLoad={() => {
+                              console.log(
+                                `Successfully loaded image: ${page.thumb}`,
+                              );
+                            }}
+                          />
+                        </Box>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: "#aaa",
+                            fontSize: "0.75rem",
+                            textAlign: "center",
+                            mt: 0.5,
+                            mb: 0,
+                            fontWeight: 500,
+                            letterSpacing: "0.5px",
+                          }}
+                        >
+                          {page.page_number}
+                        </Typography>
                       </Box>
                     ))}
                   </Box>
