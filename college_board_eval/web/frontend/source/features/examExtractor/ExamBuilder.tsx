@@ -41,7 +41,6 @@ import {
   Typography,
   Container,
   Button,
-  Chip,
   Stack,
   IconButton,
   Tooltip,
@@ -54,6 +53,8 @@ import {
   ListItemText,
   ListItemIcon,
   ListItemButton,
+  MenuItem,
+  Menu,
 } from "@mui/material";
 import {
   Create,
@@ -65,6 +66,7 @@ import {
   ExpandLess,
   DragIndicator,
   Folder,
+  KeyboardArrowDown,
 } from "@mui/icons-material";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "../../services/api";
@@ -112,6 +114,7 @@ interface SectionNodeProps {
   onBoxTypeChange: (boxId: string, type: "Question" | "Context") => void;
   onBoxDelete: (boxId: string) => void;
   onAssignQuestion: (boxId: string, sectionId: string) => void;
+  onQuestionNumberChange: (boxId: string, newNumber: number) => void;
 }
 
 const DraggableSectionNode: React.FC<SectionNodeProps> = ({
@@ -123,6 +126,7 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
   onBoxTypeChange,
   onBoxDelete,
   onAssignQuestion,
+  onQuestionNumberChange,
 }) => {
   const {
     attributes,
@@ -191,6 +195,7 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
                 onSetActiveBox={onSetActiveBox}
                 onBoxTypeChange={onBoxTypeChange}
                 onBoxDelete={onBoxDelete}
+                onQuestionNumberChange={onQuestionNumberChange}
               />
             ))}
           </SortableContext>
@@ -209,6 +214,7 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
                 onBoxTypeChange={onBoxTypeChange}
                 onBoxDelete={onBoxDelete}
                 onAssignQuestion={onAssignQuestion}
+                onQuestionNumberChange={onQuestionNumberChange}
               />
             ))}
         </List>
@@ -224,6 +230,7 @@ interface DraggableQuestionItemProps {
   onSetActiveBox: (boxId: string) => void;
   onBoxTypeChange: (boxId: string, type: "Question" | "Context") => void;
   onBoxDelete: (boxId: string) => void;
+  onQuestionNumberChange: (boxId: string, newNumber: number) => void;
 }
 
 const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
@@ -232,6 +239,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
   onSetActiveBox,
   onBoxTypeChange,
   onBoxDelete,
+  onQuestionNumberChange,
 }) => {
   const {
     attributes,
@@ -241,6 +249,13 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
     transition,
     isDragging,
   } = useSortable({ id: box.id });
+
+  const [showTypeDropdown, setShowTypeDropdown] = useState(false);
+  const [showNumberDropdown, setShowNumberDropdown] = useState(false);
+  const [typeAnchorEl, setTypeAnchorEl] = useState<null | HTMLElement>(null);
+  const [numberAnchorEl, setNumberAnchorEl] = useState<null | HTMLElement>(
+    null,
+  );
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -280,36 +295,156 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
               display: "flex",
               alignItems: "center",
               gap: 0.5,
-              mb: 0.5,
+              justifyContent: "space-between",
             }}
           >
-            <DragIndicator
-              fontSize="small"
-              sx={{ color: "#999", cursor: "grab" }}
-              {...attributes}
-              {...listeners}
-            />
-            <Chip
-              label={box.type}
-              size="small"
-              color={box.type === "Question" ? "error" : "primary"}
-              onClick={(e) => {
-                e.stopPropagation();
-                onBoxTypeChange(
-                  box.id,
-                  box.type === "Question" ? "Context" : "Question",
-                );
-              }}
-            />
-            {box.questionNumber && (
-              <Typography variant="caption" sx={{ fontWeight: 500 }}>
-                #{box.questionNumber}
-              </Typography>
-            )}
-            <Typography variant="caption" sx={{ ml: "auto" }}>
-              {Math.round(box.width)} × {Math.round(box.height)} | P
-              {box.pageNumber}
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0 }}>
+              <DragIndicator
+                fontSize="small"
+                sx={{ color: "#999", cursor: "grab" }}
+                {...attributes}
+                {...listeners}
+              />
+              {/* Pill start */}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  bgcolor: box.type === "Question" ? "#d32f2f" : "#009cde",
+                  color: "#fff",
+                  borderRadius: 1,
+                  fontSize: "0.95em",
+                  fontWeight: 600,
+                  fontFamily: "'Roboto Mono', monospace",
+                  height: 32,
+                  minWidth: 120,
+                  boxShadow: "none",
+                  px: 0,
+                  overflow: "hidden",
+                }}
+              >
+                {/* Type dropdown */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    px: 2,
+                    py: 0.5,
+                    cursor: "pointer",
+                    borderTopLeftRadius: 4,
+                    borderBottomLeftRadius: 4,
+                    borderTopRightRadius: box.type === "Question" ? 0 : 4,
+                    borderBottomRightRadius: box.type === "Question" ? 0 : 4,
+                    background: "inherit",
+                    borderRight:
+                      box.type === "Question"
+                        ? "1px solid rgba(255,255,255,0.25)"
+                        : "none",
+                    position: "relative",
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setTypeAnchorEl(e.currentTarget);
+                    setShowTypeDropdown(!showTypeDropdown);
+                  }}
+                >
+                  <span>{box.type}</span>
+                  <KeyboardArrowDown fontSize="small" />
+                  {showTypeDropdown && (
+                    <Menu
+                      anchorEl={typeAnchorEl}
+                      open={showTypeDropdown}
+                      onClose={() => setShowTypeDropdown(false)}
+                      anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "left",
+                      }}
+                      transformOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                      }}
+                    >
+                      <MenuItem
+                        value="Question"
+                        onClick={() => {
+                          onBoxTypeChange(box.id, "Question");
+                          setShowTypeDropdown(false);
+                        }}
+                      >
+                        Question
+                      </MenuItem>
+                      <MenuItem
+                        value="Context"
+                        onClick={() => {
+                          onBoxTypeChange(box.id, "Context");
+                          setShowTypeDropdown(false);
+                        }}
+                      >
+                        Context
+                      </MenuItem>
+                    </Menu>
+                  )}
+                </Box>
+                {/* Number dropdown for Question only */}
+                {box.type === "Question" && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      px: 2,
+                      py: 0.5,
+                      cursor: "pointer",
+                      borderTopRightRadius: 4,
+                      borderBottomRightRadius: 4,
+                      background: "inherit",
+                      position: "relative",
+                      gap: 1,
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setNumberAnchorEl(e.currentTarget);
+                      setShowNumberDropdown(!showNumberDropdown);
+                    }}
+                  >
+                    <span>
+                      {(box.questionNumber || 1).toString().padStart(3, "0")}
+                    </span>
+                    <KeyboardArrowDown fontSize="small" />
+                    {showNumberDropdown && (
+                      <Menu
+                        anchorEl={numberAnchorEl}
+                        open={showNumberDropdown}
+                        onClose={() => setShowNumberDropdown(false)}
+                        anchorOrigin={{
+                          vertical: "top",
+                          horizontal: "left",
+                        }}
+                        transformOrigin={{
+                          vertical: "bottom",
+                          horizontal: "left",
+                        }}
+                      >
+                        {Array.from({ length: 999 }, (_, i) => i + 1).map(
+                          (num) => (
+                            <MenuItem
+                              key={num}
+                              value={num}
+                              onClick={() => {
+                                onQuestionNumberChange(box.id, Number(num));
+                                setShowNumberDropdown(false);
+                              }}
+                            >
+                              {num.toString().padStart(3, "0")}
+                            </MenuItem>
+                          ),
+                        )}
+                      </Menu>
+                    )}
+                  </Box>
+                )}
+              </Box>
+              {/* Pill end */}
+            </Box>
             <Tooltip title="Delete bounding box">
               <IconButton
                 size="small"
@@ -329,9 +464,6 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
               </IconButton>
             </Tooltip>
           </Box>
-          <Typography variant="caption" color="text.secondary">
-            Position: ({Math.round(box.x)}, {Math.round(box.y)})
-          </Typography>
         </Box>
       </ListItem>
     </div>
@@ -568,10 +700,19 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
 
   // Handle bounding box deletion
   const handleBoxDelete = (boxId: string) => {
+    const deletedBox = boundingBoxes.find((box) => box.id === boxId);
+    const sectionId = deletedBox?.sectionId;
+
     setBoundingBoxes((prev) => prev.filter((box) => box.id !== boxId));
+
     // Clear active box if it was deleted
     if (activeBoxId === boxId) {
       setActiveBoxId(null);
+    }
+
+    // Renumber questions in the section if a question was deleted
+    if (sectionId) {
+      setTimeout(() => renumberQuestionsInSection(sectionId), 0);
     }
   };
 
@@ -648,32 +789,51 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
     });
   };
 
+  const getQuestionsInSection = (sectionId: string): BoundingBox[] => {
+    return boundingBoxes.filter(
+      (box) => box.sectionId === sectionId && box.type === "Question",
+    );
+  };
+
   const getNextQuestionNumber = (sectionId: string): number => {
-    const questions = getAllQuestionsInSection(sections, sectionId);
+    const questions = getQuestionsInSection(sectionId);
     return questions.length + 1;
   };
 
-  const getAllQuestionsInSection = (
-    sections: Section[],
-    sectionId: string,
-  ): Question[] => {
-    const questions: Question[] = [];
+  const renumberQuestionsInSection = (sectionId: string) => {
+    const questions = getQuestionsInSection(sectionId);
+    const updatedBoxes = [...boundingBoxes];
 
-    const traverse = (nodes: (Section | Question)[]) => {
-      nodes.forEach((node) => {
-        if (node.type === "question" && node.sectionId === sectionId) {
-          questions.push(node as Question);
-        } else if (node.type === "section") {
-          traverse((node as Section).children);
-        }
-      });
-    };
+    questions.forEach((question, index) => {
+      const boxIndex = updatedBoxes.findIndex((box) => box.id === question.id);
+      if (boxIndex !== -1) {
+        updatedBoxes[boxIndex] = {
+          ...updatedBoxes[boxIndex],
+          questionNumber: index + 1,
+        };
+      }
+    });
 
-    traverse(sections);
-    return questions;
+    setBoundingBoxes(updatedBoxes);
+  };
+
+  const handleQuestionNumberChange = (boxId: string, newNumber: number) => {
+    setBoundingBoxes((prev) =>
+      prev.map((box) =>
+        box.id === boxId ? { ...box, questionNumber: newNumber } : box,
+      ),
+    );
   };
 
   const assignQuestionToSection = (boxId: string, sectionId: string) => {
+    // First, remove the question from its current section (if any)
+    const currentBox = boundingBoxes.find((box) => box.id === boxId);
+    if (currentBox?.sectionId && currentBox.sectionId !== sectionId) {
+      // Renumber questions in the old section
+      renumberQuestionsInSection(currentBox.sectionId);
+    }
+
+    // Assign to new section and get next number
     const questionNumber = getNextQuestionNumber(sectionId);
 
     setBoundingBoxes((prev) =>
@@ -754,18 +914,8 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
         const questionId = activeId;
         const targetSectionId = overId;
 
-        // Find the question in bounding boxes
-        const question = boundingBoxes.find((box) => box.id === questionId);
-        if (question) {
-          // Update the question's section assignment
-          setBoundingBoxes((prev) =>
-            prev.map((box) =>
-              box.id === questionId
-                ? { ...box, sectionId: targetSectionId }
-                : box,
-            ),
-          );
-        }
+        // Use the assignQuestionToSection function which handles renumbering
+        assignQuestionToSection(questionId, targetSectionId);
       }
     }
   };
@@ -1177,6 +1327,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                             onBoxTypeChange={handleBoxTypeChange}
                             onBoxDelete={handleBoxDelete}
                             onAssignQuestion={assignQuestionToSection}
+                            onQuestionNumberChange={handleQuestionNumberChange}
                           />
                         ))}
                       </List>
