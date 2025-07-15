@@ -7,9 +7,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import type {
-  DragEndEvent,
-} from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
@@ -323,7 +321,8 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
   };
 
   const isActive = box.id === activeBoxId;
-  const borderColor = box.type === "Question" ? COLORS.question.primary : COLORS.context.primary;
+  const borderColor =
+    box.type === "Question" ? COLORS.question.primary : COLORS.context.primary;
   const bgColor = isActive
     ? box.type === "Question"
       ? COLORS.question.light
@@ -337,13 +336,17 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
           sx={{
             width: "100%",
             p: 0.5,
-            border: isActive ? `2px solid ${borderColor}` : `1px solid ${COLORS.ui.border}`,
+            border: isActive
+              ? `2px solid ${borderColor}`
+              : `1px solid ${COLORS.ui.border}`,
             borderRadius: 1,
             bgcolor: bgColor,
             cursor: "pointer",
             transition: "all 0.2s ease",
             "&:hover": {
-              border: isActive ? `2px solid ${borderColor}` : `1px solid ${COLORS.ui.borderHover}`,
+              border: isActive
+                ? `2px solid ${borderColor}`
+                : `1px solid ${COLORS.ui.borderHover}`,
               bgcolor: isActive ? bgColor : COLORS.ui.backgroundHover,
             },
           }}
@@ -374,13 +377,13 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       ? COLORS.question.primary
                       : COLORS.context.primary
                     : box.type === "Question"
-                    ? COLORS.question.light
-                    : COLORS.context.light,
+                      ? COLORS.question.light
+                      : COLORS.context.light,
                   color: isActive
                     ? COLORS.text.white
                     : box.type === "Question"
-                    ? COLORS.question.primary
-                    : COLORS.context.primary,
+                      ? COLORS.question.primary
+                      : COLORS.context.primary,
                   ...COMMON_STYLES.pill,
                 }}
               >
@@ -397,10 +400,13 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                     borderTopRightRadius: box.type === "Question" ? 0 : 4,
                     borderBottomRightRadius: box.type === "Question" ? 0 : 4,
                     background: "inherit",
-                    borderRight: box.type === "Question" ? "1px solid rgba(0,0,0,0.08)" : "none",
+                    borderRight:
+                      box.type === "Question"
+                        ? "1px solid rgba(0,0,0,0.08)"
+                        : "none",
                     position: "relative",
                   }}
-                  onClick={e => {
+                  onClick={(e) => {
                     e.stopPropagation();
                     setTypeAnchorEl(e.currentTarget);
                     setShowTypeDropdown(!showTypeDropdown);
@@ -414,22 +420,32 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       open={showTypeDropdown}
                       onClose={() => setShowTypeDropdown(false)}
                       anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
+                        vertical: "top",
+                        horizontal: "left",
                       }}
                       transformOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
+                        vertical: "bottom",
+                        horizontal: "left",
                       }}
                     >
-                      <MenuItem value="Question" onClick={() => {
-                        onBoxTypeChange(box.id, "Question");
-                        setShowTypeDropdown(false);
-                      }}>Question</MenuItem>
-                      <MenuItem value="Context" onClick={() => {
-                        onBoxTypeChange(box.id, "Context");
-                        setShowTypeDropdown(false);
-                      }}>Context</MenuItem>
+                      <MenuItem
+                        value="Question"
+                        onClick={() => {
+                          onBoxTypeChange(box.id, "Question");
+                          setShowTypeDropdown(false);
+                        }}
+                      >
+                        Question
+                      </MenuItem>
+                      <MenuItem
+                        value="Context"
+                        onClick={() => {
+                          onBoxTypeChange(box.id, "Context");
+                          setShowTypeDropdown(false);
+                        }}
+                      >
+                        Context
+                      </MenuItem>
                     </Menu>
                   )}
                 </Box>
@@ -448,13 +464,15 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       position: "relative",
                       gap: 1,
                     }}
-                    onClick={e => {
+                    onClick={(e) => {
                       e.stopPropagation();
                       setNumberAnchorEl(e.currentTarget);
                       setShowNumberDropdown(!showNumberDropdown);
                     }}
                   >
-                    <span>{(box.questionNumber || 1).toString().padStart(3, "0")}</span>
+                    <span>
+                      {(box.questionNumber || 1).toString().padStart(3, "0")}
+                    </span>
                     <KeyboardArrowDown fontSize="small" />
                     {showNumberDropdown && (
                       <Menu
@@ -462,22 +480,28 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                         open={showNumberDropdown}
                         onClose={() => setShowNumberDropdown(false)}
                         anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'left',
+                          vertical: "top",
+                          horizontal: "left",
                         }}
                         transformOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'left',
+                          vertical: "bottom",
+                          horizontal: "left",
                         }}
                       >
-                        {Array.from({ length: 999 }, (_, i) => i + 1).map(num => (
-                          <MenuItem key={num} value={num} onClick={() => {
-                            onQuestionNumberChange(box.id, Number(num));
-                            setShowNumberDropdown(false);
-                          }}>
-                            {num.toString().padStart(3, "0")}
-                          </MenuItem>
-                        ))}
+                        {Array.from({ length: 999 }, (_, i) => i + 1).map(
+                          (num) => (
+                            <MenuItem
+                              key={num}
+                              value={num}
+                              onClick={() => {
+                                onQuestionNumberChange(box.id, Number(num));
+                                setShowNumberDropdown(false);
+                              }}
+                            >
+                              {num.toString().padStart(3, "0")}
+                            </MenuItem>
+                          ),
+                        )}
                       </Menu>
                     )}
                   </Box>
@@ -522,10 +546,10 @@ const BoundingBoxLabel: React.FC<{
       position: "absolute",
       left: x,
       top: y - 25,
-      backgroundColor: isDrawing 
-        ? COLORS.question.primary 
-        : box.type === "Question" 
-          ? COLORS.question.primary 
+      backgroundColor: isDrawing
+        ? COLORS.question.primary
+        : box.type === "Question"
+          ? COLORS.question.primary
           : COLORS.context.primary,
       color: COLORS.text.white,
       px: 1.5,
@@ -536,12 +560,11 @@ const BoundingBoxLabel: React.FC<{
       gap: 0.5,
     }}
   >
-    {isDrawing 
+    {isDrawing
       ? "Question"
-      : box.type === "Question" 
+      : box.type === "Question"
         ? `Question ${(box.questionNumber || 1).toString().padStart(3, "0")}`
-        : "Context"
-    }
+        : "Context"}
   </Box>
 );
 
@@ -640,9 +663,10 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
         const alpha = isActive ? 1.0 : 0.5;
 
         // Set color with opacity - match Material-UI chip colors
-        ctx.strokeStyle = box.type === "Question"
-          ? `rgba(211, 47, 47, ${alpha})`
-          : `rgba(25, 118, 210, ${alpha})`;
+        ctx.strokeStyle =
+          box.type === "Question"
+            ? `rgba(211, 47, 47, ${alpha})`
+            : `rgba(25, 118, 210, ${alpha})`;
 
         ctx.lineWidth = 3;
         ctx.strokeRect(box.x, box.y, box.width, box.height);
@@ -1120,7 +1144,9 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                     borderRadius: 1,
                     p: 0.5,
                     bgcolor:
-                      selectedPage === page.page_number ? COLORS.ui.selectedPageBg : "#fff",
+                      selectedPage === page.page_number
+                        ? COLORS.ui.selectedPageBg
+                        : "#fff",
                   }}
                   onClick={() => setSelectedPage(page.page_number)}
                 >
@@ -1159,7 +1185,9 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
             <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
               <Typography variant="h6">Page {selectedPage}</Typography>
               <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
-                <Tooltip title={drawingEnabled ? "Disable Drawing" : "Enable Drawing"}>
+                <Tooltip
+                  title={drawingEnabled ? "Disable Drawing" : "Enable Drawing"}
+                >
                   <IconButton
                     onClick={() => {
                       setDrawingEnabled(!drawingEnabled);
@@ -1225,7 +1253,15 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                   {/* Label for current box being drawn */}
                   {currentBox && drawStart && (
                     <BoundingBoxLabel
-                      box={{ id: "temp_box", x: currentBox.x || 0, y: currentBox.y || 0, width: 0, height: 0, type: "Question", pageNumber: selectedPage }}
+                      box={{
+                        id: "temp_box",
+                        x: currentBox.x || 0,
+                        y: currentBox.y || 0,
+                        width: 0,
+                        height: 0,
+                        type: "Question",
+                        pageNumber: selectedPage,
+                      }}
                       x={currentBox.x || 0}
                       y={currentBox.y || 0}
                       isDrawing={true}
