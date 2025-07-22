@@ -594,6 +594,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   const [showAddSection, setShowAddSection] = useState(false);
   const [newSectionName, setNewSectionName] = useState("");
   const [newSectionParent, setNewSectionParent] = useState<string | null>(null);
+  const [pendingBoxId, setPendingBoxId] = useState<string | null>(null);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -748,11 +749,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
           }
         } else if (sections.length === 0) {
           addSection("I");
-          setTimeout(() => {
-            if (sections.length > 0) {
-              assignQuestionToSection(newBox.id, sections[0].id);
-            }
-          }, 0);
+          setPendingBoxId(newBox.id);
         } else {
           assignQuestionToSection(newBox.id, sections[0].id);
         }
@@ -1054,6 +1051,14 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   };
 
   // No zoom/pan controls needed
+
+  // Assign the pending box to the new section after sections update
+  useEffect(() => {
+    if (pendingBoxId && sections.length > 0) {
+      assignQuestionToSection(pendingBoxId, sections[0].id);
+      setPendingBoxId(null);
+    }
+  }, [sections, pendingBoxId]);
 
   if (loading) {
     return (
