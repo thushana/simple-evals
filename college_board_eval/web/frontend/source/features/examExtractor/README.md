@@ -122,26 +122,23 @@ P4 — Unlikely in this iteration (stretch goals)
 ✅ **EXAM TYPE DROPDOWN** - Dropdown to select exam type from backend config
 ✅ **YEAR SELECTION** - Dynamic year dropdown (2000 to current year)
 ✅ **FILE UPLOAD UI** - Drag-and-drop or file picker for PDF uploads
-⬜️ **UPLOAD PROGRESS** - Visual progress indicator during file upload
 ✅ **UPLOAD VALIDATION** - Client-side validation of file type and size
-⬜️ **MULTI-FILE UPLOAD** - Support for uploading multiple PDF files
-⬜️ **UPLOAD STATUS** - Real-time status updates during upload process
 
 ### Image Viewer Interface
 
-⬜️ **THUMBNAIL TRAY** - Left sidebar with page thumbnails (10% width)
-⬜️ **FULL PAGE VIEW** - Right pane showing full-resolution page images
-⬜️ **PAGE NAVIGATION** - Click thumbnails to navigate between pages
-⬜️ **ZOOM CONTROLS** - Zoom in/out functionality for detailed viewing
-⬜️ **LOADING STATES** - Loading indicators while images are being generated
-⬜️ **ERROR HANDLING** - Graceful error handling for failed image loads
+✅ **THUMBNAIL TRAY** - Left sidebar with page thumbnails (10% width)
+✅ **FULL PAGE VIEW** - Right pane showing full-resolution page images
+✅ **PAGE NAVIGATION** - Click thumbnails to navigate between pages
+⬜️ **ZOOM CONTROLS** - Zoom in/out functionality for detailed viewing (not implemented, but architecture supports it)
+✅ **LOADING STATES** - Loading indicators while images are being generated
+✅ **ERROR HANDLING** - Graceful error handling for failed image loads
 
 ### Question Extraction Interface
 
-⬜️ **MANUAL CROPPING TOOL** - Default interface for manual question cropping
-⬜️ **CROP SELECTION** - Click and drag to select question boundaries
-⬜️ **CROP PREVIEW** - Preview of cropped question area
-⬜️ **QUESTION METADATA** - Form to add question metadata (type, points, etc.)
+✅ **MANUAL CROPPING TOOL** - Default interface for manual question cropping
+✅ **CROP SELECTION** - Click and drag to select question boundaries
+✅ **CROP PREVIEW** - Preview of cropped question area
+✅ **QUESTION METADATA** - Form to add question metadata (type, points, etc.)
 ⬜️ **BATCH PROCESSING** - Process multiple questions in batch
 ⬜️ **PROGRESS TRACKING** - Track progress of question extraction
 
