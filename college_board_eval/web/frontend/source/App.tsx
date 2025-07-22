@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Box, Container, Typography, Tab, Tabs } from "@mui/material";
 import { Dashboard } from "./features/dashboard/Dashboard";
 import { ExamExtractor } from "./features/examExtractor/ExamExtractor";
-import { ExamBuilder } from "./features/examExtractor/ExamBuilder";
 import {
   BrowserRouter,
   Routes,
@@ -10,6 +9,8 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
+
+let mainAppMountCount = 0;
 
 function ProjectPage() {
   useEffect(() => {
@@ -60,6 +61,8 @@ function ProjectPage() {
 }
 
 function MainApp() {
+  mainAppMountCount++;
+  console.log("MainApp mounted, count:", mainAppMountCount);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -183,7 +186,7 @@ function MainApp() {
             element={<Dashboard />}
           />
           <Route path="/examextractor" element={<ExamExtractor />} />
-          <Route path="/examextractor/:slug" element={<ExamBuilder />} />
+          <Route path="/examextractor/:slug" element={<ExamExtractor />} />
         </Routes>
       </Box>
       {/* Footer - College Board Style */}

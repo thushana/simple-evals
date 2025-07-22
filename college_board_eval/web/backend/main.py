@@ -6,7 +6,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from college_board_eval.web.backend.api.v1 import exams, health, results
-from college_board_eval.web.backend.core.config import CORS_ORIGINS
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

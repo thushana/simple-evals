@@ -1,5 +1,6 @@
 """Exam-related API endpoints including upload, processing, and metadata"""
 
+import hashlib
 import json
 import logging
 import os
@@ -12,7 +13,6 @@ from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, Uploa
 from fastapi.responses import FileResponse, JSONResponse
 from pdf2image import convert_from_path
 from PIL import Image
-import hashlib
 
 from college_board_eval.web.backend.core.config import (
     EXAMS_DIR,
@@ -325,8 +325,8 @@ def update_manifest_page(
 def compute_file_sha256(file_path: Path):
     """Compute SHA-256 hash for a file."""
     sha256 = hashlib.sha256()
-    with open(file_path, 'rb') as f:
-        for chunk in iter(lambda: f.read(8192), b''):
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
             sha256.update(chunk)
     return sha256.hexdigest()
 

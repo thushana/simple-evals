@@ -90,3 +90,17 @@ export interface Manifest {
   metadata: ManifestMetadata;
   pages: ManifestPage[];
 }
+
+// Bounding box for drawn/selected areas
+export interface BoundingBox {
+  id: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  type: "Question" | "Context";
+  pageNumber: number;
+  isActive?: boolean;
+  questionNumber?: number;
+  sectionId?: string;
+}

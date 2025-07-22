@@ -19,9 +19,11 @@ import {
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
 import type { ExamUploadForm, Manifest } from "./types/examExtractor.types";
+import type { BoundingBox } from "./types/examExtractor.types";
 import { uploadExamFile, fetchManifest } from "./utils/api";
 import { useExamData } from "./hooks/useExamData";
 import { API_ENDPOINTS } from "../../services/api";
+import { ExamBuilder } from "./ExamBuilder";
 
 export const ExamExtractor: React.FC = () => {
   const { examTypes, years, loading, error } = useExamData();
@@ -39,6 +41,11 @@ export const ExamExtractor: React.FC = () => {
   const [pollError, setPollError] = useState<string | null>(null);
   const [manifest, setManifest] = useState<Manifest | null>(null);
   const [manifestSlug, setManifestSlug] = useState<string | null>(null);
+  // Ensure boundingBoxes is only initialized once and never reset from manifest or backend data
+  const [boundingBoxes, setBoundingBoxes] = useState<BoundingBox[]>([]);
+
+  // Use setBoundingBoxes directly for production (remove logging wrapper)
+  const setBoundingBoxesAndLog = setBoundingBoxes;
 
   // Poll manifest after upload
   React.useEffect(() => {
@@ -50,7 +57,7 @@ export const ExamExtractor: React.FC = () => {
       manifestSlug,
     );
 
-    let intervalId: number | null = null;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
     let isStopped = false;
 
     const poll = async () => {
@@ -378,7 +385,11 @@ export const ExamExtractor: React.FC = () => {
               </Box>
 
               {/* Always show Source URL field (with explainer) below selector (and below file upload if present) */}
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 0, mt: 0 }}>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mb: 0, mt: 0 }}
+              >
                 Original PDF source URL
               </Typography>
               <TextField
@@ -600,6 +611,10 @@ export const ExamExtractor: React.FC = () => {
           )}
         </Stack>
       </Container>
+      <ExamBuilder
+        boundingBoxes={boundingBoxes}
+        setBoundingBoxes={setBoundingBoxesAndLog}
+      />
     </>
   );
 };

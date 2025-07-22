@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   DndContext,
   closestCenter,
@@ -119,28 +125,18 @@ import {
   ArrowBack,
   Delete,
   Add,
-  ExpandMore,
-  ExpandLess,
   DragIndicator,
   Folder,
   KeyboardArrowDown,
 } from "@mui/icons-material";
-import ChevronRight from "@mui/icons-material/ChevronRight";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "../../services/api";
 import type { Manifest } from "./types/examExtractor.types";
-
-interface BoundingBox {
-  id: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  type: "Question" | "Context";
-  pageNumber: number;
-  isActive?: boolean;
-  questionNumber?: number;
-  sectionId?: string;
+import type { BoundingBox } from "./types/examExtractor.types";
+interface ExamBuilderProps {
+  boundingBoxes: BoundingBox[];
+  setBoundingBoxes: React.Dispatch<React.SetStateAction<BoundingBox[]>>;
+  // ...other props if needed
 }
 
 interface Section {
@@ -158,9 +154,6 @@ interface Question {
   questionNumber: number;
   sectionId: string;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type ExamNode = Section | Question;
 
 // Draggable Section Node Component
 interface SectionNodeProps {
@@ -204,6 +197,10 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
   const sectionQuestions = boundingBoxes.filter(
     (box) => box.sectionId === section.id,
   );
+  console.log(
+    `Section '${section.name}' rendering, sectionQuestions:`,
+    sectionQuestions.map((b) => b.id),
+  );
 
   return (
     <div ref={setNodeRef} style={style}>
@@ -220,17 +217,25 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
               {...listeners}
             />
           </ListItemIcon>
-          <ListItemIcon sx={{ minWidth: 24, fontSize: 20, color: '#666' }}>
-            {section.expanded ? '▼' : '▶'}
+          <ListItemIcon sx={{ minWidth: 24, fontSize: 20, color: "#666" }}>
+            {section.expanded ? "▼" : "▶"}
           </ListItemIcon>
           <ListItemText
             primary={
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Folder fontSize="small" />
-                <Typography variant="body2" fontWeight={500} sx={{ fontFamily: 'Roboto Mono, monospace' }}>
+                <Typography
+                  variant="body2"
+                  fontWeight={500}
+                  sx={{ fontFamily: "Roboto Mono, monospace" }}
+                >
                   {section.name}
                 </Typography>
-                <Typography variant="caption" color="text.secondary" sx={{ fontFamily: 'Roboto Mono, monospace' }}>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ fontFamily: "Roboto Mono, monospace" }}
+                >
                   ({sectionQuestions.length})
                 </Typography>
               </Box>
@@ -406,7 +411,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                         ? "1px solid rgba(0,0,0,0.08)"
                         : "none",
                     position: "relative",
-                    fontFamily: 'Roboto Mono, monospace',
+                    fontFamily: "Roboto Mono, monospace",
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -414,7 +419,9 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                     setShowTypeDropdown(!showTypeDropdown);
                   }}
                 >
-                  <span style={{ fontFamily: 'Roboto Mono, monospace' }}>{box.type}</span>
+                  <span style={{ fontFamily: "Roboto Mono, monospace" }}>
+                    {box.type}
+                  </span>
                   <KeyboardArrowDown fontSize="small" />
                   {showTypeDropdown && (
                     <Menu
@@ -436,7 +443,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                           onBoxTypeChange(box.id, "Question");
                           setShowTypeDropdown(false);
                         }}
-                        sx={{ fontFamily: 'Roboto Mono, monospace' }}
+                        sx={{ fontFamily: "Roboto Mono, monospace" }}
                       >
                         Question
                       </MenuItem>
@@ -446,7 +453,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                           onBoxTypeChange(box.id, "Context");
                           setShowTypeDropdown(false);
                         }}
-                        sx={{ fontFamily: 'Roboto Mono, monospace' }}
+                        sx={{ fontFamily: "Roboto Mono, monospace" }}
                       >
                         Context
                       </MenuItem>
@@ -467,7 +474,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       background: "inherit",
                       position: "relative",
                       gap: 1,
-                      fontFamily: 'Roboto Mono, monospace',
+                      fontFamily: "Roboto Mono, monospace",
                     }}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -475,7 +482,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       setShowNumberDropdown(!showNumberDropdown);
                     }}
                   >
-                    <span style={{ fontFamily: 'Roboto Mono, monospace' }}>
+                    <span style={{ fontFamily: "Roboto Mono, monospace" }}>
                       {(box.questionNumber || 1).toString().padStart(3, "0")}
                     </span>
                     <KeyboardArrowDown fontSize="small" />
@@ -502,7 +509,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                                 onQuestionNumberChange(box.id, Number(num));
                                 setShowNumberDropdown(false);
                               }}
-                              sx={{ fontFamily: 'Roboto Mono, monospace' }}
+                              sx={{ fontFamily: "Roboto Mono, monospace" }}
                             >
                               {num.toString().padStart(3, "0")}
                             </MenuItem>
@@ -520,6 +527,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                 size="small"
                 onClick={(e) => {
                   e.stopPropagation();
+                  console.log("Delete button clicked for box:", box.id);
                   onBoxDelete(box.id);
                 }}
                 sx={{
@@ -574,19 +582,21 @@ const BoundingBoxLabel: React.FC<{
   </Box>
 );
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface ExamBuilderProps {
-  // No props needed for this component
-}
-
-export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
+export const ExamBuilder: React.FC<ExamBuilderProps> = ({
+  boundingBoxes,
+  setBoundingBoxes,
+}) => {
+  console.log("ExamBuilder mounted");
+  const safeBoundingBoxes = useMemo(
+    () => (Array.isArray(boundingBoxes) ? boundingBoxes : []),
+    [boundingBoxes],
+  );
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [manifest, setManifest] = useState<Manifest | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedPage, setSelectedPage] = useState<number>(1);
-  const [boundingBoxes, setBoundingBoxes] = useState<BoundingBox[]>([]);
   const [sections, setSections] = useState<Section[]>([]);
   const [activeBoxId, setActiveBoxId] = useState<string | null>(null);
   const [drawStart, setDrawStart] = useState<{ x: number; y: number } | null>(
@@ -663,7 +673,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw existing bounding boxes (just the rectangles, no labels)
-    boundingBoxes
+    safeBoundingBoxes
       .filter((box) => box.pageNumber === selectedPage)
       .forEach((box) => {
         const isActive = box.id === activeBoxId;
@@ -690,7 +700,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
         currentBox.height || 0,
       );
     }
-  }, [boundingBoxes, selectedPage, activeBoxId, currentBox, drawStart]);
+  }, [safeBoundingBoxes, selectedPage, activeBoxId, currentBox, drawStart]);
 
   // Update canvas when bounding boxes change
   useEffect(() => {
@@ -747,7 +757,9 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
 
         // Auto-assign to the same section as the currently active box
         if (activeBoxId) {
-          const activeBox = boundingBoxes.find((box) => box.id === activeBoxId);
+          const activeBox = safeBoundingBoxes.find(
+            (box) => box.id === activeBoxId,
+          );
           if (activeBox?.sectionId) {
             assignQuestionToSection(newBox.id, activeBox.sectionId);
           } else if (sections.length > 0) {
@@ -786,22 +798,13 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
     );
   };
 
-  // Handle bounding box deletion
+  // Clean, direct bounding box deletion
   const handleBoxDelete = (boxId: string) => {
-    const deletedBox = boundingBoxes.find((box) => box.id === boxId);
-    const sectionId = deletedBox?.sectionId;
-
-    setBoundingBoxes((prev) => prev.filter((box) => box.id !== boxId));
-
-    // Clear active box if it was deleted
-    if (activeBoxId === boxId) {
-      setActiveBoxId(null);
-    }
-
-    // Renumber questions in the section if a question was deleted
-    if (sectionId) {
-      setTimeout(() => renumberQuestionsInSection(sectionId), 0);
-    }
+    setBoundingBoxes((prev) => {
+      const updated = prev.filter((box) => box.id !== boxId);
+      console.log("After delete:", updated);
+      return updated;
+    });
   };
 
   // Handle setting active box
@@ -878,7 +881,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   };
 
   const getQuestionsInSection = (sectionId: string): BoundingBox[] => {
-    return boundingBoxes.filter(
+    return safeBoundingBoxes.filter(
       (box) => box.sectionId === sectionId && box.type === "Question",
     );
   };
@@ -890,7 +893,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
 
   const renumberQuestionsInSection = (sectionId: string) => {
     const questions = getQuestionsInSection(sectionId);
-    const updatedBoxes = [...boundingBoxes];
+    const updatedBoxes = [...safeBoundingBoxes];
 
     questions.forEach((question, index) => {
       const boxIndex = updatedBoxes.findIndex((box) => box.id === question.id);
@@ -915,7 +918,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
 
   const assignQuestionToSection = (boxId: string, sectionId: string) => {
     // First, remove the question from its current section (if any)
-    const currentBox = boundingBoxes.find((box) => box.id === boxId);
+    const currentBox = safeBoundingBoxes.find((box) => box.id === boxId);
     if (currentBox?.sectionId && currentBox.sectionId !== sectionId) {
       // Renumber questions in the old section
       renumberQuestionsInSection(currentBox.sectionId);
@@ -1101,8 +1104,12 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
   const selectedPageData = manifest.pages?.find(
     (page) => page.page_number === selectedPage,
   );
-  const pageBoundingBoxes = boundingBoxes.filter(
+  const pageBoundingBoxes = safeBoundingBoxes.filter(
     (box) => box.pageNumber === selectedPage,
+  );
+  console.log(
+    "Overlay rendering, pageBoundingBoxes:",
+    pageBoundingBoxes.map((b) => b.id),
   );
 
   return (
@@ -1380,7 +1387,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                     <SortableContext
                       items={[
                         ...sections.map((s) => s.id),
-                        ...boundingBoxes.map((box) => box.id),
+                        ...safeBoundingBoxes.map((box) => box.id),
                       ]}
                       strategy={verticalListSortingStrategy}
                     >
@@ -1389,7 +1396,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                           <DraggableSectionNode
                             key={section.id}
                             section={section}
-                            boundingBoxes={boundingBoxes}
+                            boundingBoxes={safeBoundingBoxes}
                             activeBoxId={activeBoxId}
                             onToggleExpanded={toggleSectionExpanded}
                             onSetActiveBox={handleSetActiveBox}
@@ -1418,7 +1425,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = () => {
                     // TODO: Implement save functionality
                     console.log("Saving exam structure:", {
                       sections,
-                      boundingBoxes,
+                      boundingBoxes: safeBoundingBoxes,
                     });
                   }}
                 >

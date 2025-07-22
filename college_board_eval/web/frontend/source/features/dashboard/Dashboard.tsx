@@ -68,7 +68,7 @@ export const Dashboard: React.FC = () => {
         data: exam,
         questionId: questionId || undefined,
       },
-      true,
+      // TODO: Pass only the required argument here. Replace with the correct value or remove the extra argument.
     );
   };
 
