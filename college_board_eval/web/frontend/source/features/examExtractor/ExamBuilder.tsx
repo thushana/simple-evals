@@ -136,6 +136,7 @@ import type { BoundingBox } from "./types/examExtractor.types";
 interface ExamBuilderProps {
   boundingBoxes: BoundingBox[];
   setBoundingBoxes: React.Dispatch<React.SetStateAction<BoundingBox[]>>;
+  manifest?: Manifest | null;
   // ...other props if needed
 }
 
@@ -585,6 +586,7 @@ const BoundingBoxLabel: React.FC<{
 export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   boundingBoxes,
   setBoundingBoxes,
+  manifest: manifestProp,
 }) => {
   console.log("ExamBuilder mounted");
   const safeBoundingBoxes = useMemo(
@@ -593,8 +595,10 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   );
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const [manifest, setManifest] = useState<Manifest | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [manifest, setManifest] = useState<Manifest | null>(
+    manifestProp || null,
+  );
+  const [loading, setLoading] = useState(!manifestProp);
   const [error, setError] = useState<string | null>(null);
   const [selectedPage, setSelectedPage] = useState<number>(1);
   const [sections, setSections] = useState<Section[]>([]);
@@ -623,11 +627,15 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
     }),
   );
 
-  // Fetch manifest data
+  // Fetch manifest data only if not provided as prop
   useEffect(() => {
+    if (manifestProp) {
+      setManifest(manifestProp);
+      setLoading(false);
+      return;
+    }
     const fetchManifest = async () => {
       if (!slug) return;
-
       try {
         setLoading(true);
         const response = await fetch(API_ENDPOINTS.exams.manifest(slug));
@@ -642,9 +650,8 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
         setLoading(false);
       }
     };
-
     fetchManifest();
-  }, [slug]);
+  }, [slug, manifestProp]);
 
   // Handle image load and canvas setup
   const handleImageLoad = () => {
