@@ -275,11 +275,11 @@ export const ExamExtractor: React.FC = () => {
       {/* End Hero Section */}
 
       <Container maxWidth="xl" sx={{ py: 0 }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h3" gutterBottom>
           Exam Configuration
         </Typography>
         <Typography variant="body2" color="text.secondary" paragraph>
-          Select the exam type and year to ensure conformant filenames.
+          Select the exam type and year to ensure conformant filenames
         </Typography>
 
         <Stack spacing={3}>
@@ -348,10 +348,10 @@ export const ExamExtractor: React.FC = () => {
             <>
               {/* Preview of generated filename */}
               <Box p={2} bgcolor="grey.50" borderRadius={1}>
-                <Typography variant="body2" color="text.secondary">
-                  Generated filename:{" "}
+                <Typography variant="h6" color="text.secondary">
+                  Project Name:{" "}
                   <Box component="span" fontWeight="bold" color="text.primary">
-                    {formData.examType}_{formData.year}.pdf
+                    {formData.examType}_{formData.year}
                   </Box>
                 </Typography>
               </Box>
@@ -359,7 +359,7 @@ export const ExamExtractor: React.FC = () => {
               {/* Upload Method Selection */}
               <Box>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
-                  Choose import method:
+                  Choose import method
                 </Typography>
                 <ToggleButtonGroup
                   value={formData.uploadMethod}
@@ -377,26 +377,24 @@ export const ExamExtractor: React.FC = () => {
                 </ToggleButtonGroup>
               </Box>
 
-              {/* Source URL Field (always show when a method is selected) */}
-              {formData.uploadMethod && (
-                <TextField
-                  fullWidth
-                  label="Source URL"
-                  placeholder="https://apcentral.collegeboard.org/media/pdf/..."
-                  value={formData.sourceUrl}
-                  onChange={handleSourceUrlChange}
-                  helperText={
-                    formData.uploadMethod === "grab"
-                      ? "The URL to the PDF file (will be included in metadata)"
-                      : "The original source URL for this exam (will be included in metadata)"
-                  }
-                  variant="outlined"
-                />
-              )}
+              {/* Always show Source URL field (with explainer) below selector (and below file upload if present) */}
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 0, mt: 0 }}>
+                Original PDF source URL
+              </Typography>
+              <TextField
+                fullWidth
+                label="Source URL"
+                placeholder="https://apcentral.collegeboard.org/media/pdf/..."
+                value={formData.sourceUrl}
+                onChange={handleSourceUrlChange}
+                variant="outlined"
+                margin="none"
+                sx={{ mt: 0, mb: 0 }}
+              />
 
-              {/* File Upload (only show if upload method selected) */}
+              {/* Show file upload button only if 'Upload PDF' is selected, directly under selector */}
               {formData.uploadMethod === "upload" && (
-                <Box>
+                <>
                   <input
                     accept=".pdf"
                     style={{ display: "none" }}
@@ -410,11 +408,12 @@ export const ExamExtractor: React.FC = () => {
                       component="span"
                       fullWidth
                       disabled={!formData.examType}
+                      sx={{ mt: 1 }}
                     >
                       {formData.file ? formData.file.name : "Choose PDF"}
                     </Button>
                   </label>
-                </Box>
+                </>
               )}
 
               {/* Process Button */}
