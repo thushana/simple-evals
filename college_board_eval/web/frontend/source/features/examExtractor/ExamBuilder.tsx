@@ -125,6 +125,7 @@ import {
   Folder,
   KeyboardArrowDown,
 } from "@mui/icons-material";
+import ChevronRight from "@mui/icons-material/ChevronRight";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "../../services/api";
 import type { Manifest } from "./types/examExtractor.types";
@@ -219,18 +220,18 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
               {...listeners}
             />
           </ListItemIcon>
-          <ListItemIcon sx={{ minWidth: 24 }}>
-            {section.expanded ? <ExpandLess /> : <ExpandMore />}
+          <ListItemIcon sx={{ minWidth: 24, fontSize: 20, color: '#666' }}>
+            {section.expanded ? '▼' : '▶'}
           </ListItemIcon>
           <ListItemText
             primary={
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Folder fontSize="small" />
-                <Typography variant="body2" fontWeight={500}>
+                <Typography variant="body2" fontWeight={500} sx={{ fontFamily: 'Roboto Mono, monospace' }}>
                   {section.name}
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  ({sectionQuestions.length} items)
+                <Typography variant="caption" color="text.secondary" sx={{ fontFamily: 'Roboto Mono, monospace' }}>
+                  ({sectionQuestions.length})
                 </Typography>
               </Box>
             }
@@ -405,6 +406,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                         ? "1px solid rgba(0,0,0,0.08)"
                         : "none",
                     position: "relative",
+                    fontFamily: 'Roboto Mono, monospace',
                   }}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -412,7 +414,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                     setShowTypeDropdown(!showTypeDropdown);
                   }}
                 >
-                  <span>{box.type}</span>
+                  <span style={{ fontFamily: 'Roboto Mono, monospace' }}>{box.type}</span>
                   <KeyboardArrowDown fontSize="small" />
                   {showTypeDropdown && (
                     <Menu
@@ -434,6 +436,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                           onBoxTypeChange(box.id, "Question");
                           setShowTypeDropdown(false);
                         }}
+                        sx={{ fontFamily: 'Roboto Mono, monospace' }}
                       >
                         Question
                       </MenuItem>
@@ -443,6 +446,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                           onBoxTypeChange(box.id, "Context");
                           setShowTypeDropdown(false);
                         }}
+                        sx={{ fontFamily: 'Roboto Mono, monospace' }}
                       >
                         Context
                       </MenuItem>
@@ -463,6 +467,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       background: "inherit",
                       position: "relative",
                       gap: 1,
+                      fontFamily: 'Roboto Mono, monospace',
                     }}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -470,7 +475,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                       setShowNumberDropdown(!showNumberDropdown);
                     }}
                   >
-                    <span>
+                    <span style={{ fontFamily: 'Roboto Mono, monospace' }}>
                       {(box.questionNumber || 1).toString().padStart(3, "0")}
                     </span>
                     <KeyboardArrowDown fontSize="small" />
@@ -497,6 +502,7 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
                                 onQuestionNumberChange(box.id, Number(num));
                                 setShowNumberDropdown(false);
                               }}
+                              sx={{ fontFamily: 'Roboto Mono, monospace' }}
                             >
                               {num.toString().padStart(3, "0")}
                             </MenuItem>
