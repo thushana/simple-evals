@@ -12,6 +12,7 @@ from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, Uploa
 from fastapi.responses import FileResponse, JSONResponse
 from pdf2image import convert_from_path
 from PIL import Image
+import hashlib
 
 from college_board_eval.web.backend.core.config import (
     EXAMS_DIR,
@@ -321,6 +322,15 @@ def update_manifest_page(
         os.fsync(f.fileno())  # Ensure it's written to disk
 
 
+def compute_file_sha256(file_path: Path):
+    """Compute SHA-256 hash for a file."""
+    sha256 = hashlib.sha256()
+    with open(file_path, 'rb') as f:
+        for chunk in iter(lambda: f.read(8192), b''):
+            sha256.update(chunk)
+    return sha256.hexdigest()
+
+
 def make_exam_metadata(
     slug: str,
     exam_id: str,
@@ -335,6 +345,7 @@ def make_exam_metadata(
     processing_pages_complete: int = 0,
     processing_status: str = "File uploaded, waiting to start processing...",
     error: Optional[str] = None,
+    file_sha256: Optional[str] = None,
 ) -> dict:
     return {
         "slug": slug,
@@ -350,6 +361,7 @@ def make_exam_metadata(
         "processing_status": processing_status,
         "error": error,
         "exam_processing_dir": str(exam_processing_dir),
+        "file_sha256": file_sha256,
     }
 
 
@@ -419,13 +431,16 @@ async def process_exam_file_and_images(
                         json.dump(manifest, f, indent=2)
                 return
 
-        # Update manifest with file size
+        # Update manifest with file size and SHA-256 hash
         if content:
             manifest_path = exam_processing_dir / "manifest.json"
             if manifest_path.exists():
                 with open(manifest_path, "r") as f:
                     manifest = json.load(f)
                 manifest["metadata"]["file_size_bytes"] = len(content)
+                # Compute SHA-256 hash
+                sha256 = compute_file_sha256(pdf_path)
+                manifest["metadata"]["file_sha256"] = sha256
                 manifest["metadata"]["processing_status"] = "File saved, starting image processing..."
                 with open(manifest_path, "w") as f:
                     json.dump(manifest, f, indent=2)
