@@ -22,6 +22,7 @@ import {
 } from "@dnd-kit/sortable";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { Fade } from "@mui/material";
 
 // Color constants
 const COLORS = {
@@ -137,6 +138,7 @@ interface ExamBuilderProps {
   boundingBoxes: BoundingBox[];
   setBoundingBoxes: React.Dispatch<React.SetStateAction<BoundingBox[]>>;
   manifest?: Manifest | null;
+  transitionStage: "idle" | "fadingOut" | "fadingIn";
   // ...other props if needed
 }
 
@@ -587,6 +589,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   boundingBoxes,
   setBoundingBoxes,
   manifest: manifestProp,
+  transitionStage,
 }) => {
   console.log("ExamBuilder mounted");
   const safeBoundingBoxes = useMemo(
@@ -1122,328 +1125,332 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   return (
     <>
       {/* Header */}
-      <Box
-        sx={{
-          background: COLORS.ui.headerGradient,
-          color: COLORS.text.white,
-          py: 3,
-          px: 2,
-          mb: 3,
-        }}
-      >
-        <Container maxWidth="xl">
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <IconButton
-              onClick={() => navigate("/examextractor")}
-              sx={{ color: COLORS.text.white }}
+      <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '0ms' }}>
+        <Box
+          sx={{
+            background: COLORS.ui.headerGradient,
+            color: COLORS.text.white,
+            py: 3,
+            px: 2,
+            mb: 3,
+          }}
+        >
+          <Container maxWidth="xl">
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <IconButton
+                onClick={() => navigate("/examextractor")}
+                sx={{ color: COLORS.text.white }}
+              >
+                <ArrowBack />
+              </IconButton>
+              <Typography variant="h4" component="h1" sx={{ fontWeight: 700 }}>
+                🏗️ Exam Builder: {manifest.metadata.slug}
+              </Typography>
+            </Box>
+          </Container>
+        </Box>
+      </Fade>
+
+      <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '120ms' }}>
+        <Container maxWidth="xl" sx={{ py: 0 }}>
+          <Box sx={{ display: "flex", gap: 2, height: "calc(100vh - 200px)" }}>
+            {/* Column 1: Thumbnail List */}
+            <Box
+              sx={{
+                width: 132, // 66% of 200px
+                overflow: "auto",
+                flexShrink: 0,
+              }}
             >
-              <ArrowBack />
-            </IconButton>
-            <Typography variant="h4" component="h1" sx={{ fontWeight: 700 }}>
-              🏗️ Exam Builder: {manifest.metadata.slug}
-            </Typography>
-          </Box>
-        </Container>
-      </Box>
-
-      <Container maxWidth="xl" sx={{ py: 0 }}>
-        <Box sx={{ display: "flex", gap: 2, height: "calc(100vh - 200px)" }}>
-          {/* Column 1: Thumbnail List */}
-          <Box
-            sx={{
-              width: 132, // 66% of 200px
-              overflow: "auto",
-              flexShrink: 0,
-            }}
-          >
-            <Stack spacing={1}>
-              {manifest.pages?.map((page) => (
-                <Box
-                  key={page.page_number}
-                  sx={{
-                    cursor: "pointer",
-                    border:
-                      selectedPage === page.page_number
-                        ? `2px solid ${COLORS.ui.selectedPage}`
-                        : `1px solid ${COLORS.ui.border}`,
-                    borderRadius: 1,
-                    p: 0.5,
-                    bgcolor:
-                      selectedPage === page.page_number
-                        ? COLORS.ui.selectedPageBg
-                        : "#fff",
-                  }}
-                  onClick={() => setSelectedPage(page.page_number)}
-                >
-                  <img
-                    src={API_ENDPOINTS.exams.image(
-                      manifest.metadata.slug,
-                      page.thumb.replace(/^images\//, ""),
-                    )}
-                    alt={`Page ${page.page_number}`}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
+              <Stack spacing={1}>
+                {manifest.pages?.map((page) => (
+                  <Box
+                    key={page.page_number}
+                    sx={{
+                      cursor: "pointer",
+                      border:
+                        selectedPage === page.page_number
+                          ? `2px solid ${COLORS.ui.selectedPage}`
+                          : `1px solid ${COLORS.ui.border}`,
+                      borderRadius: 1,
+                      p: 0.5,
+                      bgcolor:
+                        selectedPage === page.page_number
+                          ? COLORS.ui.selectedPageBg
+                          : "#fff",
                     }}
-                  />
-                  <Typography
-                    variant="caption"
-                    sx={{ textAlign: "center", display: "block", mt: 0.5 }}
+                    onClick={() => setSelectedPage(page.page_number)}
                   >
-                    {page.page_number}
-                  </Typography>
-                </Box>
-              ))}
-            </Stack>
-          </Box>
-
-          {/* Column 2: Full Image with Drawing */}
-          <Box
-            sx={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-            }}
-          >
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
-              <Typography variant="h6">Page {selectedPage}</Typography>
-              <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
-                <Tooltip
-                  title={drawingEnabled ? "Disable Drawing" : "Enable Drawing"}
-                >
-                  <IconButton
-                    onClick={() => {
-                      setDrawingEnabled(!drawingEnabled);
-                      setIsDrawingBox(false); // Reset drawing state when toggling
-                      setCurrentBox(null);
-                      setDrawStart(null);
-                    }}
-                    size="small"
-                    color={drawingEnabled ? "primary" : "default"}
-                  >
-                    <Create />
-                  </IconButton>
-                </Tooltip>
-              </Box>
+                    <img
+                      src={API_ENDPOINTS.exams.image(
+                        manifest.metadata.slug,
+                        page.thumb.replace(/^images\//, ""),
+                      )}
+                      alt={`Page ${page.page_number}`}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        display: "block",
+                      }}
+                    />
+                    <Typography
+                      variant="caption"
+                      sx={{ textAlign: "center", display: "block", mt: 0.5 }}
+                    >
+                      {page.page_number}
+                    </Typography>
+                  </Box>
+                ))}
+              </Stack>
             </Box>
 
+            {/* Column 2: Full Image with Drawing */}
             <Box
               sx={{
                 flex: 1,
-                overflow: "auto",
-                position: "relative",
-                border: `1px solid ${COLORS.ui.border}`,
-                borderRadius: 1,
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
               }}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
             >
-              {selectedPageData && (
-                <>
-                  <img
-                    ref={imageRef}
-                    src={API_ENDPOINTS.exams.image(
-                      manifest.metadata.slug,
-                      selectedPageData.full.replace(/^images\//, ""),
-                    )}
-                    alt={`Page ${selectedPage}`}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                    }}
-                    onLoad={handleImageLoad}
-                  />
-                  <canvas
-                    ref={canvasRef}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      pointerEvents: "none",
-                      zIndex: 20,
-                    }}
-                  />
-                  {/* HTML Labels for crisp text rendering */}
-                  {pageBoundingBoxes.map((box) => (
-                    <BoundingBoxLabel
-                      key={`label-${box.id}`}
-                      box={box}
-                      x={box.x}
-                      y={box.y}
-                    />
-                  ))}
-                  {/* Label for current box being drawn */}
-                  {currentBox && drawStart && (
-                    <BoundingBoxLabel
-                      box={{
-                        id: "temp_box",
-                        x: currentBox.x || 0,
-                        y: currentBox.y || 0,
-                        width: 0,
-                        height: 0,
-                        type: "Question",
-                        pageNumber: selectedPage,
-                      }}
-                      x={currentBox.x || 0}
-                      y={currentBox.y || 0}
-                      isDrawing={true}
-                    />
-                  )}
-                </>
-              )}
-            </Box>
-          </Box>
-
-          {/* Column 3: Exam Manager */}
-          <Box
-            sx={{
-              width: 300,
-              overflow: "auto",
-              flexShrink: 0,
-            }}
-          >
-            <Typography variant="h6" sx={{ mb: 1 }}>
-              Exam Manager
-            </Typography>
-
-            <Stack spacing={1}>
-              {/* Add Section Button */}
-              <Button
-                variant="outlined"
-                size="small"
-                fullWidth
-                startIcon={<Add />}
-                onClick={() => setShowAddSection(true)}
-                sx={{ mb: 1 }}
-              >
-                Add Section
-              </Button>
-
-              {/* Add Section Dialog */}
-              {showAddSection && (
-                <Box
-                  sx={{
-                    p: 1,
-                    border: `1px solid ${COLORS.ui.border}`,
-                    borderRadius: 1,
-                    mb: 1,
-                  }}
-                >
-                  <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                    New Section
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    label="Section Name"
-                    value={newSectionName}
-                    onChange={(e) => setNewSectionName(e.target.value)}
-                    placeholder="e.g., I, A, Part 1"
-                    sx={{ mb: 1 }}
-                  />
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() =>
-                        addSection(newSectionName, newSectionParent)
-                      }
-                      disabled={!newSectionName.trim()}
-                    >
-                      Add
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      size="small"
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+                <Typography variant="h6">Page {selectedPage}</Typography>
+                <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
+                  <Tooltip
+                    title={drawingEnabled ? "Disable Drawing" : "Enable Drawing"}
+                  >
+                    <IconButton
                       onClick={() => {
-                        setShowAddSection(false);
-                        setNewSectionName("");
-                        setNewSectionParent(null);
+                        setDrawingEnabled(!drawingEnabled);
+                        setIsDrawingBox(false); // Reset drawing state when toggling
+                        setCurrentBox(null);
+                        setDrawStart(null);
                       }}
+                      size="small"
+                      color={drawingEnabled ? "primary" : "default"}
                     >
-                      Cancel
-                    </Button>
-                  </Box>
+                      <Create />
+                    </IconButton>
+                  </Tooltip>
                 </Box>
-              )}
-
-              {/* Sections Tree */}
-              <Box>
-                <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                  Sections
-                </Typography>
-                {sections.length === 0 ? (
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ p: 1 }}
-                  >
-                    No sections created. Add a section to organize questions.
-                  </Typography>
-                ) : (
-                  <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragStart={handleDragStart}
-                    onDragOver={handleDragOver}
-                    onDragEnd={handleDragEnd}
-                  >
-                    <SortableContext
-                      items={[
-                        ...sections.map((s) => s.id),
-                        ...safeBoundingBoxes.map((box) => box.id),
-                      ]}
-                      strategy={verticalListSortingStrategy}
-                    >
-                      <List dense sx={{ p: 0 }}>
-                        {sections.map((section) => (
-                          <DraggableSectionNode
-                            key={section.id}
-                            section={section}
-                            boundingBoxes={safeBoundingBoxes}
-                            activeBoxId={activeBoxId}
-                            onToggleExpanded={toggleSectionExpanded}
-                            onSetActiveBox={handleSetActiveBox}
-                            onBoxTypeChange={handleBoxTypeChange}
-                            onBoxDelete={handleBoxDelete}
-                            onAssignQuestion={assignQuestionToSection}
-                            onQuestionNumberChange={handleQuestionNumberChange}
-                          />
-                        ))}
-                      </List>
-                    </SortableContext>
-                  </DndContext>
-                )}
               </Box>
 
-              {/* Actions */}
-              <Box sx={{ mt: 1 }}>
-                <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                  Actions
-                </Typography>
+              <Box
+                sx={{
+                  flex: 1,
+                  overflow: "auto",
+                  position: "relative",
+                  border: `1px solid ${COLORS.ui.border}`,
+                  borderRadius: 1,
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+              >
+                {selectedPageData && (
+                  <>
+                    <img
+                      ref={imageRef}
+                      src={API_ENDPOINTS.exams.image(
+                        manifest.metadata.slug,
+                        selectedPageData.full.replace(/^images\//, ""),
+                      )}
+                      alt={`Page ${selectedPage}`}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        display: "block",
+                      }}
+                      onLoad={handleImageLoad}
+                    />
+                    <canvas
+                      ref={canvasRef}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        pointerEvents: "none",
+                        zIndex: 20,
+                      }}
+                    />
+                    {/* HTML Labels for crisp text rendering */}
+                    {pageBoundingBoxes.map((box) => (
+                      <BoundingBoxLabel
+                        key={`label-${box.id}`}
+                        box={box}
+                        x={box.x}
+                        y={box.y}
+                      />
+                    ))}
+                    {/* Label for current box being drawn */}
+                    {currentBox && drawStart && (
+                      <BoundingBoxLabel
+                        box={{
+                          id: "temp_box",
+                          x: currentBox.x || 0,
+                          y: currentBox.y || 0,
+                          width: 0,
+                          height: 0,
+                          type: "Question",
+                          pageNumber: selectedPage,
+                        }}
+                        x={currentBox.x || 0}
+                        y={currentBox.y || 0}
+                        isDrawing={true}
+                      />
+                    )}
+                  </>
+                )}
+              </Box>
+            </Box>
+
+            {/* Column 3: Exam Manager */}
+            <Box
+              sx={{
+                width: 300,
+                overflow: "auto",
+                flexShrink: 0,
+              }}
+            >
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                Exam Manager
+              </Typography>
+
+              <Stack spacing={1}>
+                {/* Add Section Button */}
                 <Button
                   variant="outlined"
                   size="small"
                   fullWidth
-                  onClick={() => {
-                    // TODO: Implement save functionality
-                    console.log("Saving exam structure:", {
-                      sections,
-                      boundingBoxes: safeBoundingBoxes,
-                    });
-                  }}
+                  startIcon={<Add />}
+                  onClick={() => setShowAddSection(true)}
+                  sx={{ mb: 1 }}
                 >
-                  <Save sx={{ mr: 1 }} />
-                  Save Changes
+                  Add Section
                 </Button>
-              </Box>
-            </Stack>
+
+                {/* Add Section Dialog */}
+                {showAddSection && (
+                  <Box
+                    sx={{
+                      p: 1,
+                      border: `1px solid ${COLORS.ui.border}`,
+                      borderRadius: 1,
+                      mb: 1,
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                      New Section
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      label="Section Name"
+                      value={newSectionName}
+                      onChange={(e) => setNewSectionName(e.target.value)}
+                      placeholder="e.g., I, A, Part 1"
+                      sx={{ mb: 1 }}
+                    />
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() =>
+                          addSection(newSectionName, newSectionParent)
+                        }
+                        disabled={!newSectionName.trim()}
+                      >
+                        Add
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={() => {
+                          setShowAddSection(false);
+                          setNewSectionName("");
+                          setNewSectionParent(null);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </Box>
+                  </Box>
+                )}
+
+                {/* Sections Tree */}
+                <Box>
+                  <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                    Sections
+                  </Typography>
+                  {sections.length === 0 ? (
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ p: 1 }}
+                    >
+                      No sections created. Add a section to organize questions.
+                    </Typography>
+                  ) : (
+                    <DndContext
+                      sensors={sensors}
+                      collisionDetection={closestCenter}
+                      onDragStart={handleDragStart}
+                      onDragOver={handleDragOver}
+                      onDragEnd={handleDragEnd}
+                    >
+                      <SortableContext
+                        items={[
+                          ...sections.map((s) => s.id),
+                          ...safeBoundingBoxes.map((box) => box.id),
+                        ]}
+                        strategy={verticalListSortingStrategy}
+                      >
+                        <List dense sx={{ p: 0 }}>
+                          {sections.map((section) => (
+                            <DraggableSectionNode
+                              key={section.id}
+                              section={section}
+                              boundingBoxes={safeBoundingBoxes}
+                              activeBoxId={activeBoxId}
+                              onToggleExpanded={toggleSectionExpanded}
+                              onSetActiveBox={handleSetActiveBox}
+                              onBoxTypeChange={handleBoxTypeChange}
+                              onBoxDelete={handleBoxDelete}
+                              onAssignQuestion={assignQuestionToSection}
+                              onQuestionNumberChange={handleQuestionNumberChange}
+                            />
+                          ))}
+                        </List>
+                      </SortableContext>
+                    </DndContext>
+                  )}
+                </Box>
+
+                {/* Actions */}
+                <Box sx={{ mt: 1 }}>
+                  <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
+                    Actions
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    onClick={() => {
+                      // TODO: Implement save functionality
+                      console.log("Saving exam structure:", {
+                        sections,
+                        boundingBoxes: safeBoundingBoxes,
+                      });
+                    }}
+                  >
+                    <Save sx={{ mr: 1 }} />
+                    Save Changes
+                  </Button>
+                </Box>
+              </Stack>
+            </Box>
           </Box>
-        </Box>
-      </Container>
+        </Container>
+      </Fade>
     </>
   );
 };
