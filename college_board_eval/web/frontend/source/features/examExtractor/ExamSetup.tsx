@@ -18,28 +18,28 @@ import {
   Fade,
 } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
-import type { ExamUploadForm, Manifest } from "./types/examExtractor.types";
+import type {
+  ExamUploadForm,
+  Manifest,
+  ExamTypesResponse,
+  YearsResponse,
+  ExamCategory,
+  Exam,
+  ManifestPage,
+} from "./types/examExtractor.types";
 import { API_ENDPOINTS } from "../../services/api";
 
 interface ExamSetupProps {
-  examTypes: any;
-  years: any;
+  examTypes: ExamTypesResponse;
+  years: YearsResponse;
   loading: boolean;
   error: string | null;
   formData: ExamUploadForm;
-  setFormData: React.Dispatch<React.SetStateAction<ExamUploadForm>>;
   uploading: boolean;
   uploadComplete: boolean;
   showProcessing: boolean;
   pollError: string | null;
   manifest: Manifest | null;
-  manifestSlug: string | null;
-  setManifestSlug: (slug: string | null) => void;
-  setManifest: (manifest: Manifest | null) => void;
-  setUploading: (uploading: boolean) => void;
-  setUploadComplete: (complete: boolean) => void;
-  setShowProcessing: (show: boolean) => void;
-  setPollError: (err: string | null) => void;
   onBuildExam: () => void;
   handleExamTypeChange: (event: SelectChangeEvent<string>) => void;
   handleYearChange: (event: SelectChangeEvent<string>) => void;
@@ -58,19 +58,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
   loading,
   error,
   formData,
-  setFormData,
   uploading,
   uploadComplete,
   showProcessing,
   pollError,
   manifest,
-  manifestSlug,
-  setManifestSlug,
-  setManifest,
-  setUploading,
-  setUploadComplete,
-  setShowProcessing,
-  setPollError,
   onBuildExam,
   handleExamTypeChange,
   handleYearChange,
@@ -79,6 +71,12 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
   handleSourceUrlChange,
   handleUpload,
 }) => {
+  useEffect(() => {
+    if (manifest?.metadata.processing_completed) {
+      onBuildExam();
+    }
+  }, [manifest?.metadata.processing_completed, onBuildExam]);
+
   if (loading) {
     return (
       <Container maxWidth="xl">
@@ -110,13 +108,6 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
       </Container>
     );
   }
-
-  // Automatically transition to ExamBuilder when extraction is complete
-  useEffect(() => {
-    if (manifest?.metadata.processing_completed) {
-      onBuildExam();
-    }
-  }, [manifest?.metadata.processing_completed, onBuildExam]);
 
   return (
     <>
@@ -178,14 +169,14 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
               onChange={handleExamTypeChange}
             >
               {examTypes?.categories
-                .map((category: any) => [
+                .map((category: ExamCategory) => [
                   <ListSubheader
                     key={`header-${category.category_id}`}
                     sx={{ fontWeight: "bold", color: "text.secondary" }}
                   >
                     {category.category_icon} {category.category_name}
                   </ListSubheader>,
-                  ...category.exams.map((exam: any) => (
+                  ...category.exams.map((exam: Exam) => (
                     <MenuItem
                       key={exam.exam_id}
                       value={exam.exam_id}
@@ -370,81 +361,83 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
                       mt: 2,
                     }}
                   >
-                    {manifest.pages?.map((page: any, index: number) => (
-                      <Fade
-                        key={page.page_number}
-                        in={true}
-                        timeout={300 + index * 100}
-                        style={{ transitionDelay: `${index * 50}ms` }}
-                      >
-                        <Box
-                          sx={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            width: "100%",
-                          }}
+                    {manifest.pages?.map(
+                      (page: ManifestPage, index: number) => (
+                        <Fade
+                          key={page.page_number}
+                          in={true}
+                          timeout={300 + index * 100}
+                          style={{ transitionDelay: `${index * 50}ms` }}
                         >
                           <Box
                             sx={{
-                              width: "100%",
-                              borderRadius: 1,
-                              border: "1px solid #eee",
-                              bgcolor: "#fafbfc",
-                              position: "relative",
                               display: "flex",
-                              justifyContent: "center",
+                              flexDirection: "column",
                               alignItems: "center",
+                              width: "100%",
                             }}
                           >
-                            <img
-                              src={API_ENDPOINTS.exams.image(
-                                manifest.metadata.slug,
-                                page.thumb.replace(/^images\//, ""),
-                              )}
-                              alt={`Page ${page.page_number}`}
-                              style={{
-                                maxWidth: "100%",
-                                maxHeight: "100%",
-                                width: "auto",
-                                height: "auto",
-                                display: "block",
+                            <Box
+                              sx={{
+                                width: "100%",
+                                borderRadius: 1,
+                                border: "1px solid #eee",
+                                bgcolor: "#fafbfc",
+                                position: "relative",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
                               }}
-                              onError={(e) => {
-                                console.error(
-                                  `Failed to load image: ${page.thumb}`,
-                                );
-                                console.error(
-                                  `Full URL: http://localhost:8000/api/v1/exams/${manifest.metadata.slug}/images/${page.thumb.replace(/^images\//, "")}`,
-                                );
-                                (
-                                  e.currentTarget as HTMLImageElement
-                                ).style.display = "none";
+                            >
+                              <img
+                                src={API_ENDPOINTS.exams.image(
+                                  manifest.metadata.slug,
+                                  page.thumb.replace(/^images\//, ""),
+                                )}
+                                alt={`Page ${page.page_number}`}
+                                style={{
+                                  maxWidth: "100%",
+                                  maxHeight: "100%",
+                                  width: "auto",
+                                  height: "auto",
+                                  display: "block",
+                                }}
+                                onError={(e) => {
+                                  console.error(
+                                    `Failed to load image: ${page.thumb}`,
+                                  );
+                                  console.error(
+                                    `Full URL: http://localhost:8000/api/v1/exams/${manifest.metadata.slug}/images/${page.thumb.replace(/^images\//, "")}`,
+                                  );
+                                  (
+                                    e.currentTarget as HTMLImageElement
+                                  ).style.display = "none";
+                                }}
+                                onLoad={() => {
+                                  console.log(
+                                    `Successfully loaded image: ${page.thumb}`,
+                                  );
+                                }}
+                              />
+                            </Box>
+                            <Typography
+                              variant="caption"
+                              sx={{
+                                color: "#aaa",
+                                fontSize: "0.75rem",
+                                textAlign: "center",
+                                mt: 0.5,
+                                mb: 0,
+                                fontWeight: 500,
+                                letterSpacing: "0.5px",
                               }}
-                              onLoad={() => {
-                                console.log(
-                                  `Successfully loaded image: ${page.thumb}`,
-                                );
-                              }}
-                            />
+                            >
+                              {page.page_number}
+                            </Typography>
                           </Box>
-                          <Typography
-                            variant="caption"
-                            sx={{
-                              color: "#aaa",
-                              fontSize: "0.75rem",
-                              textAlign: "center",
-                              mt: 0.5,
-                              mb: 0,
-                              fontWeight: 500,
-                              letterSpacing: "0.5px",
-                            }}
-                          >
-                            {page.page_number}
-                          </Typography>
-                        </Box>
-                      </Fade>
-                    ))}
+                        </Fade>
+                      ),
+                    )}
                   </Box>
                 </Box>
               )}

@@ -1,28 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Typography,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Alert,
-  CircularProgress,
-  Stack,
-  ListSubheader,
-  Container,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Fade,
-} from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material";
 import type { ExamUploadForm, Manifest } from "./types/examExtractor.types";
 import type { BoundingBox } from "./types/examExtractor.types";
 import { uploadExamFile, fetchManifest } from "./utils/api";
 import { useExamData } from "./hooks/useExamData";
-import { API_ENDPOINTS } from "../../services/api";
 import { ExamBuilder } from "./ExamBuilder";
 import { ExamSetup } from "./ExamSetup";
 import { useNavigate, useParams } from "react-router-dom";
