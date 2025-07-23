@@ -25,6 +25,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Fade } from "@mui/material";
 import Split from "react-split";
+import { QuestionManager } from "./components/QuestionManager";
 
 // Color constants
 const COLORS = {
@@ -687,7 +688,8 @@ const BoundingBoxLabel: React.FC<{
       display: "flex",
       alignItems: "center",
       gap: 0.5,
-      opacity: activeBoxId && box.id !== activeBoxId ? INACTIVE_BOX_OPACITY : 1.0,
+      opacity:
+        activeBoxId && box.id !== activeBoxId ? INACTIVE_BOX_OPACITY : 1.0,
     }}
   >
     {isDrawing
@@ -1876,13 +1878,19 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                     overflowY: "auto",
                   }}
                 >
-                  {/* QuestionManager placeholder */}
                   <Typography variant="h6" sx={{ mb: 2 }}>
                     Question Manager
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Question management interface coming soon...
-                  </Typography>
+                  <QuestionManager
+                    selectedQuestion={
+                      activeBoxId
+                        ? (safeBoundingBoxes.find(
+                            (box) => box.id === activeBoxId,
+                          ) ?? null)
+                        : null
+                    }
+                    questionKey={activeBoxId}
+                  />
                 </Box>
               </Split>
             </Box>
