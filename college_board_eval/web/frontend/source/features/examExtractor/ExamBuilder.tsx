@@ -12,10 +12,11 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  type DragStartEvent,
+  type DragOverEvent,
 } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import {
-  arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
@@ -87,14 +88,6 @@ const COMMON_STYLES = {
 } as const;
 
 // Utility functions for naming conventions
-const toTitleCase = (str: string): string => {
-  return str
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-};
-
 const toSnakeCase = (str: string): string => {
   return str
     .toLowerCase()
@@ -115,14 +108,10 @@ import {
   Collapse,
   List,
   ListItem,
-  ListItemText,
   ListItemIcon,
   ListItemButton,
   MenuItem,
   Menu,
-  FormControl,
-  InputLabel,
-  Select,
 } from "@mui/material";
 import {
   Create,
@@ -165,24 +154,44 @@ interface SectionNodeProps {
   section: Section;
   boundingBoxes: BoundingBox[];
   activeBoxId: string | null;
+  manifest: Manifest | null;
+  getSectionItemCount: (section: Section) => number;
+  editingSectionId: string | null;
+  editingSectionName: string;
+  activeDragId: string | null;
+  overDropZone: string | null;
   onToggleExpanded: (sectionId: string) => void;
   onSetActiveBox: (boxId: string) => void;
   onBoxTypeChange: (boxId: string, type: "Question" | "Context") => void;
   onBoxDelete: (boxId: string) => void;
   onAssignQuestion: (boxId: string, sectionId: string) => void;
   onQuestionNumberChange: (boxId: string, newNumber: number) => void;
+  onStartEditing: (sectionId: string, currentName: string) => void;
+  onUpdateSectionName: (sectionId: string, newName: string) => void;
+  onCancelEditing: () => void;
+  onEditingNameChange: (name: string) => void;
 }
 
 const DraggableSectionNode: React.FC<SectionNodeProps> = ({
   section,
   boundingBoxes,
   activeBoxId,
+  manifest,
+  getSectionItemCount,
+  editingSectionId,
+  editingSectionName,
+  activeDragId,
+  overDropZone,
   onToggleExpanded,
   onSetActiveBox,
   onBoxTypeChange,
   onBoxDelete,
   onAssignQuestion,
   onQuestionNumberChange,
+  onStartEditing,
+  onUpdateSectionName,
+  onCancelEditing,
+  onEditingNameChange,
 }) => {
   const {
     attributes,
@@ -207,45 +216,123 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
     sectionQuestions.map((b) => b.id),
   );
 
+  // Check if this section is being edited
+  const isEditing = editingSectionId === section.id;
+
+  // Check if this section is a valid drop target
+  const isDropTarget =
+    overDropZone === section.id && activeDragId !== section.id;
+  const isRootSection =
+    section.id === toSnakeCase(manifest?.metadata.slug || "");
+  const canAcceptDrop = !isRootSection || activeDragId !== section.id;
+
+  // Get total count of items in this section
+  const sectionItemCount = getSectionItemCount(section);
+
+  const handleNameClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isRootSection) {
+      onStartEditing(section.id, section.name);
+    }
+  };
+
+  const handleNameKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      onUpdateSectionName(section.id, editingSectionName);
+    } else if (e.key === "Escape") {
+      onCancelEditing();
+    }
+  };
+
   return (
     <div ref={setNodeRef} style={style}>
       <ListItem disablePadding>
         <ListItemButton
           onClick={() => onToggleExpanded(section.id)}
-          sx={{ pl: 1, py: 0.5 }}
+          sx={{
+            pl: 1,
+            py: 0.5,
+            ...(isRootSection && {
+              backgroundColor: COLORS.ui.selectedPageBg,
+              border: `1px solid ${COLORS.ui.selectedPage}`,
+              borderRadius: 1,
+            }),
+            ...(isDropTarget &&
+              canAcceptDrop && {
+                backgroundColor: COLORS.ui.selectedPageBg,
+                border: `2px dashed ${COLORS.ui.selectedPage}`,
+                borderRadius: 1,
+                boxShadow: `0 0 8px ${COLORS.ui.selectedPage}40`,
+              }),
+            transition: "all 0.2s ease",
+          }}
         >
           <ListItemIcon sx={{ minWidth: 24 }}>
-            <DragIndicator
-              fontSize="small"
-              sx={{ color: COLORS.ui.dragHandle, cursor: "grab" }}
-              {...attributes}
-              {...listeners}
-            />
+            {!isRootSection && (
+              <DragIndicator
+                fontSize="small"
+                sx={{ color: COLORS.ui.dragHandle, cursor: "grab" }}
+                {...attributes}
+                {...listeners}
+              />
+            )}
           </ListItemIcon>
           <ListItemIcon sx={{ minWidth: 24, fontSize: 20, color: "#666" }}>
-            {section.expanded ? "▼" : "▶"}
+            {section.expanded ? (
+              <KeyboardArrowDown fontSize="small" />
+            ) : (
+              <KeyboardArrowDown
+                fontSize="small"
+                sx={{ transform: "rotate(-90deg)" }}
+              />
+            )}
           </ListItemIcon>
-          <ListItemText
-            primary={
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Folder fontSize="small" />
-                <Typography
-                  variant="body2"
-                  fontWeight={500}
-                  sx={{ fontFamily: "Roboto Mono, monospace" }}
-                >
-                  {section.name}
-                </Typography>
-                <Typography
-                  variant="caption"
-                  color="text.secondary"
-                  sx={{ fontFamily: "Roboto Mono, monospace" }}
-                >
-                  ({sectionQuestions.length})
-                </Typography>
-              </Box>
-            }
-          />
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Folder fontSize="small" />
+            {isEditing ? (
+              <TextField
+                size="small"
+                value={editingSectionName}
+                onChange={(e) => onEditingNameChange(e.target.value)}
+                onKeyDown={handleNameKeyDown}
+                onBlur={() =>
+                  onUpdateSectionName(section.id, editingSectionName)
+                }
+                autoFocus
+                sx={{
+                  "& .MuiInputBase-input": {
+                    fontFamily: "Roboto Mono, monospace",
+                    fontWeight: isRootSection ? 700 : 500,
+                    fontSize: "0.875rem",
+                    padding: "2px 8px",
+                  },
+                }}
+              />
+            ) : (
+              <Typography
+                variant="body2"
+                fontWeight={isRootSection ? 700 : 500}
+                sx={{
+                  fontFamily: "Roboto Mono, monospace",
+                  ...(isRootSection && { color: COLORS.ui.selectedPage }),
+                  ...(!isRootSection && { cursor: "pointer" }),
+                  "&:hover": !isRootSection
+                    ? { textDecoration: "underline" }
+                    : {},
+                }}
+                onClick={handleNameClick}
+              >
+                {section.name}
+              </Typography>
+            )}
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ fontFamily: "Roboto Mono, monospace" }}
+            >
+              ({sectionItemCount})
+            </Typography>
+          </Box>
         </ListItemButton>
       </ListItem>
 
@@ -277,12 +364,22 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
                 section={childSection}
                 boundingBoxes={boundingBoxes}
                 activeBoxId={activeBoxId}
+                manifest={manifest}
+                getSectionItemCount={getSectionItemCount}
+                editingSectionId={editingSectionId}
+                editingSectionName={editingSectionName}
                 onToggleExpanded={onToggleExpanded}
                 onSetActiveBox={onSetActiveBox}
                 onBoxTypeChange={onBoxTypeChange}
                 onBoxDelete={onBoxDelete}
                 onAssignQuestion={onAssignQuestion}
                 onQuestionNumberChange={onQuestionNumberChange}
+                onStartEditing={onStartEditing}
+                onUpdateSectionName={onUpdateSectionName}
+                onCancelEditing={onCancelEditing}
+                onEditingNameChange={onEditingNameChange}
+                activeDragId={activeDragId}
+                overDropZone={overDropZone}
               />
             ))}
         </List>
@@ -615,10 +712,11 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   );
   const [drawingEnabled, setDrawingEnabled] = useState(true); // UI toggle
   const [isDrawingBox, setIsDrawingBox] = useState(false); // Two-click state
-  const [showAddSection, setShowAddSection] = useState(false);
-  const [newSectionName, setNewSectionName] = useState("");
-  const [newSectionParent, setNewSectionParent] = useState<string | null>(null);
   const [pendingBoxId, setPendingBoxId] = useState<string | null>(null);
+  const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
+  const [editingSectionName, setEditingSectionName] = useState("");
+  const [activeDragId, setActiveDragId] = useState<string | null>(null);
+  const [overDropZone, setOverDropZone] = useState<string | null>(null);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -656,6 +754,20 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
     };
     fetchManifest();
   }, [slug, manifestProp]);
+
+  // Create default root section when manifest loads
+  useEffect(() => {
+    if (manifest && sections.length === 0) {
+      const rootSection: Section = {
+        id: toSnakeCase(manifest.metadata.slug),
+        name: toSnakeCase(manifest.metadata.slug).toUpperCase(),
+        type: "section",
+        children: [],
+        expanded: true,
+      };
+      setSections([rootSection]);
+    }
+  }, [manifest, sections.length]);
 
   // Handle image load and canvas setup
   const handleImageLoad = () => {
@@ -825,28 +937,83 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
 
   // Section management functions
   const addSection = (name: string, parentId: string | null = null) => {
-    const displayName = toTitleCase(name);
     const internalId = toSnakeCase(name);
+    const rootSectionId = manifest ? toSnakeCase(manifest.metadata.slug) : null;
 
     const newSection: Section = {
       id: internalId,
-      name: displayName,
+      name: internalId.toUpperCase(),
       type: "section",
       children: [],
       expanded: true,
     };
 
-    if (!parentId) {
-      // Add to root level
+    // Default to root section if no parent specified
+    const targetParentId = parentId || rootSectionId;
+
+    if (!targetParentId) {
+      // Add to root level (fallback)
       setSections((prev) => [...prev, newSection]);
     } else {
       // Add to specific parent
-      setSections((prev) => addSectionToParent(prev, parentId, newSection));
+      setSections((prev) =>
+        addSectionToParent(prev, targetParentId, newSection),
+      );
+    }
+  };
+
+  // Add a new section and start editing it immediately
+  const addNewSectionAndEdit = () => {
+    const tempId = `temp_${Date.now()}`;
+    const rootSectionId = manifest ? toSnakeCase(manifest.metadata.slug) : null;
+
+    const newSection: Section = {
+      id: tempId,
+      name: "NEW_SECTION",
+      type: "section",
+      children: [],
+      expanded: true,
+    };
+
+    // Add to root section by default
+    const targetParentId = rootSectionId;
+    if (!targetParentId) {
+      setSections((prev) => [...prev, newSection]);
+    } else {
+      setSections((prev) =>
+        addSectionToParent(prev, targetParentId, newSection),
+      );
     }
 
-    setShowAddSection(false);
-    setNewSectionName("");
-    setNewSectionParent(null);
+    // Start editing immediately with empty field
+    setEditingSectionId(tempId);
+    setEditingSectionName("");
+  };
+
+  // Update section name
+  const updateSectionName = (sectionId: string, newName: string) => {
+    const conformedName = toSnakeCase(newName).toUpperCase();
+
+    setSections((prev) => {
+      const updateSectionRecursive = (sections: Section[]): Section[] => {
+        return sections.map((section) => {
+          if (section.id === sectionId) {
+            return { ...section, name: conformedName };
+          }
+          if (section.children.length > 0) {
+            return {
+              ...section,
+              children: updateSectionRecursive(section.children as Section[]),
+            };
+          }
+          return section;
+        });
+      };
+      return updateSectionRecursive(prev);
+    });
+
+    setEditingSectionId(null);
+    setEditingSectionName("");
   };
 
   const addSectionToParent = (
@@ -891,10 +1058,28 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
     });
   };
 
-  const getQuestionsInSection = (sectionId: string): BoundingBox[] => {
-    return safeBoundingBoxes.filter(
-      (box) => box.sectionId === sectionId && box.type === "Question",
-    );
+  // Wrap getQuestionsInSection in useCallback
+  const getQuestionsInSection = useCallback(
+    (sectionId: string): BoundingBox[] => {
+      return safeBoundingBoxes.filter((box) => box.sectionId === sectionId);
+    },
+    [safeBoundingBoxes],
+  );
+
+  // Count all items in a section (questions + child sections)
+  const getSectionItemCount = (section: Section): number => {
+    let count = 0;
+
+    // Count questions in this section
+    const questionsInSection = getQuestionsInSection(section.id);
+    count += questionsInSection.length;
+
+    // Count child sections
+    count += section.children.filter(
+      (child) => child.type === "section",
+    ).length;
+
+    return count;
   };
 
   const getNextQuestionNumber = useCallback(
@@ -971,78 +1156,223 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   );
 
   // Drag and drop handlers
-  const handleDragStart = () => {
-    // Drag started
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveDragId(event.active.id as string);
   };
 
-  const handleDragOver = () => {
-    // Drag over
+  const handleDragOver = (event: DragOverEvent) => {
+    const { over } = event;
+    setOverDropZone(over ? (over.id as string) : null);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
-    if (!over) return;
+    // Clear drag state
+    setActiveDragId(null);
+    setOverDropZone(null);
 
-    if (active.id !== over.id) {
-      const activeId = active.id as string;
-      const overId = over.id as string;
+    if (!over || active.id === over.id) return;
 
-      // Check if we're dragging a section or a question
-      const isDraggingSection =
-        sections.some((section) => section.id === activeId) ||
+    const activeId = active.id as string;
+    const overId = over.id as string;
+    const rootSectionId = manifest ? toSnakeCase(manifest.metadata.slug) : null;
+
+    // Prevent moving the root section
+    if (activeId === rootSectionId) {
+      console.log("Cannot move root section");
+      return;
+    }
+
+    // Helper function to find what type of item an ID represents
+    const getItemType = (
+      id: string,
+    ): "root" | "section" | "question" | "unknown" => {
+      if (id === rootSectionId) return "root";
+      if (
+        sections.some((section) => section.id === id) ||
         sections.some(
-          (section) => findSectionInHierarchy([section], activeId) !== null,
+          (section) => findSectionInHierarchy([section], id) !== null,
+        )
+      ) {
+        return "section";
+      }
+      if (safeBoundingBoxes.some((box) => box.id === id)) {
+        return "question";
+      }
+      return "unknown";
+    };
+
+    const activeType = getItemType(activeId);
+    const overType = getItemType(overId);
+
+    console.log("Drag operation:", {
+      activeId,
+      overId,
+      activeType,
+      overType,
+    });
+
+    // Rule 1: Section to Section (nesting)
+    if (activeType === "section" && overType === "section") {
+      console.log("Section to Section: Nesting");
+      setSections((prev) => {
+        const { removedSection, updatedSections } = findAndRemoveSection(
+          prev,
+          activeId,
         );
-
-      const isOverSection =
-        sections.some((section) => section.id === overId) ||
-        sections.some(
-          (section) => findSectionInHierarchy([section], overId) !== null,
-        );
-
-      if (isDraggingSection && isOverSection) {
-        // Section to section drag (nesting or reordering)
-        const draggedSectionId = activeId;
-        const targetSectionId = overId;
-
-        // Check if we're trying to nest a section (search recursively)
-        const isNesting =
-          findSectionInHierarchy(sections, targetSectionId) !== null;
-
-        if (isNesting) {
-          // Handle section nesting
-          setSections((prev) => {
-            const draggedSection = findAndRemoveSection(prev, draggedSectionId);
-            if (draggedSection) {
-              return addSectionToParent(prev, targetSectionId, draggedSection);
-            }
-            return prev;
-          });
-        } else {
-          // Handle section reordering at same level
-          setSections((prev) => {
-            const oldIndex = prev.findIndex(
-              (section) => section.id === active.id,
-            );
-            const newIndex = prev.findIndex(
-              (section) => section.id === over.id,
-            );
-
-            if (oldIndex !== -1 && newIndex !== -1) {
-              return arrayMove(prev, oldIndex, newIndex);
-            }
-
-            return prev;
-          });
+        if (removedSection) {
+          return addSectionToParent(updatedSections, overId, removedSection);
         }
-      } else if (!isDraggingSection && isOverSection) {
-        // Question to section drag (moving question to different section)
-        const questionId = activeId;
-        const targetSectionId = overId;
+        return prev;
+      });
+    }
+    // Rule 2: Section to Root (move to root level)
+    else if (activeType === "section" && overType === "root") {
+      console.log("Section to Root: Move to root level");
+      setSections((prev) => {
+        const { removedSection, updatedSections } = findAndRemoveSection(
+          prev,
+          activeId,
+        );
+        if (removedSection && rootSectionId) {
+          return addSectionToParent(
+            updatedSections,
+            rootSectionId,
+            removedSection,
+          );
+        }
+        return prev;
+      });
+    }
+    // Rule 3: Question to Section (move question to section)
+    else if (activeType === "question" && overType === "section") {
+      console.log("Question to Section: Move question to section");
+      assignQuestionToSection(activeId, overId);
+    }
+    // Rule 4: Question to Root (move question to root section)
+    else if (activeType === "question" && overType === "root") {
+      console.log("Question to Root: Move question to root section");
+      if (rootSectionId) {
+        assignQuestionToSection(activeId, rootSectionId);
+      }
+    }
+    // Rule 5: Question to Question (reorder within same section)
+    else if (activeType === "question" && overType === "question") {
+      console.log("Question to Question: Reorder within section");
 
-        // Use the assignQuestionToSection function which handles renumbering
-        assignQuestionToSection(questionId, targetSectionId);
+      // Find which section contains both questions
+      const findSectionWithQuestions = (
+        sections: Section[],
+        q1Id: string,
+        q2Id: string,
+      ): Section | null => {
+        for (const section of sections) {
+          const hasQ1 = section.children.some(
+            (child) => child.type === "question" && child.id === q1Id,
+          );
+          const hasQ2 = section.children.some(
+            (child) => child.type === "question" && child.id === q2Id,
+          );
+          if (hasQ1 && hasQ2) {
+            return section;
+          }
+          // Check nested sections
+          for (const child of section.children) {
+            if (child.type === "section") {
+              const found = findSectionWithQuestions(
+                [child as Section],
+                q1Id,
+                q2Id,
+              );
+              if (found) return found;
+            }
+          }
+        }
+        return null;
+      };
+
+      const sectionWithQuestions = findSectionWithQuestions(
+        sections,
+        activeId,
+        overId,
+      );
+
+      if (sectionWithQuestions) {
+        setSections((prev) => {
+          const updateSectionRecursive = (sections: Section[]): Section[] => {
+            return sections.map((section) => {
+              if (section.id === sectionWithQuestions.id) {
+                const children = [...section.children];
+                const oldIndex = children.findIndex(
+                  (child) => child.id === activeId,
+                );
+                const newIndex = children.findIndex(
+                  (child) => child.id === overId,
+                );
+
+                if (oldIndex !== -1 && newIndex !== -1) {
+                  const [movedQuestion] = children.splice(oldIndex, 1);
+                  children.splice(newIndex, 0, movedQuestion);
+
+                  // Renumber questions in this section
+                  let questionNumber = 1;
+                  children.forEach((child) => {
+                    if (child.type === "question") {
+                      const question = child as Question;
+                      question.questionNumber = questionNumber++;
+                    }
+                  });
+                }
+
+                return { ...section, children };
+              }
+
+              // Check nested sections
+              if (section.children.length > 0) {
+                const updatedChildren = section.children.map((child) => {
+                  if (child.type === "section") {
+                    const updatedNestedSections = updateSectionRecursive([
+                      child as Section,
+                    ]);
+                    return updatedNestedSections[0];
+                  }
+                  return child;
+                });
+                return { ...section, children: updatedChildren };
+              }
+
+              return section;
+            });
+          };
+
+          return updateSectionRecursive(prev);
+        });
+      }
+    }
+    // Rule 6: Section to Empty Space (move to root level)
+    else if (activeType === "section" && overType === "unknown") {
+      console.log("Section to Empty: Move to root level");
+      setSections((prev) => {
+        const { removedSection, updatedSections } = findAndRemoveSection(
+          prev,
+          activeId,
+        );
+        if (removedSection && rootSectionId) {
+          return addSectionToParent(
+            updatedSections,
+            rootSectionId,
+            removedSection,
+          );
+        }
+        return prev;
+      });
+    }
+    // Rule 7: Question to Empty Space (move to root section)
+    else if (activeType === "question" && overType === "unknown") {
+      console.log("Question to Empty: Move to root section");
+      if (rootSectionId) {
+        assignQuestionToSection(activeId, rootSectionId);
       }
     }
   };
@@ -1070,29 +1400,36 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
     return null;
   };
 
-  // Helper function to find and remove a section from the hierarchy
+  // Helper function to find and remove a section from the hierarchy (immutable)
   const findAndRemoveSection = (
     sections: Section[],
     sectionId: string,
-  ): Section | null => {
+  ): { removedSection: Section | null; updatedSections: Section[] } => {
     for (let i = 0; i < sections.length; i++) {
       if (sections[i].id === sectionId) {
-        // Remove from current level
-        const [removedSection] = sections.splice(i, 1);
-        return removedSection;
+        // Remove from current level (immutable)
+        const updatedSections = [...sections];
+        const [removedSection] = updatedSections.splice(i, 1);
+        return { removedSection, updatedSections };
       }
 
       // Search in children
-      const foundInChildren = findAndRemoveSection(
+      const result = findAndRemoveSection(
         sections[i].children as Section[],
         sectionId,
       );
-      if (foundInChildren) {
-        return foundInChildren;
+      if (result.removedSection) {
+        // Update the children array immutably
+        const updatedSections = [...sections];
+        updatedSections[i] = {
+          ...updatedSections[i],
+          children: result.updatedSections,
+        };
+        return { removedSection: result.removedSection, updatedSections };
       }
     }
 
-    return null;
+    return { removedSection: null, updatedSections: sections };
   };
 
   // No zoom/pan controls needed
@@ -1426,87 +1763,6 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                   </Typography>
 
                   <Stack spacing={1}>
-                    {/* Add Section Button */}
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      startIcon={<Add />}
-                      onClick={() => setShowAddSection(true)}
-                      sx={{ mb: 1 }}
-                    >
-                      Add Section
-                    </Button>
-
-                    {/* Add Section Dialog */}
-                    {showAddSection && (
-                      <Box
-                        sx={{
-                          p: 1,
-                          border: `1px solid ${COLORS.ui.border}`,
-                          borderRadius: 1,
-                          mb: 1,
-                        }}
-                      >
-                        <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                          New Section
-                        </Typography>
-                        <TextField
-                          fullWidth
-                          size="small"
-                          placeholder="Section name"
-                          value={newSectionName}
-                          onChange={(e) => setNewSectionName(e.target.value)}
-                          sx={{ mb: 1 }}
-                        />
-                        <FormControl fullWidth size="small" sx={{ mb: 1 }}>
-                          <InputLabel>Parent Section (optional)</InputLabel>
-                          <Select
-                            value={newSectionParent || ""}
-                            onChange={(e) =>
-                              setNewSectionParent(e.target.value || null)
-                            }
-                            label="Parent Section (optional)"
-                          >
-                            <MenuItem value="">None (Top Level)</MenuItem>
-                            {sections.map((section) => (
-                              <MenuItem key={section.id} value={section.id}>
-                                {section.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                        <Box sx={{ display: "flex", gap: 1 }}>
-                          <Button
-                            size="small"
-                            onClick={() => {
-                              if (newSectionName.trim()) {
-                                addSection(
-                                  newSectionName.trim(),
-                                  newSectionParent,
-                                );
-                                setNewSectionName("");
-                                setNewSectionParent(null);
-                                setShowAddSection(false);
-                              }
-                            }}
-                          >
-                            Add
-                          </Button>
-                          <Button
-                            size="small"
-                            onClick={() => {
-                              setNewSectionName("");
-                              setNewSectionParent(null);
-                              setShowAddSection(false);
-                            }}
-                          >
-                            Cancel
-                          </Button>
-                        </Box>
-                      </Box>
-                    )}
-
                     {/* Sections List */}
                     {sections.length === 0 ? (
                       <Typography
@@ -1536,6 +1792,10 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                                 section={section}
                                 boundingBoxes={safeBoundingBoxes}
                                 activeBoxId={activeBoxId}
+                                manifest={manifest}
+                                getSectionItemCount={getSectionItemCount}
+                                editingSectionId={editingSectionId}
+                                editingSectionName={editingSectionName}
                                 onToggleExpanded={toggleSectionExpanded}
                                 onSetActiveBox={handleSetActiveBox}
                                 onBoxTypeChange={handleBoxTypeChange}
@@ -1544,12 +1804,36 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                                 onQuestionNumberChange={
                                   handleQuestionNumberChange
                                 }
+                                onStartEditing={(sectionId, currentName) => {
+                                  setEditingSectionId(sectionId);
+                                  setEditingSectionName(currentName);
+                                }}
+                                onUpdateSectionName={updateSectionName}
+                                onCancelEditing={() => {
+                                  setEditingSectionId(null);
+                                  setEditingSectionName("");
+                                }}
+                                onEditingNameChange={setEditingSectionName}
+                                activeDragId={activeDragId}
+                                overDropZone={overDropZone}
                               />
                             ))}
                           </Stack>
                         </SortableContext>
                       </DndContext>
                     )}
+
+                    {/* Add Section Button */}
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      startIcon={<Add />}
+                      onClick={addNewSectionAndEdit}
+                      sx={{ mt: 2 }}
+                    >
+                      Add Section
+                    </Button>
                   </Stack>
                 </Box>
 
