@@ -173,9 +173,15 @@ async def extract_question_image(
     extracted_dir = PROCESSING_DIR / exam_id / "extracted"
     extracted_dir.mkdir(parents=True, exist_ok=True)
 
+    # Step 1: Crop the image
     crop_path = image_processor.crop_image(source_image_path, crop_coords, padding=0)
+    # Step 2: Trim whitespace
+    trimmed_path = image_processor.trim_whitespace(crop_path)
+    # Step 3: Add 5px padding
+    padded_path = image_processor.add_padding(trimmed_path, padding=5)
+    # Save as final image
     final_path = extracted_dir / f"{question_id}.png"
-    crop_path.rename(final_path)
+    padded_path.rename(final_path)
     logger.info(f"Final extracted image saved: {final_path}")
 
     image_url = f"/api/v1/exams/processing/{exam_id}/extracted/{question_id}.png"
