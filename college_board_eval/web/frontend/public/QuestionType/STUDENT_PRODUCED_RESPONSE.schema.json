@@ -1,0 +1,5 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "question_type": "STUDENT_PRODUCED_RESPONSE",
+  "type": "object"
+}

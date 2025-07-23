@@ -1,0 +1,32 @@
+[
+  {
+    "question_type": "MULTIPLE_CHOICE",
+    "schemaUrl": "./MULTIPLE_CHOICE.schema.json",
+    "question_emoji": "🔠"
+  },
+  {
+    "question_type": "SHORT_ANSWER_QUESTION",
+    "schemaUrl": "./SHORT_ANSWER_QUESTION.schema.json",
+    "question_emoji": "✏️"
+  },
+  {
+    "question_type": "STUDENT_PRODUCED_RESPONSE",
+    "schemaUrl": "./STUDENT_PRODUCED_RESPONSE.schema.json",
+    "question_emoji": "📝"
+  },
+  {
+    "question_type": "LONG_ANSWER",
+    "schemaUrl": "./LONG_ANSWER.schema.json",
+    "question_emoji": "📝"
+  },
+  {
+    "question_type": "FREE_RESPONSE",
+    "schemaUrl": "./FREE_RESPONSE.schema.json",
+    "question_emoji": "📝"
+  },
+  {
+    "question_type": "LONG_ESSAY",
+    "schemaUrl": "./LONG_ESSAY.schema.json",
+    "question_emoji": "📄"
+  }
+]
