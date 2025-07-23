@@ -114,7 +114,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
   return (
     <>
       {/* Hero Section for Exam Extractor (full width) */}
-      <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '0ms' }}>
+      <Fade
+        in={transitionStage !== "fadingOut"}
+        timeout={400}
+        style={{ transitionDelay: "0ms" }}
+      >
         <Box
           sx={{
             background: "linear-gradient(135deg, #009cde 0%, #0077c8 100%)",
@@ -164,7 +168,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
 
         <Stack spacing={3}>
           {/* Exam Type Selection */}
-          <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '80ms' }}>
+          <Fade
+            in={transitionStage !== "fadingOut"}
+            timeout={400}
+            style={{ transitionDelay: "80ms" }}
+          >
             <FormControl fullWidth>
               <InputLabel id="exam-type-label">Exam Type</InputLabel>
               <Select
@@ -197,7 +205,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
           </Fade>
 
           {/* Year Selection */}
-          <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '160ms' }}>
+          <Fade
+            in={transitionStage !== "fadingOut"}
+            timeout={400}
+            style={{ transitionDelay: "160ms" }}
+          >
             <FormControl fullWidth>
               <InputLabel id="year-label">Year</InputLabel>
               <Select
@@ -225,11 +237,19 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
           {formData.examType && formData.year && (
             <>
               {/* Preview of generated filename */}
-              <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '240ms' }}>
+              <Fade
+                in={transitionStage !== "fadingOut"}
+                timeout={400}
+                style={{ transitionDelay: "240ms" }}
+              >
                 <Box p={2} bgcolor="grey.50" borderRadius={1}>
                   <Typography variant="h6" color="text.secondary">
                     Project Name:{" "}
-                    <Box component="span" fontWeight="bold" color="text.primary">
+                    <Box
+                      component="span"
+                      fontWeight="bold"
+                      color="text.primary"
+                    >
                       {formData.examType}_{formData.year}
                     </Box>
                   </Typography>
@@ -237,9 +257,17 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
               </Fade>
 
               {/* Upload Method Selection */}
-              <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '320ms' }}>
+              <Fade
+                in={transitionStage !== "fadingOut"}
+                timeout={400}
+                style={{ transitionDelay: "320ms" }}
+              >
                 <Box>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
                     Choose import method
                   </Typography>
                   <ToggleButtonGroup
@@ -260,7 +288,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
               </Fade>
 
               {/* Always show Source URL field (with explainer) below selector (and below file upload if present) */}
-              <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '400ms' }}>
+              <Fade
+                in={transitionStage !== "fadingOut"}
+                timeout={400}
+                style={{ transitionDelay: "400ms" }}
+              >
                 <Typography
                   variant="body2"
                   color="text.secondary"
@@ -269,7 +301,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
                   Original PDF source URL
                 </Typography>
               </Fade>
-              <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '480ms' }}>
+              <Fade
+                in={transitionStage !== "fadingOut"}
+                timeout={400}
+                style={{ transitionDelay: "480ms" }}
+              >
                 <TextField
                   fullWidth
                   label="Source URL"
@@ -292,7 +328,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
                     type="file"
                     onChange={handleFileChange}
                   />
-                  <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '560ms' }}>
+                  <Fade
+                    in={transitionStage !== "fadingOut"}
+                    timeout={400}
+                    style={{ transitionDelay: "560ms" }}
+                  >
                     <label htmlFor="file-upload">
                       <Button
                         variant="outlined"
@@ -309,7 +349,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
               )}
 
               {/* Process Button */}
-              <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '640ms' }}>
+              <Fade
+                in={transitionStage !== "fadingOut"}
+                timeout={400}
+                style={{ transitionDelay: "640ms" }}
+              >
                 <Button
                   variant="contained"
                   size="large"
@@ -333,7 +377,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
               </Fade>
               {/* Upload/Download Complete Message (show for 1.5s) */}
               {uploadComplete && (
-                <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '720ms' }}>
+                <Fade
+                  in={transitionStage !== "fadingOut"}
+                  timeout={400}
+                  style={{ transitionDelay: "720ms" }}
+                >
                   <Alert severity="success" sx={{ mt: 3 }}>
                     {formData.uploadMethod === "upload"
                       ? "PDF upload complete. Starting extraction..."
@@ -344,7 +392,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
 
               {/* Manifest-based Processing Status UI */}
               {showProcessing && manifest && (
-                <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '800ms' }}>
+                <Fade
+                  in={transitionStage !== "fadingOut"}
+                  timeout={400}
+                  style={{ transitionDelay: "800ms" }}
+                >
                   <Box mt={3}>
                     <Box mt={1} mb={1}>
                       <Box
@@ -466,7 +518,11 @@ export const ExamSetup: React.FC<ExamSetupProps> = ({
                 </Fade>
               )}
               {pollError && (
-                <Fade in={transitionStage !== 'fadingOut'} timeout={400} style={{ transitionDelay: '880ms' }}>
+                <Fade
+                  in={transitionStage !== "fadingOut"}
+                  timeout={400}
+                  style={{ transitionDelay: "880ms" }}
+                >
                   <Alert severity="error" sx={{ mt: 2 }}>
                     {pollError}
                   </Alert>

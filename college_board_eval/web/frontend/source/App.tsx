@@ -67,12 +67,16 @@ function MainApp() {
   const location = useLocation();
 
   // Determine active tab from URL
-  const tabPaths = ["/", "/dashboard", "/examextractor"];
-  const activeTab =
-    tabPaths.indexOf(location.pathname) !== -1
-      ? tabPaths.indexOf(location.pathname)
-      : 0;
+  let activeTab = 0;
+  if (location.pathname.startsWith("/examextractor")) {
+    activeTab = 2;
+  } else if (location.pathname.startsWith("/dashboard")) {
+    activeTab = 1;
+  } else {
+    activeTab = 0;
+  }
 
+  const tabPaths = ["/", "/dashboard", "/examextractor"];
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     navigate(tabPaths[newValue]);
   };

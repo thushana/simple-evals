@@ -31,7 +31,9 @@ export const ExamExtractor: React.FC = () => {
   const [step, setStep] = useState<"setup" | "tagging">(
     urlSlug ? "tagging" : "setup",
   );
-  const [transitionStage, setTransitionStage] = useState<"idle" | "fadingOut" | "fadingIn">("idle");
+  const [transitionStage, setTransitionStage] = useState<
+    "idle" | "fadingOut" | "fadingIn"
+  >("idle");
 
   const setBoundingBoxesAndLog = setBoundingBoxes;
 
@@ -61,7 +63,9 @@ export const ExamExtractor: React.FC = () => {
             intervalId = null;
           }
         }
-      } catch (err) {}
+      } catch {
+        // Intentionally empty - errors are handled by the polling mechanism
+      }
     };
     poll();
     intervalId = setInterval(() => {
