@@ -662,12 +662,14 @@ const DraggableQuestionItem: React.FC<DraggableQuestionItemProps> = ({
 };
 
 // Reusable components
+// 1. Update BoundingBoxLabel to accept activeBoxId as a prop and set opacity to 0.25 for non-active, 1.0 for active
 const BoundingBoxLabel: React.FC<{
   box: BoundingBox;
   x: number;
   y: number;
   isDrawing?: boolean;
-}> = ({ box, x, y, isDrawing = false }) => (
+  activeBoxId?: string | null;
+}> = ({ box, x, y, isDrawing = false, activeBoxId }) => (
   <Box
     sx={{
       position: "absolute",
@@ -685,6 +687,7 @@ const BoundingBoxLabel: React.FC<{
       display: "flex",
       alignItems: "center",
       gap: 0.5,
+      opacity: activeBoxId && box.id !== activeBoxId ? INACTIVE_BOX_OPACITY : 1.0,
     }}
   >
     {isDrawing
@@ -701,6 +704,9 @@ const EXAM_MANAGER_FONT = {
   fontWeight: 400,
   fontSize: "1rem",
 };
+
+// Define a constant for inactive bounding box/pill opacity
+const INACTIVE_BOX_OPACITY = 0.33;
 
 export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   boundingBoxes,
@@ -818,7 +824,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
       .filter((box) => box.pageNumber === selectedPage)
       .forEach((box) => {
         const isActive = box.id === activeBoxId;
-        const alpha = isActive ? 1.0 : 0.5;
+        const alpha = isActive ? 1.0 : INACTIVE_BOX_OPACITY;
 
         // Set color with opacity - match Material-UI chip colors
         ctx.strokeStyle =
@@ -1717,6 +1723,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                         box={box}
                         x={box.x}
                         y={box.y}
+                        activeBoxId={activeBoxId}
                       />
                     ))}
                     {/* Label for current box being drawn */}
@@ -1734,6 +1741,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                         x={currentBox.x || 0}
                         y={currentBox.y || 0}
                         isDrawing={true}
+                        activeBoxId={activeBoxId}
                       />
                     )}
                   </>
