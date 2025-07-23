@@ -170,6 +170,7 @@ interface SectionNodeProps {
   onUpdateSectionName: (sectionId: string, newName: string) => void;
   onCancelEditing: () => void;
   onEditingNameChange: (name: string) => void;
+  examManagerFont: React.CSSProperties;
 }
 
 const DraggableSectionNode: React.FC<SectionNodeProps> = ({
@@ -192,6 +193,7 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
   onUpdateSectionName,
   onCancelEditing,
   onEditingNameChange,
+  examManagerFont,
 }) => {
   const {
     attributes,
@@ -250,18 +252,25 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
         <ListItemButton
           onClick={() => onToggleExpanded(section.id)}
           sx={{
+            minHeight: 40,
+            borderRadius: 1,
             pl: 1,
             py: 0.5,
-            ...(isRootSection && {
-              backgroundColor: COLORS.ui.selectedPageBg,
-              border: `1px solid ${COLORS.ui.selectedPage}`,
-              borderRadius: 1,
-            }),
+            // Root section: blue border/background
+            ...(isRootSection
+              ? {
+                  backgroundColor: COLORS.ui.selectedPageBg,
+                  border: `1px solid ${COLORS.ui.selectedPage}`,
+                }
+              : {
+                  backgroundColor: "#f5f5f5",
+                  border: "1px solid #bbb",
+                }),
+            // Drop target highlight overlays base style
             ...(isDropTarget &&
               canAcceptDrop && {
                 backgroundColor: COLORS.ui.selectedPageBg,
                 border: `2px dashed ${COLORS.ui.selectedPage}`,
-                borderRadius: 1,
                 boxShadow: `0 0 8px ${COLORS.ui.selectedPage}40`,
               }),
             transition: "all 0.2s ease",
@@ -307,11 +316,12 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
                     padding: "2px 8px",
                   },
                 }}
+                InputProps={{ style: examManagerFont }}
               />
             ) : (
               <Typography
                 variant="body2"
-                fontWeight={isRootSection ? 700 : 500}
+                fontWeight={700}
                 sx={{
                   fontFamily: "Roboto Mono, monospace",
                   ...(isRootSection && { color: COLORS.ui.selectedPage }),
@@ -322,7 +332,7 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
                 }}
                 onClick={handleNameClick}
               >
-                {section.name}
+                {section.name?.trim() ? section.name : "Section"}
               </Typography>
             )}
             <Typography
@@ -380,6 +390,7 @@ const DraggableSectionNode: React.FC<SectionNodeProps> = ({
                 onEditingNameChange={onEditingNameChange}
                 activeDragId={activeDragId}
                 overDropZone={overDropZone}
+                examManagerFont={examManagerFont}
               />
             ))}
         </List>
@@ -684,6 +695,13 @@ const BoundingBoxLabel: React.FC<{
   </Box>
 );
 
+// 1. Define a style object for Exam Manager text
+const EXAM_MANAGER_FONT = {
+  fontFamily: "Roboto Mono, monospace",
+  fontWeight: 400,
+  fontSize: "1rem",
+};
+
 export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   boundingBoxes,
   setBoundingBoxes,
@@ -937,7 +955,8 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
 
   // Section management functions
   const addSection = (name: string, parentId: string | null = null) => {
-    const internalId = toSnakeCase(name);
+    const safeName = name?.trim() ? name : "Section";
+    const internalId = toSnakeCase(safeName);
     const rootSectionId = manifest ? toSnakeCase(manifest.metadata.slug) : null;
 
     const newSection: Section = {
@@ -992,7 +1011,8 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
 
   // Update section name
   const updateSectionName = (sectionId: string, newName: string) => {
-    const conformedName = toSnakeCase(newName).toUpperCase();
+    const safeName = newName?.trim() ? newName : "Section";
+    const conformedName = toSnakeCase(safeName).toUpperCase();
 
     setSections((prev) => {
       const updateSectionRecursive = (sections: Section[]): Section[] => {
@@ -1762,13 +1782,13 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                     Exam Manager
                   </Typography>
 
-                  <Stack spacing={1}>
+                  <Stack spacing={1} sx={EXAM_MANAGER_FONT}>
                     {/* Sections List */}
                     {sections.length === 0 ? (
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        sx={{ p: 1 }}
+                        sx={{ p: 1, ...EXAM_MANAGER_FONT }}
                       >
                         No sections created. Add a section to organize
                         questions.
@@ -1785,7 +1805,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                           items={sections.map((s) => s.id)}
                           strategy={verticalListSortingStrategy}
                         >
-                          <Stack spacing={1}>
+                          <Stack spacing={1} sx={EXAM_MANAGER_FONT}>
                             {sections.map((section) => (
                               <DraggableSectionNode
                                 key={section.id}
@@ -1816,6 +1836,7 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                                 onEditingNameChange={setEditingSectionName}
                                 activeDragId={activeDragId}
                                 overDropZone={overDropZone}
+                                examManagerFont={EXAM_MANAGER_FONT}
                               />
                             ))}
                           </Stack>
