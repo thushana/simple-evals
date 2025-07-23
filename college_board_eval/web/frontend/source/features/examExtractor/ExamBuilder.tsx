@@ -26,8 +26,39 @@ import { CSS } from "@dnd-kit/utilities";
 import { Fade } from "@mui/material";
 import Split from "react-split";
 import { QuestionManager } from "./components/QuestionManager";
-
-// Color constants
+import { extractQuestionImage } from "./utils/api";
+import { API_BASE_URL, API_ENDPOINTS } from "../../services/api";
+import {
+  Box,
+  Typography,
+  Container,
+  Button,
+  Stack,
+  IconButton,
+  Tooltip,
+  Alert,
+  CircularProgress,
+  TextField,
+  Collapse,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemButton,
+  MenuItem,
+  Menu,
+} from "@mui/material";
+import {
+  Create,
+  Delete,
+  Add,
+  DragIndicator,
+  Folder,
+  KeyboardArrowDown,
+} from "@mui/icons-material";
+import { useParams } from "react-router-dom";
+import type { Manifest } from "./types/examExtractor.types";
+import type { BoundingBox } from "./types/examExtractor.types";
+// Restore COLORS, COMMON_STYLES, and toSnakeCase
 const COLORS = {
   question: {
     primary: "#d32f2f",
@@ -58,7 +89,6 @@ const COLORS = {
   },
 } as const;
 
-// Common styles
 const COMMON_STYLES = {
   pill: {
     borderRadius: 1,
@@ -88,44 +118,13 @@ const COMMON_STYLES = {
   },
 } as const;
 
-// Utility functions for naming conventions
 const toSnakeCase = (str: string): string => {
   return str
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/(^_|_$)/g, "");
 };
-import {
-  Box,
-  Typography,
-  Container,
-  Button,
-  Stack,
-  IconButton,
-  Tooltip,
-  Alert,
-  CircularProgress,
-  TextField,
-  Collapse,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemButton,
-  MenuItem,
-  Menu,
-} from "@mui/material";
-import {
-  Create,
-  Delete,
-  Add,
-  DragIndicator,
-  Folder,
-  KeyboardArrowDown,
-} from "@mui/icons-material";
-import { useParams } from "react-router-dom";
-import { API_ENDPOINTS } from "../../services/api";
-import type { Manifest } from "./types/examExtractor.types";
-import type { BoundingBox } from "./types/examExtractor.types";
+
 interface ExamBuilderProps {
   boundingBoxes: BoundingBox[];
   setBoundingBoxes: React.Dispatch<React.SetStateAction<BoundingBox[]>>;
@@ -743,6 +742,8 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   const [editingSectionName, setEditingSectionName] = useState("");
   const [activeDragId, setActiveDragId] = useState<string | null>(null);
   const [overDropZone, setOverDropZone] = useState<string | null>(null);
+  const [boxImageUrls, setBoxImageUrls] = useState<Record<string, string>>({});
+  const [extractingBoxId, setExtractingBoxId] = useState<string | null>(null);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -873,10 +874,11 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
   }, [drawBoundingBoxes]);
 
   // Mouse event handlers for drawing
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseDown = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imageRef.current || !drawingEnabled) return;
 
     const rect = imageRef.current.getBoundingClientRect();
+    // Use displayed (CSS) coordinates for drawing and storage
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
@@ -920,16 +922,82 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
         } else {
           assignQuestionToSection(newBox.id, sections[0].id);
         }
+
+        // --- Extract question image from backend ---
+        if (manifest && manifest.pages) {
+          const pageData = manifest.pages.find(
+            (p) => p.page_number === selectedPage,
+          );
+          if (pageData && newBox.type === "Question") {
+            setExtractingBoxId(newBox.id);
+            const exam_id = manifest.metadata.slug;
+            const question_id = newBox.id;
+            // Only use the full image's natural size for scaling
+            const naturalWidth = imageRef.current
+              ? imageRef.current.naturalWidth
+              : 1;
+            const naturalHeight = imageRef.current
+              ? imageRef.current.naturalHeight
+              : 1;
+            const displayedWidth = imageRef.current
+              ? imageRef.current.offsetWidth
+              : naturalWidth;
+            const displayedHeight = imageRef.current
+              ? imageRef.current.offsetHeight
+              : naturalHeight;
+            const scaleX = naturalWidth / displayedWidth;
+            const scaleY = naturalHeight / displayedHeight;
+            const bounding_box = {
+              x: Math.round(newBox.x * scaleX),
+              y: Math.round(newBox.y * scaleY),
+              width: Math.round(newBox.width * scaleX),
+              height: Math.round(newBox.height * scaleY),
+            };
+            // Define source_image_path using the full image filename
+            const source_image_path = `college_board_eval/exams/processing/${exam_id}/images/${selectedPageData.full}`;
+            try {
+              const resp = await extractQuestionImage({
+                exam_id,
+                question_id,
+                bounding_box,
+                source_image_path,
+                full_width: naturalWidth,
+                full_height: naturalHeight,
+              });
+              // Fix: Remove 'processing/' from the image URL if present
+              let url = resp.image_url;
+              if (url.startsWith("/api/v1/exams/processing/")) {
+                url = url.replace(
+                  "/api/v1/exams/processing/",
+                  "/api/v1/exams/",
+                );
+              }
+              url = url.startsWith("/") ? `${API_BASE_URL}${url}` : url;
+              setBoxImageUrls((prev) => ({ ...prev, [newBox.id]: url }));
+            } catch {
+              setBoxImageUrls((prev) => ({ ...prev, [newBox.id]: "ERROR" }));
+            } finally {
+              setExtractingBoxId(null);
+            }
+          }
+        }
       }
     }
   };
 
+  // Tooltip state for mouse position
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+
+  // Update mouse position on move (for tooltip)
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!imageRef.current || !drawStart || !isDrawingBox) return;
 
     const rect = imageRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
+    setMousePos({ x: e.clientX, y: e.clientY });
 
     setCurrentBox({
       x: Math.min(drawStart.x, x),
@@ -1882,14 +1950,21 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
                     Question Manager
                   </Typography>
                   <QuestionManager
-                    selectedQuestion={
-                      activeBoxId
-                        ? (safeBoundingBoxes.find(
-                            (box) => box.id === activeBoxId,
-                          ) ?? null)
-                        : null
-                    }
                     questionKey={activeBoxId}
+                    imageUrl={
+                      activeBoxId
+                        ? boxImageUrls[activeBoxId] &&
+                          boxImageUrls[activeBoxId] !== "ERROR"
+                          ? boxImageUrls[activeBoxId]
+                          : undefined
+                        : undefined
+                    }
+                    extracting={
+                      !!activeBoxId && extractingBoxId === activeBoxId
+                    }
+                    error={
+                      !!activeBoxId && boxImageUrls[activeBoxId] === "ERROR"
+                    }
                   />
                 </Box>
               </Split>
@@ -1897,6 +1972,51 @@ export const ExamBuilder: React.FC<ExamBuilderProps> = ({
           </Box>
         </Box>
       </Fade>
+
+      {/* Tooltip for bounding box while drawing */}
+      {isDrawingBox && currentBox && mousePos && imageRef.current && (
+        <Box
+          sx={{
+            position: "fixed",
+            left: mousePos.x + 16,
+            top: mousePos.y + 16,
+            zIndex: 9999,
+            pointerEvents: "none",
+          }}
+        >
+          {(() => {
+            const naturalWidth = imageRef.current.naturalWidth;
+            const naturalHeight = imageRef.current.naturalHeight;
+            const displayedWidth = imageRef.current.offsetWidth;
+            const displayedHeight = imageRef.current.offsetHeight;
+            const scaleX = naturalWidth / displayedWidth;
+            const scaleY = naturalHeight / displayedHeight;
+            const boxW = currentBox.width ?? 0;
+            const boxH = currentBox.height ?? 0;
+            const naturalBoxW = Math.round(boxW * scaleX);
+            const naturalBoxH = Math.round(boxH * scaleY);
+            return (
+              <Box
+                sx={{
+                  p: 1,
+                  bgcolor: "rgba(0,0,0,0.85)",
+                  color: "#fff",
+                  borderRadius: 1,
+                  fontSize: "0.85em",
+                  pointerEvents: "none",
+                }}
+              >
+                <div>
+                  Natural: {naturalBoxW} × {naturalBoxH}
+                </div>
+                <div>
+                  Pixel: {Math.round(boxW)} × {Math.round(boxH)}
+                </div>
+              </Box>
+            );
+          })()}
+        </Box>
+      )}
     </>
   );
 };

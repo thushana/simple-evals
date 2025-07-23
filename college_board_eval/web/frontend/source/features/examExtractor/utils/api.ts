@@ -80,3 +80,27 @@ export const fetchManifest = async (slug: string): Promise<Manifest> => {
   );
   return result;
 };
+
+export interface ExtractQuestionImageRequest {
+  exam_id: string;
+  question_id: string;
+  bounding_box: { x: number; y: number; width: number; height: number };
+  source_image_path: string;
+  full_width: number;
+  full_height: number;
+  preview_width?: number;
+  preview_height?: number;
+}
+
+export interface ExtractQuestionImageResponse {
+  image_url: string;
+}
+
+export const extractQuestionImage = async (
+  req: ExtractQuestionImageRequest,
+): Promise<ExtractQuestionImageResponse> => {
+  return apiClient.post<ExtractQuestionImageResponse>(
+    API_ENDPOINTS.exams.extractQuestionImage,
+    req,
+  );
+};

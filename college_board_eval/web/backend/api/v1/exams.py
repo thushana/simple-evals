@@ -9,10 +9,11 @@ from pathlib import Path
 from typing import Optional
 
 import requests
-from fastapi import APIRouter, BackgroundTasks, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Body, File, Form, HTTPException, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 from pdf2image import convert_from_path
 from PIL import Image
+from pydantic import BaseModel
 
 from college_board_eval.web.backend.core.config import (
     EXAMS_DIR,
@@ -137,6 +138,51 @@ async def upload_exam(
 
 
 # ============================================================================
+# QUESTION IMAGE EXTRACTION ENDPOINT
+# ============================================================================
+
+
+class ExtractQuestionImageRequest(BaseModel):
+    exam_id: str
+    question_id: str
+    bounding_box: dict  # expects {x, y, width, height}
+    source_image_path: str
+    full_width: int
+    full_height: int
+
+
+@router.post("/extract-question-image")
+async def extract_question_image(
+    req: ExtractQuestionImageRequest = Body(...),
+):
+    """
+    Crop a region from a source image using full image coordinates.
+    """
+    exam_id = req.exam_id
+    question_id = req.question_id
+    bbox = req.bounding_box
+    source_image_path = Path(req.source_image_path)
+
+    # Use the bounding box directly (already in full image natural pixel coordinates)
+    left = bbox["x"]
+    top = bbox["y"]
+    right = left + bbox["width"]
+    bottom = top + bbox["height"]
+    crop_coords = (left, top, right, bottom)
+
+    extracted_dir = PROCESSING_DIR / exam_id / "extracted"
+    extracted_dir.mkdir(parents=True, exist_ok=True)
+
+    crop_path = image_processor.crop_image(source_image_path, crop_coords, padding=0)
+    final_path = extracted_dir / f"{question_id}.png"
+    crop_path.rename(final_path)
+    logger.info(f"Final extracted image saved: {final_path}")
+
+    image_url = f"/api/v1/exams/processing/{exam_id}/extracted/{question_id}.png"
+    return {"image_url": image_url}
+
+
+# ============================================================================
 # EXAM MANIFEST ENDPOINTS
 # ============================================================================
 
@@ -256,6 +302,24 @@ async def get_exam_images(slug: str):
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error retrieving images: {str(e)}")
+
+
+@router.get("/{slug}/extracted/{image_path:path}")
+async def serve_extracted_image(slug: str, image_path: str):
+    """Serve an extracted image file from the exam processing directory"""
+    exam_processing_dir = PROCESSING_DIR / slug
+    extracted_file_path = exam_processing_dir / "extracted" / image_path
+
+    if not extracted_file_path.exists():
+        raise HTTPException(status_code=404, detail="Extracted image not found")
+
+    # Security check: ensure the path is within the extracted directory
+    try:
+        extracted_file_path.resolve().relative_to((exam_processing_dir / "extracted").resolve())
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid image path")
+
+    return FileResponse(extracted_file_path)
 
 
 # ============================================================================

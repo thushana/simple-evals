@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
       `${API_BASE_URL}/api/v1/exams/${slug}/images/${imagePath}`,
     manifest: (slug: string) =>
       `${API_BASE_URL}/api/v1/exams/${slug}/manifest/`,
+    extractQuestionImage: `${API_BASE_URL}/api/v1/exams/extract-question-image`,
   },
   // Health check
   health: `${API_BASE_URL}/health`,

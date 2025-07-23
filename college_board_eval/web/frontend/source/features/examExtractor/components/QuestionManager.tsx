@@ -14,6 +14,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface QuestionManagerProps {
   questionKey: string | null;
+  imageUrl?: string;
+  extracting?: boolean;
+  error?: boolean;
 }
 
 interface QuestionTypeRegistryEntry {
@@ -41,6 +44,9 @@ const QUESTION_PILL_STYLE = {
 
 export const QuestionManager: React.FC<QuestionManagerProps> = ({
   questionKey,
+  imageUrl,
+  extracting,
+  error,
 }) => {
   const [questionTypes, setQuestionTypes] = useState<
     QuestionTypeRegistryEntry[]
@@ -90,6 +96,36 @@ export const QuestionManager: React.FC<QuestionManagerProps> = ({
           </Typography>
         )}
       </Box>
+      {/* Show image extraction state */}
+      {questionKey && (
+        <Box sx={{ mb: 2 }}>
+          {extracting ? (
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <CircularProgress size={20} />
+              <Typography variant="body2">Extracting image…</Typography>
+            </Box>
+          ) : error ? (
+            <Typography variant="body2" color="error">
+              Error extracting image
+            </Typography>
+          ) : imageUrl ? (
+            <Box
+              sx={{ border: "1px solid #eee", borderRadius: 1, p: 1, mb: 1 }}
+            >
+              <img
+                src={imageUrl}
+                alt="Extracted question"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: 200,
+                  display: "block",
+                  margin: "0 auto",
+                }}
+              />
+            </Box>
+          ) : null}
+        </Box>
+      )}
       {/* Only show options if a question is selected */}
       {questionKey && (
         <>
