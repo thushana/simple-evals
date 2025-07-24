@@ -144,6 +144,15 @@ async def upload_exam(
         # Validate file size
         if file.size and file.size > MAX_FILE_SIZE:
             raise HTTPException(status_code=400, detail="File size must be less than 50MB")
+        # Save the file synchronously before starting background task
+        try:
+            contents = await file.read()
+            with open(pdf_path, "wb") as buffer:
+                buffer.write(contents)
+            logger.info(f"[UPLOAD DEBUG {datetime.now().isoformat()}] File saved to {pdf_path}")
+        except Exception as e:
+            logger.error(f"[UPLOAD DEBUG {datetime.now().isoformat()}] Error saving file: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Error saving file: {str(e)}")
     elif pdf_url:
         logger.info(f"[UPLOAD DEBUG {datetime.now().isoformat()}] Validating URL")
         if not pdf_url.lower().endswith(".pdf"):
@@ -167,7 +176,8 @@ async def upload_exam(
 
     logger.info(f"[UPLOAD DEBUG {datetime.now().isoformat()}] Adding background task")
     # Start background processing - pass file/URL info to background task
-    background_tasks.add_task(process_exam_file_and_images, pdf_path, exam_processing_dir, slug, file, pdf_url)
+    # Do NOT pass the UploadFile object to the background task
+    background_tasks.add_task(process_exam_file_and_images, pdf_path, exam_processing_dir, slug, None, pdf_url)
 
     logger.info(f"[UPLOAD DEBUG {datetime.now().isoformat()}] Upload endpoint returning response")
     return {
@@ -485,25 +495,8 @@ async def process_exam_file_and_images(
 
         # Handle file upload
         if file is not None:
-            logger.info(f"[BACKGROUND DEBUG {datetime.now().isoformat()}] Processing file upload")
-            try:
-                content = await file.read()
-                with open(pdf_path, "wb") as buffer:
-                    buffer.write(content)
-                logger.info(f"[BACKGROUND DEBUG {datetime.now().isoformat()}] File saved successfully")
-            except Exception as e:
-                logger.error(f"[BACKGROUND DEBUG {datetime.now().isoformat()}] Error saving file: {str(e)}")
-                # Update manifest with error
-                manifest_path = exam_processing_dir / "manifest.json"
-                if manifest_path.exists():
-                    with open(manifest_path, "r") as f:
-                        manifest = json.load(f)
-                    manifest["metadata"]["error"] = f"Error saving file: {str(e)}"
-                    manifest["metadata"]["processing_status"] = f"Processing failed: {str(e)}"
-                    with open(manifest_path, "w") as f:
-                        json.dump(manifest, f, indent=2)
-                return
-
+            # This should never be hit now; file is always saved synchronously
+            logger.info(f"[BACKGROUND DEBUG {datetime.now().isoformat()}] Skipping file upload in background task (already saved)")
         # Handle URL download
         elif pdf_url:
             logger.info(f"[BACKGROUND DEBUG {datetime.now().isoformat()}] Processing URL download")
@@ -541,12 +534,12 @@ async def process_exam_file_and_images(
                 return
 
         # Update manifest with file size and SHA-256 hash
-        if content:
+        if pdf_path.exists():
             manifest_path = exam_processing_dir / "manifest.json"
             if manifest_path.exists():
                 with open(manifest_path, "r") as f:
                     manifest = json.load(f)
-                manifest["metadata"]["file_size_bytes"] = len(content)
+                manifest["metadata"]["file_size_bytes"] = pdf_path.stat().st_size
                 # Compute SHA-256 hash
                 sha256 = compute_file_sha256(pdf_path)
                 manifest["metadata"]["file_sha256"] = sha256
