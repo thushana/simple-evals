@@ -209,3 +209,24 @@ web-dev:
 web-setup:
 	pip install -r requirements.txt
 	cd web/frontend && npm install 
+
+# Set up Poetry environment and install dependencies
+env-setup:
+	@echo "🔧 Setting up Poetry environment..."
+	@if ! command -v poetry >/dev/null 2>&1; then \
+		curl -sSL https://install.python-poetry.org | python3 -; \
+	fi
+	poetry config virtualenvs.in-project true
+	poetry install --no-root
+	@echo "✅ Poetry environment set up. To activate, run: make env-activate"
+
+# Activate Poetry-managed virtual environment (for bash/zsh)
+# Note: Makefiles cannot persistently activate a shell environment; you must run this manually in your terminal.
+env-activate:
+	@echo "To activate the Poetry-managed virtual environment, run:"
+	@echo "  source .venv/bin/activate"
+	@echo "(Makefiles cannot persistently activate a shell environment; run this command directly in your shell.)" 
+
+# Install all dependencies using Poetry without installing the project as a package
+env-install:
+	poetry install --no-root 

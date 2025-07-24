@@ -1,3 +1,95 @@
+# College Board Evaluation System
+
+## Python Environment & Dependency Management (Poetry)
+
+This project uses [Poetry](https://python-poetry.org/) for all Python dependency and environment management. Poetry was chosen because:
+- It creates an isolated virtual environment for the project (like venv, but automated)
+- It manages all dependencies in a single place (`pyproject.toml` and `poetry.lock`)
+- It ensures reproducible installs for all contributors (no more missing packages or version mismatches)
+- It makes adding, removing, and updating packages easy and reliable
+- It eliminates the need for manual `requirements.txt` management
+
+**Why not just use venv and pip?**
+- Poetry automates virtual environment creation and activation
+- Poetry pins all dependencies and their versions for you
+- Poetry makes onboarding and setup much simpler for new contributors
+
+> **Note:** Do NOT commit your `.venv` directory. Poetry manages this for you. The only files you need to commit for Python dependencies are `pyproject.toml` and `poetry.lock`.
+
+---
+
+## Setup Instructions
+
+### 1. Set up the Poetry environment and install dependencies
+
+From inside the `college_board_eval` directory, run:
+
+```bash
+make env-setup
+```
+- This will install Poetry (if needed), configure it to use a local `.venv`, and install all dependencies.
+
+### 2. Activate the environment
+
+You must activate the environment manually in your shell:
+
+```bash
+source .venv/bin/activate
+```
+- (Or run `make env-activate` to print this instruction.)
+
+### 3. Install dependencies (if you add or update pyproject.toml)
+
+```bash
+make env-install
+```
+- This runs `poetry install --no-root` to install all dependencies without trying to install the project as a package.
+
+### 4. Add or remove packages
+
+- To add a package:
+  ```bash
+  poetry add <package>
+  make env-install
+  ```
+- To remove a package:
+  ```bash
+  poetry remove <package>
+  make env-install
+  ```
+
+### 5. Update all packages to the latest compatible versions
+
+```bash
+poetry update
+make env-install
+```
+
+---
+
+## Keeping Packages Up to Date
+- All dependencies are listed in `pyproject.toml` (and locked in `poetry.lock`).
+- If you add or remove a package, always run `make env-install` to update your environment.
+- If you want to upgrade all packages, run `poetry update` then `make env-install`.
+- If you want to see which packages are installed and their versions:
+  ```bash
+  poetry show
+  ```
+
+---
+
+## Why This Approach?
+- No more missing or out-of-sync dependencies: everything is managed and reproducible.
+- No more confusion about which venv to use: Poetry handles it for you.
+- No more manual `requirements.txt` editing: Poetry keeps everything in sync.
+- Easy onboarding for new contributors: just run `make env-setup` and `source .venv/bin/activate`.
+
+---
+
+## Troubleshooting
+- If you see errors about missing packages, always run `make env-install` after updating dependencies.
+- If you want to start fresh, delete `.venv/`, then run `make env-setup` again.
+
 # College Board LLM Evaluation System
 
 A system for evaluating language models on SAT and Advanced Placement exam questions. A fork of OpenAI's Simple-Eval project.
