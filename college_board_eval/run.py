@@ -6,6 +6,13 @@ import os
 import sys
 import time
 
+# Ensure .env is loaded from the project root (one directory up)
+try:
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+except ImportError:
+    pass
+
 from college_board_eval.ap_types import Response
 from college_board_eval.evaluator import APEvaluator
 from college_board_eval.exam_loader import get_questions_for_exam
