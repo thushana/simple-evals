@@ -4,6 +4,7 @@ import hashlib
 import json
 import logging
 import os
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -14,6 +15,28 @@ from fastapi.responses import FileResponse, JSONResponse
 from pdf2image import convert_from_path
 from PIL import Image
 from pydantic import BaseModel
+import base64
+import re
+import jsonschema
+
+# --- Load .env automatically for API keys ---
+import os
+from pathlib import Path
+try:
+    from dotenv import load_dotenv
+    # Try project root and parent directories
+    for p in [Path(__file__).parent.parent.parent.parent.parent, Path(__file__).parent.parent.parent.parent.parent.parent]:
+        env_path = p / ".env"
+        if env_path.exists():
+            load_dotenv(dotenv_path=env_path)
+            break
+except ImportError:
+    pass
+# --- End .env loading ---
+
+# Add the project root to the path to import samplers
+project_root = Path(__file__).parent.parent.parent.parent.parent.parent
+sys.path.insert(0, str(project_root))
 
 from college_board_eval.web.backend.core.config import (
     EXAMS_DIR,
@@ -23,6 +46,18 @@ from college_board_eval.web.backend.core.config import (
     UPLOADS_DIR,
 )
 from college_board_eval.web.backend.services.image_processor import ImageProcessor
+from college_board_eval.config import get_json_extraction_provider, get_json_extraction_model
+
+# Import samplers with error handling
+try:
+    from sampler.chat_completion_sampler import ChatCompletionSampler
+    from sampler.claude_sampler import ClaudeCompletionSampler
+    from sampler.gemini_sampler import GeminiCompletionSampler
+    from eval_types import MessageList
+    SAMPLERS_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: Samplers not available: {e}")
+    SAMPLERS_AVAILABLE = False
 
 router = APIRouter(prefix="/exams", tags=["exams"])
 
@@ -658,3 +693,188 @@ async def process_pdf_images(pdf_path: Path, exam_processing_dir: Path, slug: st
             logger.info(f"[MANIFEST DEBUG {datetime.now().isoformat()}] Writing error manifest")
             with open(manifest_path, "w") as f:
                 json.dump(manifest, f, indent=2)
+
+# Backend-editable prompt for LLM extraction
+DEFAULT_EXTRACTION_PROMPT = (
+    "You are an information extraction assistant. Your task is to fill out the provided JSON schema using ONLY the information that is explicitly present in the image or text.\n"
+    "- IMPORTANT: Do NOT fill in the answer or explanation fields unless the correct answer is explicitly given in the image/text. If not present, leave these fields as an empty string or null.\n"
+    "- Always return the full JSON structure as defined in the schema, including all fields, even if you must leave some fields as empty strings or null.\n"
+    "- DO NOT invent, infer, or extrapolate any information that is not directly visible or stated.\n"
+    "- If a field in the schema cannot be filled with information from the image/text, leave it as an empty string, null, or omit it from the output.\n"
+    "- Do NOT use prior knowledge, do NOT guess, and do NOT fill in plausible values.\n"
+    "- Do NOT add any extra fields or explanations.\n"
+    "- Return only valid JSON that matches the schema structure.\n"
+    "\nImage/text to extract from: [the image]\n\nSchema:\n"
+)
+
+def get_json_extraction_sampler():
+    """Get the appropriate sampler for JSON extraction based on configuration"""
+    if not SAMPLERS_AVAILABLE:
+        raise RuntimeError("Samplers are not available. Please check the import paths.")
+    
+    provider = get_json_extraction_provider()
+    model = get_json_extraction_model()
+    
+    if provider == "openai":
+        return ChatCompletionSampler(model=model, temperature=0.1, max_tokens=2048)
+    elif provider == "anthropic":
+        return ClaudeCompletionSampler(model=model, temperature=0.1, max_tokens=2048)
+    elif provider == "google":
+        return GeminiCompletionSampler(model=model, temperature=0.1, max_tokens=2048)
+    else:
+        raise ValueError(f"Unsupported provider: {provider}")
+
+def filter_to_schema_properties(data, schema):
+    """Remove any keys from data that are not in the schema's properties."""
+    if not isinstance(schema, dict) or not isinstance(data, dict):
+        return data
+    if schema.get('type') == 'object':
+        props = schema.get('properties', {})
+        filtered = {}
+        for k in props:
+            if k in data:
+                filtered[k] = filter_to_schema_properties(data[k], props[k])
+        return filtered
+    elif schema.get('type') == 'array' and isinstance(data, list):
+        item_schema = schema.get('items', {})
+        return [filter_to_schema_properties(item, item_schema) for item in data]
+    return data
+
+class ExtractJsonFromImageRequest(BaseModel):
+    image_url: str
+    json_schema: dict
+
+@router.post("/extract-json-from-image")
+async def extract_json_from_image(
+    req: ExtractJsonFromImageRequest = Body(...),
+):
+    """
+    Accepts an image URL (local API URL) and a JSON schema, reads and encodes the image as base64, and calls an LLM to extract structured data.
+    """
+    logger.info(f"[extract-json-from-image] Called with image_url={req.image_url}, schema={req.json_schema}")
+    
+    try:
+        # Get the sampler
+        sampler = get_json_extraction_sampler()
+        
+        # Construct the prompt with the schema
+        schema_str = json.dumps(req.json_schema, indent=2)
+        prompt = f"{DEFAULT_EXTRACTION_PROMPT}\n{schema_str}\n\nPlease fill out the schema based on the image content. Return only valid JSON that matches the schema structure."
+        
+        # --- Read and encode the image as base64 ---
+        # Assume image_url is a local API URL like /api/v1/exams/SLUG/extracted/box_xxx.png
+        # Convert to local file path
+        from urllib.parse import urlparse
+        parsed = urlparse(req.image_url)
+        # Remove leading /api/v1/exams/ from path
+        path = parsed.path
+        if path.startswith("/api/v1/exams/"):
+            path = path[len("/api/v1/exams/"):]
+        # Now path is like SLUG/extracted/box_xxx.png
+        image_file = (PROCESSING_DIR / path).resolve()
+        if not image_file.exists():
+            logger.error(f"[extract-json-from-image] Image file not found: {image_file}")
+            raise HTTPException(status_code=404, detail=f"Image file not found: {image_file}")
+        try:
+            with open(image_file, "rb") as f:
+                image_bytes = f.read()
+            image_b64 = base64.b64encode(image_bytes).decode("utf-8")
+            data_url = f"data:image/png;base64,{image_b64}"
+        except Exception as e:
+            logger.error(f"[extract-json-from-image] Failed to read/encode image: {e}")
+            raise HTTPException(status_code=500, detail=f"Failed to read/encode image: {e}")
+        # --- End base64 encoding ---
+        
+        # Create the message list with the image and prompt
+        messages: MessageList = [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": prompt
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": data_url
+                        }
+                    }
+                ]
+            }
+        ]
+        
+        # Call the LLM
+        logger.info(f"[extract-json-from-image] Calling LLM with {len(messages)} messages")
+        response = sampler(messages)
+        
+        # Parse the response as JSON, stripping markdown code block if present
+        raw = response.response_text.strip()
+        if raw.startswith('```'):
+            raw = re.sub(r'^```[a-zA-Z]*\n?', '', raw)
+            raw = re.sub(r'\n?```$', '', raw)
+        try:
+            result_json = json.loads(raw)
+        except json.JSONDecodeError as e:
+            logger.error(f"[extract-json-from-image] Failed to parse JSON response: {e}")
+            logger.error(f"[extract-json-from-image] Cleaned response: {raw}")
+            logger.error(f"[extract-json-from-image] Raw response: {response.response_text}")
+            raise HTTPException(status_code=400, detail=f"LLM did not return valid JSON: {e}")
+        # Validate and fill missing fields
+        filtered_json = filter_to_schema_properties(result_json, req.json_schema)
+        logger.info(f"Filtered JSON: {filtered_json}")
+        completed_json = fill_missing_fields(filtered_json, req.json_schema)
+        logger.info(f"Completed JSON: {completed_json}")
+        # Force the question type to match the schema's enum (from the selected type)
+        try:
+            expected_type = req.json_schema["properties"]["question"]["properties"]["type"]["enum"][0]
+            if "question" in completed_json:
+                completed_json["question"]["type"] = expected_type
+        except Exception as e:
+            logger.warning(f"Could not set question type from schema: {e}")
+        jsonschema.validate(instance=completed_json, schema=req.json_schema)
+        logger.info(f"[extract-json-from-image] Successfully parsed and validated JSON response")
+        return {
+            "prompt": prompt,
+            "image_url": req.image_url,
+            "json_schema": req.json_schema,
+            "result_json": completed_json,
+            "model_used": f"{get_json_extraction_provider()}/{get_json_extraction_model()}"
+        }
+        
+    except Exception as e:
+        logger.error(f"[extract-json-from-image] Error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error extracting JSON from image: {str(e)}")
+
+def fill_missing_fields(data, schema):
+    """Recursively fill missing required fields in data according to schema, using defaults if present."""
+    if not isinstance(schema, dict):
+        return data
+    if schema.get('type') == 'object':
+        props = schema.get('properties', {})
+        required = schema.get('required', [])
+        if not isinstance(data, dict):
+            data = {}
+        for key in required:
+            prop_schema = props.get(key, {})
+            if key not in data or data[key] is None:
+                # Use default if present
+                if 'default' in prop_schema:
+                    data[key] = prop_schema['default']
+                elif prop_schema.get('type') == 'string':
+                    data[key] = ''
+                elif prop_schema.get('type') == 'object':
+                    data[key] = fill_missing_fields({}, prop_schema)
+                elif prop_schema.get('type') == 'array':
+                    data[key] = []
+                elif prop_schema.get('type') == 'number':
+                    data[key] = 0
+                else:
+                    data[key] = None
+            else:
+                data[key] = fill_missing_fields(data[key], prop_schema)
+        return data
+    elif schema.get('type') == 'array' and isinstance(data, list):
+        item_schema = schema.get('items', {})
+        return [fill_missing_fields(item, item_schema) for item in data]
+    return data

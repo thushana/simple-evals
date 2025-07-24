@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
     manifest: (slug: string) =>
       `${API_BASE_URL}/api/v1/exams/${slug}/manifest/`,
     extractQuestionImage: `${API_BASE_URL}/api/v1/exams/extract-question-image`,
+    extractJsonFromImage: `${API_BASE_URL}/api/v1/exams/extract-json-from-image`,
   },
   // Health check
   health: `${API_BASE_URL}/health`,

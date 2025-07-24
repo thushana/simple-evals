@@ -97,3 +97,15 @@ def get_student_produced_response_scorer_model() -> str:
     """Get the configured scorer model name for student produced response questions"""
     config = get_config()
     return config["student_produced_response_scorer_model"]
+
+
+def get_json_extraction_provider() -> str:
+    """Get the configured provider for JSON extraction from images"""
+    config = get_config()
+    return config["json_extraction_provider"]
+
+
+def get_json_extraction_model() -> str:
+    """Get the configured model name for JSON extraction from images"""
+    config = get_config()
+    return config["json_extraction_model"]

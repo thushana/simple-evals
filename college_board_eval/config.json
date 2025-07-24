@@ -12,5 +12,7 @@
   "free_response_rubric_prompt": "",
   "free_response_rubric_system": "",
   "student_produced_response_scorer_provider": "numeric_match",
-  "student_produced_response_scorer_model": "numeric_match"
+  "student_produced_response_scorer_model": "numeric_match",
+  "json_extraction_provider": "openai",
+  "json_extraction_model": "gpt-4o"
 } 

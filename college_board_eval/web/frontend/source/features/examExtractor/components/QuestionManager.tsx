@@ -8,9 +8,11 @@ import {
   MenuItem,
   CircularProgress,
   Collapse,
+  Button,
 } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { API_ENDPOINTS } from "../../../services/api";
 
 interface QuestionManagerProps {
   questionKey: string | null;
@@ -42,6 +44,80 @@ const QUESTION_PILL_STYLE = {
   boxShadow: "none",
 };
 
+// Add PrettyJson component for pretty/styled JSON rendering (Light theme)
+const LIGHT_THEME_COLORS = {
+  key: '#267f99',
+  string: '#a31515',
+  number: '#098658',
+  boolean: '#0000ff',
+  null: '#0000ff',
+  punctuation: '#333',
+  text: '#333',
+};
+
+function PrettyJson({ data }: { data: any }) {
+  function render(value: any, indent = 0) {
+    if (typeof value === 'string') {
+      return <span style={{ color: LIGHT_THEME_COLORS.string }}>&quot;{value}&quot;</span>;
+    }
+    if (typeof value === 'number') {
+      return <span style={{ color: LIGHT_THEME_COLORS.number }}>{value}</span>;
+    }
+    if (typeof value === 'boolean') {
+      return <span style={{ color: LIGHT_THEME_COLORS.boolean }}>{String(value)}</span>;
+    }
+    if (value === null) {
+      return <span style={{ color: LIGHT_THEME_COLORS.null }}>null</span>;
+    }
+    if (Array.isArray(value)) {
+      return (
+        <>
+          <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>[</span>
+          {value.map((item, i) => (
+            <div key={i} style={{ marginLeft: 20 }}>{render(item, indent + 2)}{i < value.length - 1 ? <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>,</span> : null}</div>
+          ))}
+          <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>]</span>
+        </>
+      );
+    }
+    if (typeof value === 'object') {
+      const entries = Object.entries(value);
+      return (
+        <>
+          <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>{'{'}</span>
+          {entries.map(([k, v], i) => (
+            <div key={k} style={{ marginLeft: 20 }}>
+              <span style={{ color: LIGHT_THEME_COLORS.key, fontWeight: 'bold' }}>&quot;{k}&quot;</span>
+              <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>: </span>
+              {render(v, indent + 2)}
+              {i < entries.length - 1 ? <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>,</span> : null}
+            </div>
+          ))}
+          <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>{'}'}</span>
+        </>
+      );
+    }
+    return <span style={{ color: LIGHT_THEME_COLORS.text }}>{String(value)}</span>;
+  }
+  return (
+    <pre style={{
+      fontFamily: 'Roboto Mono, monospace',
+      fontSize: '0.8em',
+      background: 'none',
+      color: LIGHT_THEME_COLORS.text,
+      padding: 0,
+      borderRadius: 0,
+      overflowX: 'auto',
+      whiteSpace: 'pre-wrap',
+      border: 'none',
+      boxShadow: 'none',
+      margin: 0
+    }}>
+      {render(data)}
+    </pre>
+  );
+}
+
 export const QuestionManager: React.FC<QuestionManagerProps> = ({
   questionKey,
   imageUrl,
@@ -55,6 +131,8 @@ export const QuestionManager: React.FC<QuestionManagerProps> = ({
   const [schema, setSchema] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(false);
   const [showSchema, setShowSchema] = useState(false);
+  const [extractingJson, setExtractingJson] = useState(false);
+  const [extractedJson, setExtractedJson] = useState<any>(null);
 
   // Load registry on mount
   useEffect(() => {
@@ -76,6 +154,30 @@ export const QuestionManager: React.FC<QuestionManagerProps> = ({
       .catch(() => setSchema(null))
       .finally(() => setLoading(false));
   }, [selectedType, questionTypes]);
+
+  useEffect(() => {
+    setExtractedJson(null);
+    setExtractingJson(false);
+  }, [questionKey]);
+
+  const handleExtractJson = async () => {
+    if (!imageUrl || !schema) return;
+    setExtractingJson(true);
+    setExtractedJson(null);
+    try {
+      const resp = await fetch(API_ENDPOINTS.exams.extractJsonFromImage, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image_url: imageUrl, json_schema: schema }),
+      });
+      const data = await resp.json();
+      setExtractedJson(data.result_json || data);
+    } catch {
+      setExtractedJson({ error: 'Failed to extract JSON' });
+    } finally {
+      setExtractingJson(false);
+    }
+  };
 
   return (
     <Box sx={{ p: 2 }}>
@@ -203,6 +305,27 @@ export const QuestionManager: React.FC<QuestionManagerProps> = ({
             </Box>
           )}
         </>
+      )}
+      {selectedType && imageUrl && schema && (
+        <Box sx={{ mt: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleExtractJson}
+            disabled={extractingJson}
+            startIcon={extractingJson ? <CircularProgress size={18} color="inherit" /> : null}
+          >
+            {extractingJson ? 'Extracting...' : 'Extract from image'}
+          </Button>
+          {extractedJson && (
+            <Box sx={{ mt: 2, bgcolor: '#fff', p: 2, borderRadius: 1 }}>
+              <Typography variant="subtitle2" sx={{ mb: 1, color: '#009cde' }}>
+                Extracted JSON:
+              </Typography>
+              <PrettyJson data={extractedJson} />
+            </Box>
+          )}
+        </Box>
       )}
     </Box>
   );

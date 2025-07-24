@@ -2,21 +2,33 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "question_type": "MULTIPLE_CHOICE",
   "type": "object",
+  "default": {},
   "properties": {
-    "id": { "type": "string" },
+    "id": { "type": "string", "default": "" },
     "question": {
       "type": "object",
+      "default": {},
       "properties": {
-        "type": { "type": "string", "enum": ["MULTIPLE_CHOICE"] },
-        "question_context": { "type": "string" },
-        "question_text": { "type": "string" },
+        "type": { "type": "string", "enum": ["MULTIPLE_CHOICE"], "default": "MULTIPLE_CHOICE" },
+        "question_context": {
+          "type": "string",
+          "description": "Any background, setup, or introductory information that appears before the main question or answer choices. Only include what is explicitly present.",
+          "default": ""
+        },
+        "question_text": {
+          "type": "string",
+          "description": "The main question being asked. This is usually a direct question or prompt for the student to answer.",
+          "default": ""
+        },
         "options": {
           "type": "object",
+          "description": "The answer choices labeled A, B, C, D. Only include choices that are explicitly present in the text/image.",
+          "default": {},
           "properties": {
-            "A": { "type": "string" },
-            "B": { "type": "string" },
-            "C": { "type": "string" },
-            "D": { "type": "string" }
+            "A": { "type": "string", "description": "Option A", "default": "" },
+            "B": { "type": "string", "description": "Option B", "default": "" },
+            "C": { "type": "string", "description": "Option C", "default": "" },
+            "D": { "type": "string", "description": "Option D", "default": "" }
           },
           "required": ["A", "B", "C", "D"],
           "additionalProperties": false
@@ -27,27 +39,37 @@
     },
     "answer": {
       "type": "object",
+      "description": "The correct answer and explanation. Only fill if the solution is explicitly given in the text/image. Do not guess or infer.",
+      "default": {},
       "properties": {
-        "correct": { "type": "string", "enum": ["A", "B", "C", "D"] },
-        "explanation": { "type": "string" }
+        "correct": {
+          "type": ["string", "null"],
+          "enum": ["A", "B", "C", "D", null],
+          "description": "The correct answer choice (A, B, C, or D). Only fill if explicitly given."
+        },
+        "explanation": { "type": "string", "description": "Explanation for the correct answer. Only fill if explicitly given.", "default": "" }
       },
       "required": ["correct"],
       "additionalProperties": false
     },
     "metadata": {
       "type": "object",
+      "description": "Additional metadata about the question. Only fill fields that are explicitly present in the text/image.",
+      "default": {},
       "properties": {
-        "domain": { "type": "string" },
-        "difficulty": { "type": "number", "minimum": 0, "maximum": 1 },
-        "main_practice_skill": { "type": "string" },
-        "learning_objective": { "type": "string" },
-        "key_concepts": { "type": "string" },
+        "domain": { "type": "string", "description": "The subject domain (e.g., Biology, History).", "default": "" },
+        "difficulty": { "type": "number", "minimum": 0, "maximum": 1, "description": "Difficulty rating (0-1). Only fill if explicitly present.", "default": 0 },
+        "main_practice_skill": { "type": "string", "description": "The main skill being tested.", "default": "" },
+        "learning_objective": { "type": "string", "description": "The learning objective for the question.", "default": "" },
+        "key_concepts": { "type": "string", "description": "Key concepts covered by the question.", "default": "" },
         "source": {
           "type": "object",
+          "description": "Source information for the question (e.g., test name, year, URL). Only fill if explicitly present.",
+          "default": {},
           "properties": {
-            "ap_test": { "type": "string" },
-            "year": { "type": "integer" },
-            "url": { "type": "string", "format": "uri" }
+            "ap_test": { "type": "string", "description": "Name of the College Board test.", "default": "" },
+            "year": { "type": "integer", "description": "Year of the test.", "default": 0 },
+            "url": { "type": "string", "format": "uri", "description": "URL to the source, if available.", "default": "" }
           },
           "required": ["ap_test", "year", "url"],
           "additionalProperties": false
