@@ -496,7 +496,9 @@ async def process_exam_file_and_images(
         # Handle file upload
         if file is not None:
             # This should never be hit now; file is always saved synchronously
-            logger.info(f"[BACKGROUND DEBUG {datetime.now().isoformat()}] Skipping file upload in background task (already saved)")
+            logger.info(
+                f"[BACKGROUND DEBUG {datetime.now().isoformat()}] Skipping file upload in background task (already saved)"
+            )
         # Handle URL download
         elif pdf_url:
             logger.info(f"[BACKGROUND DEBUG {datetime.now().isoformat()}] Processing URL download")
@@ -825,7 +827,7 @@ async def extract_json_from_image(
         except Exception as e:
             logger.warning(f"Could not set question type from schema: {e}")
         jsonschema.validate(instance=completed_json, schema=req.json_schema)
-        logger.info(f"[extract-json-from-image] Successfully parsed and validated JSON response")
+        logger.info("[extract-json-from-image] Successfully parsed and validated JSON response")
         return {
             "prompt": prompt,
             "image_url": req.image_url,

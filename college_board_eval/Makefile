@@ -91,14 +91,14 @@ evaluate: run collate web
 # Format code with black and isort
 format:
 	@echo "Formatting code with black..."
-	black .
+	black . --exclude ".venv|node_modules|dist"
 	@echo "Sorting imports with isort..."
-	isort .
+	isort . --skip .venv --skip node_modules --skip dist
 
 # Run flake8 linting
 lint:
 	@echo "Running flake8 linting..."
-	flake8 .
+	flake8 . --exclude=.venv,node_modules,dist
 
 # Run mypy type checking
 typecheck:
@@ -168,10 +168,10 @@ format-frontend:
 python-codecleanup:
 	@echo "🧹 Running Python code cleanup..."
 	@echo "📝 Formatting code with black and isort..."
-	black .
-	isort .
+	black . --exclude ".venv|node_modules|dist"
+	isort . --skip .venv --skip node_modules --skip dist
 	@echo "🔍 Running flake8 linting..."
-	flake8 .
+	flake8 . --exclude=.venv,node_modules,dist
 	@echo "🔍 Running mypy type checking..."
 	mypy .
 	@echo "✅ Python code cleanup completed!"

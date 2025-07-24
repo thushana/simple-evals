@@ -9,7 +9,8 @@ import time
 # Ensure .env is loaded from the project root (one directory up)
 try:
     from dotenv import load_dotenv
-    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
 except ImportError:
     pass
 

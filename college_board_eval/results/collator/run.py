@@ -119,8 +119,6 @@ class ResultsCollator:
 
     def write_index_json(self, output_file: str = "college_board_eval/results/index.json") -> None:
         """Write distilled results to index.json for the dashboard JS to load, with metadata."""
-        import datetime
-
         best_runs = self.get_best_runs()  # key: exam_identifier, value: result dict
         distilled_rows = []
         for result in self.results_data:
@@ -146,7 +144,7 @@ class ResultsCollator:
         name, email = self.get_git_user()
         output = {
             "metadata": {
-                "generated_on": datetime.datetime.now().isoformat(),
+                "generated_on": datetime.now().isoformat(),
                 "author_name": name,
                 "author_email": email,
             },
@@ -157,7 +155,7 @@ class ResultsCollator:
             import json
 
             json.dump(output, f, indent=2)
-        print(f"Distilled results saved to: {output_file}")
+        print("Distilled results saved to:", output_file)
 
 
 def main() -> None:
@@ -182,7 +180,7 @@ def main() -> None:
     collator.write_index_json(args.output)
     # Print summary
     combined_stats = collator.calculate_combined_stats()
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"Total exams: {combined_stats['total_exams']}")
     print(f"Total questions: {combined_stats['total_questions']}")
     print(f"Overall accuracy: {combined_stats['overall_accuracy']}%")
