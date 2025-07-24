@@ -46,25 +46,41 @@ const QUESTION_PILL_STYLE = {
 
 // Add PrettyJson component for pretty/styled JSON rendering (Light theme)
 const LIGHT_THEME_COLORS = {
-  key: '#267f99',
-  string: '#a31515',
-  number: '#098658',
-  boolean: '#0000ff',
-  null: '#0000ff',
-  punctuation: '#333',
-  text: '#333',
+  key: "#267f99",
+  string: "#a31515",
+  number: "#098658",
+  boolean: "#0000ff",
+  null: "#0000ff",
+  punctuation: "#333",
+  text: "#333",
 };
 
-function PrettyJson({ data }: { data: any }) {
-  function render(value: any, indent = 0) {
-    if (typeof value === 'string') {
-      return <span style={{ color: LIGHT_THEME_COLORS.string }}>&quot;{value}&quot;</span>;
+type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue };
+
+function PrettyJson({ data }: { data: JsonValue }) {
+  function render(value: JsonValue, indent = 0) {
+    if (typeof value === "string") {
+      return (
+        <span style={{ color: LIGHT_THEME_COLORS.string }}>
+          &quot;{value}&quot;
+        </span>
+      );
     }
-    if (typeof value === 'number') {
+    if (typeof value === "number") {
       return <span style={{ color: LIGHT_THEME_COLORS.number }}>{value}</span>;
     }
-    if (typeof value === 'boolean') {
-      return <span style={{ color: LIGHT_THEME_COLORS.boolean }}>{String(value)}</span>;
+    if (typeof value === "boolean") {
+      return (
+        <span style={{ color: LIGHT_THEME_COLORS.boolean }}>
+          {String(value)}
+        </span>
+      );
     }
     if (value === null) {
       return <span style={{ color: LIGHT_THEME_COLORS.null }}>null</span>;
@@ -74,45 +90,60 @@ function PrettyJson({ data }: { data: any }) {
         <>
           <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>[</span>
           {value.map((item, i) => (
-            <div key={i} style={{ marginLeft: 20 }}>{render(item, indent + 2)}{i < value.length - 1 ? <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>,</span> : null}</div>
+            <div key={i} style={{ marginLeft: 20 }}>
+              {render(item, indent + 2)}
+              {i < value.length - 1 ? (
+                <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>,</span>
+              ) : null}
+            </div>
           ))}
           <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>]</span>
         </>
       );
     }
-    if (typeof value === 'object') {
+    if (typeof value === "object") {
       const entries = Object.entries(value);
       return (
         <>
-          <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>{'{'}</span>
+          <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>{"{"}</span>
           {entries.map(([k, v], i) => (
             <div key={k} style={{ marginLeft: 20 }}>
-              <span style={{ color: LIGHT_THEME_COLORS.key, fontWeight: 'bold' }}>&quot;{k}&quot;</span>
+              <span
+                style={{ color: LIGHT_THEME_COLORS.key, fontWeight: "bold" }}
+              >
+                &quot;{k}&quot;
+              </span>
               <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>: </span>
               {render(v, indent + 2)}
-              {i < entries.length - 1 ? <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>,</span> : null}
+              {i < entries.length - 1 ? (
+                <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>,</span>
+              ) : null}
             </div>
           ))}
-          <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>{'}'}</span>
+          <span style={{ color: LIGHT_THEME_COLORS.punctuation }}>{"}"}</span>
         </>
       );
     }
-    return <span style={{ color: LIGHT_THEME_COLORS.text }}>{String(value)}</span>;
+    return (
+      <span style={{ color: LIGHT_THEME_COLORS.text }}>{String(value)}</span>
+    );
   }
   return (
-    <pre style={{
-      fontFamily: 'Roboto Mono, monospace',
-      fontSize: '0.8em',
-      background: 'none',
-      color: LIGHT_THEME_COLORS.text,
-      padding: 0,
-      borderRadius: 0,
-      overflowX: 'auto',
-      whiteSpace: 'pre-wrap',
-      border: 'none',
-      boxShadow: 'none',
-      margin: 0
-    }}>
+    <pre
+      style={{
+        fontFamily: "Roboto Mono, monospace",
+        fontSize: "0.8em",
+        background: "none",
+        color: LIGHT_THEME_COLORS.text,
+        padding: 0,
+        borderRadius: 0,
+        overflowX: "auto",
+        whiteSpace: "pre-wrap",
+        border: "none",
+        boxShadow: "none",
+        margin: 0,
+      }}
+    >
       {render(data)}
     </pre>
   );
@@ -132,7 +163,7 @@ export const QuestionManager: React.FC<QuestionManagerProps> = ({
   const [loading, setLoading] = useState(false);
   const [showSchema, setShowSchema] = useState(false);
   const [extractingJson, setExtractingJson] = useState(false);
-  const [extractedJson, setExtractedJson] = useState<any>(null);
+  const [extractedJson, setExtractedJson] = useState<JsonValue | null>(null);
 
   // Load registry on mount
   useEffect(() => {
@@ -166,14 +197,14 @@ export const QuestionManager: React.FC<QuestionManagerProps> = ({
     setExtractedJson(null);
     try {
       const resp = await fetch(API_ENDPOINTS.exams.extractJsonFromImage, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ image_url: imageUrl, json_schema: schema }),
       });
       const data = await resp.json();
       setExtractedJson(data.result_json || data);
     } catch {
-      setExtractedJson({ error: 'Failed to extract JSON' });
+      setExtractedJson({ error: "Failed to extract JSON" });
     } finally {
       setExtractingJson(false);
     }
@@ -313,13 +344,17 @@ export const QuestionManager: React.FC<QuestionManagerProps> = ({
             color="primary"
             onClick={handleExtractJson}
             disabled={extractingJson}
-            startIcon={extractingJson ? <CircularProgress size={18} color="inherit" /> : null}
+            startIcon={
+              extractingJson ? (
+                <CircularProgress size={18} color="inherit" />
+              ) : null
+            }
           >
-            {extractingJson ? 'Extracting...' : 'Extract from image'}
+            {extractingJson ? "Extracting..." : "Extract from image"}
           </Button>
           {extractedJson && (
-            <Box sx={{ mt: 2, bgcolor: '#fff', p: 2, borderRadius: 1 }}>
-              <Typography variant="subtitle2" sx={{ mb: 1, color: '#009cde' }}>
+            <Box sx={{ mt: 2, bgcolor: "#fff", p: 2, borderRadius: 1 }}>
+              <Typography variant="subtitle2" sx={{ mb: 1, color: "#009cde" }}>
                 Extracted JSON:
               </Typography>
               <PrettyJson data={extractedJson} />
