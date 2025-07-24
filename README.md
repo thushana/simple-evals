@@ -10,7 +10,7 @@ We are open sourcing it so we can be transparent about the accuracy numbers we'r
 | o3-high [^10]                | n/a [^7]      |  93.3  |  83.4  |   98.1   |  88.4     |  92.0  |  89.8                      |  48.6     |
 | o3 [^9] [^10]                | n/a           |  92.9  |  82.8  |   97.8   |  87.4     |  92.3  |  80.6                      |  49.4     |
 | o3-low [^10]                 | n/a           |  92.8  |  78.6  |   96.9   |  87.3     |  91.9  |  82.3                      |  49.4     |
-| **o4-mini**                    |               |        |        |          |           |        |                             |                      |
+| **o4-mini**                    |               |        |        |          |           |        |                             |                      |           |
 | o4-mini-high [^9] [^10]      | n/a           |  90.3  |  81.3  |   98.2   |  99.3     |  93.5  |  78.1                      |  19.3     |
 | o4-mini [^9] [^10]           | n/a           |  90.0  |  77.6  |   97.5   |  97.3     |  93.7  |  77.7                      |  20.2     |
 | o4-mini-low [^10]            | n/a           |  89.5  |  73.6  |   96.2   |  95.9     |  93.0  |  76.0                      |  20.2     |
@@ -18,7 +18,7 @@ We are open sourcing it so we can be transparent about the accuracy numbers we'r
 | o3-mini-high                 | n/a           |  86.9  |  77.2  |   97.9   |  97.6     |  92.0  |  80.6                      |  13.8     |
 | o3-mini                      | n/a           |  85.9  |  74.9  |   97.3   |  96.3     |  90.8  |  79.2                      |  13.4     |
 | o3-mini-low                  | n/a           |  84.9  |  67.6  |   95.8   |  94.5     |  89.4  |  77.6                      |  13.0     |
-| **o1**                         |               |        |        |          |           |        |                             |                      |
+| **o1**                         |               |        |        |          |           |        |                             |                      |           |
 |  o1                          | n/a           |  91.8  |  75.7  |   96.4   |    -      |  89.3  |  90.2                      |  42.6     |
 | o1-preview                   | n/a           |  90.8  |  73.3  |   85.5   |  92.4     |  90.8  |  74.8                      |  42.4     |
 | o1-mini                      | n/a           |  85.2  |  60.0  |   90.0   |  92.4     |  89.9  |  83.9                      |  07.6     |
@@ -86,6 +86,43 @@ We have implemented sampling interfaces for the following language model APIs:
 - Claude: https://www.anthropic.com/api
 
 Make sure to set the `*_API_KEY` environment variables before using these APIs.
+
+## Web App Setup (Frontend & Backend)
+
+> **Note:** All commands should be run from inside the `college_board_eval` directory.
+
+To run the web dashboard and API, you must set up both the backend (FastAPI) and frontend (React/Vite). If you skip these steps, `make web` will fail due to missing dependencies (Vite, Uvicorn, etc).
+
+### 1. Install Backend Dependencies
+
+```bash
+pip install -r requirements.txt
+# For development (optional):
+pip install -r requirements-dev.txt
+```
+
+### 2. Install Frontend Dependencies
+
+```bash
+cd web/frontend
+npm install
+```
+
+### 3. (Optional) One-Shot Setup
+
+You can run both setup steps at once with:
+```bash
+make web-setup
+```
+
+### 4. Start the App
+
+```bash
+make web
+```
+This will launch both the backend (FastAPI) and frontend (Vite) in development mode.
+
+See `web/backend/README.md` and `web/frontend/README.md` for more details.
 
 ## Setup
 

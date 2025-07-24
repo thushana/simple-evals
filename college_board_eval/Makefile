@@ -205,3 +205,7 @@ web-dev:
 	cd .. && PYTHONPATH=. watchfiles --filter python "uvicorn college_board_eval.web.backend.main:app --host 0.0.0.0 --port 8000 --workers 4" college_board_eval/web/backend/ &
 	@echo "Starting Vite frontend..."
 	cd web/frontend && npm run dev 
+
+web-setup:
+	pip install -r requirements.txt
+	cd web/frontend && npm install 
