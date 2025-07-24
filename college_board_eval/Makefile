@@ -12,7 +12,7 @@ help:
 	@echo "  setup-pre-commit - Set up pre-commit hooks for automatic formatting"
 	@echo "  collate    - Generate dashboard from all result files"
 	@echo "  clean      - Remove generated result files"
-	@echo "  run        - Run AP evaluation (usage: make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017)"
+	@echo "  run        - Run AP evaluation (usage: make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017 [QUESTION=AP_US_HISTORY_2017_I_B_001])"
 	@echo ""
 	@echo "Web Development Commands:"
 	@echo "  web        - Start both FastAPI backend and React frontend development servers"
@@ -76,12 +76,12 @@ clean:
 # Run AP evaluation
 run:
 	@if [ -z "$(MODEL)" ] || [ -z "$(EXAM)" ]; then \
-		echo "Usage: make run MODEL=<model_name> EXAM=<exam_identifier>"; \
-		echo "Example: make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017"; \
+		echo "Usage: make run MODEL=<model_name> EXAM=<exam_identifier> [QUESTION=<question_id>]"; \
+		echo "Example: make run MODEL=gpt-4 EXAM=AP_US_HISTORY_2017 QUESTION=AP_US_HISTORY_2017_I_B_001"; \
 		exit 1; \
 	fi
-	@echo "Running AP evaluation for $(MODEL) on $(EXAM)..."
-	cd .. && python -m college_board_eval.run $(MODEL) $(EXAM)
+	@echo "Running AP evaluation for $(MODEL) on $(EXAM)$(if $(QUESTION),,)..."
+	cd .. && python -m college_board_eval.run $(MODEL) $(EXAM) $(QUESTION)
 
 # Convenience target to run evaluation and then start server
 evaluate: run collate web

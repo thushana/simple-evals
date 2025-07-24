@@ -54,7 +54,7 @@ def build_prompt(question):
     prompt += f"{question.question_text}\n\n"
 
     # Add options for multiple choice questions
-    if hasattr(question, "options"):
+    if hasattr(question, "options") and isinstance(question.options, dict) and question.options:
         prompt += "Options:\n"
         for k, v in question.options.items():
             prompt += f"{k}: {v}\n"
@@ -111,7 +111,7 @@ def get_model_response(
     prompt_text += f"{question.question_text}\n\n"
 
     # Add options for multiple choice questions
-    if hasattr(question, "options"):
+    if hasattr(question, "options") and isinstance(question.options, dict) and question.options:
         prompt_text += "Options:\n"
         for k, v in question.options.items():
             prompt_text += f"{k}: {v}\n"
@@ -203,26 +203,29 @@ def get_model_response(
         # Look for answer patterns like "A:", "B:", ..., "Z:" at the beginning
         import re
 
-        lines = response_text.split("\n")
-        for line in lines:
-            line = line.strip()
-            if re.match(r"^[A-Z]:", line):
-                answer = line[0]
-                break
-        # If not found at beginning of lines, look for patterns like "Answer: A" or "The answer is B" (A-Z)
-        if not answer:
-            patterns = [
-                r"answer[:\s]+([A-Z])",
-                r"option[:\s]+([A-Z])",
-                r"choice[:\s]+([A-Z])",
-            ]
-            for pattern in patterns:
-                match = re.search(pattern, response_text, re.IGNORECASE)
-                if match:
-                    answer = match.group(1).upper()
+        if isinstance(question.options, dict) and question.options:
+            lines = response_text.split("\n")
+            for line in lines:
+                line = line.strip()
+                if re.match(r"^[A-Z]:", line):
+                    answer = line[0]
                     break
-        if not answer:
-            answer = "?"  # fallback if not found
+            # If not found at beginning of lines, look for patterns like "Answer: A" or "The answer is B" (A-Z)
+            if not answer:
+                patterns = [
+                    r"answer[:\s]+([A-Z])",
+                    r"option[:\s]+([A-Z])",
+                    r"choice[:\s]+([A-Z])",
+                ]
+                for pattern in patterns:
+                    match = re.search(pattern, response_text, re.IGNORECASE)
+                    if match:
+                        answer = match.group(1).upper()
+                        break
+            if not answer:
+                answer = "?"  # fallback if not found
+        else:
+            answer = "?"  # fallback if options is not a dict
     else:
         # Short Answer Question - use the full response as the answer
         answer = response_text
@@ -385,6 +388,12 @@ def main():
         help="Exam identifier (e.g., AP_US_HISTORY_2017, AP_BIOLOGY_2023)",
     )
     parser.add_argument(
+        "question_id",
+        nargs="?",
+        default=None,
+        help="Optional: Question ID to run only a specific question (e.g., AP_US_HISTORY_2017_I_B_001)",
+    )
+    parser.add_argument(
         "--show-question",
         action="store_true",
         help="Show question details (preamble, question, options)",
@@ -419,10 +428,17 @@ def main():
     elif args.model_name.startswith("claude"):
         assert os.environ.get("ANTHROPIC_API_KEY"), "Please set ANTHROPIC_API_KEY"
 
-    print(f"Running AP evaluation for {args.model_name} on {args.exam_identifier}...")
+    print(f"Running AP evaluation for {args.model_name} on {args.exam_identifier}...\n")
 
     # Load questions for the specified exam
     questions, question_groups = get_questions_for_exam(args.exam_identifier)
+
+    # If a specific question_id is provided, filter to just that question
+    if args.question_id:
+        questions = [q for q in questions if getattr(q, "id", None) == args.question_id]
+        if not questions:
+            print(f"No question found with ID: {args.question_id}")
+            sys.exit(1)
 
     if not questions:
         print(f"No questions found for exam: {args.exam_identifier}")
